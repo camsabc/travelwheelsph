@@ -49,6 +49,10 @@ const travelRoutes = require('./routes/travelRouter');
 const educationRoutes = require('./routes/educationRouter');
 const packageRoutes = require('./routes/packageRouter');
 
+app.get('/', (req, res) => {
+  res.send('Hello, World!');
+});
+
 // Sign-up route with OTP
 app.post('/signup', async (req, res) => {
   const { firstname, lastname, email, password, type } = req.body;
