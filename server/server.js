@@ -253,9 +253,6 @@ app.post('/change-password', async (req, res) => {
 });
 
 
-
-
-
 /* API Routes */
 app.use('/api/users', userRoutes);
 app.use('/api/bookings', bookingRoutes);
