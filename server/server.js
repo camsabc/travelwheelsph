@@ -17,8 +17,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors({
   origin: ["https://travelwheelsph.onrender.com/"],
-  methods: ["POST", "GET", "DELETE"],
-  credentials: true
+  methods: ["POST", "GET", "DELETE", "PATCH"]
 }));
 
 /* Connect to MongoDB */
