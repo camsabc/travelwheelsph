@@ -27,7 +27,7 @@ const OtpRequest = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/verify-request-otp', { email, otp });
+      const response = await axios.post('https://travelwheelsph.onrender.com/verify-request-otp', { email, otp });
 
       if (response.status === 200) {
         alert('OTP verified successfully!');

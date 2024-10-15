@@ -67,7 +67,7 @@ function DetailsRide() {
     const fetchData = async () => {
       try {
         if (email) {
-          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
           if (userData.error) {
             setError(userData.error);
@@ -83,7 +83,7 @@ function DetailsRide() {
           }));
         }
 
-        const rideResponse = await fetch(`http://localhost:3000/api/rides/get-ride-by-id/${id}`);
+        const rideResponse = await fetch(`https://travelwheelsph.onrender.com/api/rides/get-ride-by-id/${id}`);
         const rideData = await rideResponse.json();
         if (rideData.error) {
           setError(rideData.error);
@@ -118,7 +118,7 @@ function DetailsRide() {
     e.preventDefault();
 
     try {
-        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ const handleQuotationSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch('http://localhost:3000/api/quotations/create-quotation', {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create-quotation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
