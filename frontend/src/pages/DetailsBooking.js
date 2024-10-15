@@ -75,7 +75,7 @@ function DetailsBooking() {
 
   const handleBookingDelete = async () => {
     try {
-        const response = await fetch(`http://localhost:3000/api/bookings/delete-booking/${id}`, {
+        const response = await fetch(`https://travelwheelsph.onrender.com/api/bookings/delete-booking/${id}`, {
             method: 'DELETE',  // Use DELETE for deletion
             headers: {
                 'Content-Type': 'application/json',
