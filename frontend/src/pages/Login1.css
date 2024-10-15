@@ -121,7 +121,7 @@ text-align: end;
     align-items: center;
   }
   
-  .pass-input-field {
+  .input-field {
     width: 100%;
     padding-right: 40px; /* Space for the eye icon */
   }
