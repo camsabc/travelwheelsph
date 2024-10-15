@@ -96,9 +96,10 @@ const Otp = () => {
 
         <button 
           type="button" 
-          className="resend-button" 
+          className="signup-button full-width" 
           onClick={resendOtp} 
           disabled={resendDisabled}
+          style={{marginLeft: "10px"}}
         >
           {resendDisabled ? `Resend OTP in ${timer}s` : 'Resend OTP'}
         </button>
