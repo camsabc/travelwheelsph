@@ -42,6 +42,7 @@ const SignUp = () => {
     setErrors(errors);
 
     if (formIsValid) {
+      console.log(password.length);
       try {
         const response = await axios.post('https://travelwheelsph.onrender.com/signup', {
           firstname,

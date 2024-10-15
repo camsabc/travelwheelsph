@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import headerImage from '../images/header.jpg';
@@ -7,9 +7,28 @@ import './Signup3.css';
 const Otp = () => {
   const [otp, setOtp] = useState('');
   const [errors, setErrors] = useState({});
+  const [resendDisabled, setResendDisabled] = useState(false);
+  const [timer, setTimer] = useState(30); // Timer set to 30 seconds
   const navigate = useNavigate();
   const location = useLocation();
   const { email, type, firstname } = location.state || {};  
+
+  useEffect(() => {
+    let interval = null;
+
+    if (resendDisabled) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => (prevTimer > 0 ? prevTimer - 1 : 0));
+      }, 1000);
+    }
+
+    if (timer === 0) {
+      setResendDisabled(false);
+      clearInterval(interval);
+    }
+
+    return () => clearInterval(interval);
+  }, [resendDisabled, timer]);
 
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
@@ -17,13 +36,13 @@ const Otp = () => {
     // Check if OTP is empty
     if (!otp) {
       setErrors({ otp: 'Enter 6-digit code' });
-      return; // Prevent submission if OTP is empty
+      return;
     }
 
     // Check if OTP is exactly 6 digits
     if (otp.length !== 6) {
       setErrors({ otp: 'OTP must be 6 digits long' });
-      return; // Prevent submission if OTP is not 6 digits
+      return;
     }
 
     try {
@@ -39,6 +58,21 @@ const Otp = () => {
       }
     } catch (error) {
       setErrors({ otp: 'Invalid or expired OTP' });
+    }
+  };
+
+  const resendOtp = async () => {
+    try {
+      setResendDisabled(true);
+      setTimer(30); // Reset the timer to 30 seconds
+      const response = await axios.post('https://travelwheelsph.onrender.com/request-otp', { email });
+      
+      if (response.status === 200) {
+        alert('OTP has been resent to your email!');
+      }
+    } catch (error) {
+      setErrors({ otp: 'Error resending OTP. Please try again later.' });
+      setResendDisabled(false);
     }
   };
 
@@ -59,6 +93,15 @@ const Otp = () => {
         {errors.otp && <p className="error-message">{errors.otp}</p>}
 
         <button type="submit" className="signup-button full-width">Verify OTP</button>
+
+        <button 
+          type="button" 
+          className="resend-button" 
+          onClick={resendOtp} 
+          disabled={resendDisabled}
+        >
+          {resendDisabled ? `Resend OTP in ${timer}s` : 'Resend OTP'}
+        </button>
       </form>
     </div>
   );
