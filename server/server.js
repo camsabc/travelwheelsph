@@ -16,8 +16,8 @@ const app = express();
 /* Middleware */
 app.use(bodyParser.json());
 app.use(cors({
-  origin: ["https://travelwheelsph.onrender.com/"],
-  methods: ["POST", "GET", "DELETE", "PATCH"]
+  origin: 'https://travelwheelsapp.travelwheelsph.com',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }));
 
 /* Connect to MongoDB */
