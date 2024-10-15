@@ -1,10 +1,10 @@
-// SignUp.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import './Signup3.css'
+import './Signup3.css';
 import headerImage from '../images/header.jpg';
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import eye icons
 
 const SignUp = () => {
   const [firstname, setFirstName] = useState('');
@@ -14,6 +14,8 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false); // State for toggling password visibility
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for toggling confirm password visibility
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -42,7 +44,6 @@ const SignUp = () => {
     setErrors(errors);
 
     if (formIsValid) {
-      console.log(password.length);
       try {
         const response = await axios.post('https://travelwheelsph.onrender.com/signup', {
           firstname,
@@ -103,21 +104,38 @@ const SignUp = () => {
         {errors.email && <p className="error-message">{errors.email}</p>}
 
         <div className="input-group">
-          <input
-            type="password"
-            placeholder="Password"
-            className="input-field half-width"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            className="input-field half-width-signup"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
+          <div className="password-container">
+            <input
+              type={showPassword ? 'text' : 'password'} // Toggle password visibility
+              placeholder="Password"
+              className="pass-input-field half-width password-input" // Add class for styling
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <span
+              className="toggle-password" // Add a class to style the eye icon
+              onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Switch between eye and eye-slash */}
+            </span>
+          </div>
+          <div className="password-container">
+            <input
+              type={showConfirmPassword ? 'text' : 'password'} // Toggle confirm password visibility
+              placeholder="Confirm Password"
+              className="pass-input-field half-width confirm-password-input" // Add class for styling
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <span
+              className="toggle-password" // Add a class to style the eye icon
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)} // Toggle confirm password visibility
+            >
+              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />} {/* Switch between eye and eye-slash */}
+            </span>
+          </div>
         </div>
+
         {errors.password && <p className="error-message">{errors.password}</p>}
         {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
 

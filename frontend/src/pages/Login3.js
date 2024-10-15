@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import './Login1.css';  // Import the CSS file here
 
 import headerImage from '../images/header.jpg';
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import the eye icons
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // State for toggling password visibility
   const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
@@ -97,20 +99,44 @@ const Login = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input
-          type="password"
-          placeholder="Password"
-          className="input-field full-width-emails"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+
+        <div className="password-container">  {/* New wrapper for password field */}
+          <input
+            type={showPassword ? 'text' : 'password'} // Toggle between text and password types
+            placeholder="Password"
+            className="input-field full-width-emails"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <span
+            className="toggle-password" // Add a class to style the eye icon
+            onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Switch between eye and eye-slash */}
+          </span>
+        </div>
+
         {error && <p className="error-message">{error}</p>}
 
-
-
         <div className='fp'>
+          <button
+            onClick={() => navigate('/forgot')}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'inherit',
+              cursor: 'pointer',
+              padding: 0,
+              fontSize: 'inherit',
+              textDecoration: 'underline',
+            }}
+          >
+            Forgot Password?
+          </button>
+        </div>
+
         <button
-          onClick={() => navigate('/forgot')}
+          type="submit"
           style={{
             background: 'transparent',
             border: 'none',
@@ -118,47 +144,32 @@ const Login = () => {
             cursor: 'pointer',
             padding: 0,
             fontSize: 'inherit',
-            textDecoration: 'underline', // Optional, for link-like appearance
+            color: "rgb(255, 165, 0)"
           }}
+          className="login-button"
         >
-          Forgot Password?
+          Sign in
         </button>
-      </div>
 
-      <button
-        type="submit"
-        style={{
-          background: 'transparent',
-          border: 'none',
-          color: 'inherit',
-          cursor: 'pointer',
-          padding: 0,
-          fontSize: 'inherit',
-        }}
-        className="login-button" // You can keep this class if you have other styles applied.
-      >
-        Sign in
-      </button>
-
-      <p className='ps'>
-        Don't have an account yet? 
-        <button
-          onClick={() => navigate('/signup')}
-          style={{
-            background: 'transparent',
-            border: 'none',
-            color: 'inherit',
-            cursor: 'pointer',
-            padding: 0,
-            fontSize: 'inherit',
-            textDecoration: 'underline', // Optional, for link-like appearance
-          }}
-        >
-          Sign Up.
-        </button>
-      </p>
-
-
+        <p className='ps'>
+          Don't have an account yet? 
+          <button
+            onClick={() => navigate('/signup')}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'inherit',
+              cursor: 'pointer',
+              padding: 0,
+              fontSize: 'inherit',
+              textDecoration: 'underline',
+              marginLeft: "5px",
+              color: "rgb(255, 165, 0)"
+            }}
+          >
+            Sign Up.
+          </button>
+        </p>
       </form>
     </div>
   );

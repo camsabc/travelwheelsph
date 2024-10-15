@@ -86,3 +86,25 @@
 .ps {
     font-size: 15px;
 }
+
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.pass-input-field {
+    margin: 2px 0;
+    padding: 10px;
+    border: 1px solid #facf20;
+    border-radius: 12px;
+     width: 100%;
+    padding-right: 40px; /* Space for the eye icon */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #555;
+}
