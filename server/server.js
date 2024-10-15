@@ -16,7 +16,7 @@ const app = express();
 /* Middleware */
 app.use(bodyParser.json());
 app.use(cors({
-  origin: ["https://travelwheelsph.vercel.app/"],
+  origin: ["https://travelwheelsph.onrender.com/"],
   methods: ["POST", "GET", "DELETE"],
   credentials: true
 }));

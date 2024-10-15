@@ -28,7 +28,7 @@ function Profile() {
 
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
+      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {

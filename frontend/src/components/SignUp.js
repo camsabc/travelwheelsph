@@ -38,7 +38,7 @@ const SignUp = () => {
 
     if (formIsValid) {
       try {
-        const response = await axios.post('http://localhost:3000/SignUp', {
+        const response = await axios.post('https://travelwheelsph.onrender.com/signup', {
           firstname,
           lastname,
           email,

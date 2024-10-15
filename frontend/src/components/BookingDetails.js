@@ -11,7 +11,7 @@ function formatDate(dateString) {
 
 async function changeBookingStatus(bookingId, status) {
   try {
-    const response = await fetch('http://localhost:3000/api/bookings/change-status', {
+    const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/change-status', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ async function changeBookingStatus(bookingId, status) {
 
 async function changeQuotationStatus(quotationId, status) {
   try {
-    const response = await fetch('http://localhost:3000/api/quotations/change-status', {
+    const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/change-status', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

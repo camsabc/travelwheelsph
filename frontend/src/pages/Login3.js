@@ -50,7 +50,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/login', { email, password });
+      const response = await axios.post('https://travelwheelsph.onrender.com/login', { email, password });
 
       if (response.status === 200) {
         alert('Login successful!');
@@ -63,7 +63,7 @@ const Login = () => {
 
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
+      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
