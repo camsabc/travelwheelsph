@@ -42,7 +42,7 @@ function DetailsRide() {
     remarks: '',
     status: 'Pending',
     num: '',
-    type: 'Vechicle Rental'
+    type: 'Car Rental'
   });
 
   const { id } = useParams(); 

@@ -41,7 +41,7 @@ function DetailsDomPack() {
     remarks: '',
     status: 'Pending',
     num: '',
-    type: 'Flights',
+    type: 'Tour Packages - Domestic',
   });
 
   const handleChange = (e) => {

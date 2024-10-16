@@ -32,10 +32,10 @@ const SignUp = () => {
       errors.email = 'Invalid email address';
       formIsValid = false;
     }
-    if (password && !/^(?=.*[a-zA-Z])(?=.*\d).{6,}$/.test(password)) {
-      errors.password = 'Password must be at least 6 characters long and include both letters and numbers';
+    if (password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(password)) {
+      errors.password = 'Password must be at least 6 characters long, and include uppercase letters, lowercase letters, numbers, and special characters';
       formIsValid = false;
-    }
+    }    
     if (password !== confirmPassword) {
       errors.confirmPassword = 'Passwords do not match';
       formIsValid = false;
@@ -81,14 +81,14 @@ const SignUp = () => {
           <input
             type="text"
             placeholder="First name"
-            className="input-field half-width"
+            className="input-field-name half-width"
             value={firstname}
             onChange={(e) => setFirstName(e.target.value)}
           />
           <input
             type="text"
             placeholder="Last name"
-            className="input-field half-width"
+            className="input-field-name half-width"
             value={lastname}
             onChange={(e) => setLastName(e.target.value)}
           />
@@ -103,12 +103,12 @@ const SignUp = () => {
         />
         {errors.email && <p className="error-message">{errors.email}</p>}
 
-        <div className="input-group">
+
           <div className="password-container">
             <input
               type={showPassword ? 'text' : 'password'} // Toggle password visibility
               placeholder="Password"
-              className="pass-input-field half-width password-input" // Add class for styling
+              className="pass-input-field password-input" // Add class for styling
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -123,7 +123,7 @@ const SignUp = () => {
             <input
               type={showConfirmPassword ? 'text' : 'password'} // Toggle confirm password visibility
               placeholder="Confirm Password"
-              className="pass-input-field half-width confirm-password-input" // Add class for styling
+              className="pass-input-field confirm-password-input" // Add class for styling
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
@@ -134,15 +134,21 @@ const SignUp = () => {
               {showConfirmPassword ? <FaEyeSlash /> : <FaEye />} {/* Switch between eye and eye-slash */}
             </span>
           </div>
-        </div>
 
         {errors.password && <p className="error-message">{errors.password}</p>}
         {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
 
-        <button type="submit" className="signup-button full-width">Sign Up</button>
+        <button type="submit" className="signup-button full-width-signup">Sign Up</button>
 
-        <p className='ps'>
-          Already have an account? <a href="/" className="href">Sign In.</a>
+        <p className="ps">
+          Already have an account? 
+            <span 
+              className="href" 
+              style={{ cursor: 'pointer', textDecoration: 'underline', paddingLeft: '5px' }} 
+              onClick={() => navigate('/login')}
+            >
+              Sign In.
+            </span>
         </p>
         <p className='ps'>
           By clicking Sign Up, you agree to our <a href="/terms" className="href">Terms of Service</a> and <a href="/privacy" className="href">Privacy Statement</a>.

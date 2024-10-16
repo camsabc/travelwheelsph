@@ -41,7 +41,7 @@ function DetailsBookingEduc() {
     remarks: '',
     status: 'Pending',
     num: '',
-    type: 'Flights',
+    type: 'Educational Tour',
   });
 
   const handleChange = (e) => {

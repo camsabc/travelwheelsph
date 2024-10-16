@@ -47,7 +47,7 @@ const Login = () => {
     // Validate password complexity
     const passwordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
     if (!passwordValidationRegex.test(password)) {
-      setError('Password must be at least 6 characters long and include at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character');
+      setError('Invalid Password');
       return;
     }
 
@@ -126,7 +126,6 @@ const Login = () => {
               border: 'none',
               color: 'inherit',
               cursor: 'pointer',
-              padding: 0,
               fontSize: 'inherit',
               textDecoration: 'underline',
             }}
@@ -138,13 +137,16 @@ const Login = () => {
         <button
           type="submit"
           style={{
-            background: 'transparent',
+            backgroundColor: "rgb(255, 165, 0)",
             border: 'none',
             color: 'inherit',
             cursor: 'pointer',
             padding: 0,
             fontSize: 'inherit',
-            color: "rgb(255, 165, 0)"
+            color: "white",
+            borderRadius: "12px",
+            padding: "10px",
+            width: "50%"
           }}
           className="login-button"
         >

@@ -44,7 +44,7 @@ function DetailsIntPack() {
     remarks: '',
     status: 'Pending',
     num: '',
-    type: 'Flights',
+    type: 'Tour Packages - International',
   });
 
   const handleChange = (e) => {

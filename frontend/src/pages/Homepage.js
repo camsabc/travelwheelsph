@@ -74,7 +74,7 @@ const Homepage = () => {
                 <MDBNavbarLink onClick={handleLoginClick}>Inquiry</MDBNavbarLink>
               </MDBNavbarItem>
               <span
-                onClick={handleLoginClick}
+                onClick={() => {navigate('/login')}}
                 style={{
                   margin: '0 25px',
                   fontSize: '1rem',
@@ -139,6 +139,7 @@ const Homepage = () => {
         <MDBCol size="4" className="d-flex justify-content-end"> {/* Adjust size based on the layout you want */}
             <button 
                 type="button" 
+                onClick={() => {navigate('/services-pack-guest')}}
                 className="btn btn-primary"
                 style={{ 
                     fontWeight: 'bold',
@@ -249,6 +250,7 @@ const Homepage = () => {
             <button 
                 type="button" 
                 className="btn btn-primary"
+                onClick={() => {navigate('/services-pack-guest')}}
                 style={{ 
                     fontWeight: 'bold',
                     fontSize: '14px', 

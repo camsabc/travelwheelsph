@@ -37,18 +37,18 @@
 .input-group {
     display: flex;
     justify-content: space-between;
-    gap: 10px;
+    gap: 5px;
 }
 
-.input-field {
-    margin: 10px 0;
+.input-field-name {
+    margin: 2px 0;
     padding: 10px;
     border: 1px solid #facf20;
     border-radius: 12px;
 }
 
 .half-width {
-    width: calc(50% - 5px);
+    width: calc(55% - 5px);
 }
 
 .full-width-email {
@@ -68,6 +68,7 @@
     border-radius: 12px;
     cursor: pointer;
     font-size: 16px;
+    margin-bottom: 20px;
 }
 
 .signup-button:hover {
@@ -91,6 +92,7 @@
   position: relative;
   display: flex;
   align-items: center;
+  margin: 7px 0px;
 }
 
 .pass-input-field {
@@ -98,7 +100,7 @@
     padding: 10px;
     border: 1px solid #facf20;
     border-radius: 12px;
-     width: 100%;
+    width: 100%;
     padding-right: 40px; /* Space for the eye icon */
 }
 
