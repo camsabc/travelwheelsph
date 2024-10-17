@@ -21,6 +21,11 @@ const BookingSchema = mongoose.Schema({
         type: Number,
         required: false
     },
+    passengers: [{
+        firstname: { type: String, required: false },
+        lastname: { type: String, required: false },
+        age: { type: Number, required: false },
+    }],
     startDate: {
         type: Date,
         required: false

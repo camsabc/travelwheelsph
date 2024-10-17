@@ -26,9 +26,43 @@ function DetailsIntPack() {
   const [pack, setPack] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [passengers, setPassengers] = useState([]);
 
   const [displayDiv, setDisplayDiv] = useState(1); // Default div
   const [displayDivSub, setDisplayDivSub] = useState(1); // Default div
+
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type) => {
+    setToast({ message, type });
+  };
+
+  const addPassenger = () => {
+    const newPassenger = { firstname: '', lastname: '', age: '' }; // Add age field
+    setPassengers([...passengers, newPassenger]);
+  
+    setBookingDetails(prevDetails => ({
+      ...prevDetails,
+      passengers: [...prevDetails.passengers, newPassenger],
+    }));
+  };
+  
+  const handlePassengerChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedPassengers = [...passengers];
+    updatedPassengers[index] = {
+      ...updatedPassengers[index],
+      [name]: value,
+    };
+  
+    setPassengers(updatedPassengers);
+  
+    setBookingDetails(prevDetails => ({
+      ...prevDetails,
+      passengers: updatedPassengers,
+    }));
+  };
+  
 
   const [bookingDetails, setBookingDetails] = useState({
     firstname: '',
@@ -45,6 +79,7 @@ function DetailsIntPack() {
     status: 'Pending',
     num: '',
     type: 'Tour Packages - International',
+    passengers: []
   });
 
   const handleChange = (e) => {
@@ -202,7 +237,7 @@ const handleQuotationSubmit = async (e) => {
                   cursor: 'pointer',
                 }}
               >
-                Hi, {user.firstname}
+                Hi, {user ? user.firstname : 'Guest'}
               </span>
             </MDBNavbarNav>
           </MDBNavbar>
@@ -608,7 +643,89 @@ const handleQuotationSubmit = async (e) => {
             }}
         />
     </MDBCol>
+    <MDBCol md="6" className="text-end">
+                    <button 
+                        type="button" 
+                        className="btn btn-primary"
+                        style={{ 
+                            fontWeight: 'bold',
+                            width: '30%', 
+                            borderRadius: '30px', 
+                            backgroundColor: 'rgb(255, 165, 0)', 
+                            border: 'none', 
+                            padding: '10px 20px' 
+                        }}
+                        onClick={addPassenger} 
+                    >
+                        ADD PAX
+                    </button>
+                </MDBCol>
+              </MDBRow>
+
+              <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{ fontWeight: 'bold' }}>
+                  Passengers
+                </MDBTypography>
+                {passengers.map((passenger, index) => (
+  <MDBRow key={index}>
+    <MDBCol md="5"> {/* Adjust column size to fit the new input */}
+      <input
+        type="text"
+        placeholder="First Name"
+        name="firstname"
+        value={passenger.firstname}
+        onChange={(e) => handlePassengerChange(index, e)}
+        className="form-control"
+        style={{
+          border: '2px solid rgb(250, 207, 32)',
+          borderRadius: '15px',
+          boxShadow: 'none',
+          padding: '10px',
+          backgroundColor: 'transparent',
+          width: '100%',
+          marginBottom: '10px',
+        }}
+      />
+    </MDBCol>
+    <MDBCol md="5"> {/* Adjust column size to fit the new input */}
+      <input
+        type="text"
+        placeholder="Last Name"
+        name="lastname"
+        value={passenger.lastname}
+        onChange={(e) => handlePassengerChange(index, e)}
+        className="form-control"
+        style={{
+          border: '2px solid rgb(250, 207, 32)',
+          borderRadius: '15px',
+          boxShadow: 'none',
+          padding: '10px',
+          backgroundColor: 'transparent',
+          width: '100%',
+          marginBottom: '10px',
+        }}
+      />
+    </MDBCol>
+    <MDBCol md="2"> {/* New column for age */}
+      <input
+        type="number" // Use number type for age input
+        placeholder="Age"
+        name="age"
+        value={passenger.age}
+        onChange={(e) => handlePassengerChange(index, e)}
+        className="form-control"
+        style={{
+          border: '2px solid rgb(250, 207, 32)',
+          borderRadius: '15px',
+          boxShadow: 'none',
+          padding: '10px',
+          backgroundColor: 'transparent',
+          width: '100%',
+          marginBottom: '10px',
+        }}
+      />
+    </MDBCol>
   </MDBRow>
+))}
 
   <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{fontWeight: 'bold'}}>Travel Information</MDBTypography>
 
@@ -727,6 +844,7 @@ const handleQuotationSubmit = async (e) => {
             id="vehicleName"
             name="vehicleName"
             type="text"
+            required
             value={pack.duration + pack.name}
             onChange={handleChange}
             className="form-control"

@@ -453,6 +453,7 @@ function DetailsBookingEduc() {
             value={"Package" + educ.num}
             onChange={handleChange}
             className="form-control"
+            required
             style={{
                 border: '2px solid rgb(250, 207, 32)',
                 borderRadius: '15px', 

@@ -250,7 +250,7 @@ const Homepage = () => {
             <button 
                 type="button" 
                 className="btn btn-primary"
-                onClick={() => {navigate('/services-pack-guest')}}
+                onClick={() => {navigate('/feedback-guest')}}
                 style={{ 
                     fontWeight: 'bold',
                     fontSize: '14px', 

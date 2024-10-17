@@ -320,6 +320,7 @@ const handleQuotationSubmit = async (e) => {
             type="text"
             value={"Package" + educ.num}
             onChange={handleChange}
+            required
             className="form-control"
             style={{
                 border: '2px solid rgb(250, 207, 32)',

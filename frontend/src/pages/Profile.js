@@ -72,13 +72,13 @@ function Profile() {
     <div className="d-flex flex-column vh-100" style={{ backgroundColor: '#eee' }}>
       {/* Header Section */}
       <div className="bg-white py-2 mb-1" style={{ flexShrink: 0 }}>
-        <MDBContainer fluid className="d-flex align-items-center justify-content-between">
-        <MDBCardImage
-    src={logo}
-    style={{ width: '200px', cursor: 'pointer' }}
-    alt="Header Logo"
-    onClick={() => navigate('/home-user', { state: { email: user.email }})}
-  />
+            <MDBContainer fluid className="d-flex align-items-center justify-content-between">
+            <MDBCardImage
+        src={logo}
+        style={{ width: '200px', cursor: 'pointer' }}
+        alt="Header Logo"
+        onClick={() => navigate('/home-user', { state: { email: user.email }})}
+      />
           <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
             <MDBNavbarNav className="align-items-center">
             <MDBNavbarItem style={{ margin: '0 15px' }}>
@@ -101,7 +101,7 @@ function Profile() {
                     cursor: 'pointer',
                   }}
                 >
-                  Hi, {user?.firstname}
+                  Hi, {user ? user.firstname : 'Guest'}
                 </span>
             </MDBNavbarNav>
           </MDBNavbar>
@@ -127,7 +127,10 @@ function Profile() {
                 <MDBTypography tag="h5" className="mb-4" style={{ fontWeight: 'bold' }}>
                   {user?.email}
                 </MDBTypography>
-                <MDBBtn rounded size="lg" onClick={() => navigate('/')} style={{ backgroundColor: 'rgb(255, 165, 0)', width: '200px', fontWeight: 'bold' }}>
+                <MDBBtn rounded size="lg" onClick={() => navigate('/edit-profile', { state: { email: user.email } })} style={{ backgroundColor: 'rgb(255, 165, 0)', width: '200px', fontWeight: 'bold' }}>
+                  Edit Profile
+                </MDBBtn>
+                <MDBBtn rounded size="lg" onClick={() => navigate('/')} style={{ backgroundColor: '#dc3545', width: '200px', fontWeight: 'bold', marginTop: '10px' }}>
                   Log Out
                 </MDBBtn>
               </MDBCardBody>
