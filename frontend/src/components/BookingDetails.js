@@ -114,22 +114,23 @@ function BookingDetails({ booking, onBack }) {
           <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Remarks: {booking.remarks}</p>
 
           {/* Admin Note Section */}
-          <div style={{ marginTop: '20px' }}>
-            <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Admin Note:</p>
-            <textarea
-              style={{ width: '100%', height: '80px', padding: '10px', borderRadius: '4px', borderColor: '#ccc' }}
-              value={adminNote}
-              onChange={(e) => setAdminNote(e.target.value)}
-              placeholder="Add a note for the user here"
-            />
-            <MDBBtn
-              style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff', marginTop: '10px' }}
-              onClick={() => updateAdminNote(booking._id, adminNote)} // Updated line
-            >
-              Update Note
-            </MDBBtn>
-          </div>
-
+          {!isBooking && (
+            <div style={{ marginTop: '20px' }}>
+              <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Admin Note:</p>
+              <textarea
+                style={{ width: '100%', height: '80px', padding: '10px', borderRadius: '4px', borderColor: '#ccc' }}
+                value={adminNote}
+                onChange={(e) => setAdminNote(e.target.value)}
+                placeholder="Add a note for the user here"
+              />
+              <MDBBtn
+                style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff', marginTop: '10px' }}
+                onClick={() => updateAdminNote(booking._id, adminNote)} // Updated line
+              >
+                Update Note
+              </MDBBtn>
+            </div>
+          )}
         </div>
       </div>
 

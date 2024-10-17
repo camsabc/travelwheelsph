@@ -155,7 +155,7 @@ function DetailsBooking() {
                 {renderAttribute('NUMBER OF PERSONS', bookingDetails.numOfPerson)}
                 {renderAttribute('REMARKS', bookingDetails.remarks)}
                 {renderAttribute('STATUS', bookingDetails.status)}
-                {renderAttribute('ADMIN NOTE', bookingDetails.note)}
+              
               </MDBTypography>
 
               {/* New Additional Attributes */}
@@ -199,6 +199,7 @@ function DetailsBooking() {
                 {renderAttribute('OFFICE DETAILS', bookingDetails.officeDetails)}
                 {renderAttribute('FULL ADDRESS', bookingDetails.fullAddress)}
                 {renderAttribute('LANDMARK', bookingDetails.landmark)}
+                {renderAttribute('ADMIN NOTE', bookingDetails.note)}
               </MDBTypography>
             </MDBCardBody>
           </MDBCard>
