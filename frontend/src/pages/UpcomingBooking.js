@@ -61,6 +61,30 @@ function UpcomingBooking() {
     navigate('/details-booking', { state: { id: bookingId, email: user.email, index } });
   };
 
+  const handleCancelClick = async (bookingId) => {
+      try {
+        const response = await fetch(`https://travelwheelsph.onrender.com/api/bookings/delete-booking/${bookingId}`, {
+            method: 'DELETE',  // Use DELETE for deletion
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const result = await response.json();
+
+        if (result.error) {
+            setError(result.error); 
+            return;
+        }
+
+        alert('Booking deleted successfully!');
+        navigate(-1)
+    } catch (err) {
+        console.error('Error deleting booking:', err);
+        setError('Failed to delete booking.');
+    }
+  };
+
   if (loading) {
     return <div className="text-center">Loading...</div>;
   }
@@ -147,7 +171,7 @@ function UpcomingBooking() {
                         size="sm"
                         style={{
                           backgroundColor: 'white',
-                          width: '200px',
+                          width: '250px',
                           height: '40px',
                           fontWeight: 'bold',
                           color: 'black',
@@ -155,6 +179,22 @@ function UpcomingBooking() {
                         onClick={() => handleDetailsClick(booking._id, index)}
                       >
                         MORE DETAILS
+                      </MDBBtn>
+                      <MDBBtn
+                        rounded
+                        size="sm"
+                        style={{
+                          backgroundColor: '#dc3545',
+                          color: 'white',
+                          paddingLeft: '5px',
+                          width: '40px',
+                          height: '40px',
+                          fontWeight: 'bold',
+                          color: 'black',
+                        }}
+                        onClick={() => handleCancelClick(booking._id)}
+                      >
+                        CANCEL
                       </MDBBtn>
                     </div>
                   </MDBCardBody>

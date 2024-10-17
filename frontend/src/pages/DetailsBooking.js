@@ -73,31 +73,6 @@ function DetailsBooking() {
     ) : null
   );
 
-  const handleBookingDelete = async () => {
-    try {
-        const response = await fetch(`https://travelwheelsph.onrender.com/api/bookings/delete-booking/${id}`, {
-            method: 'DELETE',  // Use DELETE for deletion
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        const result = await response.json();
-
-        if (result.error) {
-            setError(result.error); 
-            return;
-        }
-
-        alert('Booking deleted successfully!');
-        navigate(-1)
-    } catch (err) {
-        console.error('Error deleting booking:', err);
-        setError('Failed to delete booking.');
-    }
-};
-
-
   return (
     <div className="d-flex flex-column h-100" style={{ backgroundColor: '#eee', fontFamily: "'Poppins', sans-serif" }}>
       {/* Header Section */}
@@ -229,17 +204,6 @@ function DetailsBooking() {
         )}
 
         {/* Floating Button */}
-        <MDBBtn
-          floating
-          color="primary"
-          className="position-fixed d-flex align-items-center justify-content-center"
-          style={{ bottom: '50px', right: '180px', borderRadius: '50%', width: '50px', height: '50px', backgroundColor: 'white' }}
-          onClick={handleBookingDelete}
-        >
-          <i className="fas fa-times" style={{ fontSize: '24px', color: 'rgb(255, 0, 0)', fontWeight: 'bolder' }}></i>
-        </MDBBtn>
-
-
         <MDBBtn
           floating
           color="primary"

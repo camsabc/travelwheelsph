@@ -162,33 +162,6 @@ function PassportDetails() {
     }
 };
 
-const handleQuotationSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create-quotation', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(bookingDetails),
-        });
-
-        const result = await response.json();
-
-        if (result.error) {
-            setError(result.error);
-            return;
-        }
-
-        showToast('Quotation created successfully!', 'success');
-        navigate('/profile', { state: { email: user.email } });
-    } catch (err) {
-        console.error('Error creating quotation:', err);
-        setError('Failed to submit quotation request.');
-    }
-};
-
   return (
     <>
     {/* Header Section */}
