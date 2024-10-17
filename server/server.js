@@ -100,7 +100,7 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-router.post('/send-note', async (req, res) => {
+app.post('/send-note', async (req, res) => {
   const { email, note } = req.body;
 
   const mailOptions = {
