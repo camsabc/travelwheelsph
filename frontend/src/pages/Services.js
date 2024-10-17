@@ -23,6 +23,7 @@ import FlightsDetails from '../components/FlightsDetails';
 import HotelDetails from '../components/HotelDetails';
 import PassportDetails from '../components/PassportDetails';
 import VisaDetails from '../components/VisaDetails';
+import TransferDetails from '../components/TransferDetails';
 
 import ride1 from '../images/ride1.jpg';
 import ride2 from '../images/ride2.jpg';
@@ -242,12 +243,8 @@ function Services() {
           <FlightsDetails />
         )}
 
-        {selectedTab === 'Hotel & Airport Transfer' && (
-          <MDBCard style={{ borderRadius: '15px', padding: '20px', backgroundColor: '#fff' }}>
-            <MDBTypography tag="h5" className="text-center">
-              Hotel & Airport Transfer Options Coming Soon!
-            </MDBTypography>
-          </MDBCard>
+        {selectedTab === 'Transfer' && (
+          <TransferDetails />
         )}
 
         {selectedTab === 'Hotel' && (

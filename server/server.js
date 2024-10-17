@@ -208,7 +208,12 @@ app.post('/login', async (req, res) => {
 
   try {
     const user = await UserModel.findOne({ email });
-    if (!user && user.isVerified == false) {
+    if (!user) {
+      return res.status(400).send('User not found');
+    }
+
+    if (user.isVerified == false) {
+      user.otp = undefined;
       return res.status(400).send('User not found');
     }
 
