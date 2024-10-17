@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MDBBtn } from 'mdb-react-ui-kit';
+import Toast from './Toast'; 
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -9,48 +10,56 @@ function formatDate(dateString) {
   return `${month}/${day}/${year}`;
 }
 
-async function changeBookingStatus(bookingId, status) {
-  try {
-    const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/change-status', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ bookingId, status }),
-    });
-    if (!response.ok) {
-      throw new Error('Failed to change status');
-    }
-    alert('Status changed successfully!');
-    window.location.reload();
-  } catch (error) {
-    alert('Error changing status: ' + error.message);
-  }
-}
-
-async function changeQuotationStatus(quotationId, status) {
-  try {
-    const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/change-status', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ quotationId, status }),
-    });
-    if (!response.ok) {
-      throw new Error('Failed to change status');
-    }
-    alert('Status changed successfully!');
-    window.location.reload();
-  } catch (error) {
-    alert('Error changing status: ' + error.message);
-  }
-}
-
 function BookingDetails({ booking, onBack }) {
   const buttonColor = 'rgb(255, 165, 0)'; 
   const isBooking = booking.db === 'booking';
   const detailsTitle = isBooking ? 'BOOKING DETAILS' : 'QUOTATION DETAILS';
+
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type) => {
+    setToast({ message, type });
+  };
+
+  // Asynchronous function to change booking status
+  const changeBookingStatus = async (bookingId, status) => {
+    try {
+      const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/change-status', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ bookingId, status }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to change status');
+      }
+      showToast('Status changed successfully!', 'success');
+      window.location.reload();
+    } catch (error) {
+      showToast('An error occurred', 'error');
+    }
+  };
+
+  // Asynchronous function to change quotation status
+  const changeQuotationStatus = async (quotationId, status) => {
+    try {
+      const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/change-status', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ quotationId, status }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to change status');
+      }
+      showToast('Status changed successfully', 'success');
+      window.location.reload();
+    } catch (error) {
+      showToast('An error occurred', 'error');
+    }
+  };
 
   return (
     <div className="booking-details" style={{ padding: '20px', backgroundColor: '#fff', borderRadius: '8px' }}>
@@ -140,6 +149,8 @@ function BookingDetails({ booking, onBack }) {
           Back
         </MDBBtn>
       </div>
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 }

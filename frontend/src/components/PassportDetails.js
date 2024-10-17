@@ -7,14 +7,14 @@ import {
   MDBNavbarItem,
   MDBNavbarLink,
   MDBCardImage,
-  MDBFooter,
 } from 'mdb-react-ui-kit';
 
-import flightsbg from '../images/flightsbg.jpg';
-import hotelbg from '../images/hotelbg.jpg';
+
 import passportbg from '../images/passportbg.jpg';
-import visabg from '../images/visabg.jpg';
 import logo from '../images/header.jpg';
+
+import Toast from './Toast'; 
+
 
 function PassportDetails() {
   const navigate = useNavigate();
@@ -25,6 +25,12 @@ function PassportDetails() {
   const { email } = location.state || {};
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type) => {
+    setToast({ message, type });
+  };
 
   const [bookingDetails, setBookingDetails] = useState({
     firstname: '',
@@ -148,7 +154,7 @@ function PassportDetails() {
             return;
         }
 
-        alert('Booking created successfully!');
+        showToast('Booking created successfully!', 'success');
         navigate('/profile', { state: { email: user.email } });
     } catch (err) {
         console.error('Error creating booking:', err);
@@ -175,7 +181,7 @@ const handleQuotationSubmit = async (e) => {
             return;
         }
 
-        alert('Quotation request submitted successfully!');
+        showToast('Quotation created successfully!', 'success');
         navigate('/profile', { state: { email: user.email } });
     } catch (err) {
         console.error('Error creating quotation:', err);
@@ -1168,6 +1174,7 @@ const handleQuotationSubmit = async (e) => {
           </MDBCardBody>
         </MDBCard>
       </div>
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
     </>
   );

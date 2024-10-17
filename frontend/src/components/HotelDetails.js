@@ -16,6 +16,8 @@ import passportbg from '../images/passportbg.jpg';
 import visabg from '../images/visabg.jpg';
 import logo from '../images/header.jpg';
 
+import Toast from './Toast'; 
+
 function HotelDetails() {
   const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState(hotelbg);
@@ -24,6 +26,12 @@ function HotelDetails() {
   const { email } = location.state || {};
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type) => {
+    setToast({ message, type });
+  };
 
   const [bookingDetails, setBookingDetails] = useState({
     firstname: '',
@@ -69,7 +77,7 @@ function HotelDetails() {
             return;
         }
 
-        alert('Booking created successfully!');
+        showToast('Booking created successfully!', 'success');
         navigate('/profile', { state: { email: user.email } });
     } catch (err) {
         console.error('Error creating booking:', err);
@@ -96,7 +104,7 @@ const handleQuotationSubmit = async (e) => {
             return;
         }
 
-        alert('Quotation request submitted successfully!');
+        showToast('Quotation created successfully!', 'success');
         navigate('/profile', { state: { email: user.email } });
     } catch (err) {
         console.error('Error creating quotation:', err);
@@ -526,6 +534,7 @@ const handleQuotationSubmit = async (e) => {
           </MDBCardBody>
         </MDBCard>
       </MDBContainer>
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
     </>
   );

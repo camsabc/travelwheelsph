@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import './Signup3.css';
 import headerImage from '../images/header.jpg';
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import eye icons
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import Toast from '../components/Toast'; // Import the Toast component
 
 const SignUp = () => {
   const [firstname, setFirstName] = useState('');
@@ -14,9 +15,16 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
-  const [showPassword, setShowPassword] = useState(false); // State for toggling password visibility
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for toggling confirm password visibility
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [toast, setToast] = useState(null); // Toast state
   const navigate = useNavigate();
+
+  const showToast = (message, type) => {
+    console.log('Toast triggered:', message, type); // Debug
+    setToast({ message, type });
+  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +43,7 @@ const SignUp = () => {
     if (password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(password)) {
       errors.password = 'Password must be at least 6 characters long, and include uppercase letters, lowercase letters, numbers, and special characters';
       formIsValid = false;
-    }    
+    }
     if (password !== confirmPassword) {
       errors.confirmPassword = 'Passwords do not match';
       formIsValid = false;
@@ -54,15 +62,14 @@ const SignUp = () => {
         });
 
         if (response.status === 201) {
-          alert('User registered successfully! An OTP has been sent to your email.');
-          navigate('/otp', { state: { email, type, firstname } }); 
+          showToast('User registered successfully! An OTP has been sent to your email.', 'success');
+          navigate('/otp', { state: { email, type, firstname } });
         }
       } catch (error) {
         if (error.response && error.response.status === 400 && error.response.data === 'User already exists') {
           setErrors({ email: 'This email is already registered. Please use a different email.' });
         } else {
-          console.error('Error during signup:', error);
-          alert('An error occurred while submitting the form.');
+          showToast('An error occurred while submitting the form.', 'error');
         }
       }
     }
@@ -103,37 +110,36 @@ const SignUp = () => {
         />
         {errors.email && <p className="error-message">{errors.email}</p>}
 
-
-          <div className="password-container">
-            <input
-              type={showPassword ? 'text' : 'password'} // Toggle password visibility
-              placeholder="Password"
-              className="pass-input-field password-input" // Add class for styling
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <span
-              className="toggle-password" // Add a class to style the eye icon
-              onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Switch between eye and eye-slash */}
-            </span>
-          </div>
-          <div className="password-container">
-            <input
-              type={showConfirmPassword ? 'text' : 'password'} // Toggle confirm password visibility
-              placeholder="Confirm Password"
-              className="pass-input-field confirm-password-input" // Add class for styling
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            <span
-              className="toggle-password" // Add a class to style the eye icon
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)} // Toggle confirm password visibility
-            >
-              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />} {/* Switch between eye and eye-slash */}
-            </span>
-          </div>
+        <div className="password-container">
+          <input
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Password"
+            className="pass-input-field password-input"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <span
+            className="toggle-password"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
+        </div>
+        <div className="password-container">
+          <input
+            type={showConfirmPassword ? 'text' : 'password'}
+            placeholder="Confirm Password"
+            className="pass-input-field confirm-password-input"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <span
+            className="toggle-password"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+          >
+            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
+        </div>
 
         {errors.password && <p className="error-message">{errors.password}</p>}
         {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
@@ -141,19 +147,23 @@ const SignUp = () => {
         <button type="submit" className="signup-button full-width-signup">Sign Up</button>
 
         <p className="ps">
-          Already have an account? 
-            <span 
-              className="href" 
-              style={{ cursor: 'pointer', textDecoration: 'underline', paddingLeft: '5px' }} 
-              onClick={() => navigate('/login')}
-            >
-              Sign In.
-            </span>
+          Already have an account?
+          <span
+            className="href"
+            style={{ cursor: 'pointer', textDecoration: 'underline', paddingLeft: '5px' }}
+            onClick={() => {
+              showToast('User registered successfully! An OTP has been sent to your email.', 'success');
+            }}
+          >
+            Sign In.
+          </span>
         </p>
-        <p className='ps'>
+        <p className="ps">
           By clicking Sign Up, you agree to our <a href="/terms" className="href">Terms of Service</a> and <a href="/privacy" className="href">Privacy Statement</a>.
         </p>
       </form>
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 };
