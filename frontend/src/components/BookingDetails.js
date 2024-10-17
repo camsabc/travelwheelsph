@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MDBBtn } from 'mdb-react-ui-kit';
 import Toast from './Toast'; 
 
@@ -18,6 +19,8 @@ function BookingDetails({ booking, onBack }) {
   const [toast, setToast] = useState(null);
   const [adminNote, setAdminNote] = useState('');
 
+  const navigate = useNavigate();
+
   const showToast = (message, type) => {
     setToast({ message, type });
   };
@@ -36,7 +39,7 @@ function BookingDetails({ booking, onBack }) {
         throw new Error('Failed to change status');
       }
       showToast('Status changed successfully!', 'success');
-      window.location.reload();
+      navigate(`/admin`, { state: { name: "Admin" } });
     } catch (error) {
       showToast('An error occurred', 'error');
     }
@@ -56,7 +59,7 @@ function BookingDetails({ booking, onBack }) {
         throw new Error('Failed to change status');
       }
       showToast('Status changed successfully', 'success');
-      window.location.reload();
+      navigate(`/admin`, { state: { name: "Admin" } });
     } catch (error) {
       showToast('An error occurred', 'error');
     }
@@ -75,7 +78,7 @@ function BookingDetails({ booking, onBack }) {
         throw new Error('Failed to send the note');
       }
       showToast('Note sent successfully!', 'success');
-      setAdminNote(''); // Clear the input after sending
+      setAdminNote('');
     } catch (error) {
       showToast('An error occurred while sending the note', 'error');
     }
