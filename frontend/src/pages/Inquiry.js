@@ -148,20 +148,32 @@ if (error) {
         <div className="d-flex justify-content-center">
           <MDBCard style={{ maxWidth: '1200px', width: '100%', marginBottom: '50px', backgroundColor: 'rgba(255, 255, 255)', padding: '20px', borderRadius: '15px' }}>
             <MDBCardBody>
-              <div className="d-flex justify-content-between mb-4">
-                <div style={{ fontSize: '15px', display: 'flex', alignItems: 'center', color: 'black' }}>
-                  <FaPhone style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} /> GLOBE  0915-262-3898 <br/> GLOBE  0927-893-0271 <br/> GLOBE  0994-639-6953
-                </div>
-                <div style={{ fontSize: '15px', display: 'flex', alignItems: 'center', color: 'black' }}>
-                  <FaEnvelope style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} /> info@traveltayoph.com
-                </div>
-                <div style={{ fontSize: '15px', display: 'flex', alignItems: 'center', color: 'black' }}>
-                  <FaFacebook style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} /> TravelTayo Car Rental and Tours
-                </div>
-                <div style={{ fontSize: '15px', display: 'flex', alignItems: 'center', color: 'black' }}>
-                  <FaInstagram style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} /> Travel Tayo PH
+
+
+            <div className="row mb-4 justify-content-between">
+              <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
+                <FaPhone style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
+                <div style={{ fontSize: '15px', color: 'black' }}>
+                  GLOBE  0915-262-3898 <br />
+                  GLOBE  0927-893-0271 <br />
+                  GLOBE  0994-639-6953
                 </div>
               </div>
+              <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
+                <FaEnvelope style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
+                <div style={{ fontSize: '15px', color: 'black' }}>info@traveltayoph.com</div>
+              </div>
+              <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
+                <FaFacebook style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
+                <div style={{ fontSize: '15px', color: 'black' }}>TravelTayo Car Rental and Tours</div>
+              </div>
+              <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
+                <FaInstagram style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
+                <div style={{ fontSize: '15px', color: 'black' }}>Travel Tayo PH</div>
+              </div>
+            </div>
+
+
               {/* Additional text and image below the row */}
               <MDBCardText className="text-center mb-4 mt-5">
                 <span style={{ color: 'black', fontWeight: 'bold', marginRight: '5px' }}>

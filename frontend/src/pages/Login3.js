@@ -6,6 +6,8 @@ import './Login1.css';  // Import the CSS file here
 import headerImage from '../images/header.jpg';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import the eye icons
 
+import Toast from '../components/Toast';
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +16,14 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
+  
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type) => {
+    console.log('Toast triggered:', message, type); // Debug
+    setToast({ message, type });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,7 +64,7 @@ const Login = () => {
       const response = await axios.post('https://travelwheelsph.onrender.com/login', { email, password });
 
       if (response.status === 200) {
-        alert('Login successful!');
+        showToast('Login successful!', 'success');
         navigate(`/home-user`, { state: { email: email } });
       }
     } catch (error) {
@@ -173,6 +182,8 @@ const Login = () => {
           </button>
         </p>
       </form>
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 };

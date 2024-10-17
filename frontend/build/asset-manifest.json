@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.ae0ea024.css",
-    "main.js": "/static/js/main.ec62d6f0.js",
+    "main.js": "/static/js/main.f9660810.js",
     "static/media/visabg.jpg": "/static/media/visabg.c8b89b7bed2418c64234.jpg",
     "static/media/pic.png": "/static/media/pic.05973382885d8d84718e.png",
     "static/media/bg.png": "/static/media/bg.f822d16efbe8a0b578e1.png",
@@ -14,8 +14,11 @@
     "static/media/educ2.jpg": "/static/media/educ2.199010498f877d72164d.jpg",
     "static/media/h3.png": "/static/media/h3.afa7ac33430e76a3076c.png",
     "static/media/f3.png": "/static/media/f3.360c4815cfaae27eeac1.png",
+    "static/media/pack7.jpg": "/static/media/pack7.ff8667d6d1494f2ed9d6.jpg",
+    "static/media/pack2.jpg": "/static/media/pack2.4418246a533fa5c3f245.jpg",
     "static/media/fa-brands-400.ttf": "/static/media/fa-brands-400.0ff70dcbf135d859ebf3.ttf",
     "static/media/hotelbg.jpg": "/static/media/hotelbg.9c269d7615ad5d93f4f1.jpg",
+    "static/media/pack3.jpg": "/static/media/pack3.a0d4ebfc16b0f75914c5.jpg",
     "static/media/fa-solid-900.woff2": "/static/media/fa-solid-900.93f719f4d62bfa3e748c.woff2",
     "static/media/flightsbg.jpg": "/static/media/flightsbg.ff9b9426b0b492f5d16a.jpg",
     "static/media/bg.jpg": "/static/media/bg.7e0256fdd6033efca3b8.jpg",
@@ -28,11 +31,9 @@
     "static/media/pack5.jpg": "/static/media/pack5.74eb7b8c95a93bde4bd3.jpg",
     "static/media/servicesbg.jpg": "/static/media/servicesbg.88890b2cd605424143c9.jpg",
     "static/media/pack6.jpg": "/static/media/pack6.320e80ff44b568967571.jpg",
-    "static/media/pack2.jpg": "/static/media/pack2.ae3bddca3e8f60379ad6.jpg",
     "static/media/pack1.jpg": "/static/media/pack1.aced52ad537526d5230a.jpg",
     "static/media/pack4.jpg": "/static/media/pack4.8cea7b4c12679b78f238.jpg",
     "static/media/promobg.jpg": "/static/media/promobg.22b5c9dd7495a27ae3cf.jpg",
-    "static/media/pack3.jpg": "/static/media/pack3.ae0ad8eae6f9dbe92cae.jpg",
     "static/media/promo1.jpg": "/static/media/promo1.540b5f2c36f4b68ef29a.jpg",
     "static/media/promo3.jpg": "/static/media/promo3.a12bc63ced5d2fce18b9.jpg",
     "static/media/promo2.jpg": "/static/media/promo2.7004acc123546a44604c.jpg",
@@ -55,10 +56,10 @@
     "static/media/fa-v4compatibility.woff2": "/static/media/fa-v4compatibility.6cfec8414be20e2c3426.woff2",
     "index.html": "/index.html",
     "main.ae0ea024.css.map": "/static/css/main.ae0ea024.css.map",
-    "main.ec62d6f0.js.map": "/static/js/main.ec62d6f0.js.map"
+    "main.f9660810.js.map": "/static/js/main.f9660810.js.map"
   },
   "entrypoints": [
     "static/css/main.ae0ea024.css",
-    "static/js/main.ec62d6f0.js"
+    "static/js/main.f9660810.js"
   ]
 }

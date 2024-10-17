@@ -16,11 +16,8 @@ import {
 } from 'mdb-react-ui-kit';
 
 import logo from '../images/header.jpg';
-import bg from '../images/bg.jpg';
 import flightsbg from '../images/flightsbg.jpg';
-import hotelbg from '../images/hotelbg.jpg';
-import passportbg from '../images/passportbg.jpg';
-import visabg from '../images/visabg.jpg';
+
 
 import FlightsDetails from '../components/FlightsDetails';
 import HotelDetails from '../components/HotelDetails';
@@ -41,6 +38,9 @@ import pack3 from '../images/pack3.jpg';
 import pack4 from '../images/pack4.jpg';
 import pack5 from '../images/pack5.jpg';
 import pack6 from '../images/pack6.jpg';
+import pack7 from '../images/pack7.jpg';
+
+import Toast from '../components/Toast'; 
 
 function Services() {
 
@@ -64,6 +64,12 @@ function Services() {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 3; // Number of items per "page"
   const totalPages = Math.ceil(educs.length / itemsPerPage);
+
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type) => {
+    setToast({ message, type });
+  };
 
   const handleNext = () => {
     setCurrentPage((prev) => (prev + 1) % totalPages); // Loop back to the first page when reaching the end
@@ -114,6 +120,8 @@ function Services() {
         return pack5;
       case 6:
         return pack6;
+      case 7:
+        return pack7;
     default:
         return null; 
     }
@@ -474,6 +482,8 @@ function Services() {
 
         {/* Add more content for other new tabs like Employment, Tour Packages, Insurance, etc. */}
       </MDBContainer>
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import './Signup3.css';
 import headerImage from '../images/header.jpg';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import Toast from '../components/Toast'; // Import the Toast component
+import Toast from '../components/Toast';
 
 const SignUp = () => {
   const [firstname, setFirstName] = useState('');
