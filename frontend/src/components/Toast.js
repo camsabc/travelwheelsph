@@ -6,10 +6,15 @@ const Toast = ({ message, type, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setVisible(false); // Hide the toast after 3 seconds
-      setTimeout(onClose, 500); // Remove from DOM after hide transition
     }, 3000);
 
-    return () => clearTimeout(timer);
+    // Call onClose after hiding transition completes
+    const hideTransitionTimer = setTimeout(onClose, 3500); // Wait a bit longer than hide duration
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(hideTransitionTimer);
+    };
   }, [onClose]);
 
   const toastStyles = {
