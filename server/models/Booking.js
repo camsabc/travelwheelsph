@@ -162,7 +162,7 @@ const BookingSchema = mongoose.Schema({
         required: false
     },
     foreignPassportHolder: {
-        type: Boolean,
+        type: String,
         required: false
     },
     emergencyContactPerson: {

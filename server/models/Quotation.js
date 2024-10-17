@@ -52,13 +52,153 @@ const QuotationSchema = mongoose.Schema({
         type: String
     },
     num: {
-        type: Number,
+        type: Number
     },
     type: {
         type: String
     },
     db: {
         type: String
+    },
+    airportDeparture: {
+        type: String,
+        required: false
+    },
+    airportArrival: {
+        type: String,
+        required: false
+    },
+    preferredHotel: {
+        type: String,
+        required: false
+    },
+    budgetRange: {
+        type: String,
+        required: false
+    },
+    gender: {
+        type: String,
+        required: false
+    },
+    civilStatus: {
+        type: String,
+        required: false
+    },
+    birthDate: {
+        type: Date,
+        required: false
+    },
+    countryBirth: {
+        type: String,
+        required: false
+    },
+    provinceBirth: {
+        type: String,
+        required: false
+    },
+    municipalityBirth: {
+        type: String,
+        required: false
+    },
+    firstnameFather: {
+        type: String,
+        required: false
+    },
+    middlenameFather: {
+        type: String,
+        required: false
+    },
+    lastnameFather: {
+        type: String,
+        required: false
+    },
+    countryCitizenshipFather: {
+        type: String,
+        required: false
+    },
+    firstnameMother: {
+        type: String,
+        required: false
+    },
+    middlenameMother: {
+        type: String,
+        required: false
+    },
+    lastnameMother: {
+        type: String,
+        required: false
+    },
+    countryCitizenshipMother: {
+        type: String,
+        required: false
+    },
+    firstnameSpouse: {
+        type: String,
+        required: false
+    },
+    middlenameSpouse: {
+        type: String,
+        required: false
+    },
+    lastnameSpouse: {
+        type: String,
+        required: false
+    },
+    applicationType: {
+        type: String,
+        required: false
+    },
+    oldPassportNumber: {
+        type: String,
+        required: false
+    },
+    dateIssued: {
+        type: Date,
+        required: false
+    },
+    issuingAuthority: {
+        type: String,
+        required: false
+    },
+    foreignPassportHolder: {
+        type: String,
+        required: false
+    },
+    emergencyContactPerson: {
+        type: String,
+        required: false
+    },
+    contactNumberForeign: {
+        type: Number,
+        required: false
+    },
+    province: {
+        type: String,
+        required: false
+    },
+    city: {
+        type: String,
+        required: false
+    },
+    occupation: {
+        type: String,
+        required: false
+    },
+    officeNumber: {
+        type: Number,
+        required: false
+    },
+    officeDetails: {
+        type: String,
+        required: false
+    },
+    fullAddress: {
+        type: String,
+        required: false
+    },
+    landmark: {
+        type: String,
+        required: false
     }
 });
 

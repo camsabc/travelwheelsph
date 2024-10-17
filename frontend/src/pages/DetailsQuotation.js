@@ -77,6 +77,16 @@ function DetailsQuotation() {
     return <div className="text-center">{error}</div>;
   }
 
+    // Helper function to render attribute with conditional line break
+    const renderAttribute = (label, value) => (
+      value ? (
+        <>
+          {label}: {value}
+          <br />
+        </>
+      ) : null
+    );
+
   return (
     <div className="d-flex flex-column h-100" style={{ backgroundColor: '#eee', fontFamily: "'Poppins', sans-serif" }}>
       {/* Header Section */}
@@ -134,24 +144,74 @@ function DetailsQuotation() {
               </MDBTypography>
 
               <MDBTypography tag="h5" style={{ fontWeight: 'bold', textAlign: 'start' }}>
-                QUOTATION INFORMATION
+                PERSONAL INFORMATION
               </MDBTypography>
 
               <MDBTypography tag="p" style={{ textAlign: 'start' }}>
-                LAST NAME: {quotationDetails.lastname} <br />
-                FIRST NAME: {quotationDetails.firstname} <br />
-                MIDDLE NAME: {quotationDetails.middlename} <br />
-                EMAIL: {quotationDetails.email} <br />
-                CONTACT NUMBER: {quotationDetails.contactNumber} <br />
-                BOOKING START DATE: {new Date(quotationDetails.startDate).toLocaleDateString()} <br />
-                BOOKING END DATE: {new Date(quotationDetails.endDate).toLocaleDateString()} <br />
-                TIME OF PICKUP: {new Date(quotationDetails.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })} <br />
-                PICKUP LOCATION: {quotationDetails.pickupLocation} <br />
-                DROP-OFF LOCATION: {quotationDetails.dropOffLocation} <br />
-                VEHICLE NAME: {quotationDetails.vechicleName} <br />
-                NUMBER OF PERSONS: {quotationDetails.numOfPerson} <br />
-                REMARKS: {quotationDetails.remarks} <br />
-                STATUS: {quotationDetails.status} <br />
+                {renderAttribute('LAST NAME', quotationDetails.lastname)}
+                {renderAttribute('FIRST NAME', quotationDetails.firstname)}
+                {renderAttribute('MIDDLE NAME', quotationDetails.middlename)}
+                {renderAttribute('EMAIL', quotationDetails.email)}
+                {renderAttribute('CONTACT NUMBER', quotationDetails.contactNumber)}
+              </MDBTypography>
+
+              <MDBTypography tag="h5" style={{ paddingTop: '20px', fontWeight: 'bold', textAlign: 'start' }}>
+                TRAVEL INFORMATION
+              </MDBTypography>
+
+              <MDBTypography tag="p" style={{ textAlign: 'start' }}>
+                {renderAttribute('BOOKING START DATE', quotationDetails.startDate && new Date(quotationDetails.startDate).toLocaleDateString())}
+                {renderAttribute('BOOKING END DATE', quotationDetails.endDate && new Date(quotationDetails.endDate).toLocaleDateString())}
+                {renderAttribute('TIME OF PICKUP', quotationDetails.startDate && new Date(quotationDetails.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }))}
+                {renderAttribute('PICKUP LOCATION', quotationDetails.pickupLocation)}
+                {renderAttribute('DROP-OFF LOCATION', quotationDetails.dropOffLocation)}
+                {renderAttribute('VEHICLE NAME', quotationDetails.vehicleName)}
+                {renderAttribute('NUMBER OF PERSONS', quotationDetails.numOfPerson)}
+                {renderAttribute('REMARKS', quotationDetails.remarks)}
+                {renderAttribute('STATUS', quotationDetails.status)}
+              </MDBTypography>
+
+              {/* New Additional Attributes */}
+              <MDBTypography tag="h5" style={{ paddingTop: '20px', fontWeight: 'bold', textAlign: 'start' }}>
+                ADDITIONAL INFORMATION
+              </MDBTypography>
+
+              <MDBTypography tag="p" style={{ textAlign: 'start' }}>
+                {renderAttribute('AIRPORT DEPARTURE', quotationDetails.airportDeparture)}
+                {renderAttribute('AIRPORT ARRIVAL', quotationDetails.airportArrival)}
+                {renderAttribute('PREFERRED HOTEL', quotationDetails.preferredHotel)}
+                {renderAttribute('BUDGET RANGE', quotationDetails.budgetRange)}
+                {renderAttribute('GENDER', quotationDetails.gender)}
+                {renderAttribute('CIVIL STATUS', quotationDetails.civilStatus)}
+                {renderAttribute('BIRTH DATE', quotationDetails.birthDate && new Date(quotationDetails.birthDate).toLocaleDateString())}
+                {renderAttribute('COUNTRY OF BIRTH', quotationDetails.countryBirth)}
+                {renderAttribute('PROVINCE OF BIRTH', quotationDetails.provinceBirth)}
+                {renderAttribute('MUNICIPALITY OF BIRTH', quotationDetails.municipalityBirth)}
+                {renderAttribute('FATHER\'S FIRST NAME', quotationDetails.firstnameFather)}
+                {renderAttribute('FATHER\'S MIDDLE NAME', quotationDetails.middlenameFather)}
+                {renderAttribute('FATHER\'S LAST NAME', quotationDetails.lastnameFather)}
+                {renderAttribute('FATHER\'S COUNTRY OF CITIZENSHIP', quotationDetails.countryCitizenshipFather)}
+                {renderAttribute('MOTHER\'S FIRST NAME', quotationDetails.firstnameMother)}
+                {renderAttribute('MOTHER\'S MIDDLE NAME', quotationDetails.middlenameMother)}
+                {renderAttribute('MOTHER\'S LAST NAME', quotationDetails.lastnameMother)}
+                {renderAttribute('MOTHER\'S COUNTRY OF CITIZENSHIP', quotationDetails.countryCitizenshipMother)}
+                {renderAttribute('SPOUSE\'S FIRST NAME', quotationDetails.firstnameSpouse)}
+                {renderAttribute('SPOUSE\'S MIDDLE NAME', quotationDetails.middlenameSpouse)}
+                {renderAttribute('SPOUSE\'S LAST NAME', quotationDetails.lastnameSpouse)}
+                {renderAttribute('APPLICATION TYPE', quotationDetails.applicationType)}
+                {renderAttribute('OLD PASSPORT NUMBER', quotationDetails.oldPassportNumber)}
+                {renderAttribute('DATE ISSUED', quotationDetails.dateIssued && new Date(quotationDetails.dateIssued).toLocaleDateString())}
+                {renderAttribute('ISSUING AUTHORITY', quotationDetails.issuingAuthority)}
+                {renderAttribute('FOREIGN PASSPORT HOLDER', quotationDetails.foreignPassportHolder !== undefined ? (quotationDetails.foreignPassportHolder ? 'Yes' : 'No') : '')}
+                {renderAttribute('EMERGENCY CONTACT PERSON', quotationDetails.emergencyContactPerson)}
+                {renderAttribute('CONTACT NUMBER (FOREIGN)', quotationDetails.contactNumberForeign)}
+                {renderAttribute('PROVINCE', quotationDetails.province)}
+                {renderAttribute('CITY', quotationDetails.city)}
+                {renderAttribute('OCCUPATION', quotationDetails.occupation)}
+                {renderAttribute('OFFICE NUMBER', quotationDetails.officeNumber)}
+                {renderAttribute('OFFICE DETAILS', quotationDetails.officeDetails)}
+                {renderAttribute('FULL ADDRESS', quotationDetails.fullAddress)}
+                {renderAttribute('LANDMARK', quotationDetails.landmark)}
               </MDBTypography>
             </MDBCardBody>
           </MDBCard>
