@@ -7,16 +7,9 @@ import {
   MDBRow,
   MDBCol,
   MDBTypography,
-  MDBNavbar,
-  MDBNavbarNav,
-  MDBNavbarItem,
-  MDBNavbarLink,
-  MDBCardImage,
 } from 'mdb-react-ui-kit';
 
 import flightsbg from '../images/flightsbg.jpg';
-import logo from '../images/header.jpg';
-
 import Toast from './Toast'; 
 
 
@@ -30,7 +23,7 @@ function TransferDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [passengers, setPassengers] = useState([]);
-
+  const [selectedOption, setSelectedOption] = useState('vip escort');
 
   const [toast, setToast] = useState(null);
 
@@ -63,6 +56,8 @@ function TransferDetails() {
       passengers: updatedPassengers,
     }));
   };
+
+  
   
   
 
@@ -80,15 +75,26 @@ function TransferDetails() {
     remarks: '',
     status: 'Pending',
     num: '',
-    type: 'Transfer'
+    type: 'Transfer',
+    class: 'vip escort'
   });
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBookingDetails(prevDetails => ({
       ...prevDetails,
       [name]: value,
+    }));
+  };
+
+  const handleOptionChange = (e) => {
+    const selectedClass = e.target.value;
+    setSelectedOption(selectedClass);
+  
+    // Update bookingDetails with the selected transport class
+    setBookingDetails(prevDetails => ({
+      ...prevDetails,
+      class: selectedClass,
     }));
   };
 
@@ -191,50 +197,6 @@ const handleQuotationSubmit = async (e) => {
   return (
     <>
     {/* Header Section */}
-  <div className="bg-white py-2" style={{ flexShrink: 0 }}>
-  <MDBContainer fluid className="d-flex align-items-center justify-content-between">
-  <MDBCardImage
-    src={logo}
-    style={{ width: '200px', cursor: 'pointer' }}
-    alt="Header Logo"
-    onClick={() => navigate('/home-user', { state: { email: user.email }})}
-  />
-    <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
-      <MDBNavbarNav className="align-items-center">
-
-        <MDBNavbarItem style={{ margin: '0 25px', fontWeight: 'bold' }}>
-          <MDBNavbarLink 
-              onClick={() => navigate('/services', { state: { email: user.email }})}
-              style={{ color: 'rgb(255, 165, 0)' }}  
-          >
-              Services
-          </MDBNavbarLink>
-        </MDBNavbarItem>
-
-        <MDBNavbarItem style={{ margin: '0 25px' }}>
-          <MDBNavbarLink onClick={() => navigate('/promos', { state: { email: user.email }})}>Promos</MDBNavbarLink>
-        </MDBNavbarItem>
-
-        <MDBNavbarItem style={{ margin: '0 25px' }}>
-          <MDBNavbarLink onClick={() => navigate('/inquiry')}>Inquiry</MDBNavbarLink>
-        </MDBNavbarItem>
-        <span
-          onClick={() => navigate('/profile', { state: { email: user.email } })}
-          style={{
-            margin: '0 25px',
-            fontSize: '1rem',
-            color: '#000',
-            display: 'flex',
-            alignItems: 'center',
-            cursor: 'pointer',
-          }}
-        >
-          Hi, {user ? user.firstname : 'Guest'}
-        </span>
-      </MDBNavbarNav>
-    </MDBNavbar>
-  </MDBContainer>
-</div>
     <div className="d-flex flex-column min-vh-100" style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
@@ -378,6 +340,57 @@ const handleQuotationSubmit = async (e) => {
               </MDBRow>
 
               <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{fontWeight: 'bold'}}>Travel Information</MDBTypography>
+
+              <MDBRow className="mb-4">
+              <MDBCol md="4">
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="classOptions"
+                    id="airporttransfer"
+                    value="airporttransfer"
+                    checked={selectedOption === 'airport transfer'}
+                    onChange={handleOptionChange}
+                  />
+                  <label className="form-check-label" htmlFor="airporttransfer">
+                    Airport Transfer
+                  </label>
+                </div>
+              </MDBCol>
+              <MDBCol md="4">
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="classOptions"
+                    id="hoteltransfer"
+                    value="hoteltransfer"
+                    checked={selectedOption === 'hotel transfer'}
+                    onChange={handleOptionChange}
+                  />
+                  <label className="form-check-label" htmlFor="hoteltransfer">
+                    Hotel Transfer
+                  </label>
+                </div>
+              </MDBCol>
+              <MDBCol md="4">
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="classOptions"
+                    id="vipescort"
+                    value="vipescort"
+                    checked={selectedOption === 'vip escort'}
+                    onChange={handleOptionChange}
+                  />
+                  <label className="form-check-label" htmlFor="vipescort">
+                    VIP Escort
+                  </label>
+                </div>
+              </MDBCol>
+            </MDBRow>
 
               <MDBRow>
                 <MDBCol md="6">
