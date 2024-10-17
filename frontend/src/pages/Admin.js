@@ -1,197 +1,271 @@
-import React, { useState } from 'react';
-import { MDBBtn } from 'mdb-react-ui-kit';
-import Toast from '../components/Toast'; 
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  MDBContainer,
+  MDBCardImage,
+  MDBNavbar,
+  MDBNavbarNav,
+  MDBNavbarItem,
+  MDBNavbarLink,
+  MDBBtn
+} from 'mdb-react-ui-kit';
 
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const year = date.getFullYear();
-  return `${month}/${day}/${year}`;
-}
+import logo from '../images/header.jpg';
+import SideNavbar from '../components/SideNavbar'; 
+import BookingDetails from '../components/BookingDetails';
 
-function BookingDetails({ booking, onBack }) {
-  const buttonColor = 'rgb(255, 165, 0)'; 
-  const isBooking = booking.db === 'booking';
-  const detailsTitle = isBooking ? 'BOOKING DETAILS' : 'QUOTATION DETAILS';
+function Admin() {
+  const location = useLocation();
+  const { name } = location.state || {};
+  const navigate = useNavigate(); 
 
-  const [toast, setToast] = useState(null);
-  const [adminNote, setAdminNote] = useState(booking.adminNote || ''); // New state for the admin note
+  const [currentContent, setCurrentContent] = useState('Quotation Management');
+  const [bookingFilter, setBookingFilter] = useState('All Bookings');
+  const [bookings, setBookings] = useState([]);
+  const [quotations, setQuotations] = useState([]);
+  const [selectedBooking, setSelectedBooking] = useState(null);
 
-  const showToast = (message, type) => {
-    setToast({ message, type });
-  };
-
-  // Asynchronous function to change booking status
-  const changeBookingStatus = async (bookingId, status) => {
-    try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/change-status', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ bookingId, status }),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to change status');
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/get-all-bookings');
+        const data = await response.json();
+        setBookings(data);
+      } catch (error) {
+        console.error('Error fetching bookings:', error);
       }
-      showToast('Status changed successfully!', 'success');
-      window.location.reload();
-    } catch (error) {
-      showToast('An error occurred', 'error');
+    };
+
+    const fetchQuotations = async () => {
+      try {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/get-all-quotations');
+        const data = await response.json();
+        setQuotations(data);
+      } catch (error) {
+        console.error('Error fetching quotations:', error);
+      }
+    };
+
+    if (currentContent === 'Booking Management') {
+      fetchBookings();
+    } else if (currentContent === 'Quotation Management') {
+      fetchQuotations();
+    }
+  }, [currentContent]);
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  }
+
+  const filterBookings = (filter) => {
+    switch (filter) {
+      case 'Pending':
+        return bookings.filter(booking => booking.status === 'Pending');
+      case 'Confirmed':
+        return bookings.filter(booking => booking.status === 'Confirmed');
+      case 'Payment Sent':
+        return bookings.filter(booking => booking.status === 'Payment Sent');
+      case 'Payment Confirmed':
+        return bookings.filter(booking => booking.status === 'Payment Confirmed');
+      case 'Rejected':
+        return bookings.filter(booking => booking.status === 'Rejected');
+      default:
+        return bookings;
     }
   };
 
-  // Asynchronous function to change quotation status
-  const changeQuotationStatus = async (quotationId, status) => {
-    try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/change-status', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ quotationId, status }),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to change status');
-      }
-      showToast('Status changed successfully', 'success');
-      window.location.reload();
-    } catch (error) {
-      showToast('An error occurred', 'error');
+  const filterQuotations = (filter) => {
+    switch (filter) {
+      case 'Pending':
+        return quotations.filter(quotation => quotation.status === 'Pending');
+      case 'Email Sent':
+        return quotations.filter(quotation => quotation.status === 'Email Sent');
+      default:
+        return quotations;
     }
   };
 
-  const sendAdminNote = async () => {
-    try {
-      const response = await fetch('https://travelwheelsph.onrender.com/send-note', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: booking.email, note: adminNote }),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to send the note');
-      }
-      showToast('Note sent successfully!', 'success');
-      setAdminNote(''); // Clear the input after sending
-    } catch (error) {
-      showToast('An error occurred while sending the note', 'error');
+  const renderTable = (title, data, filterFunc, isQuotation = false) => (
+    <div className="d-flex flex-column h-100" style={{ backgroundColor: '#fff' }}>
+      <h2 className="text-center h1 mb-4" style={{ fontWeight: 'bolder', color: 'rgb(255, 165, 0)' }}>{title}</h2>
+      
+      {/* Horizontal line above the navbar */}
+      <div style={{
+        borderTop: '2px solid rgb(255, 165, 0)',
+        width: '100%',
+        marginBottom: '0',
+        zIndex: '1'
+      }}></div>
+      
+      <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none', width: '100%', padding: '0' }}>
+        <MDBNavbarNav className="d-flex w-100" style={{ width: '100%', padding: '0' }}>
+
+          {/* Filter links */}
+          {isQuotation ? ['All Quotations', 'Pending', 'Email Sent'].map(filter => (
+            <MDBNavbarItem key={filter} className="flex-fill">
+              <MDBNavbarLink
+                active={bookingFilter === filter}
+                onClick={() => setBookingFilter(filter)}
+                style={{
+                  backgroundColor: bookingFilter === filter ? 'rgb(255, 165, 0)' : 'transparent',
+                  color: bookingFilter === filter ? '#fff' : '#000',
+                  fontWeight: 'bold', 
+                  borderBottom: 'none', 
+                  borderRadius: '0', 
+                  textAlign: 'center',
+                  padding: '10px 0', 
+                  display: 'block', 
+                  width: '100%', 
+                }}
+              >
+                {filter}
+              </MDBNavbarLink>
+            </MDBNavbarItem>
+          )) : ['All Bookings', 'Pending', 'Confirmed', 'Payment Sent', 'Payment Confirmed', 'Rejected'].map(filter => (
+            <MDBNavbarItem key={filter} className="flex-fill">
+              <MDBNavbarLink
+                
+                active={bookingFilter === filter}
+                onClick={() => setBookingFilter(filter)}
+                style={{
+                  backgroundColor: bookingFilter === filter ? 'rgb(255, 165, 0)' : 'transparent',
+                  color: bookingFilter === filter ? '#fff' : '#000',
+                  fontWeight: 'bold', 
+                  borderBottom: 'none',
+                  borderRadius: '0',
+                  textAlign: 'center',
+                  padding: '10px 0',
+                  display: 'block', 
+                  width: '100%', 
+                }}
+              >
+                {filter}
+              </MDBNavbarLink>
+            </MDBNavbarItem>
+          ))}
+        </MDBNavbarNav>
+      </MDBNavbar>
+
+      {/* Horizontal line below the navbar */}
+      <div style={{
+        borderBottom: '2px solid rgb(255, 165, 0)',
+        width: '100%',
+        marginTop: '0',
+        zIndex: '1'
+      }}></div>
+
+      <div className="mt-3 text-center">
+
+        {/* Render the filtered data in a table */}
+        <div style={{ overflowX: 'auto' }}>
+          <table className="table table-striped" style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                <th style={{ fontWeight: 'bold' }}>Service Type</th>
+                <th style={{ fontWeight: 'bold' }}>Booking #</th>
+                <th style={{ fontWeight: 'bold' }}>Name</th>
+                <th style={{ fontWeight: 'bold' }}>Date</th>
+                <th style={{ fontWeight: 'bold' }}>Status</th>
+                <th style={{ fontWeight: 'bold' }}></th>
+              </tr>
+            </thead>
+            <tbody>
+            {filterFunc().length > 0 ? (
+              filterFunc().map((item, index) => (
+                <tr key={index}>
+                  <td style={{ fontWeight: 'bold' }}>{item.type}</td>
+                  <td style={{ fontWeight: 'bold' }}>{item.num}</td>
+                  <td style={{ fontWeight: 'bold' }}>{`${item.firstname} ${item.middlename} ${item.lastname}`}</td>
+                  <td style={{ fontWeight: 'bold' }}>{`${formatDate(item.startDate)} - ${formatDate(item.endDate)}`}</td>
+                  <td style={{ fontWeight: 'bold' }}>{item.status}</td>
+                  <td>
+                    <MDBBtn color="primary" size="sm" onClick={() => setSelectedBooking(item)}>More Details</MDBBtn>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" style={{ fontWeight: 'bold' }}>No items to display.</td>
+              </tr>
+            )}
+          </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderContent = () => {
+    if (selectedBooking) {
+      return (
+        <BookingDetails
+          booking={selectedBooking}
+          onBack={() => setSelectedBooking(null)}
+        />
+      );
+    }
+
+    switch (currentContent) {
+      case 'Booking Management':
+        return renderTable('BOOKING MANAGEMENT', bookings, () => filterBookings(bookingFilter));
+      case 'Quotation Management':
+        return renderTable('QUOTATION MANAGEMENT', quotations, () => filterQuotations(bookingFilter), true);
+      default:
+        return <div className="text-center">Select an option from the menu</div>;
     }
   };
 
   return (
-    <div className="booking-details" style={{ padding: '20px', backgroundColor: '#fff', borderRadius: '8px' }}>
-      <h2 style={{ fontWeight: 'bold', color: buttonColor, marginBottom: '10px' }}>{detailsTitle}</h2>
+    <div className="d-flex flex-column vh-100" style={{ backgroundColor: '#fff' }}>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        {/* First Column */}
-        <div style={{ flex: '1', paddingRight: '10px' }}>
-          <p style={{ fontWeight: 'bold', lineHeight: '0.5', paddingBottom: '20px' }}>{isBooking ? 'Booking #' : 'Quotation #'}: {booking.num}</p>
-          <p style={{ fontWeight: 'bold', lineHeight: '0.5', paddingBottom: '20px' }}>Service Type: {booking.type}</p>
+      {/* Header Section */}
+      <div className="bg-white py-2 mb-1" style={{ flexShrink: 0, borderBottom: '2px solid rgb(240, 240, 240)' }}>
+        <MDBContainer fluid className="d-flex align-items-center justify-content-between">
+        <MDBCardImage
+    src={logo}
+    style={{ width: '200px', cursor: 'pointer' }}
+    alt="Header Logo"
+    onClick={() => navigate('/login')} 
+  />
 
-          <p style={{ fontWeight: 'bold', lineHeight: '0.7' }}>GENERAL INFORMATION</p>
-          <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Name: {`${booking.firstname} ${booking.middlename} ${booking.lastname}`}</p>
-          <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Email: {booking.email}</p>
-          <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Contact Number: {booking.contactNumber}</p>
+          <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
+            <MDBNavbarNav className="align-items-center">
+              <span
+                style={{
+                  margin: '0 15px',
+                  fontSize: '1rem',
+                  color: '#000',
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                Hi, {name}
+              </span>
+            </MDBNavbarNav>
+          </MDBNavbar>
+        </MDBContainer>
+      </div>
 
-          <p style={{ fontWeight: 'bold', lineHeight: '0.5', paddingTop: '55px' }}>Status: {booking.status}</p>
-        </div>
+      {/* Main Content Section */}
+      <div className="d-flex flex-grow-1 mt-3">
 
-        {/* Second Column */}
-        <div style={{ flex: '1', paddingLeft: '10px' }}>
-          <p style={{ fontWeight: 'bold', lineHeight: '0.7', paddingTop: '40px' }}>TRAVEL INFORMATION</p>
-          <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Travel Date From: {formatDate(booking.startDate)}</p>
-          <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Travel Date To: {formatDate(booking.endDate)}</p>
-          <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Pickup Location: {booking.pickupLocation}</p>
-          <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Dropoff Location: {booking.dropOffLocation}</p>
-          <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Number of Persons: {booking.numOfPerson}</p>
-          <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Remarks: {booking.remarks}</p>
+        {/* Side Navbar */}
+        <SideNavbar setCurrentContent={setCurrentContent}/>
 
-          {/* Admin Note Section */}
-          <div style={{ marginTop: '20px' }}>
-            <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Admin Note:</p>
-            <textarea
-              style={{ width: '100%', height: '80px', padding: '10px', borderRadius: '4px', borderColor: '#ccc' }}
-              value={adminNote}
-              onChange={(e) => setAdminNote(e.target.value)}
-              placeholder="Add a note for the user here"
-            />
-            <MDBBtn
-              style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff', marginTop: '10px' }}
-              onClick={sendAdminNote}
-            >
-              Send Note
-            </MDBBtn>
+        {/* Main Content */}
+        <div className="flex-grow-1 d-flex flex-column p-3" style={{ backgroundColor: '#fff' }}>
+          <div className="w-100 h-100" style={{ backgroundColor: '#fff' }}>
+            {renderContent()}
           </div>
         </div>
       </div>
-
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '35px' }}>
-        {/* Buttons on the left */}
-        <div style={{ display: 'flex', gap: '10px' }}>
-          {isBooking && (
-            <>
-              {/* Existing buttons for booking status changes */}
-              <MDBBtn
-                style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
-                onClick={() => changeBookingStatus(booking._id, 'Payment Sent')}
-              >
-                Confirm Payment
-              </MDBBtn>
-              <MDBBtn
-                style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
-                onClick={() => changeBookingStatus(booking._id, 'Confirmed')}
-              >
-                Confirm Booking
-              </MDBBtn>
-              <MDBBtn
-                style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
-                onClick={() => changeBookingStatus(booking._id, 'Payment Confirmed')}
-              >
-                AR Sent
-              </MDBBtn>
-              <MDBBtn
-                style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
-                onClick={() => changeBookingStatus(booking._id, 'Service Accomplished')}
-              >
-                Service Accomplished
-              </MDBBtn>
-              <MDBBtn
-                style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
-                onClick={() => changeBookingStatus(booking._id, 'Rejected')}
-              >
-                Reject
-              </MDBBtn>
-            </>
-          )}
-
-          {!isBooking && (
-            <>
-              {/* Existing button for quotation status changes */}
-              <MDBBtn
-                style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
-                onClick={() => changeQuotationStatus(booking._id, 'Email Sent')}
-              >
-                Email Sent
-              </MDBBtn>
-            </>
-          )}
-        </div>
-
-        {/* Back button on the right */}
-        <MDBBtn
-          style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
-          onClick={onBack}
-        >
-          Back
-        </MDBBtn>
-      </div>
-
-      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 }
 
-export default BookingDetails;
+export default Admin;
