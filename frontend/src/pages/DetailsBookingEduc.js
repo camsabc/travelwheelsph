@@ -15,6 +15,7 @@ import {
 } from 'mdb-react-ui-kit';
 import flightsbg from '../images/flightsbg.jpg';
 import logo from '../images/header.jpg';
+import Toast from '../components/Toast';
 
 function DetailsBookingEduc() {
   const navigate = useNavigate();
@@ -26,6 +27,13 @@ function DetailsBookingEduc() {
   const [educ, setEduc] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type) => {
+    console.log('Toast triggered:', message, type); // Debug
+    setToast({ message, type });
+  };
 
   const [bookingDetails, setBookingDetails] = useState({
     firstname: '',
@@ -516,6 +524,7 @@ function DetailsBookingEduc() {
             </MDBCardBody>
           </MDBCard>
         </MDBContainer>
+        {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
       </div>
     </>
   );

@@ -15,6 +15,7 @@ import {
 } from 'mdb-react-ui-kit';
 import flightsbg from '../images/flightsbg.jpg';
 import logo from '../images/header.jpg';
+import Toast from '../components/Toast';
 
 function DetailsIntPack() {
   const navigate = useNavigate();
@@ -109,7 +110,7 @@ function DetailsIntPack() {
             return;
         }
 
-        alert('Booking created successfully!');
+        showToast('Booking created successful!', 'success');
         navigate('/profile', { state: { email: user.email } });
     } catch (err) {
         console.error('Error creating booking:', err);
@@ -136,7 +137,7 @@ const handleQuotationSubmit = async (e) => {
             return;
         }
 
-        alert('Quotation request submitted successfully!');
+        showToast('Quotation created successful!', 'success');
         navigate('/profile', { state: { email: user.email } });
     } catch (err) {
         console.error('Error creating quotation:', err);
@@ -931,6 +932,7 @@ const handleQuotationSubmit = async (e) => {
           </MDBCard>
         </MDBContainer>
       </div>
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </>
   );
 }

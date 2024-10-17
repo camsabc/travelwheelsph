@@ -16,6 +16,7 @@ import {
 } from 'mdb-react-ui-kit';
 import flightsbg from '../images/flightsbg.jpg';
 import logo from '../images/header.jpg';
+import Toast from '../components/Toast';
 
 function DetailsQuotationEduc() {
   const navigate = useNavigate();
@@ -27,6 +28,13 @@ function DetailsQuotationEduc() {
   const [educ, setEduc] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type) => {
+    console.log('Toast triggered:', message, type); // Debug
+    setToast({ message, type });
+  };
 
   const [bookingDetails, setBookingDetails] = useState({
     firstname: '',
@@ -72,7 +80,7 @@ function DetailsQuotationEduc() {
             return;
         }
 
-        alert('Booking created successfully!');
+        showToast('Booking created successful!', 'success');
         navigate('/profile', { state: { email: user.email } });
     } catch (err) {
         console.error('Error creating booking:', err);
@@ -99,7 +107,7 @@ const handleQuotationSubmit = async (e) => {
             return;
         }
 
-        alert('Quotation request submitted successfully!');
+        showToast('Quotation created successful!', 'success');
         navigate('/profile', { state: { email: user.email } });
     } catch (err) {
         console.error('Error creating quotation:', err);
@@ -387,6 +395,7 @@ const handleQuotationSubmit = async (e) => {
             </MDBCardBody>
           </MDBCard>
         </MDBContainer>
+        {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
       </div>
     </>
   );

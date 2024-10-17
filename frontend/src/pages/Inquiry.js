@@ -18,6 +18,7 @@ import logo from '../images/header.jpg';
 import inquirybg from '../images/inquirybg.jpg';
 import map from '../images/map.jpg';
 import { FaPhone, FaEnvelope, FaFacebook, FaInstagram } from 'react-icons/fa';
+import Toast from '../components/Toast';
 
 function Inquiry() {
   const [backgroundImage, setBackgroundImage] = useState(inquirybg);
@@ -29,9 +30,16 @@ function Inquiry() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type) => {
+    console.log('Toast triggered:', message, type); // Debug
+    setToast({ message, type });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Inquiry submitted successfully!');
+    showToast('Inquiry submitted successful!', 'success');
   };
 
   useEffect(() => {
@@ -255,6 +263,8 @@ if (error) {
           </MDBCard>
         </div>
       </MDBContainer>
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 }

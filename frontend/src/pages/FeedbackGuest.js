@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import './Feedback.css'
+import Toast from '../components/Toast';
 
 import Modal from '../components/Modal'; 
 
@@ -31,6 +32,13 @@ const FeedbackGuest = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type) => {
+    console.log('Toast triggered:', message, type); // Debug
+    setToast({ message, type });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -78,7 +86,7 @@ const FeedbackGuest = () => {
         console.error('Error submitting feedback:', error);
       }
     } else {
-      alert('Please complete all fields');
+      showToast('Error occurred', 'error');
     }
   };
 
@@ -176,6 +184,8 @@ const FeedbackGuest = () => {
         <input type="file" accept="image/*" onChange={handleImageUpload} />
         <button type="submit">Submit</button>
       </form>
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
 
     <Modal

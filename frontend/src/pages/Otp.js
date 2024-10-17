@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import headerImage from '../images/header.jpg';
 import './Signup3.css'; 
+import Toast from '../components/Toast';
 
 const Otp = () => {
   const [otp, setOtp] = useState('');
@@ -11,7 +12,14 @@ const Otp = () => {
   const [timer, setTimer] = useState(30); // Timer set to 30 seconds
   const navigate = useNavigate();
   const location = useLocation();
-  const { email, type, firstname } = location.state || {};  
+  const { email, type, firstname } = location.state || {}; 
+  
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type) => {
+    console.log('Toast triggered:', message, type); // Debug
+    setToast({ message, type });
+  };
 
   useEffect(() => {
     let interval = null;
@@ -49,7 +57,7 @@ const Otp = () => {
       const response = await axios.post('https://travelwheelsph.onrender.com/verify-otp', { email, otp });
 
       if (response.status === 200) {
-        alert('OTP verified successfully!');
+        showToast('OTP verified successfully!', 'success');
         if (type === 'user') {
           navigate(`/login`);
         } else {
@@ -68,7 +76,7 @@ const Otp = () => {
       const response = await axios.post('https://travelwheelsph.onrender.com/request-otp', { email });
       
       if (response.status === 200) {
-        alert('OTP has been resent to your email!');
+        showToast('OTP sent to email!', 'success');
       }
     } catch (error) {
       setErrors({ otp: 'Error resending OTP. Please try again later.' });
@@ -104,6 +112,8 @@ const Otp = () => {
           {resendDisabled ? `Resend OTP in ${timer}s` : 'Resend OTP'}
         </button>
       </form>
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 };

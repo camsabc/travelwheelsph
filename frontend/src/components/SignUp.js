@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+import Toast from '../components/Toast';
+
 const SignUp = () => {
   const [firstname, setFirstName] = useState('');
   const [lastname, setlastname] = useState('');
@@ -47,13 +49,13 @@ const SignUp = () => {
         
 
         if (response.status === 201) {
-          alert('User registered successfully!');
+          showToast('User registered successful!', 'success');
           navigate('/login'); // Redirect to login page after successful registration
         } else {
-          alert('Error registering user');
+          showToast('Error occurred', 'error');
         }
       } catch (error) {
-        alert('An error occurred while submitting the form.');
+        showToast('Error occurred', 'error');
       }
     }
   };
@@ -114,6 +116,7 @@ const SignUp = () => {
           By clicking Sign Up, you agree to our <a href="/terms" className="href">Terms of Service</a> and <a href="/privacy" className="href" >Privacy Statement</a>.
         </p>
       </form>
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 };

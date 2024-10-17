@@ -5,6 +5,7 @@ import { faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import './Feedback.css'
 import logo from '../images/header.jpg';
+import Toast from '../components/Toast';
 
 import {
     MDBContainer,
@@ -33,6 +34,13 @@ const Feedback = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type) => {
+    console.log('Toast triggered:', message, type); // Debug
+    setToast({ message, type });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,7 +74,7 @@ const Feedback = () => {
         console.error('Error submitting feedback:', error);
       }
     } else {
-      alert('Please complete all fields');
+      showToast('Error occurred', 'error');
     }
   };
 
@@ -187,6 +195,7 @@ const Feedback = () => {
         <input type="file" accept="image/*" onChange={handleImageUpload} />
         <button type="submit">Submit</button>
       </form>
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
     </>
   );

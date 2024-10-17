@@ -16,6 +16,7 @@ import {
 } from 'mdb-react-ui-kit';
 
 import logo from '../images/header.jpg';
+import Toast from '../components/Toast';
 
 function UpcomingBooking() {
   const [user, setUser] = useState(null);
@@ -25,6 +26,13 @@ function UpcomingBooking() {
   const location = useLocation();
   const navigate = useNavigate();
   const { email } = location.state || {};
+
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type) => {
+    console.log('Toast triggered:', message, type); // Debug
+    setToast({ message, type });
+  };
 
   useEffect(() => {
     if (email) {
@@ -77,7 +85,7 @@ function UpcomingBooking() {
             return;
         }
 
-        alert('Booking deleted successfully!');
+        showToast('Booking deleted successfully!', 'success');
         navigate(-1)
     } catch (err) {
         console.error('Error deleting booking:', err);
@@ -206,6 +214,8 @@ function UpcomingBooking() {
           <div className="text-center" style={{ padding: '20px', fontSize: '1.25rem', fontWeight: 'bold' }}>No bookings found.</div>
         )}
       </MDBContainer>
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 }

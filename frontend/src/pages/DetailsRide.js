@@ -21,6 +21,7 @@ import ride1 from '../images/ride1.jpg';
 import ride2 from '../images/ride2.jpg';
 import ride3 from '../images/ride3.jpg';
 import bg from '../images/bg.jpg';
+import Toast from '../components/Toast';
 
 function DetailsRide() {
   const [user, setUser] = useState(null);
@@ -49,6 +50,13 @@ function DetailsRide() {
   const location = useLocation();
   const navigate = useNavigate();
   const email = location.state?.email;
+
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type) => {
+    console.log('Toast triggered:', message, type); // Debug
+    setToast({ message, type });
+  };
 
   const getImageForRide = (picsValue) => {
     switch (picsValue) {
@@ -133,7 +141,7 @@ function DetailsRide() {
             return;
         }
 
-        alert('Booking created successfully!');
+        showToast('Booking created successful!', 'success');
         navigate('/profile', { state: { email: user.email } });
     } catch (err) {
         console.error('Error creating booking:', err);
@@ -160,7 +168,7 @@ const handleQuotationSubmit = async (e) => {
             return;
         }
 
-        alert('Quotation request submitted successfully!');
+        showToast('Quotation created successful!', 'success');
         navigate('/profile', { state: { email: user.email } });
     } catch (err) {
         console.error('Error creating quotation:', err);
@@ -567,6 +575,7 @@ const handleQuotationSubmit = async (e) => {
           </MDBCardBody>
         </MDBCard>
       </MDBContainer>
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 }

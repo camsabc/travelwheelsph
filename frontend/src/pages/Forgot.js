@@ -4,12 +4,20 @@ import { useNavigate } from 'react-router-dom';
 import './Login1.css';  
 
 import headerImage from '../images/header.jpg';
+import Toast from '../components/Toast';
 
 
 const Forgot = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type) => {
+    console.log('Toast triggered:', message, type); // Debug
+    setToast({ message, type });
+  };
 
 
   // Function to validate email format
@@ -33,7 +41,7 @@ const Forgot = () => {
 
       if (response.status === 201) {
         if (response.status === 201) {
-          alert('User registered successfully! An OTP has been sent to your email.');
+          showToast('OTP sent to email!', 'success');
           navigate('/otp-request', { state: { email } }); 
         }
       } else {
@@ -70,6 +78,8 @@ const Forgot = () => {
         </div>
       
       </form>
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 };
