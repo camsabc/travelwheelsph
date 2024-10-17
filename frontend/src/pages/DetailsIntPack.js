@@ -579,8 +579,8 @@ const handleQuotationSubmit = async (e) => {
   <MDBRow>
   <MDBCol md="6">
         <input
-            id="middleName"
-            name="middleName"
+            id="middlename"
+            name="middlename"
             type="text"
             placeholder="Middle Name"
             value={bookingDetails.middlename}

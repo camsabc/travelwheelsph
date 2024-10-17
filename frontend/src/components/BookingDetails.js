@@ -65,14 +65,14 @@ function BookingDetails({ booking, onBack }) {
     }
   };
 
-  const updateAdminNote = async () => {
+  const updateAdminNote = async (bookingId, note) => {
     try {
       const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/update-note', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ bookingId: booking._id, note: adminNote }),
+        body: JSON.stringify({ bookingId, note }),
       });
       if (!response.ok) {
         throw new Error('Failed to update the note');
@@ -122,7 +122,7 @@ function BookingDetails({ booking, onBack }) {
             />
             <MDBBtn
               style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff', marginTop: '10px' }}
-              onClick={updateAdminNote}
+              onClick={updateAdminNote(booking._id, adminNote)}
             >
               Update Note
             </MDBBtn>
