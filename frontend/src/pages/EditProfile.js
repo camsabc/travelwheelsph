@@ -22,8 +22,6 @@ const EditProfile = () => {
   });
 
   const [profileImage, setProfileImage] = useState(null);
-  const fileInputRef = useRef(null);  // Reference for file input
-
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -74,36 +72,9 @@ const EditProfile = () => {
   };
 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    /*
-
-    const formData = new FormData();
-    formData.append('firstName', profileData.firstName);
-    formData.append('lastName', profileData.lastName);
-    formData.append('email', profileData.email);
-    formData.append('phone', profileData.phone);
-    formData.append('password', profileData.password);
-    formData.append('confpassword', profileData.npassword);
-
-    if (profileImage) {
-      formData.append('profileImage', profileImage);
-    }
-
-    try {
-      await axios.post(`https://travelwheelsph.onrender.com/api/profile/update/${userId}`, formData);
-      alert('Profile updated successfully!');
-    } catch (error) {
-      console.error('Error updating profile:', error);
-    }
-
-    */
-  };
 
   const handleUploadClick = () => {
-    // Trigger file input when upload button is clicked
-    fileInputRef.current.click();
+
   };
 
   return (
@@ -160,20 +131,19 @@ const EditProfile = () => {
           <input
             type="file"
             accept="image/*"
-            ref={fileInputRef}
             style={{ display: 'none' }}
             onChange={handleImageChange}
           />
           <button className="upload-photo-btn" onClick={handleUploadClick}>
             Upload Photo
           </button>
-          <button className="remove-photo-btn" onClick={() => setProfileImage(null)}>
+          <button className="remove-photo-btn" onClick={() => {}}>
             Remove Photo
           </button>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="edit-profile-form">
+      <form onSubmit={() => {}} className="edit-profile-form">
         <div className="account-details-container">
           <h3>Account Details</h3>
           <div className="form-grid">

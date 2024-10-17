@@ -127,9 +127,6 @@ function Profile() {
                 <MDBTypography tag="h5" className="mb-4" style={{ fontWeight: 'bold' }}>
                   {user?.email}
                 </MDBTypography>
-                <MDBBtn rounded size="lg" onClick={() => navigate('/edit-profile', { state: { email: user.email } })} style={{ backgroundColor: 'rgb(255, 165, 0)', width: '200px', fontWeight: 'bold' }}>
-                  Edit Profile
-                </MDBBtn>
                 <MDBBtn rounded size="lg" onClick={() => navigate('/')} style={{ backgroundColor: '#dc3545', width: '200px', fontWeight: 'bold', marginTop: '10px' }}>
                   Log Out
                 </MDBBtn>
@@ -179,7 +176,7 @@ function Profile() {
             <MDBRow>
               {/* Second Row */}
               <MDBCol md="6" lg="6" className="mb-4">
-                <MDBCard style={{ minHeight: '175px', position: 'relative' }}>
+                <MDBCard style={{ minHeight: '175px', position: 'relative' }} onClick={() => navigate('/edit-profile', { state: { email: user.email } })}>
                   <MDBCardBody className="d-flex flex-column align-items-center justify-content-center">
                     <MDBIcon icon="user-pen" size="4x" style={{ color: 'rgb(14, 161, 72)' }} className="mb-3" />
                     <MDBTypography tag="h6" style={{ fontWeight: 'bold' }}>Edit Profile</MDBTypography>

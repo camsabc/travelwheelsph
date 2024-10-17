@@ -142,7 +142,7 @@ const SignUp = () => {
             className="href"
             style={{ cursor: 'pointer', textDecoration: 'underline', paddingLeft: '5px' }}
             onClick={() => {
-              showToast('User registered successfully! An OTP has been sent to your email.', 'success');
+              navigate('/login');
             }}
           >
             Sign In.
