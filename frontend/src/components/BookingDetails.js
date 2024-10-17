@@ -16,6 +16,7 @@ function BookingDetails({ booking, onBack }) {
   const detailsTitle = isBooking ? 'BOOKING DETAILS' : 'QUOTATION DETAILS';
 
   const [toast, setToast] = useState(null);
+  const [adminNote, setAdminNote] = useState('');
 
   const showToast = (message, type) => {
     setToast({ message, type });
@@ -61,10 +62,29 @@ function BookingDetails({ booking, onBack }) {
     }
   };
 
+  const sendAdminNote = async () => {
+    try {
+      const response = await fetch('https://travelwheelsph.onrender.com/send-note', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: booking.email, note: adminNote }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to send the note');
+      }
+      showToast('Note sent successfully!', 'success');
+      setAdminNote(''); // Clear the input after sending
+    } catch (error) {
+      showToast('An error occurred while sending the note', 'error');
+    }
+  };
+
   return (
     <div className="booking-details" style={{ padding: '20px', backgroundColor: '#fff', borderRadius: '8px' }}>
       <h2 style={{ fontWeight: 'bold', color: buttonColor, marginBottom: '10px' }}>{detailsTitle}</h2>
-      
+
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         {/* First Column */}
         <div style={{ flex: '1', paddingRight: '10px' }}>
@@ -78,7 +98,7 @@ function BookingDetails({ booking, onBack }) {
 
           <p style={{ fontWeight: 'bold', lineHeight: '0.5', paddingTop: '55px' }}>Status: {booking.status}</p>
         </div>
-        
+
         {/* Second Column */}
         <div style={{ flex: '1', paddingLeft: '10px' }}>
           <p style={{ fontWeight: 'bold', lineHeight: '0.7', paddingTop: '40px' }}>TRAVEL INFORMATION</p>
@@ -88,39 +108,57 @@ function BookingDetails({ booking, onBack }) {
           <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Dropoff Location: {booking.dropOffLocation}</p>
           <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Number of Persons: {booking.numOfPerson}</p>
           <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Remarks: {booking.remarks}</p>
+
+          {/* Admin Note Section */}
+          <div style={{ marginTop: '20px' }}>
+            <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Admin Note:</p>
+            <textarea
+              style={{ width: '100%', height: '80px', padding: '10px', borderRadius: '4px', borderColor: '#ccc' }}
+              value={adminNote}
+              onChange={(e) => setAdminNote(e.target.value)}
+              placeholder="Add a note for the user here"
+            />
+            <MDBBtn
+              style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff', marginTop: '10px' }}
+              onClick={sendAdminNote}
+            >
+              Send Note
+            </MDBBtn>
+          </div>
         </div>
       </div>
-      
+
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '35px' }}>
         {/* Buttons on the left */}
         <div style={{ display: 'flex', gap: '10px' }}>
           {isBooking && (
             <>
-              <MDBBtn 
+              {/* Existing buttons for booking status changes */}
+              <MDBBtn
                 style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
                 onClick={() => changeBookingStatus(booking._id, 'Payment Sent')}
               >
                 Confirm Payment
               </MDBBtn>
-              <MDBBtn 
+              <MDBBtn
                 style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
                 onClick={() => changeBookingStatus(booking._id, 'Confirmed')}
               >
                 Confirm Booking
               </MDBBtn>
-              <MDBBtn 
+              <MDBBtn
                 style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
                 onClick={() => changeBookingStatus(booking._id, 'Payment Confirmed')}
               >
                 AR Sent
               </MDBBtn>
-              <MDBBtn 
+              <MDBBtn
                 style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
                 onClick={() => changeBookingStatus(booking._id, 'Service Accomplished')}
               >
                 Service Accomplished
               </MDBBtn>
-              <MDBBtn 
+              <MDBBtn
                 style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
                 onClick={() => changeBookingStatus(booking._id, 'Rejected')}
               >
@@ -131,7 +169,8 @@ function BookingDetails({ booking, onBack }) {
 
           {!isBooking && (
             <>
-              <MDBBtn 
+              {/* Existing button for quotation status changes */}
+              <MDBBtn
                 style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
                 onClick={() => changeQuotationStatus(booking._id, 'Email Sent')}
               >
@@ -140,10 +179,10 @@ function BookingDetails({ booking, onBack }) {
             </>
           )}
         </div>
-        
+
         {/* Back button on the right */}
-        <MDBBtn 
-          style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }} 
+        <MDBBtn
+          style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
           onClick={onBack}
         >
           Back
