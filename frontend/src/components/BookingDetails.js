@@ -114,7 +114,7 @@ function BookingDetails({ booking, onBack }) {
           <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Remarks: {booking.remarks}</p>
 
           {/* Admin Note Section */}
-          {!isBooking && (
+          {isBooking && (
             <div style={{ marginTop: '20px' }}>
               <p style={{ fontWeight: 'bold', lineHeight: '0.5' }}>Admin Note:</p>
               <textarea

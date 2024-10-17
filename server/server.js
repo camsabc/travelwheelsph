@@ -72,7 +72,8 @@ app.post('/signup', async (req, res) => {
       email,
       password: hashedPassword,
       type,
-      otp // Store OTP temporarily in the user's document
+      otp,
+      isVerified: false
     });
 
     await newUser.save();
@@ -207,7 +208,7 @@ app.post('/login', async (req, res) => {
 
   try {
     const user = await UserModel.findOne({ email });
-    if (!user) {
+    if (!user && user.isVerified == false) {
       return res.status(400).send('User not found');
     }
 
