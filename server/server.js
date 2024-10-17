@@ -29,8 +29,8 @@ mongoose.connect(process.env.MONGO_URI)
 const transporter = nodemailer.createTransport({
   service: 'gmail', 
   auth: {
-    user: 'cams.castro03@gmail.com', // Replace with your email
-    pass: 'fobe homp ilhh uxvj' // Replace with your app-specific password
+    user: 'travelwheelsph@gmail.com', // Replace with your email
+    pass: 'vtci cuib tzzc eryn' // Replace with your app-specific password
   }
 });
 //
@@ -78,7 +78,7 @@ app.post('/signup', async (req, res) => {
     await newUser.save();
 
     const mailOptions = {
-      from: 'cams.castro03@gmail.com',  // Replace with your email
+      from: 'travelwheelsph@gmail.com',  // Replace with your email
       to: email,
       subject: 'Verify your account - OTP',
       text: `Hi ${firstname},\n\nYour OTP code is ${otp}. \n\nBest regards,\nYour Travel Tayo Team`

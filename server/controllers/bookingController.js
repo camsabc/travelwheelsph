@@ -209,6 +209,27 @@ const deleteBooking = async (req, res) => {
     }
 };
   
+const updateNote = async (req, res) => {
+    const { bookingId, note } = req.body;
+  
+    try {
+      // Find the booking by its ID and update the note field
+      const updatedBooking = await Booking.findByIdAndUpdate(
+        bookingId,
+        { note },
+        { new: true } // Return the updated document
+      );
+  
+      if (!updatedBooking) {
+        return res.status(404).json({ message: 'Booking not found' });
+      }
+  
+      res.json({ message: 'Note updated successfully', booking: updatedBooking });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'An error occurred while updating the note' });
+    }
+};
 
 
 module.exports = {
@@ -217,6 +238,7 @@ module.exports = {
     createBooking,
     getBookingById,
     changeStatus,
-    deleteBooking
+    deleteBooking,
+    updateNote
 };
 

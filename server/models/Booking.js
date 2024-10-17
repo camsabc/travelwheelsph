@@ -205,6 +205,10 @@ const BookingSchema = mongoose.Schema({
     landmark: {
         type: String,
         required: false
+    },
+    note: {
+        type: String,
+        required: false
     }
 });
 

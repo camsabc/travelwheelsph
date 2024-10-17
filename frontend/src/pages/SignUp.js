@@ -53,18 +53,8 @@ const SignUp = () => {
 
     if (formIsValid) {
       try {
-        const response = await axios.post('https://travelwheelsph.onrender.com/signup', {
-          firstname,
-          lastname,
-          email,
-          password,
-          type,
-        });
-
-        if (response.status === 201) {
-          showToast('User registered successfully! An OTP has been sent to your email.', 'success');
-          navigate('/otp', { state: { email, type, firstname } });
-        }
+          showToast('An OTP has been sent to your email.', 'success');
+          navigate('/otp', { state: { email, type, firstname, lastname, password } });
       } catch (error) {
         if (error.response && error.response.status === 400 && error.response.data === 'User already exists') {
           setErrors({ email: 'This email is already registered. Please use a different email.' });

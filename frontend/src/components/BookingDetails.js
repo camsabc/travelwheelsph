@@ -17,7 +17,7 @@ function BookingDetails({ booking, onBack }) {
   const detailsTitle = isBooking ? 'BOOKING DETAILS' : 'QUOTATION DETAILS';
 
   const [toast, setToast] = useState(null);
-  const [adminNote, setAdminNote] = useState('');
+  const [adminNote, setAdminNote] = useState(booking.note || ''); // Pre-fill the note if it exists
 
   const navigate = useNavigate();
 
@@ -65,22 +65,21 @@ function BookingDetails({ booking, onBack }) {
     }
   };
 
-  const sendAdminNote = async () => {
+  const updateAdminNote = async () => {
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com/send-note', {
+      const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/update-note', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: booking.email, note: adminNote }),
+        body: JSON.stringify({ bookingId: booking._id, note: adminNote }),
       });
       if (!response.ok) {
-        throw new Error('Failed to send the note');
+        throw new Error('Failed to update the note');
       }
-      showToast('Note sent successfully!', 'success');
-      setAdminNote('');
+      showToast('Note updated successfully!', 'success');
     } catch (error) {
-      showToast('An error occurred while sending the note', 'error');
+      showToast('An error occurred while updating the note', 'error');
     }
   };
 
@@ -123,9 +122,9 @@ function BookingDetails({ booking, onBack }) {
             />
             <MDBBtn
               style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff', marginTop: '10px' }}
-              onClick={sendAdminNote}
+              onClick={updateAdminNote}
             >
-              Send Note
+              Update Note
             </MDBBtn>
           </div>
         </div>
