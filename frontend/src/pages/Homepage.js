@@ -165,7 +165,7 @@ const Homepage = () => {
           {/* Column 1 */}
           <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center position-relative">
     {/* Container for the image and text */}
-    <div className="position-relative" style={{ width: '450px', height: '450px' }}>
+    <div className="position-relative" style={{ width: '450px', height: '450px' }} onClick={handleLoginClick}>
         <MDBCardImage
             src={promoImage1}
             alt="Promo 1"
@@ -185,7 +185,7 @@ const Homepage = () => {
           {/* Column 2 */}
           <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center position-relative">
     {/* Container for the image and text */}
-    <div className="position-relative" style={{ width: '450px', height: '450px' }}>
+    <div className="position-relative" style={{ width: '450px', height: '450px' }} onClick={handleLoginClick}>
         <MDBCardImage
             src={promoImage2}
             alt="Promo 1"
@@ -204,7 +204,7 @@ const Homepage = () => {
           {/* Column 3 */}
           <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center position-relative">
     {/* Container for the image and text */}
-    <div className="position-relative" style={{ width: '450px', height: '450px' }}>
+    <div className="position-relative" style={{ width: '450px', height: '450px' }} onClick={handleLoginClick}>
         <MDBCardImage
             src={promoImage3}
             alt="Promo 1"

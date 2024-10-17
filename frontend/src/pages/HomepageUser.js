@@ -197,7 +197,7 @@ if (error) {
           {/* Column 1 */}
           <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center position-relative">
     {/* Container for the image and text */}
-    <div className="position-relative" style={{ width: '450px', height: '450px' }}>
+    <div className="position-relative" style={{ width: '450px', height: '450px' }} onClick={() => navigate(`/pack-dom/670d37380fc1b0325f60a433`, { state: { email: user?.email } })}>
         <MDBCardImage
             src={promoImage1}
             alt="Promo 1"
@@ -217,7 +217,7 @@ if (error) {
           {/* Column 2 */}
           <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center position-relative">
     {/* Container for the image and text */}
-    <div className="position-relative" style={{ width: '450px', height: '450px' }}>
+    <div className="position-relative" style={{ width: '450px', height: '450px' }} onClick={() => navigate(`/pack-dom/670d37520fc1b0325f60a434`, { state: { email: user?.email } })}>
         <MDBCardImage
             src={promoImage2}
             alt="Promo 1"
@@ -236,7 +236,7 @@ if (error) {
           {/* Column 3 */}
           <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center position-relative">
     {/* Container for the image and text */}
-    <div className="position-relative" style={{ width: '450px', height: '450px' }}>
+    <div className="position-relative" style={{ width: '450px', height: '450px' }} onClick={() => navigate(`/pack-int/6710661add78f8bf6d258b87`, { state: { email: user?.email } })}>
         <MDBCardImage
             src={promoImage3}
             alt="Promo 1"
