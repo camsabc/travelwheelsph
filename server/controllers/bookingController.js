@@ -209,28 +209,22 @@ const deleteBooking = async (req, res) => {
     }
 };
   
-const updateNote = async (req, res) => {
-    const { bookingId, note } = req.body;
-  
-    try {
-      // Find the booking by its ID and update the note field
-      const updatedBooking = await BookingModel.findByIdAndUpdate(
-        bookingId,
-        { note },
-        { new: true } // Return the updated document
-      );
-  
-      if (!updatedBooking) {
-        return res.status(404).json({ message: 'Booking not found' });
-      }
-  
-      res.json({ message: 'Note updated successfully', booking: updatedBooking });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'An error occurred while updating the note' });
-    }
-};
 
+const updateNote = (req, res) => {
+    const { bookingId, note } = req.body;
+
+    BookingModel.findByIdAndUpdate(bookingId, { note }, { new: true })
+        .then(updatedBooking => {
+            if (!updatedBooking) {
+                return res.status(404).json({ error: 'Booking not found' });
+            }
+            res.json(updatedBooking);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ error: 'Failed to change status' });
+        });
+};
 
 module.exports = {
     getAllBookings,

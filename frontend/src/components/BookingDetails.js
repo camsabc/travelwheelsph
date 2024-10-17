@@ -75,13 +75,15 @@ function BookingDetails({ booking, onBack }) {
         body: JSON.stringify({ bookingId, note }),
       });
       if (!response.ok) {
-        throw new Error('Failed to update the note');
+        throw new Error('Failed to change status');
       }
-      showToast('Note updated successfully!', 'success');
+      showToast('Status changed successfully!', 'success');
+      navigate(`/admin`, { state: { name: "Admin" } });
     } catch (error) {
-      showToast('An error occurred while updating the note', 'error');
+      showToast('An error occurred', 'error');
     }
   };
+  
 
   return (
     <div className="booking-details" style={{ padding: '20px', backgroundColor: '#fff', borderRadius: '8px' }}>
@@ -122,11 +124,12 @@ function BookingDetails({ booking, onBack }) {
             />
             <MDBBtn
               style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff', marginTop: '10px' }}
-              onClick={updateAdminNote(booking._id, adminNote)}
+              onClick={() => updateAdminNote(booking._id, adminNote)} // Updated line
             >
               Update Note
             </MDBBtn>
           </div>
+
         </div>
       </div>
 
