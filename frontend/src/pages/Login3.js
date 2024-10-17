@@ -63,7 +63,10 @@ const Login = () => {
     try {
       const response = await axios.post('https://travelwheelsph.onrender.com/login', { email, password });
 
-      if (response.status === 200) {
+      if (response.status === 200 && email === 'traveltayo2024@gmail.com') {
+        showToast('Login successful!', 'success');
+        navigate(`/admin`, { state: { name: "Admin" } });
+      } else {
         showToast('Login successful!', 'success');
         navigate(`/home-user`, { state: { email: email } });
       }
