@@ -100,23 +100,6 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-app.post('/send-note', async (req, res) => {
-  const { email, note } = req.body;
-
-  const mailOptions = {
-    from: 'cams.castro03@gmail.com',
-    to: email, // The user's email
-    subject: 'Admin Note',
-    text: note, // The note to send
-  };
-
-  try {
-    await transporter.sendMail(mailOptions);
-    res.status(200).json({ message: 'Note sent successfully!' });
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to send the note', error });
-  }
-});
 
 // OTP verification route
 app.post('/verify-otp', async (req, res) => {

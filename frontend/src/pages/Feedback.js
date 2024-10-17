@@ -71,25 +71,28 @@ const Feedback = () => {
   };
 
   useEffect(() => {
-    if (email) {
-      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.error) {
-            setError(data.error);
-            setLoading(false);
+    const fetchData = async () => {
+      if (email) {
+        try {
+          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userData = await userResponse.json();
+
+          if (userData.error) {
+            setError(userData.error);
           } else {
-            setUser(data);
+            setUser(userData);
           }
-        })
-        .catch(err => {
+        } catch (err) {
           console.error('Error fetching data:', err);
-          setError('Failed to fetch data.');
+          setError('Failed to fetch user data.');
+        } finally {
           setLoading(false);
-        });
-    } else {
-      setLoading(false);
-    }
+        }
+      } else {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, [email]);
 
   if (loading) {

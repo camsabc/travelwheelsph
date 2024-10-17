@@ -282,7 +282,10 @@ if (error) {
             <button 
                 type="button" 
                 className="btn btn-primary"
-                onClick={() => navigate('/feedback', { state: { email: user.email }})} 
+                onClick={() => {
+                  console.log(email)
+                  navigate('/feedback', { state: { email: user.email }})}
+                } 
                 style={{ 
                     fontWeight: 'bold',
                     fontSize: '14px', 
