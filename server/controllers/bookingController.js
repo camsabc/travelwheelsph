@@ -214,7 +214,7 @@ const updateNote = async (req, res) => {
   
     try {
       // Find the booking by its ID and update the note field
-      const updatedBooking = await Booking.findByIdAndUpdate(
+      const updatedBooking = await BookingModel.findByIdAndUpdate(
         bookingId,
         { note },
         { new: true } // Return the updated document

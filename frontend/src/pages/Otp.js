@@ -11,7 +11,7 @@ const Otp = () => {
   const [timer, setTimer] = useState(30); // Timer set to 30 seconds
   const navigate = useNavigate();
   const location = useLocation();
-  const { email, type, firstname, lastname, password } = location.state || {};  
+  const { email, type, firstname } = location.state || {};  
 
   useEffect(() => {
     let interval = null;
@@ -50,15 +50,6 @@ const Otp = () => {
 
       if (response.status === 200) {
         alert('OTP verified successfully!');
-
-        const response = await axios.post('https://travelwheelsph.onrender.com/signup', {
-          firstname,
-          lastname,
-          email,
-          password,
-          type,
-        });
-
         if (type === 'user') {
           navigate(`/login`);
         } else {

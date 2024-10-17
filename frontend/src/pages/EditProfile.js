@@ -40,6 +40,7 @@ const EditProfile = () => {
             setLoading(false);
           } else {
             setUser(data);
+            setLoading(false);
           }
         })
         .catch(err => {
