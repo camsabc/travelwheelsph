@@ -179,7 +179,7 @@ function UpcomingBooking() {
                         size="sm"
                         style={{
                           backgroundColor: 'white',
-                          width: '150px',
+                          width: '200px',
                           height: '40px',
                           fontWeight: 'bold',
                           color: 'black',
@@ -194,7 +194,7 @@ function UpcomingBooking() {
                         style={{
                           backgroundColor: '#dc3545',
                           color: 'white',
-                          paddingLeft: '5px',
+                          marginLeft: '5px',
                           width: '100px',
                           height: '40px',
                           fontWeight: 'bold',

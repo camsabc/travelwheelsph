@@ -148,7 +148,7 @@ function BookingDetails({ booking, onBack }) {
               </MDBBtn>
               <MDBBtn
                 style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
-                onClick={() => changeBookingStatus(booking._id, 'Confirmed')}
+                onClick={() => changeBookingStatus(booking._id, 'Awaiting Payment')}
               >
                 Confirm Booking
               </MDBBtn>

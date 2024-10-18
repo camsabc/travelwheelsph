@@ -1,7 +1,7 @@
 .confirmation-container {
     font-family: 'Poppins', sans-serif;
     min-height: 100vh;
-    background-image: url('./assets/background.png'); /* Background image for the page */
+    background-image: url('../images/bg.jpg'); /* Background image for the page */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

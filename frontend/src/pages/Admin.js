@@ -66,8 +66,8 @@ function Admin() {
     switch (filter) {
       case 'Pending':
         return bookings.filter(booking => booking.status === 'Pending');
-      case 'Confirmed':
-        return bookings.filter(booking => booking.status === 'Confirmed');
+      case 'Awaiting Payment':
+        return bookings.filter(booking => booking.status === 'Awaiting Payment');
       case 'Payment Sent':
         return bookings.filter(booking => booking.status === 'Payment Sent');
       case 'Payment Confirmed':
@@ -126,7 +126,7 @@ function Admin() {
                 {filter}
               </MDBNavbarLink>
             </MDBNavbarItem>
-          )) : ['All Bookings', 'Pending', 'Confirmed', 'Payment Sent', 'Payment Confirmed', 'Rejected'].map(filter => (
+          )) : ['All Bookings', 'Pending', 'Awaiting Payment', 'Payment Sent', 'Payment Confirmed', 'Rejected'].map(filter => (
             <MDBNavbarItem key={filter} className="flex-fill">
               <MDBNavbarLink
                 

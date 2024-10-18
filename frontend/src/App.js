@@ -112,6 +112,8 @@ function App() {
               <Route path="/feedback" element={<Feedback/>}/>
               <Route path="/feedback-guest" element={<FeedbackGuest/>}/>
 
+              <Route path="/payment-confirmation" element={<PaymentConfirmation/>}/>
+
             </Routes>
           </div>
         </BrowserRouter>

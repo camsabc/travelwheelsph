@@ -155,7 +155,6 @@ function DetailsBooking() {
                 {renderAttribute('NUMBER OF PERSONS', bookingDetails.numOfPerson)}
                 {renderAttribute('REMARKS', bookingDetails.remarks)}
                 {renderAttribute('STATUS', bookingDetails.status)}
-              
               </MDBTypography>
 
               {/* New Additional Attributes */}
@@ -201,6 +200,15 @@ function DetailsBooking() {
                 {renderAttribute('LANDMARK', bookingDetails.landmark)}
                 {renderAttribute('ADMIN NOTE', bookingDetails.note)}
               </MDBTypography>
+
+              {/* Conditionally render the button for "Awaiting Payment" status */}
+              {bookingDetails.status === 'Awaiting Payment' && (
+                <div className="text-center" style={{ paddingTop: '20px' }}>
+                  <MDBBtn color="success" onClick={() => navigate('/payment-confirmation', { state: { email: user.email } })}>
+                    Proceed to Payment
+                  </MDBBtn>
+                </div>
+              )}
             </MDBCardBody>
           </MDBCard>
         )}

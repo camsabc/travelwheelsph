@@ -79,7 +79,7 @@ function DetailsBookingEduc() {
             return;
         }
 
-        alert('Booking created successfully!');
+        showToast('Booking created successful!', 'success');
         navigate('/profile', { state: { email: user.email } });
     } catch (err) {
         console.error('Error creating booking:', err);
