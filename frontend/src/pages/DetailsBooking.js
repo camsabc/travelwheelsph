@@ -41,6 +41,7 @@ function DetailsBooking() {
           if (data.error) {
             setError(data.error);
           } else {
+            console.log(data);
             setBookingDetails(data);
           }
           setLoading(false);
