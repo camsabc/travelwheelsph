@@ -64,7 +64,7 @@ function DetailsBookingEduc() {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
+        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ function DetailsBookingEduc() {
     const fetchData = async () => {
       try {
         if (email) {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
           if (userData.error) {
             setError(userData.error);
@@ -100,7 +100,7 @@ function DetailsBookingEduc() {
           setUser(userData);
         }
 
-        const educResponse = await fetch(`https://travelwheelsph.onrender.com/api/educs/get-educ-by-id/${id}`);
+        const educResponse = await fetch(`http://localhost:3000/api/educs/get-educ-by-id/${id}`);
         const educData = await educResponse.json();
         if (educData.error) {
           setError(educData.error);
@@ -499,22 +499,6 @@ function DetailsBookingEduc() {
         />
     </MDBCol>
     <MDBCol md="6" className="d-flex align-items-center">
-    <button 
-    type="button" 
-    className="btn btn-primary"
-    style={{ 
-        marginRight: '10px', 
-        width: '100%', 
-        borderRadius: '30px', 
-        backgroundColor: 'rgb(255, 165, 0)', 
-        border: 'none', 
-        padding: '10px 20px',
-        fontWeight: 'bold',
-    }}
-    onClick={handleBookingSubmit} 
->
-    BOOK NOW
-</button>
 
     </MDBCol>
 

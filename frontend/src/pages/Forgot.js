@@ -37,7 +37,7 @@ const Forgot = () => {
     }
 
     try {
-      const response = await axios.post('https://travelwheelsph.onrender.com/request-otp', { email });
+      const response = await axios.post('http://localhost:3000/request-otp', { email });
 
       if (response.status === 201) {
         if (response.status === 201) {

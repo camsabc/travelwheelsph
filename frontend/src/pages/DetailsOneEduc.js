@@ -32,7 +32,7 @@ function DetailsOneEduc() {
     const fetchData = async () => {
       try {
         if (email) {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
           if (userData.error) {
             setError(userData.error);
@@ -41,7 +41,7 @@ function DetailsOneEduc() {
           setUser(userData);
         }
 
-        const educResponse = await fetch(`https://travelwheelsph.onrender.com/api/educs/get-educ-by-id/${id}`);
+        const educResponse = await fetch(`http://localhost:3000/api/educs/get-educ-by-id/${id}`);
         const educData = await educResponse.json();
         if (educData.error) {
           setError(educData.error);
@@ -168,22 +168,6 @@ const handleQuotationSubmit = async (e) => {
 
               <MDBRow className="mt-4">
                 <MDBCol md="12" className="d-flex align-items-center">
-                <button 
-                type="button" 
-                className="btn btn-primary"
-                style={{ 
-                    marginRight: '10px', 
-                    width: '100%', 
-                    borderRadius: '30px', 
-                    backgroundColor: 'rgb(255, 165, 0)', 
-                    border: 'none', 
-                    padding: '10px 20px',
-                    fontWeight: 'bold',
-                }}
-                onClick={handleBookingSubmit} 
-            >
-                BOOK NOW
-            </button>
 
             <button 
                 type="button" 

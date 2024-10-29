@@ -97,7 +97,7 @@ function PassportDetails() {
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -139,7 +139,7 @@ function PassportDetails() {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
+        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -236,7 +236,24 @@ function PassportDetails() {
       >
         <MDBCard style={{ maxWidth: '900px', width: '100%', marginBottom: '50px', backgroundColor: 'rgba(255, 255, 255)', padding: '20px', borderRadius: '15px' }}>
           <MDBCardBody>
-            <MDBTypography tag="h5" className="text-center mb-5">Kindly complete the details below:</MDBTypography>
+
+          <MDBTypography tag="h5" className="text-start mb-1 mt-3" style={{paddingLeft: "20px"}}>
+            PHP 1,800 ( incl. of passport fee, admin fee & service change, courier Air21 delivery)
+          </MDBTypography>
+          <MDBTypography tag="h5" className="text-start mb-1 mt-3" style={{paddingLeft: "20px"}}>
+            STEPS
+          </MDBTypography>
+                    <ol style={{paddingLeft: "50px", fontWeight: "bold", paddingBottom: "10px"}}>
+                        <li> Provide the Personal details, (New passport: PSA copy / Renewal: Old Passport copy) </li>
+                        <li> Choose 2 nearest location of DFA </li>
+                        <li> Pay 1800 via Bank Deposit or G-Cash/Maya </li>
+                    </ol>
+
+
+
+
+
+            <MDBTypography tag="h5" className="text-center mt-5 mb-5">Kindly complete the details below:</MDBTypography>
             <form>
               <MDBTypography tag="h6" className="text-start mb-3" style={{fontWeight: 'bold'}}>General Information</MDBTypography>
 
@@ -1124,21 +1141,11 @@ function PassportDetails() {
                 />
                 </MDBCol>
                 <MDBCol md="6" className="d-flex align-items-center justify-content-end">
-                    <button 
-                        type="button" 
-                        className="btn btn-primary"
-                        style={{ 
-                        width: '60%', 
-                        borderRadius: '30px', 
-                        backgroundColor: 'rgb(255, 165, 0)', 
-                        border: 'none', 
-                        padding: '10px 20px',
-                        fontWeight: 'bold'
-                        }}
-                        onClick={handleBookingSubmit} 
-                    >
-                        BOOK NOW
-                    </button>
+
+
+
+
+                  
                 </MDBCol>
 
 

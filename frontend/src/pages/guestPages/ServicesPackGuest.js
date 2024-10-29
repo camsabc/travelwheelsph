@@ -76,7 +76,7 @@ function ServicesPackGuest() {
   useEffect(() => {
     const fetchData = async () => {
             try {
-                const packsResponse = await fetch(`https://travelwheelsph.onrender.com/api/packs/get-all-packs`);
+                const packsResponse = await fetch(`http://localhost:3000/api/packs/get-all-packs`);
                 const packsData = await packsResponse.json();
                 if (packsData.error) {
                     setError(packsData.error);

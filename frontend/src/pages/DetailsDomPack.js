@@ -92,7 +92,7 @@ function DetailsDomPack() {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
+        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ const handleQuotationSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create-quotation', {
+        const response = await fetch('http://localhost:3000/api/quotations/create-quotation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ const handleQuotationSubmit = async (e) => {
     const fetchData = async () => {
       try {
         if (email) {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
           if (userData.error) {
             setError(userData.error);
@@ -155,7 +155,7 @@ const handleQuotationSubmit = async (e) => {
           setUser(userData);
         }
 
-        const packResponse = await fetch(`https://travelwheelsph.onrender.com/api/packs/get-pack-by-id/${id}`);
+        const packResponse = await fetch(`http://localhost:3000/api/packs/get-pack-by-id/${id}`);
         const packData = await packResponse.json();
         if (packData.error) {
           setError(packData.error);
@@ -443,24 +443,6 @@ const handleQuotationSubmit = async (e) => {
             }}
         />
     </MDBCol>
-
-  <MDBCol md="6" className="text-end">
-                    <button 
-                        type="button" 
-                        className="btn btn-primary"
-                        style={{ 
-                            fontWeight: 'bold',
-                            width: '30%', 
-                            borderRadius: '30px', 
-                            backgroundColor: 'rgb(255, 165, 0)', 
-                            border: 'none', 
-                            padding: '10px 20px' 
-                        }}
-                        onClick={addPassenger} 
-                    >
-                        ADD PAX
-                    </button>
-                </MDBCol>
               </MDBRow>
 
               <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{ fontWeight: 'bold' }}>
@@ -686,24 +668,8 @@ const handleQuotationSubmit = async (e) => {
         />
     </MDBCol>
     <MDBCol md="6" className="d-flex align-items-center">
-    <button 
-    type="button" 
-    className="btn btn-primary"
-    style={{ 
-        marginRight: '10px', 
-        width: '100%', 
-        borderRadius: '30px', 
-        backgroundColor: 'rgb(255, 165, 0)', 
-        border: 'none', 
-        padding: '10px 20px',
-        fontWeight: 'bold',
-    }}
-    onClick={handleBookingSubmit} 
->
-    BOOK NOW
-</button>
 
-<MDBCol md="6" className="d-flex align-items-center">
+<MDBCol md="12" className="d-flex align-items-center">
 
 <button 
     type="button" 
