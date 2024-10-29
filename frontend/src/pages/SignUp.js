@@ -24,6 +24,12 @@ const SignUp = () => {
     console.log('Toast triggered:', message, type); // Debug
     setToast({ message, type });
   };
+
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
   
 
   const handleSubmit = async (e) => {
@@ -40,10 +46,10 @@ const SignUp = () => {
       errors.email = 'Invalid email address';
       formIsValid = false;
     }
-    if (password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(password)) {
-      errors.password = 'Password must be at least 6 characters long, and include uppercase letters, lowercase letters, numbers, and special characters';
+    if (password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/.test(password)) {
+      errors.password = 'Password must be 8-15 characters long and include uppercase letters, lowercase letters, numbers, and special characters';
       formIsValid = false;
-    }
+    }    
     if (password !== confirmPassword) {
       errors.confirmPassword = 'Passwords do not match';
       formIsValid = false;
@@ -144,7 +150,24 @@ const SignUp = () => {
         {errors.password && <p className="error-message">{errors.password}</p>}
         {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
 
-        <button type="submit" className="signup-button full-width-signup">Sign Up</button>
+        <button
+          type="submit"
+          className="btn btn-primary"
+          style={{
+            fontWeight: 'bold',
+            width: '55%',
+            borderRadius: '30px',
+            backgroundColor: 'rgb(255, 165, 0)',
+            border: 'none',
+            padding: '7px 10px',
+            marginTop: '10px',
+            marginBottom: '20px',
+          }}
+          disabled={!isChecked}
+        >
+          SIGN UP
+        </button>
+
 
         <p className="ps">
           Already have an account?
@@ -158,9 +181,47 @@ const SignUp = () => {
             Sign In.
           </span>
         </p>
-        <p className="ps">
-          By clicking Sign Up, you agree to our <a href="/terms" className="href">Terms of Service</a> and <a href="/privacy" className="href">Privacy Statement</a>.
-        </p>
+
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+  <label htmlFor="termsCheckbox" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+    <input 
+      type="checkbox" 
+      id="termsCheckbox" 
+      checked={isChecked} 
+      onChange={handleCheckboxChange} 
+      style={{ marginRight: '10px' }} 
+    />
+    By clicking this, you agree to our{' '}
+    <span 
+      onClick={() => navigate('/privacy-statement')}
+      style={{ 
+        color: '#68BBE3', 
+        cursor: 'pointer', 
+        textDecoration: 'underline', 
+        display: 'inline',
+        margin: '0 5px'
+      }}
+    >
+      Privacy Statement
+    </span>
+     and
+    <span 
+      onClick={() => navigate('/terms-and-condition-guest')}
+      style={{ 
+        color: '#68BBE3', 
+        cursor: 'pointer', 
+        textDecoration: 'underline', 
+        display: 'inline',
+        margin: '0 5px'
+      }}
+    >
+      Terms and Conditions
+    </span>
+  </label>
+</div>
+
+
+
       </form>
 
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}

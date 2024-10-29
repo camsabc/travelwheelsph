@@ -55,6 +55,12 @@ import FeedbackGuest from './pages/FeedbackGuest';
 import Feedback from './pages/Feedback';
 import PaymentConfirmation from './pages/PaymentConfirmation';
 
+import RequestQuotation from './pages/RequestQuotation';
+import TermsAndConditions from './pages/TermsAndConditions';
+import TermsAndConditionsVisa from './pages/TermsAndConditionsVisa';
+
+
+
 function App() {
   return (
     <div className="App">
@@ -113,6 +119,10 @@ function App() {
               <Route path="/feedback-guest" element={<FeedbackGuest/>}/>
 
               <Route path="/payment-confirmation" element={<PaymentConfirmation/>}/>
+
+              <Route path="/request-quotation" element={<RequestQuotation/>}/>
+              <Route path="/terms-and-conditions" element={<TermsAndConditions/>}/>
+              <Route path="/terms-and-conditions-visa" element={<TermsAndConditionsVisa/>}/>
 
             </Routes>
           </div>

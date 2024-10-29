@@ -34,6 +34,12 @@ function FlightsDetails() {
 
   const [toast, setToast] = useState(null);
 
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
+
   const showToast = (message, type) => {
     setToast({ message, type });
   };
@@ -139,7 +145,7 @@ const handleQuotationSubmit = async (e) => {
         }
 
         showToast('Quotation created successfully!', 'success');
-        navigate('/profile', { state: { email: user.email } });
+        navigate('/request-quotation', { state: { email: user.email }})
     } catch (err) {
         console.error('Error creating quotation:', err);
         setError('Failed to submit quotation request.');
@@ -556,7 +562,7 @@ const handleQuotationSubmit = async (e) => {
               <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{fontWeight: 'bold'}}>Other remarks/requests:</MDBTypography>
 
               <MDBRow>
-                <MDBCol md="6">
+                <MDBCol md="12">
                     <input
                     id="remarks"
                     name="remarks"
@@ -576,25 +582,49 @@ const handleQuotationSubmit = async (e) => {
                     }}
                     />
                 </MDBCol>
-                <MDBCol md="6" className="d-flex align-items-center">
-            <button 
-                type="button" 
-                className="btn btn-primary"
-                style={{ 
-                    fontWeight: 'bold',
-                    width: '100%', 
-                    borderRadius: '30px', 
-                    backgroundColor: 'rgb(255, 165, 0)', 
-                    border: 'none', 
-                    padding: '10px 20px' 
-                }}
-                onClick={handleQuotationSubmit} 
-            >
-                REQUEST QUOTATION
-            </button>
+                </MDBRow>
 
-                </MDBCol>
+                <MDBRow className="mt-3">
+                  <MDBCol md="8" className="d-flex align-items-center">
+                    <input 
+                      type="checkbox" 
+                      id="termsCheckbox" 
+                      checked={isChecked} 
+                      onChange={handleCheckboxChange} 
+                      style={{ marginRight: '10px' }} 
+                    />
+                    <label htmlFor="termsCheckbox">
+                      By clicking this, you agree to our{' '}
+                      <span 
+                        onClick={() => navigate('/terms-and-conditions', { state: { email: user.email }})}
+                        style={{ 
+                          color: '#68BBE3', 
+                          cursor: 'pointer' 
+                        }}
+                      >
+                        Terms and Conditions
+                      </span>.
+                    </label>
+                  </MDBCol>
 
+                  <MDBCol md="4" className="d-flex align-items-center">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      style={{
+                        fontWeight: 'bold',
+                        width: '100%',
+                        borderRadius: '30px',
+                        backgroundColor: 'rgb(255, 165, 0)',
+                        border: 'none',
+                        padding: '10px 20px',
+                      }}
+                      onClick={handleQuotationSubmit}
+                      disabled={!isChecked}
+                    >
+                      REQUEST QUOTATION
+                    </button>
+                  </MDBCol>
                 </MDBRow>
 
                 <MDBRow className='mt-4' style={{paddingLeft: '50px'}}>
