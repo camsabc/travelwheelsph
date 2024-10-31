@@ -14,14 +14,20 @@ import {
   MDBBtn,
 } from 'mdb-react-ui-kit';
 
-import logo from '../images/header.jpg';
-import inquirybg from '../images/inquirybg.jpg';
-import map from '../images/map.jpg';
-import { FaPhone, FaEnvelope, FaFacebook, FaInstagram } from 'react-icons/fa';
-import Toast from '../components/Toast';
+import logo from '../../images/header.jpg';
+import inquirybg from '../../images/inquirybg.jpg';
+import Toast from '../../components/Toast';
+import Modal from '../../components/Modal'; 
 
-function FAQ() {
+function FAQGuest() {
   const [backgroundImage, setBackgroundImage] = useState(inquirybg);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [toast, setToast] = useState(null);
+
+  const [expandedCards, setExpandedCards] = useState([false, false, false, false]);
 
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -37,16 +43,7 @@ function FAQ() {
     navigate('/login')
   };
 
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { email } = location.state || {};
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  const [toast, setToast] = useState(null);
-
-  const [expandedCards, setExpandedCards] = useState([false, false, false, false]);
+  
 
   const faqData = [
     { question: "How do I rent a vehicle through TravelTayo?", answer: " Renting with us is simple! Just head to our website or app, select your desired vehicle, dates, and location, then follow the booking process." },
@@ -70,46 +67,6 @@ function FAQ() {
     showToast('Inquiry submitted successful!', 'success');
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (email) {
-        try {
-          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
-          const userData = await userResponse.json();
-
-          if (userData.error) {
-            setError(userData.error);
-          } else {
-            setUser(userData);
-          }
-        } catch (err) {
-          console.error('Error fetching data:', err);
-          setError('Failed to fetch user data.');
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [email]);
-
-if (loading) {
-  return (
-    <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <h3>Loading...</h3>
-    </div>
-  );
-}
-
-if (error) {
-  return (
-    <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <h3>{error}</h3>
-    </div>
-  );
-}
 
   return (
     <div
@@ -129,25 +86,23 @@ if (error) {
     src={logo}
     style={{ width: '200px', cursor: 'pointer' }}
     alt="Header Logo"
-    onClick={() => navigate('/home-user', { state: { email: user.email }})} 
+    onClick={() => navigate('/')} 
   />
           <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
             <MDBNavbarNav className="align-items-center">
               <MDBNavbarItem style={{ margin: '0 25px' }}>
                 <MDBNavbarLink onClick={() => navigate('/services-guest')}>Services</MDBNavbarLink>
               </MDBNavbarItem>
+
               <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={handleLoginClick}>Promos</MDBNavbarLink>
+                <MDBNavbarLink onClick={() => navigate('/promos-guest')}>Promos</MDBNavbarLink>
               </MDBNavbarItem>
+
               <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink 
-                    onClick={handleLoginClick}
-                >
-                    Inquiry
-                </MDBNavbarLink>
+                <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
               </MDBNavbarItem>
               <span
-                onClick={handleLoginClick}
+                onClick={() => {navigate('/login')}}
                 style={{
                   margin: '0 25px',
                   fontSize: '1rem',
@@ -157,7 +112,7 @@ if (error) {
                   cursor: 'pointer',
                 }}
               >
-                Hi, {user ? user.firstname : 'Guest'}
+                Hi, Guest
               </span>
             </MDBNavbarNav>
           </MDBNavbar>
@@ -210,8 +165,14 @@ if (error) {
       </MDBContainer>
 
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmLogin}
+    />
     </div>
   );
 }
 
-export default FAQ;
+export default FAQGuest;

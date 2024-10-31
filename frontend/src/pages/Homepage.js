@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from '../components/Modal'; 
 
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +12,8 @@ import {
   MDBCardImage,
   MDBRow,
   MDBCol,
-  MDBFooter
+  MDBFooter,
+  MDBCarousel, MDBCarouselItem
 } from 'mdb-react-ui-kit';
 
 import promoImage1 from '../images/h1.png';
@@ -24,6 +25,8 @@ import f3 from '../images/f3.png';
 
 import logo from '../images/header.jpg';
 import bg from '../images/bg.png';
+import bg2 from '../images/home_bg2.jpg';
+import bg3 from '../images/home_bg.jpg';
 
 const Homepage = () => {
   
@@ -40,6 +43,34 @@ const Homepage = () => {
   const handleConfirmLogin = () => {
     navigate('/login')
   };
+
+  const slides = [
+    { src: promoImage1, label: 'DAVAO' },
+    { src: promoImage2, label: 'BORACAY' },
+    { src: promoImage3, label: 'TAIWAN' },
+  ];
+
+  const feedbacks = [
+    { img: f1, label: 'Feedback 1' },
+    { img: f2, label: 'Feedback 2' },
+    { img: f3, label: 'Feedback 3' },
+  ];
+
+  const logos = [
+    bg,
+    bg2,
+    bg3
+  ];
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setActiveIndex((prevIndex) => (prevIndex + 1) % slides.length);
+    }, 5000);
+
+    return () => clearInterval(intervalId); // Clear interval on unmount
+  }, []);
 
 
   const navigate = useNavigate(); 
@@ -61,18 +92,19 @@ const Homepage = () => {
               <MDBNavbarItem style={{ margin: '0 25px' }}>
                 <MDBNavbarLink 
                       onClick={() => navigate('/services-guest')}
-                      style={{ margin: '0 25px' }}
                   >
                       Services
                   </MDBNavbarLink>
               </MDBNavbarItem>
 
-              <MDBNavbarItem>
-                <MDBNavbarLink onClick={handleLoginClick}>Promos</MDBNavbarLink>
-              </MDBNavbarItem>
               <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={handleLoginClick}>Inquiry</MDBNavbarLink>
+                <MDBNavbarLink onClick={() => navigate('/promos-guest')}>Promos</MDBNavbarLink>
               </MDBNavbarItem>
+
+              <MDBNavbarItem style={{ margin: '0 25px' }}>
+                <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
+              </MDBNavbarItem>
+
               <span
                 onClick={() => {navigate('/login')}}
                 style={{
@@ -93,8 +125,31 @@ const Homepage = () => {
 
 
 
-      <div className="d-flex flex-column min-vh-100">
-        <img className='logo' src={bg} alt="Logo"  />
+      <div style={{ width: '100vw', overflow: 'hidden' }}>
+      <div
+        className="position-relative"
+        style={{
+          width: '100%',
+          display: 'flex',
+          transition: 'transform 0.5s ease',
+          transform: `translateX(-${activeIndex * 100}%)`,
+        }}
+      >
+        {logos.map((logo, index) => (
+          <div key={index} style={{ minWidth: '100%' }}>
+            <MDBCardImage
+              src={logo}
+              alt={`Logo ${index + 1}`}
+              className="img-fluid"
+              style={{
+                width: '100%', 
+                height: '350px', 
+                objectFit: 'cover'
+              }}
+            />
+          </div>
+        ))}
+      </div>
 
         <MDBTypography 
             tag="h1" 
@@ -157,192 +212,151 @@ const Homepage = () => {
     </MDBRow>
 </div>
 
- 
- {/* ROWS FOR DESTINATION */}
-
- <div className="my-4">
-        <MDBRow>
-          {/* Column 1 */}
-          <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center position-relative">
-    {/* Container for the image and text */}
-    <div className="position-relative" style={{ width: '450px', height: '450px' }} onClick={handleLoginClick}>
-        <MDBCardImage
-            src={promoImage1}
-            alt="Promo 1"
-            className="img-fluid position-absolute bottom-0 start-0"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px'  }} 
-        />
-        {/* Overlay text */}
-        <h3 className="position-absolute bottom-0 start-0 m-3 text-white" 
-        style={{ fontWeight: 'bold', padding: '10px', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7)', borderRadius: '5px' }}>
-            DAVAO
-        </h3>
-    </div>
-</MDBCol>
 
 
 
-          {/* Column 2 */}
-          <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center position-relative">
-    {/* Container for the image and text */}
-    <div className="position-relative" style={{ width: '450px', height: '450px' }} onClick={handleLoginClick}>
-        <MDBCardImage
-            src={promoImage2}
-            alt="Promo 1"
-            className="img-fluid position-absolute bottom-0 start-0"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px'  }} 
-        />
-        {/* Overlay text */}
-        <h3 className="position-absolute bottom-0 start-0 m-3 text-white" 
-        style={{ fontWeight: 'bold', padding: '10px', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7)', borderRadius: '5px' }}>
-            BORACAY
-        </h3>
-    </div>
-</MDBCol>
 
 
-          {/* Column 3 */}
-          <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center position-relative">
-    {/* Container for the image and text */}
-    <div className="position-relative" style={{ width: '450px', height: '450px' }} onClick={handleLoginClick}>
-        <MDBCardImage
-            src={promoImage3}
-            alt="Promo 1"
-            className="img-fluid position-absolute bottom-0 start-0"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px'  }} 
-        />
-        {/* Overlay text */}
-        <h3 className="position-absolute bottom-0 start-0 m-3 text-white" 
-        style={{ fontWeight: 'bold', padding: '10px', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7)', borderRadius: '5px' }}>
-            TAIWAN
-        </h3>
-    </div>
-    </MDBCol>
-    </MDBRow>
-    </div>
 
-    <div 
-    className="my-1" 
-    style={{  
-        width: '98%',  // Set the desired width
-        marginLeft: '-10' // Centers the div horizontally
+<div className="my-4" style={{ width: '100%', overflow: 'hidden' }}>
+  <div
+    className="position-relative"
+    style={{
+      width: '100%',
+      height: '700px',
+      display: 'flex',
+      transition: 'transform 0.5s ease',
+      transform: `translateX(-${activeIndex * 100}%)`,
     }}
->
-    <MDBRow className="align-items-center">
-        {/* Column for the text with no left padding */}
-        <MDBCol size="7" > {/* Adjust size based on the layout you want */}
-            <MDBTypography 
-                tag="h1" 
-                className="mt-2" 
-                style={{
-                    fontWeight: 'bolder', 
-                    color: 'rgb(255, 165, 0)', 
-                    fontSize: '30px', 
-                    marginLeft: '30px'
-                }}
-            >
-                CLIENT'S FEEDBACK
-            </MDBTypography>
-        </MDBCol>
-        
-        {/* Column for the button */}
-        <MDBCol size="4" className="d-flex justify-content-end"> {/* Adjust size based on the layout you want */}
-            <button 
-                type="button" 
-                className="btn btn-primary"
-                onClick={() => {navigate('/feedback-guest')}}
-                style={{ 
-                    fontWeight: 'bold',
-                    fontSize: '14px', 
-                    width: '30%', 
-                    borderRadius: '30px', 
-                    backgroundColor: 'rgb(255, 165, 0)', 
-                    border: 'none', 
-                    padding: '10px 20px' 
-                }}
-            >
-                VIEW ALL
-            </button>
-        </MDBCol>
-    </MDBRow>
+  >
+    {slides.map((slide, index) => (
+      <div
+        key={index}
+        style={{
+          minWidth: '100%',
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <div
+          style={{
+            width: '80%', 
+            height: '80%', 
+            borderRadius: '20px', 
+            overflow: 'hidden',
+            marginBottom: '10px',
+          }}
+        >
+          <MDBCardImage
+            src={slide.src}
+            alt={`Promo ${index + 1}`}
+            className="img-fluid"
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        </div>
+        <h3
+          style={{
+            fontWeight: 'bold',
+            padding: '10px',
+            borderRadius: '5px',
+            textAlign: 'center', 
+            marginTop: '5px', 
+            color: '#FACF20',
+            fontSize: '40px'
+          }}
+        >
+          {slide.label}
+        </h3>
+      </div>
+    ))}
+  </div>
 </div>
 
- 
- {/* ROWS FOR DESTINATION */}
 
- <div className="my-4">
-        <MDBRow>
 
-          {/* Column 1 */}
-          <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center position-relative">
-    {/* Container for the image and text */}
-    <div className="position-relative" style={{ width: '450px', height: '450px' }}>
-        <MDBCardImage
-            src={f1}
-            alt="Promo 1"
-            className="img-fluid position-absolute bottom-0 start-0"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }} 
-        />
+
+
+
+    <div className="my-1" style={{ width: '100%' }}>
+  <MDBRow className="align-items-center mt-3" style={{ marginLeft: '50px', style: '80%' }}>
+    <MDBCol size="7">
+      <MDBTypography
+        tag="h1"
+        className="mt-2"
+        style={{
+          fontWeight: 'bolder',
+          color: 'rgb(255, 165, 0)',
+          fontSize: '30px',
+          marginLeft: '30px',
+        }}
+      >
+        CLIENT'S FEEDBACK
+      </MDBTypography>
+    </MDBCol>
+
+    <MDBCol size="4" className="d-flex justify-content-end">
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={() => { navigate('/feedback-guest'); }}
+        style={{
+          fontWeight: 'bold',
+          fontSize: '14px',
+          backgroundColor: 'rgb(255, 165, 0)',
+          border: 'none',
+        }}
+      >
+        VIEW ALL
+      </button>
+    </MDBCol>
+  </MDBRow>
+
+  {/* Feedback Carousel */}
+  <div className="my-4" style={{ width: '100%', overflow: 'hidden' }}>
+    <div
+      className="position-relative"
+      style={{
+        width: '100%',
+        height: '700px', // Adjusted height for shorter images
+        display: 'flex',
+        transition: 'transform 0.5s ease',
+        transform: `translateX(-${activeIndex * 100}%)`,
+      }}
+    >
+      {feedbacks.map((feedback, index) => (
+        <div key={index} style={{ minWidth: '100%', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ width: '80%', height: '80%', borderRadius: '20px', overflow: 'hidden', marginBottom: '20px' }}>
+            <MDBCardImage
+              src={feedback.img}
+              alt={`Feedback ${index + 1}`}
+              className="img-fluid"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          </div>
+          {/* 5-star rating below the picture */}
+          <div className="mt-2 d-flex justify-content-center" style={{ marginTop: '20px' }}>
+            <i className="fas fa-star text-warning" style={{ fontSize: '2rem', margin: '0px 2px' }}></i>
+            <i className="fas fa-star text-warning" style={{ fontSize: '2rem', margin: '0px 2px' }}></i>
+            <i className="fas fa-star text-warning" style={{ fontSize: '2rem', margin: '0px 2px' }}></i>
+            <i className="fas fa-star text-warning" style={{ fontSize: '2rem', margin: '0px 2px' }}></i>
+            <i className="fas fa-star text-warning" style={{ fontSize: '2rem', margin: '0px 2px' }}></i>
+          </div>
+        </div>
+      ))}
     </div>
-    {/* 5-star rating below the picture */}
-<div className="mt-3 d-flex justify-content-center">
-    <i className="fas fa-star text-warning" style={{ fontSize: '2rem' }}></i>
-    <i className="fas fa-star text-warning" style={{ fontSize: '2rem' }}></i>
-    <i className="fas fa-star text-warning" style={{ fontSize: '2rem' }}></i>
-    <i className="fas fa-star text-warning" style={{ fontSize: '2rem' }}></i>
-    <i className="fas fa-star text-warning" style={{ fontSize: '2rem' }}></i>
+  </div>
 </div>
-</MDBCol>
 
 
 
 
-          {/* Column 2 */}
-          <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center position-relative">
-    {/* Container for the image and text */}
-    <div className="position-relative" style={{ width: '450px', height: '450px' }}>
-        <MDBCardImage
-            src={f2}
-            alt="Promo 1"
-            className="img-fluid position-absolute bottom-0 start-0"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }} 
-        />
-    </div>
-    {/* 5-star rating below the picture */}
-<div className="mt-3 d-flex justify-content-center">
-    <i className="fas fa-star text-warning" style={{ fontSize: '2rem' }}></i>
-    <i className="fas fa-star text-warning" style={{ fontSize: '2rem' }}></i>
-    <i className="fas fa-star text-warning" style={{ fontSize: '2rem' }}></i>
-    <i className="fas fa-star text-warning" style={{ fontSize: '2rem' }}></i>
-    <i className="fas fa-star text-warning" style={{ fontSize: '2rem' }}></i>
-</div>
-</MDBCol>
 
 
 
-          {/* Column 3 */}
-          <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center position-relative">
-    {/* Container for the image and text */}
-    <div className="position-relative" style={{ width: '450px', height: '450px' }}>
-        <MDBCardImage
-            src={f3}
-            alt="Promo 1"
-            className="img-fluid position-absolute bottom-0 start-0"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }} 
-        />
-    </div>
-    {/* 5-star rating below the picture */}
-<div className="mt-3 d-flex justify-content-center">
-    <i className="fas fa-star text-warning" style={{ fontSize: '2rem' }}></i>
-    <i className="fas fa-star text-warning" style={{ fontSize: '2rem' }}></i>
-    <i className="fas fa-star text-warning" style={{ fontSize: '2rem' }}></i>
-    <i className="fas fa-star text-warning" style={{ fontSize: '2rem' }}></i>
-    <i className="fas fa-star text-warning" style={{ fontSize: '2rem' }}></i>
-</div>
-</MDBCol>
 
-    </MDBRow>
-    </div>
       </div>
 
       {/* Footer Section */}
@@ -374,7 +388,7 @@ const Homepage = () => {
             <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
                 <h6 className="mt-4 text-uppercase mb-2 font-weight-bold ms-4">ABOUT US</h6>
                 <h6 className="text-uppercase mb-2 font-weight-bold ms-4">CONTACT US</h6>
-                <h6 className="text-uppercase mb-2 font-weight-bold ms-4">FAQS</h6>
+                <h6 className="text-uppercase mb-2 font-weight-bold ms-4" onClick={() => navigate('/faq-guest')}>FAQS</h6>
             </div>
     </div>
   </div>

@@ -336,7 +336,7 @@ function ServicesMain() {
             <button 
                 type="button" 
                 className="btn btn-primary"
-                onClick={() => navigate('/visa', { state: { serviceName: 'Visa Services', email: user.email } })}
+                onClick={() => navigate('/services-portal', { state: { serviceName: 'Visa', email: user.email } })}
                 style={{ 
                     fontWeight: 'bold',
                     fontSize: '14px', 
@@ -362,7 +362,7 @@ function ServicesMain() {
             <button 
                 type="button" 
                 className="btn btn-primary"
-                onClick={() => navigate('/travel', { state: { serviceName: 'Travel Insurance' } })}
+                onClick={() => navigate('/services-portal', { state: { serviceName: 'Travel Insurance', email: user.email } })}
                 style={{ 
                     fontWeight: 'bold',
                     fontSize: '14px', 

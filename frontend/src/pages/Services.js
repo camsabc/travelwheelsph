@@ -24,6 +24,7 @@ import HotelDetails from '../components/HotelDetails';
 import PassportDetails from '../components/PassportDetails';
 import VisaDetails from '../components/VisaDetails';
 import TransferDetails from '../components/TransferDetails';
+import TravelInsuranceDetails from '../components/TravelInsuranceDetails';
 
 import ride1 from '../images/ride1.jpg';
 import ride2 from '../images/ride2.jpg';
@@ -42,6 +43,21 @@ import pack6 from '../images/pack6.jpg';
 import pack7 from '../images/pack7.jpg';
 
 import Toast from '../components/Toast'; 
+
+
+import japan_flag from '../images/japan.png'
+import southkorea_flag from '../images/southkorea.png'
+import usa_flag from '../images/usa.png'
+import canada_flag from '../images/canada.png'
+import uae_flag from '../images/uae.png'
+import turkey_flag from '../images/turkey.png'
+import india_flag from '../images/india.png'
+import vietnam_flag from '../images/vietnam.png'
+import newzealand_flag from '../images/newzealand.png'
+import china_flag from '../images/china.png'
+import russia_flag from '../images/russia.png'
+import spain_flag from '../images/spain.png'
+
 
 function Services() {
 
@@ -127,6 +143,22 @@ function Services() {
         return null; 
     }
   };
+
+  const countries = [
+    { name: 'Japan', flag: japan_flag },
+    { name: 'South Korea', flag: southkorea_flag },
+    { name: 'USA', flag: usa_flag },
+    { name: 'Canada', flag: canada_flag },
+    { name: 'UAE', flag: uae_flag },
+    { name: 'Turkey', flag: turkey_flag },
+    { name: 'India', flag: india_flag },
+    { name: 'Vietnam', flag: vietnam_flag },
+    { name: 'New Zealand', flag: newzealand_flag },
+    { name: 'China', flag: china_flag },
+    { name: 'Russia', flag: russia_flag },
+    { name: 'Spain', flag: spain_flag },
+  ];
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -243,8 +275,8 @@ function Services() {
           <FlightsDetails />
         )}
 
-        {selectedTab === 'Transfer' && (
-          <TransferDetails />
+        {selectedTab === 'Travel Insurance' && (
+          <TravelInsuranceDetails />
         )}
 
         {selectedTab === 'Hotel' && (
@@ -422,8 +454,76 @@ function Services() {
         )}
 
         {selectedTab === 'Visa' && (
-          <VisaDetails />
+          <>
+            <MDBTypography 
+              tag="h1" 
+              className="text-center mt-4" 
+              style={{
+                fontWeight: 'bolder', 
+                color: 'white', 
+                fontSize: '60px',
+                textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)' 
+              }}
+            >
+              VISA
+            </MDBTypography>
+          
+            <MDBCard 
+              style={{ 
+                borderRadius: '15px', 
+                padding: '20px', 
+                backgroundColor: '#fff', 
+                marginTop: '10px', 
+                marginBottom: '10px' 
+              }}
+            >
+<MDBRow>
+  {countries.map((country, index) => (
+    <MDBCol md="3" className="mb-4" key={index}>
+      <MDBCard 
+        style={{ 
+          borderRadius: '10px', 
+          textAlign: 'center', 
+          padding: '10px', 
+          backgroundColor: 'rgb(255, 165, 0)' 
+        }}
+        onClick={() => navigate(`/visa`, { state: { email: user?.email, country: country.name } })}
+      >
+        <div 
+          style={{ 
+            width: '100%', 
+            height: '100px',  // Fixed container height
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            overflow: 'hidden',
+            borderRadius: '10px 10px 0 0'
+          }}
+        >
+          <img 
+            src={country.flag} 
+            alt={`${country.name} flag`} 
+            style={{ 
+              width: '180px', 
+              height: '100px',  
+              objectFit: 'cover', 
+              borderRadius: '5px'
+            }}
+          />
+        </div>
+        <MDBTypography tag="h6" className="mt-2" style={{ color: 'white', fontSize: '20px' }}>
+          {country.name}
+        </MDBTypography>
+      </MDBCard>
+    </MDBCol>
+  ))}
+</MDBRow>
+
+
+            </MDBCard>
+          </>
         )}
+
 
         {selectedTab === 'Educational Tour' && (
           <>

@@ -21,6 +21,12 @@ const QuotationSchema = mongoose.Schema({
         type: Number,
         required: false
     },
+    passengers: [{
+        firstname: { type: String, required: false },
+        lastname: { type: String, required: false },
+        age: { type: Number, required: false },
+        birthday: { type: Date, required: false },
+    }],
     startDate: {
         type: Date,
         required: false
@@ -197,6 +203,10 @@ const QuotationSchema = mongoose.Schema({
         required: false
     },
     landmark: {
+        type: String,
+        required: false
+    },
+    destination: {
         type: String,
         required: false
     }

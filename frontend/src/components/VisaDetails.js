@@ -29,7 +29,7 @@ function VisaDetails() {
 
   const [user, setUser] = useState(null);
   const location = useLocation();
-  const { email } = location.state || {};
+  const { email, country } = location.state || {};
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -142,16 +142,21 @@ function VisaDetails() {
           fontWeight: 'bolder', 
           color: 'white', 
           fontSize: '60px',
-          textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)'
+          textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)',
+          textTransform: 'uppercase'
         }}
       >
-        VISA SERVICES
+        {country} VISA
       </MDBTypography>
 
       <MDBContainer className="flex-grow-1 d-flex align-items-center justify-content-center">
         <MDBCard style={{ maxWidth: '900px', width: '100%', marginBottom: '50px', backgroundColor: 'rgba(255, 255, 255)', padding: '20px', borderRadius: '15px' }}>
           <MDBCardBody>
-            <MDBTypography tag="h5" className="text-center mb-5">Upload the following requirements below:</MDBTypography>
+            <MDBTypography tag="h5" className="text-center mb-2">Upload the following requirements below:</MDBTypography>
+            <ul style={{ paddingLeft: "0", paddingBottom: "20px", listStylePosition: 'inside', textAlign: 'center', fontSize: '20px' }}> {/* Center the list */}
+              <li> All documents must be original unless stated otherwise. </li>
+              <li> Size of document for application should be A4 size only. </li>
+            </ul>
 
             {/* Button Set 1 */}
             <MDBRow className='mb-3'>

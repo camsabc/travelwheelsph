@@ -25,6 +25,7 @@ const BookingSchema = mongoose.Schema({
         firstname: { type: String, required: false },
         lastname: { type: String, required: false },
         age: { type: Number, required: false },
+        birthday: { type: Date, required: false },
     }],
     startDate: {
         type: Date,
@@ -210,6 +211,10 @@ const BookingSchema = mongoose.Schema({
         required: false
     },
     note: {
+        type: String,
+        required: false
+    },
+    destination: {
         type: String,
         required: false
     }

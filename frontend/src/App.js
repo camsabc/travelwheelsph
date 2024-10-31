@@ -51,19 +51,24 @@ import OtpRequest from './pages/OtpRequest';
 import ChangePass from './pages/ChangePass';
 
 import EditProfile from './pages/EditProfile';
-import FeedbackGuest from './pages/FeedbackGuest';
+import FeedbackGuest from './pages/guestPages/FeedbackGuest';
 import Feedback from './pages/Feedback';
 import PaymentConfirmation from './pages/PaymentConfirmation';
 
 import RequestQuotation from './pages/RequestQuotation';
 import TermsAndConditions from './pages/TermsAndConditions';
 import TermsAndConditionsVisa from './pages/TermsAndConditionsVisa';
+import FAQ from './pages/FAQ';
+import FAQGuest from './pages/guestPages/FAQGuest';
+import PromosGuest from './pages/guestPages/PromosGuest';
+import InquiryGuest from './pages/guestPages/InquiryGuest';
 
-
+import GlobalStyle from './GlobalStyle';
 
 function App() {
   return (
     <div className="App">
+        <GlobalStyle />
         <BrowserRouter>
           <div className="pages">
             <Routes>
@@ -123,6 +128,11 @@ function App() {
               <Route path="/request-quotation" element={<RequestQuotation/>}/>
               <Route path="/terms-and-conditions" element={<TermsAndConditions/>}/>
               <Route path="/terms-and-conditions-visa" element={<TermsAndConditionsVisa/>}/>
+              <Route path="/faq" element={<FAQ/>}/>
+
+              <Route path="/faq-guest" element={<FAQGuest/>}/>
+              <Route path="/promos-guest" element={<PromosGuest/>}/>
+              <Route path="/inquiry-guest" element={<InquiryGuest/>}/>
 
             </Routes>
           </div>

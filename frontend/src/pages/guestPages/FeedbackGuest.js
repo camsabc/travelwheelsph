@@ -3,12 +3,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import './Feedback.css'
-import Toast from '../components/Toast';
+import '../Feedback.css'
+import Toast from '../../components/Toast';
 
-import Modal from '../components/Modal'; 
+import Modal from '../../components/Modal'; 
 
-import logo from '../images/header.jpg';
+import logo from '../../images/header.jpg';
 
 import {
   MDBContainer,
@@ -113,12 +113,14 @@ const FeedbackGuest = () => {
                   </MDBNavbarLink>
               </MDBNavbarItem>
 
-              <MDBNavbarItem>
-                <MDBNavbarLink onClick={handleLoginClick}>Promos</MDBNavbarLink>
-              </MDBNavbarItem>
               <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={handleLoginClick}>Inquiry</MDBNavbarLink>
+                <MDBNavbarLink onClick={() => navigate('/promos-guest')}>Promos</MDBNavbarLink>
               </MDBNavbarItem>
+
+              <MDBNavbarItem style={{ margin: '0 25px' }}>
+                <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
+              </MDBNavbarItem>
+
               <span
                 onClick={() => {navigate('/login')}}
                 style={{

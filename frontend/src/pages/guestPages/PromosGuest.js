@@ -13,93 +13,64 @@ import {
   MDBFooter, 
 } from 'mdb-react-ui-kit';
 
-import logo from '../images/header.jpg';
-import subheaderImage from '../images/promobg.jpg';
-import promoImage1 from '../images/promo1.jpg';
-import promoImage2 from '../images/promo2.jpg';
-import promoImage3 from '../images/promo3.jpg';
+import logo from '../../images/header.jpg';
+import subheaderImage from '../../images/promobg.jpg';
+import promoImage1 from '../../images/promo1.jpg';
+import promoImage2 from '../../images/promo2.jpg';
+import promoImage3 from '../../images/promo3.jpg';
+import Toast from '../../components/Toast';
+import Modal from '../../components/Modal'; 
 
-function Promos() {
+function PromosGuest() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { email } = location.state || {};
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (email) {
-        try {
-          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
-          const userData = await userResponse.json();
+  const [isModalOpen, setModalOpen] = useState(false);
 
-          if (userData.error) {
-            setError(userData.error);
-          } else {
-            setUser(userData);
-          }
-        } catch (err) {
-          console.error('Error fetching data:', err);
-          setError('Failed to fetch user data.');
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [email]);
+  const handleLoginClick = () => {
+    setModalOpen(true);
+  };
 
-if (loading) {
-  return (
-    <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <h3>Loading...</h3>
-    </div>
-  );
-}
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
 
-if (error) {
-  return (
-    <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <h3>{error}</h3>
-    </div>
-  );
-}
+  const handleConfirmLogin = () => {
+    navigate('/login')
+  };
 
   return (
     <div className="d-flex flex-column min-vh-100">
 
-      {/* Header Section */}
-      <div className="bg-white py-2" style={{ flexShrink: 0 }}>
+{/* Header Section */}
+<div className="bg-white py-2" style={{ flexShrink: 0 }}>
         <MDBContainer fluid className="d-flex align-items-center justify-content-between">
         <MDBCardImage
-    src={logo}
-    style={{ width: '200px', cursor: 'pointer' }}
-    alt="Header Logo"
-    onClick={() => navigate('/home-user', { state: { email: user.email }})} 
-  />
+  src={logo}
+  style={{ width: '200px', cursor: 'pointer' }}  // Added cursor style to indicate it's clickable
+  alt="Header Logo"
+  onClick={() => navigate('/login')} // Added onClick handler
+/>
           <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
             <MDBNavbarNav className="align-items-center">
-              <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={() => navigate('/services', { state: { email: user.email }})}>Services</MDBNavbarLink>
-              </MDBNavbarItem>
 
-              <MDBNavbarItem style={{ margin: '0 25px', fontWeight: 'bold' }}>
+              <MDBNavbarItem style={{ margin: '0 25px' }}>
                 <MDBNavbarLink 
-                    onClick={() => navigate('/promos', { state: { email: user.email }})}
-                    style={{ color: 'rgb(255, 165, 0)' }}  
+                    onClick={() => navigate('/services-guest')}
                 >
-                    Promos
+                    Services
                 </MDBNavbarLink>
               </MDBNavbarItem>
 
               <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={() => navigate('/inquiry', { state: { email: user.email }})}>Inquiry</MDBNavbarLink>
+                <MDBNavbarLink onClick={() => navigate('/promos-guest')} style={{ color: 'rgb(255, 165, 0)', fontWeight: 'bold' }}  >Promos</MDBNavbarLink>
+              </MDBNavbarItem>
+
+              <MDBNavbarItem style={{ margin: '0 25px' }}>
+                <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
               </MDBNavbarItem>
               <span
-                onClick={() => navigate('/profile', { state: { email: user.email }})}
+                onClick={() => {navigate('/login')}}
                 style={{
                   margin: '0 25px',
                   fontSize: '1rem',
@@ -109,12 +80,13 @@ if (error) {
                   cursor: 'pointer',
                 }}
               >
-                Hi, {user.firstname}
+                Hi, Guest
               </span>
             </MDBNavbarNav>
           </MDBNavbar>
         </MDBContainer>
       </div>
+
 
       {/* Subheader Section */}
       <div
@@ -175,6 +147,7 @@ if (error) {
             <button 
                 type="button" 
                 className="btn btn-primary"
+                onClick={() => navigate('/services-guest')}
                 style={{ 
                     fontWeight: 'bold',
                     fontSize: '14px', 
@@ -198,6 +171,7 @@ if (error) {
               className="img-fluid"
               style={{ width: '300px', height: '300px', objectFit: 'cover' }} 
             />
+
             <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
                 FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>PHP 4,999</span>
             </h5>
@@ -205,6 +179,7 @@ if (error) {
             <button 
                 type="button" 
                 className="btn btn-primary"
+                onClick={() => navigate('/services-guest')}
                 style={{ 
                     fontWeight: 'bold',
                     fontSize: '14px', 
@@ -234,6 +209,7 @@ if (error) {
             <button 
                 type="button" 
                 className="btn btn-primary"
+                onClick={() => navigate('/services-guest')}
                 style={{ 
                     fontWeight: 'bold',
                     fontSize: '14px', 
@@ -254,6 +230,7 @@ if (error) {
       <MDBFooter bgColor="light" className="text-start text-lg-left mt-auto">
         <div className="container text-left text-md-left">
             <div className="row mt-2 mb-2">
+
             {/* Column 1 */}
             <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
                 <h5 className="text-uppercase mb-4 font-weight-bold" style={{fontWeight: 'bold'}}>FOLLOW US</h5>
@@ -279,7 +256,7 @@ if (error) {
             <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
                 <h6 className="mt-4 text-uppercase mb-2 font-weight-bold ms-4">ABOUT US</h6>
                 <h6 className="text-uppercase mb-2 font-weight-bold ms-4">CONTACT US</h6>
-                <h6 className="text-uppercase mb-2 font-weight-bold ms-4" onClick={() => navigate('/faq', { state: { email: user.email }})}>FAQS</h6>
+                <h6 className="text-uppercase mb-2 font-weight-bold ms-4" onClick={() => navigate('/faq-guest')}>FAQS</h6>
             </div>
     </div>
   </div>
@@ -290,4 +267,4 @@ if (error) {
   );
 }
 
-export default Promos;
+export default PromosGuest;

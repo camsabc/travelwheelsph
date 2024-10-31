@@ -128,12 +128,13 @@ function ServicesPackGuest() {
               </MDBNavbarItem>
 
               <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={handleLoginClick}>Promos</MDBNavbarLink>
+                <MDBNavbarLink onClick={() => navigate('/promos-guest')}>Promos</MDBNavbarLink>
               </MDBNavbarItem>
 
               <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={handleLoginClick}>Inquiry</MDBNavbarLink>
+                <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
               </MDBNavbarItem>
+
               <span
                 onClick={() => {navigate('/login')}}
                 style={{
