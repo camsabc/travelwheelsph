@@ -30,6 +30,13 @@ function DetailsBookingEduc() {
 
   const [toast, setToast] = useState(null);
 
+  const [isChecked, setIsChecked] = useState(false);
+  const [isPopulateChecked, setIsPopulateChecked] = useState(false);
+
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
+
   const showToast = (message, type) => {
     console.log('Toast triggered:', message, type); // Debug
     setToast({ message, type });
@@ -60,11 +67,40 @@ function DetailsBookingEduc() {
     }));
   };
 
+  const populateUserData = () => {
+    if (user) {
+      setBookingDetails(prevDetails => ({
+        ...prevDetails,
+        firstname: user.firstname,
+        middlename: user.middlename || '',
+        lastname: user.lastname,
+        email: user.email,
+        contactNumber: user.contactNumber || '', 
+      }));
+    }
+  };
+
+  const populateCheckboxHandler = (e) => {
+    setIsPopulateChecked(e.target.checked);
+    if (e.target.checked) {
+      populateUserData(); 
+    } else {
+      setBookingDetails(prevDetails => ({
+        ...prevDetails,
+        firstname: '',
+        middlename: '',
+        lastname: '',
+        email: '',
+        contactNumber: '',
+      }));
+    }
+  };
+
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -91,7 +127,7 @@ function DetailsBookingEduc() {
     const fetchData = async () => {
       try {
         if (email) {
-          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
           if (userData.error) {
             setError(userData.error);
@@ -100,7 +136,7 @@ function DetailsBookingEduc() {
           setUser(userData);
         }
 
-        const educResponse = await fetch(`http://localhost:3000/api/educs/get-educ-by-id/${id}`);
+        const educResponse = await fetch(`https://travelwheelsph.onrender.com/api/educs/get-educ-by-id/${id}`);
         const educData = await educResponse.json();
         if (educData.error) {
           setError(educData.error);
@@ -478,7 +514,7 @@ function DetailsBookingEduc() {
   <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{fontWeight: 'bold'}}>Other remarks/requests:</MDBTypography>
 
   <MDBRow>
-    <MDBCol md="6">
+    <MDBCol md="12">
         <input
         id="remarks"
         name="remarks"
@@ -498,11 +534,64 @@ function DetailsBookingEduc() {
         }}
         />
     </MDBCol>
-    <MDBCol md="6" className="d-flex align-items-center">
-
-    </MDBCol>
-
     </MDBRow>
+
+
+    <MDBRow className="mt-3">
+  <MDBCol md="8" className="d-flex align-items-center">
+    <input 
+      type="checkbox" 
+      id="termsCheckbox" 
+      checked={isChecked} 
+      onChange={handleCheckboxChange} 
+      style={{ marginRight: '10px' }} 
+    />
+    <label htmlFor="termsCheckbox">
+      By clicking this, you agree to our{' '}
+      <span 
+        onClick={() => navigate('/terms-and-conditions', { state: { email: user.email }})}
+        style={{ 
+          color: '#68BBE3', 
+          cursor: 'pointer' 
+        }}
+      >
+        Terms and Conditions
+      </span>.
+    </label>
+  </MDBCol>
+
+  <MDBCol md="4" className="d-flex align-items-center">
+    <button
+      type="button"
+      className="btn btn-primary"
+      style={{
+        fontWeight: 'bold',
+        width: '100%',
+        borderRadius: '30px',
+        backgroundColor: 'rgb(255, 165, 0)',
+        border: 'none',
+        padding: '10px 20px',
+      }}
+      onClick={handleBookingSubmit}
+      disabled={
+        !isChecked ||
+        !bookingDetails.lastname ||
+        !bookingDetails.middlename ||
+        !bookingDetails.firstname ||
+        !bookingDetails.email ||
+        !bookingDetails.contactNumber ||
+        !bookingDetails.startDate ||
+        !bookingDetails.endDate ||
+
+        !bookingDetails.pickupLocation ||
+        !bookingDetails.dropoffLocation ||
+        !bookingDetails.numOfPersons
+      } 
+    >
+      BOOK NOW
+    </button>
+  </MDBCol>
+</MDBRow>
 
 </form>
             </MDBCardBody>

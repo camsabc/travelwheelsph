@@ -10,6 +10,7 @@ import {
   MDBNavbarItem,
   MDBNavbarLink,
   MDBTypography,
+  MDBInput,
   MDBBtn
 } from 'mdb-react-ui-kit';
 import logo from '../images/header.jpg';
@@ -22,10 +23,11 @@ function DetailsBooking() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
+      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
@@ -33,7 +35,7 @@ function DetailsBooking() {
             setLoading(false);
           } else {
             setUser(data);
-            return fetch(`http://localhost:3000/api/bookings/get-booking-by-id/${id}`);
+            return fetch(`https://travelwheelsph.onrender.com/api/bookings/get-booking-by-id/${id}`);
           }
         })
         .then(response => response.json())
@@ -56,6 +58,41 @@ function DetailsBooking() {
     }
   }, [id, email]);
 
+  const handleEditToggle = () => {
+    setIsEditing(prev => !prev);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setBookingDetails(prevDetails => ({
+      ...prevDetails,
+      [name]: value
+    }));
+  };
+
+  const handleSave = () => {
+    fetch(`https://travelwheelsph.onrender.com/api/bookings/edit-booking/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(bookingDetails)
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          setError(data.error);
+        } else {
+          setBookingDetails(data);
+          setIsEditing(false); // Exit edit mode
+        }
+      })
+      .catch(err => {
+        console.error('Error updating booking:', err);
+        setError('Failed to update booking.');
+      });
+  };
+
   if (loading) {
     return <div className="text-center">Loading...</div>;
   }
@@ -64,15 +101,24 @@ function DetailsBooking() {
     return <div className="text-center">{error}</div>;
   }
 
-  // Helper function to render attribute with conditional line break
-  const renderAttribute = (label, value) => (
-    value ? (
+  const renderAttribute = (label, value, isEditable = false) => {
+    if (!value) return null; 
+
+    return isEditable ? (
+      <MDBInput
+        label={label}
+        value={value}
+        name={label.replace(' ', '').toLowerCase()}
+        onChange={handleInputChange}
+        style={{marginBottom: '10px'}}
+      />
+    ) : (
       <>
         {label}: {value}
         <br />
       </>
-    ) : null
-  );
+    );
+  };
 
   return (
     <div className="d-flex flex-column h-100" style={{ backgroundColor: '#eee', fontFamily: "'Poppins', sans-serif" }}>
@@ -135,11 +181,11 @@ function DetailsBooking() {
               </MDBTypography>
 
               <MDBTypography tag="p" style={{ textAlign: 'start' }}>
-                {renderAttribute('LAST NAME', bookingDetails.lastname)}
-                {renderAttribute('FIRST NAME', bookingDetails.firstname)}
-                {renderAttribute('MIDDLE NAME', bookingDetails.middlename)}
-                {renderAttribute('EMAIL', bookingDetails.email)}
-                {renderAttribute('CONTACT NUMBER', bookingDetails.contactNumber)}
+                {renderAttribute('LAST NAME', bookingDetails.lastname, isEditing)}
+                {renderAttribute('FIRST NAME', bookingDetails.firstname, isEditing)}
+                {renderAttribute('MIDDLE NAME', bookingDetails.middlename, isEditing)}
+                {renderAttribute('EMAIL', bookingDetails.email, isEditing)}
+                {renderAttribute('CONTACT NUMBER', bookingDetails.contactNumber, isEditing)}
               </MDBTypography>
 
               <MDBTypography tag="h5" style={{ paddingTop: '20px', fontWeight: 'bold', textAlign: 'start' }}>
@@ -147,14 +193,14 @@ function DetailsBooking() {
               </MDBTypography>
 
               <MDBTypography tag="p" style={{ textAlign: 'start' }}>
-                {renderAttribute('BOOKING START DATE', bookingDetails.startDate && new Date(bookingDetails.startDate).toLocaleDateString())}
-                {renderAttribute('BOOKING END DATE', bookingDetails.endDate && new Date(bookingDetails.endDate).toLocaleDateString())}
+                {renderAttribute('BOOKING START DATE', bookingDetails.startDate && new Date(bookingDetails.startDate).toLocaleDateString(), isEditing)}
+                {renderAttribute('BOOKING END DATE', bookingDetails.endDate && new Date(bookingDetails.endDate).toLocaleDateString(), isEditing)}
                 {renderAttribute('TIME OF PICKUP', bookingDetails.startDate && new Date(bookingDetails.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }))}
-                {renderAttribute('PICKUP LOCATION', bookingDetails.pickupLocation)}
-                {renderAttribute('DROP-OFF LOCATION', bookingDetails.dropOffLocation)}
-                {renderAttribute('VEHICLE NAME', bookingDetails.vehicleName)}
-                {renderAttribute('NUMBER OF PERSONS', bookingDetails.numOfPerson)}
-                {renderAttribute('REMARKS', bookingDetails.remarks)}
+                {renderAttribute('PICKUP LOCATION', bookingDetails.pickupLocation, isEditing)}
+                {renderAttribute('DROP-OFF LOCATION', bookingDetails.dropOffLocation, isEditing)}
+                {renderAttribute('VEHICLE NAME', bookingDetails.vehicleName, isEditing)}
+                {renderAttribute('NUMBER OF PERSONS', bookingDetails.numOfPerson, isEditing)}
+                {renderAttribute('REMARKS', bookingDetails.remarks, isEditing)}
                 {renderAttribute('STATUS', bookingDetails.status)}
               </MDBTypography>
 
@@ -164,43 +210,55 @@ function DetailsBooking() {
               </MDBTypography>
 
               <MDBTypography tag="p" style={{ textAlign: 'start' }}>
-                {renderAttribute('AIRPORT DEPARTURE', bookingDetails.airportDeparture)}
-                {renderAttribute('AIRPORT ARRIVAL', bookingDetails.airportArrival)}
-                {renderAttribute('PREFERRED HOTEL', bookingDetails.preferredHotel)}
-                {renderAttribute('BUDGET RANGE', bookingDetails.budgetRange)}
-                {renderAttribute('GENDER', bookingDetails.gender)}
-                {renderAttribute('CIVIL STATUS', bookingDetails.civilStatus)}
-                {renderAttribute('BIRTH DATE', bookingDetails.birthDate && new Date(bookingDetails.birthDate).toLocaleDateString())}
-                {renderAttribute('COUNTRY OF BIRTH', bookingDetails.countryBirth)}
-                {renderAttribute('PROVINCE OF BIRTH', bookingDetails.provinceBirth)}
-                {renderAttribute('MUNICIPALITY OF BIRTH', bookingDetails.municipalityBirth)}
-                {renderAttribute('FATHER\'S FIRST NAME', bookingDetails.firstnameFather)}
-                {renderAttribute('FATHER\'S MIDDLE NAME', bookingDetails.middlenameFather)}
-                {renderAttribute('FATHER\'S LAST NAME', bookingDetails.lastnameFather)}
-                {renderAttribute('FATHER\'S COUNTRY OF CITIZENSHIP', bookingDetails.countryCitizenshipFather)}
-                {renderAttribute('MOTHER\'S FIRST NAME', bookingDetails.firstnameMother)}
-                {renderAttribute('MOTHER\'S MIDDLE NAME', bookingDetails.middlenameMother)}
-                {renderAttribute('MOTHER\'S LAST NAME', bookingDetails.lastnameMother)}
-                {renderAttribute('MOTHER\'S COUNTRY OF CITIZENSHIP', bookingDetails.countryCitizenshipMother)}
-                {renderAttribute('SPOUSE\'S FIRST NAME', bookingDetails.firstnameSpouse)}
-                {renderAttribute('SPOUSE\'S MIDDLE NAME', bookingDetails.middlenameSpouse)}
-                {renderAttribute('SPOUSE\'S LAST NAME', bookingDetails.lastnameSpouse)}
-                {renderAttribute('APPLICATION TYPE', bookingDetails.applicationType)}
-                {renderAttribute('OLD PASSPORT NUMBER', bookingDetails.oldPassportNumber)}
-                {renderAttribute('DATE ISSUED', bookingDetails.dateIssued && new Date(bookingDetails.dateIssued).toLocaleDateString())}
-                {renderAttribute('ISSUING AUTHORITY', bookingDetails.issuingAuthority)}
-                {renderAttribute('FOREIGN PASSPORT HOLDER', bookingDetails.foreignPassportHolder !== undefined ? (bookingDetails.foreignPassportHolder ? 'Yes' : 'No') : '')}
-                {renderAttribute('EMERGENCY CONTACT PERSON', bookingDetails.emergencyContactPerson)}
-                {renderAttribute('CONTACT NUMBER (FOREIGN)', bookingDetails.contactNumberForeign)}
-                {renderAttribute('PROVINCE', bookingDetails.province)}
-                {renderAttribute('CITY', bookingDetails.city)}
-                {renderAttribute('OCCUPATION', bookingDetails.occupation)}
-                {renderAttribute('OFFICE NUMBER', bookingDetails.officeNumber)}
-                {renderAttribute('OFFICE DETAILS', bookingDetails.officeDetails)}
-                {renderAttribute('FULL ADDRESS', bookingDetails.fullAddress)}
-                {renderAttribute('LANDMARK', bookingDetails.landmark)}
-                {renderAttribute('ADMIN NOTE', bookingDetails.note)}
+                {renderAttribute('AIRPORT DEPARTURE', bookingDetails.airportDeparture, isEditing)}
+                {renderAttribute('AIRPORT ARRIVAL', bookingDetails.airportArrival, isEditing)}
+                {renderAttribute('PREFERRED HOTEL', bookingDetails.preferredHotel, isEditing)}
+                {renderAttribute('BUDGET RANGE', bookingDetails.budgetRange, isEditing)}
+                {renderAttribute('GENDER', bookingDetails.gender, isEditing)}
+                {renderAttribute('CIVIL STATUS', bookingDetails.civilStatus, isEditing)}
+                {renderAttribute('BIRTH DATE', bookingDetails.birthDate && new Date(bookingDetails.birthDate).toLocaleDateString(), isEditing)}
+                {renderAttribute('COUNTRY OF BIRTH', bookingDetails.countryBirth, isEditing)}
+                {renderAttribute('PROVINCE OF BIRTH', bookingDetails.provinceBirth, isEditing)}
+                {renderAttribute('MUNICIPALITY OF BIRTH', bookingDetails.municipalityBirth, isEditing)}
+                {renderAttribute('FATHER\'S FIRST NAME', bookingDetails.firstnameFather, isEditing)}
+                {renderAttribute('FATHER\'S MIDDLE NAME', bookingDetails.middlenameFather, isEditing)}
+                {renderAttribute('FATHER\'S LAST NAME', bookingDetails.lastnameFather, isEditing)}
+                {renderAttribute('FATHER\'S COUNTRY OF CITIZENSHIP', bookingDetails.countryCitizenshipFather, isEditing)}
+                {renderAttribute('MOTHER\'S FIRST NAME', bookingDetails.firstnameMother, isEditing)}
+                {renderAttribute('MOTHER\'S MIDDLE NAME', bookingDetails.middlenameMother, isEditing)}
+                {renderAttribute('MOTHER\'S LAST NAME', bookingDetails.lastnameMother, isEditing)}
+                {renderAttribute('MOTHER\'S COUNTRY OF CITIZENSHIP', bookingDetails.countryCitizenshipMother, isEditing)}
+                {renderAttribute('SPOUSE\'S FIRST NAME', bookingDetails.firstnameSpouse, isEditing)}
+                {renderAttribute('SPOUSE\'S MIDDLE NAME', bookingDetails.middlenameSpouse, isEditing)}
+                {renderAttribute('SPOUSE\'S LAST NAME', bookingDetails.lastnameSpouse, isEditing)}
+                {renderAttribute('APPLICATION TYPE', bookingDetails.applicationType, isEditing)}
+                {renderAttribute('OLD PASSPORT NUMBER', bookingDetails.oldPassportNumber, isEditing)}
+                {renderAttribute('DATE ISSUED', bookingDetails.dateIssued && new Date(bookingDetails.dateIssued).toLocaleDateString(), isEditing)}
+                {renderAttribute('ISSUING AUTHORITY', bookingDetails.issuingAuthority, isEditing)}
+                {renderAttribute('FOREIGN PASSPORT HOLDER', bookingDetails.foreignPassportHolder !== undefined ? (bookingDetails.foreignPassportHolder ? 'Yes' : 'No') : '', isEditing)}
+                {renderAttribute('EMERGENCY CONTACT PERSON', bookingDetails.emergencyContactPerson, isEditing)}
+                {renderAttribute('CONTACT NUMBER (FOREIGN)', bookingDetails.contactNumberForeign, isEditing)}
+                {renderAttribute('PROVINCE', bookingDetails.province, isEditing)}
+                {renderAttribute('CITY', bookingDetails.city, isEditing)}
+                {renderAttribute('OCCUPATION', bookingDetails.occupation, isEditing)}
+                {renderAttribute('OFFICE NUMBER', bookingDetails.officeNumber, isEditing)}
+                {renderAttribute('OFFICE DETAILS', bookingDetails.officeDetails, isEditing)}
+                {renderAttribute('FULL ADDRESS', bookingDetails.fullAddress, isEditing)}
+                {renderAttribute('LANDMARK', bookingDetails.landmark, isEditing)}
+                {renderAttribute('ADMIN NOTE', bookingDetails.note, isEditing)}
               </MDBTypography>
+
+              {/* Edit and Save Buttons */}
+              <div className="text-center mt-4">
+                {isEditing ? (
+                  <>
+                    <MDBBtn onClick={handleSave} style={{ marginRight: '10px' }}>Save</MDBBtn>
+                    <MDBBtn onClick={handleEditToggle} color="secondary">Cancel</MDBBtn>
+                  </>
+                ) : (
+                  <MDBBtn onClick={handleEditToggle}>Edit</MDBBtn>
+                )}
+              </div>
 
               {/* Conditionally render the button for "Awaiting Payment" status */}
               {bookingDetails.status === 'Awaiting Payment' && (

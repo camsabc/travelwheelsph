@@ -28,7 +28,7 @@ function Admin() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/bookings/get-all-bookings');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/get-all-bookings');
         const data = await response.json();
         setBookings(data);
       } catch (error) {
@@ -38,7 +38,7 @@ function Admin() {
 
     const fetchQuotations = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/quotations/get-all-quotations');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/get-all-quotations');
         const data = await response.json();
         setQuotations(data);
       } catch (error) {

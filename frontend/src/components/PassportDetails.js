@@ -27,6 +27,13 @@ function PassportDetails() {
   const [error, setError] = useState('');
 
   const [toast, setToast] = useState(null);
+  const [isPopulateChecked, setIsPopulateChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+
+  
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
 
   const showToast = (message, type) => {
     setToast({ message, type });
@@ -93,11 +100,40 @@ function PassportDetails() {
     }));
   };
 
+  const populateUserData = () => {
+    if (user) {
+      setBookingDetails(prevDetails => ({
+        ...prevDetails,
+        firstname: user.firstname,
+        middlename: user.middlename || '', // Assuming user might not have a middlename
+        lastname: user.lastname,
+        email: user.email,
+        contactNumber: user.contactNumber || '', // Assuming user might not have a contact number
+      }));
+    }
+  };
+
+  const populateCheckboxHandler = (e) => {
+    setIsPopulateChecked(e.target.checked);
+    if (e.target.checked) {
+      populateUserData(); // Populate the fields with user data
+    } else {
+      setBookingDetails(prevDetails => ({
+        ...prevDetails,
+        firstname: '',
+        middlename: '',
+        lastname: '',
+        email: '',
+        contactNumber: '',
+      })); // Clear the fields when unchecked
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -139,7 +175,7 @@ function PassportDetails() {
     e.preventDefault();
 
     try {
-        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -160,6 +196,33 @@ function PassportDetails() {
         console.error('Error creating booking:', err);
         setError('Failed to create booking.');
     }
+};
+
+const handleQuotationSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+      const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create-quotation', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(bookingDetails),
+      });
+
+      const result = await response.json();
+
+      if (result.error) {
+          setError(result.error);
+          return;
+      }
+
+      showToast('Quotation created successfully!', 'success');
+      navigate('/request-quotation', { state: { email: user.email }})
+  } catch (err) {
+      console.error('Error creating quotation:', err);
+      setError('Failed to submit quotation request.');
+  }
 };
 
   return (
@@ -256,6 +319,21 @@ function PassportDetails() {
             <MDBTypography tag="h5" className="text-center mt-5 mb-5">Kindly complete the details below:</MDBTypography>
             <form>
               <MDBTypography tag="h6" className="text-start mb-3" style={{fontWeight: 'bold'}}>General Information</MDBTypography>
+
+              <MDBRow className="mb-3">
+  <MDBCol md="12" className="d-flex align-items-center">
+    <input 
+      type="checkbox" 
+      id="autoFillCheckbox" 
+      checked={isPopulateChecked} 
+      onChange={populateCheckboxHandler} 
+      style={{ marginRight: '10px' }} 
+    />
+    <label htmlFor="autoFillCheckbox">
+      Click here to apply your account information.
+    </label>
+  </MDBCol>
+</MDBRow>
 
               <MDBRow>
                 <MDBCol md="6">
@@ -1120,7 +1198,7 @@ function PassportDetails() {
               <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{fontWeight: 'bold'}}>Other remarks/requests:</MDBTypography>
 
                 <MDBRow>
-                <MDBCol md="6">
+                <MDBCol md="12">
                 <input
                 id="remarks"
                 name="remarks"
@@ -1140,16 +1218,100 @@ function PassportDetails() {
                 }}
                 />
                 </MDBCol>
-                <MDBCol md="6" className="d-flex align-items-center justify-content-end">
-
-
-
-
-                  
-                </MDBCol>
-
-
                 </MDBRow>
+
+                <MDBRow className="mt-3">
+                  <MDBCol md="8" className="d-flex align-items-center">
+                    <input 
+                      type="checkbox" 
+                      id="termsCheckbox" 
+                      checked={isChecked} 
+                      onChange={handleCheckboxChange} 
+                      style={{ marginRight: '10px' }} 
+                    />
+                    <label htmlFor="termsCheckbox">
+                      By clicking this, you agree to our{' '}
+                      <span 
+                        onClick={() => navigate('/terms-and-conditions', { state: { email: user.email }})}
+                        style={{ 
+                          color: '#68BBE3', 
+                          cursor: 'pointer' 
+                        }}
+                      >
+                        Terms and Conditions
+                      </span>.
+                    </label>
+                  </MDBCol>
+
+                  <MDBCol md="4" className="d-flex align-items-center">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      style={{
+                        fontWeight: 'bold',
+                        width: '100%',
+                        borderRadius: '30px',
+                        backgroundColor: 'rgb(255, 165, 0)',
+                        border: 'none',
+                        padding: '10px 20px',
+                      }}
+                      onClick={handleQuotationSubmit}
+                      disabled={
+                        !isChecked ||
+                        !bookingDetails.lastname ||
+                        !bookingDetails.middlename ||
+                        !bookingDetails.firstname ||
+                        !bookingDetails.email ||
+                        !bookingDetails.contactNumber ||
+
+                        !bookingDetails.gender ||
+                        !bookingDetails.civilStatus ||
+                        !bookingDetails.birthDate ||
+                        !bookingDetails.countryBirth ||
+                        !bookingDetails.provinceBirth ||
+                        !bookingDetails.municipalityBirth ||
+
+                        !bookingDetails.firstnameFather ||
+                        !bookingDetails.middlenameFather ||
+                        !bookingDetails.lastnameFather ||
+                        !bookingDetails.countryCitizenshipFather ||
+
+                        !bookingDetails.firstnameMother ||
+                        !bookingDetails.middlenameMother ||
+                        !bookingDetails.lastnameMother ||
+                        !bookingDetails.countryCitizenshipMother ||
+
+                        !bookingDetails.firstnameSpouse ||
+                        !bookingDetails.middlenameSpouse ||
+                        !bookingDetails.lastnameSpouse ||
+
+                        !bookingDetails.applicationType ||
+
+                        !bookingDetails.oldPassportNumber ||
+                        !bookingDetails.dateIssued ||
+                        !bookingDetails.issuingAuthority ||
+
+                        !bookingDetails.foreignPassportHolder ||
+                        !bookingDetails.emergencyContactPerson ||
+                        !bookingDetails.contactNumberForeign ||
+
+                        !bookingDetails.province ||
+                        !bookingDetails.city ||
+                        !bookingDetails.occuputation ||
+                        !bookingDetails.officeNumber ||
+                        !bookingDetails.officeDetails ||
+
+                        !bookingDetails.fullAddress ||
+                        !bookingDetails.landmark
+
+                      } 
+                    >
+                      REQUEST QUOTATION
+                    </button>
+                  </MDBCol>
+                </MDBRow>
+
+
             </form>
           </MDBCardBody>
         </MDBCard>

@@ -12,5 +12,6 @@ router.post('/create-booking', bookingController.createBooking);
 router.post('/change-status', bookingController.changeStatus);
 router.post('/update-note', bookingController.updateNote);
 router.delete('/delete-booking/:id', bookingController.deleteBooking);
+router.put('/edit-booking/:id', bookingController.editBooking);
 
 module.exports = router;

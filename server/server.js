@@ -16,7 +16,7 @@ const app = express();
 /* Middleware */
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: 'https://travelwheelsapp.travelwheelsph.com',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }));
 

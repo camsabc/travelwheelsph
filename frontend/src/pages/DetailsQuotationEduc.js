@@ -32,6 +32,7 @@ function DetailsQuotationEduc() {
   const [toast, setToast] = useState(null);
 
   const [isChecked, setIsChecked] = useState(false);
+  const [isPopulateChecked, setIsPopulateChecked] = useState(false);
 
   const handleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
@@ -67,11 +68,40 @@ function DetailsQuotationEduc() {
     }));
   };
 
+  const populateUserData = () => {
+    if (user) {
+      setBookingDetails(prevDetails => ({
+        ...prevDetails,
+        firstname: user.firstname,
+        middlename: user.middlename || '',
+        lastname: user.lastname,
+        email: user.email,
+        contactNumber: user.contactNumber || '', 
+      }));
+    }
+  };
+
+  const populateCheckboxHandler = (e) => {
+    setIsPopulateChecked(e.target.checked);
+    if (e.target.checked) {
+      populateUserData(); 
+    } else {
+      setBookingDetails(prevDetails => ({
+        ...prevDetails,
+        firstname: '',
+        middlename: '',
+        lastname: '',
+        email: '',
+        contactNumber: '',
+      }));
+    }
+  };
+
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -98,7 +128,7 @@ const handleQuotationSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch('http://localhost:3000/api/quotations/create-quotation', {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create-quotation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -125,7 +155,7 @@ const handleQuotationSubmit = async (e) => {
     const fetchData = async () => {
       try {
         if (email) {
-          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
           if (userData.error) {
             setError(userData.error);
@@ -134,7 +164,7 @@ const handleQuotationSubmit = async (e) => {
           setUser(userData);
         }
 
-        const educResponse = await fetch(`http://localhost:3000/api/educs/get-educ-by-id/${id}`);
+        const educResponse = await fetch(`https://travelwheelsph.onrender.com/api/educs/get-educ-by-id/${id}`);
         const educData = await educResponse.json();
         if (educData.error) {
           setError(educData.error);
@@ -413,13 +443,25 @@ const handleQuotationSubmit = async (e) => {
         padding: '10px 20px',
       }}
       onClick={handleQuotationSubmit}
-      disabled={!isChecked}
+      disabled={
+        !isChecked ||
+        !bookingDetails.lastname ||
+        !bookingDetails.middlename ||
+        !bookingDetails.firstname ||
+        !bookingDetails.email ||
+        !bookingDetails.contactNumber ||
+        !bookingDetails.startDate ||
+        !bookingDetails.endDate ||
+
+        !bookingDetails.pickupLocation ||
+        !bookingDetails.dropoffLocation ||
+        !bookingDetails.numOfPersons
+      } 
     >
       REQUEST QUOTATION
     </button>
   </MDBCol>
 </MDBRow>
-
 </form>
             </MDBCardBody>
           </MDBCard>

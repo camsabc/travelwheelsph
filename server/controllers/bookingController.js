@@ -226,6 +226,25 @@ const updateNote = (req, res) => {
         });
 };
 
+/* This function updates a booking's details using a unique id */
+const editBooking = (req, res) => {
+    const id = req.params.id;  // Get booking ID from the request parameters
+    const updates = req.body;  // Get updated details from the request body
+
+    BookingModel.findByIdAndUpdate(id, updates, { new: true, runValidators: true })
+        .then(updatedBooking => {
+            if (!updatedBooking) {
+                return res.status(404).json({ error: 'Booking not found' });
+            }
+            res.json(updatedBooking);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ error: 'Failed to update booking' });
+        });
+};
+
+
 module.exports = {
     getAllBookings,
     getBookingByEmail,
@@ -233,6 +252,7 @@ module.exports = {
     getBookingById,
     changeStatus,
     deleteBooking,
-    updateNote
+    updateNote,
+    editBooking
 };
 

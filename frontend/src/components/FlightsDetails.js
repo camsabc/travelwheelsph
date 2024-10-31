@@ -35,6 +35,8 @@ function FlightsDetails() {
   const [toast, setToast] = useState(null);
 
   const [isChecked, setIsChecked] = useState(false);
+  const [isPopulateChecked, setIsPopulateChecked] = useState(false);
+
 
   const handleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
@@ -98,11 +100,46 @@ function FlightsDetails() {
     }));
   };
 
+
+  const populateUserData = () => {
+    if (user) {
+      setBookingDetails(prevDetails => ({
+        ...prevDetails,
+        firstname: user.firstname,
+        middlename: user.middlename || '',
+        lastname: user.lastname,
+        email: user.email,
+        contactNumber: user.contactNumber || '', 
+      }));
+    }
+  };
+
+  const populateCheckboxHandler = (e) => {
+    setIsPopulateChecked(e.target.checked);
+    if (e.target.checked) {
+      populateUserData(); 
+    } else {
+      setBookingDetails(prevDetails => ({
+        ...prevDetails,
+        firstname: '',
+        middlename: '',
+        lastname: '',
+        email: '',
+        contactNumber: '',
+      }));
+    }
+  };
+
+
+
+
+
+
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -129,7 +166,7 @@ const handleQuotationSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch('http://localhost:3000/api/quotations/create-quotation', {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create-quotation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -156,7 +193,7 @@ const handleQuotationSubmit = async (e) => {
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -270,6 +307,23 @@ const handleQuotationSubmit = async (e) => {
             <form>
 
             <MDBTypography tag="h6" className="text-start mb-3" style={{fontWeight: 'bold'}}>General Information</MDBTypography>
+
+ 
+<MDBRow className="mb-3">
+  <MDBCol md="12" className="d-flex align-items-center">
+    <input 
+      type="checkbox" 
+      id="autoFillCheckbox" 
+      checked={isPopulateChecked} 
+      onChange={populateCheckboxHandler} 
+      style={{ marginRight: '10px' }} 
+    />
+    <label htmlFor="autoFillCheckbox">
+      Click here to apply your account information.
+    </label>
+  </MDBCol>
+</MDBRow>
+
 
               <MDBRow>
                 <MDBCol md="6">
@@ -620,12 +674,24 @@ const handleQuotationSubmit = async (e) => {
                         padding: '10px 20px',
                       }}
                       onClick={handleQuotationSubmit}
-                      disabled={!isChecked}
+                      disabled={
+                        !isChecked ||
+                        !bookingDetails.lastname ||
+                        !bookingDetails.middlename ||
+                        !bookingDetails.firstname ||
+                        !bookingDetails.email ||
+                        !bookingDetails.contactNumber ||
+                        !bookingDetails.startDate ||
+                        !bookingDetails.endDate ||
+                        !bookingDetails.airportDeparture ||
+                        !bookingDetails.airportArrival
+                      } 
                     >
                       REQUEST QUOTATION
                     </button>
                   </MDBCol>
                 </MDBRow>
+
 
                 <MDBRow className='mt-4' style={{paddingLeft: '50px'}}>
                     Note: When requesting quotation, no need to input details of companion. It’s only needed when booking. 
