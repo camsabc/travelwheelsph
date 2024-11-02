@@ -580,42 +580,6 @@ function Services() {
         {/* Add more content for other new tabs like Employment, Tour Packages, Insurance, etc. */}
       </MDBContainer>
 
-            {/* Footer Section */}
-            <MDBFooter bgColor="light" className="text-start text-lg-left mt-auto">
-        <div className="container text-left text-md-left">
-            <div className="row mt-2 mb-2">
-            {/* Column 1 */}
-            <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h5 className="text-uppercase mb-4 font-weight-bold" style={{fontWeight: 'bold'}}>FOLLOW US</h5>
-            </div>
-
-            {/* Column 1 */}
-            <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h6 className="mt-4 mb-2 font-weight-bold">Business Hours:</h6>
-                <p>
-                    Monday - Saturday: 8AM - 7 PM
-                </p>
-            </div>
-
-            {/* Column 1 */}
-            <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h6 className="mt-4 mb-2 font-weight-bold">Business Address: </h6>
-                <p>
-                    Office Unit 2, Hersyl Building, Blk 5 Lot 25 Phase4, Golden City Subdivision, Brgy. Dila, Santa Rosa, Philippines
-                </p>
-            </div>
-
-            {/* Column 1 */}
-            <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h6 className="mt-4 text-uppercase mb-2 font-weight-bold ms-4">ABOUT US</h6>
-                <h6 className="text-uppercase mb-2 font-weight-bold ms-4">CONTACT US</h6>
-                <h6 className="text-uppercase mb-2 font-weight-bold ms-4" onClick={() => navigate('/faq', { state: { email: user.email }})}>FAQS</h6>
-            </div>
-    </div>
-  </div>
-
-</MDBFooter>
-
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
