@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './EditProfile.css';
 import logo from '../images/header.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons'; // Import the user icon
-
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import Toast from '../components/Toast';
 import {
   MDBContainer,
   MDBCardImage,
@@ -24,6 +25,12 @@ const EditProfile = () => {
     confpassword: ''
   });
 
+  const [toast, setToast] = useState(null); // Toast state
+  const showToast = (message, type) => {
+    console.log('Toast triggered:', message, type); // Debug
+    setToast({ message, type });
+  };
+
   const [profileImage, setProfileImage] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -31,10 +38,14 @@ const EditProfile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [originalEmail, setOriginalEmail] = useState(email); // Track the original email
+  const [otp, setOtp] = useState('');
+  const [isOtpSent, setIsOtpSent] = useState(false);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
+      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
@@ -79,23 +90,55 @@ const EditProfile = () => {
   };
 
   const handleImageChange = (e) => {
-    setProfileImage(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      setProfileImage(file);
+    }
   };
 
   const handleUploadClick = () => {
-    // Upload image logic here
+    // Logic to trigger the hidden file input
   };
 
+  const sendOtp = async (newEmail, userId) => {
+    try {
+      const response = await axios.post('https://travelwheelsph.onrender.com/new-email-otp', {
+        newEmail,
+        userId,
+        firstname: user.firstname
+      });
+
+      if (response.status === 201) {
+        showToast('An OTP has been sent to your email.', 'success');
+        navigate('/change-email-otp', { state: { newEmail, email: user.email, firstname: user.firstname, userId } });
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400 && error.response.data === 'User already exists') {
+        setErrors({ email: 'This email is already registered. Please use a different email.' });
+      } else {
+        showToast('An error occurred while submitting the form.', 'error');
+      }
+    }
+  };
+
+
   const handleEdit = async () => {
-    // Basic validation if needed
+
+    const userId = user._id; 
+
     if (profileData.password !== profileData.confpassword) {
       setError('Passwords do not match.');
       return;
     }
 
+    // Check if the email has changed
+    if (originalEmail !== profileData.email) {
+      await sendOtp(profileData.email, userId);
+      return; // Stop here to await OTP verification
+    }
+
     try {
-      const userId = user._id; // Assuming user has an `_id` field from your backend
-      const response = await fetch(`http://localhost:3000/api/users/edit-user/${userId}`, {
+      const response = await fetch(`https://travelwheelsph.onrender.com/api/users/edit-user/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -116,6 +159,51 @@ const EditProfile = () => {
       setError('An error occurred while updating the profile.');
     }
   };
+
+  const verifyOtp = async () => {
+    try {
+      const response = await fetch(`https://travelwheelsph.onrender.com/api/users/verify-otp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: profileData.email, otp }),
+      });
+
+      if (response.ok) {
+        // Proceed with updating the profile after successful OTP verification
+        handleEdit();
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Failed to verify OTP.');
+      }
+    } catch (error) {
+      console.error('Error verifying OTP:', error);
+      setError('An error occurred while verifying OTP.');
+    }
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <>
@@ -186,7 +274,7 @@ const EditProfile = () => {
           </div>
         </div>
 
-        <form onSubmit={(e) => { e.preventDefault(); handleEdit(); }} className="edit-profile-form">
+        <form onSubmit={(e) => { e.preventDefault(); isOtpSent ? verifyOtp() : handleEdit(); }} className="edit-profile-form">
           <div className="account-details-container">
             <h3>Account Details</h3>
             <div className="form-grid">
@@ -232,6 +320,14 @@ const EditProfile = () => {
                 onChange={handleChange}
                 placeholder="Confirm Password"
               />
+              {isOtpSent && (
+                <input
+                  type="text"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  placeholder="Enter OTP sent to your new email"
+                />
+              )}
             </div>
 
             <div className="button-container">
@@ -240,6 +336,8 @@ const EditProfile = () => {
             </div>
           </div>
         </form>
+
+        {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
       </div>
     </>
   );

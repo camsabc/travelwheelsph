@@ -5,14 +5,14 @@ import headerImage from '../images/header.jpg';
 import './Signup3.css'; 
 import Toast from '../components/Toast';
 
-const Otp = () => {
+const ChangeEmailOtp = () => {
   const [otp, setOtp] = useState('');
   const [errors, setErrors] = useState({});
   const [resendDisabled, setResendDisabled] = useState(false);
   const [timer, setTimer] = useState(30); // Timer set to 30 seconds
   const navigate = useNavigate();
   const location = useLocation();
-  const { email, type, firstname } = location.state || {}; 
+  const { newEmail, email, firstname } = location.state || {}; 
   
   const [toast, setToast] = useState(null);
 
@@ -38,36 +38,47 @@ const Otp = () => {
     return () => clearInterval(interval);
   }, [resendDisabled, timer]);
 
+
+
+
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Check if OTP is empty
     if (!otp) {
       setErrors({ otp: 'Enter 6-digit code' });
       return;
     }
-
+  
     // Check if OTP is exactly 6 digits
     if (otp.length !== 6) {
       setErrors({ otp: 'OTP must be 6 digits long' });
       return;
     }
-
+  
     try {
       const response = await axios.post('https://travelwheelsph.onrender.com/verify-otp', { email, otp });
-
+  
       if (response.status === 200) {
-        showToast('OTP verified successfully!', 'success');
-        if (type === 'user') {
+        const updateResponse = await axios.put('https://travelwheelsph.onrender.com/update-email', { 
+          oldEmail: email, 
+          newEmail 
+        });
+  
+        if (updateResponse.status === 200) {
+          showToast('Email updated successfully!', 'success');
           navigate(`/login`);
         } else {
-          navigate(`/admin`, { state: { name: firstname } });
+          showToast('Failed to update email. Please try again.', 'error');
         }
       }
     } catch (error) {
       setErrors({ otp: 'Invalid or expired OTP' });
     }
   };
+  
+
+
 
   const resendOtp = async () => {
     try {
@@ -83,6 +94,9 @@ const Otp = () => {
       setResendDisabled(false);
     }
   };
+
+
+
 
   return (
     <div className="signup-container"> {/* Reusing signup-container for layout */}
@@ -118,4 +132,4 @@ const Otp = () => {
   );
 };
 
-export default Otp;
+export default ChangeEmailOtp;

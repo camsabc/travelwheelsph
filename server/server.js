@@ -16,7 +16,7 @@ const app = express();
 /* Middleware */
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: 'https://travelwheelsapp.travelwheelsph.com',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }));
 
@@ -51,6 +51,42 @@ const packageRoutes = require('./routes/packageRouter');
 app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
+
+
+app.post('/new-email-otp', async (req, res) => {
+  const { newEmail, userId, firstname } = req.body;
+
+  const otp = generateOTP();
+
+  try {
+    // Update the user's OTP in the database
+    await UserModel.updateOne({ _id: userId }, { otp: otp }); // Replace `User` with your user model or database interaction logic
+
+    const mailOptions = {
+      from: 'cams.castro03@gmail.com',  // Replace with your email
+      to: newEmail,
+      subject: 'Verify your account - OTP',
+      text: `Hi ${firstname},\n\nYour OTP code is ${otp}. \n\nBest regards,\nYour Travel Tayo Team`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Email Error:", error);
+        return res.status(500).send('OTP email could not be sent');
+      } else {
+        console.log(`Email sent: ${info.response}`);
+        res.status(201).send('Please check your email for OTP.');
+      }
+    });
+
+  } catch (error) {
+    console.error("Signup Error:", error);
+    res.status(500).send('Server error');
+  }
+});
+
+
+
 
 // Sign-up route with OTP
 app.post('/signup', async (req, res) => {
@@ -113,7 +149,7 @@ app.post('/verify-otp', async (req, res) => {
       return res.status(400).send('User not found');
     }
 
-    console.log(user.otp)
+    console.log(email)
     console.log(otp)
 
     // Check if OTP is valid and not expired
@@ -261,6 +297,36 @@ app.post('/change-password', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error.' });
   }
 });
+
+
+app.put('/update-email', async (req, res) => {
+  const { oldEmail, newEmail } = req.body;
+
+  try {
+    const existingUser = await UserModel.findOne({ email: newEmail });
+    if (existingUser) {
+      return res.status(400).send('Email already in use. Please use a different email.');
+    }
+
+    const updatedUser = await UserModel.findOneAndUpdate(
+      { email: oldEmail },
+      { email: newEmail },
+      { new: true } 
+    );
+
+    if (!updatedUser) {
+      return res.status(404).send('User not found or failed to update email.');
+    }
+
+    res.status(200).send('Email updated successfully.');
+  } catch (error) {
+    console.error('Error updating email:', error);
+    res.status(500).send('Internal server error.');
+  }
+});
+
+
+
 
 
 /* API Routes */

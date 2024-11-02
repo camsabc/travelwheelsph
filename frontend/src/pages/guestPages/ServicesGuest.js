@@ -58,7 +58,7 @@ function ServicesGuest() {
     const fetchData = async () => {
 
             try {
-                const ridesResponse = await fetch(`http://localhost:3000/api/rides/get-all-rides`);
+                const ridesResponse = await fetch(`https://travelwheelsph.onrender.com/api/rides/get-all-rides`);
                 const ridesData = await ridesResponse.json();
                 if (ridesData.error) {
                     setError(ridesData.error);

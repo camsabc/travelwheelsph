@@ -62,6 +62,7 @@ import FAQ from './pages/FAQ';
 import FAQGuest from './pages/guestPages/FAQGuest';
 import PromosGuest from './pages/guestPages/PromosGuest';
 import InquiryGuest from './pages/guestPages/InquiryGuest';
+import ChangeEmailOtp from './pages/ChangeEmailOtp';
 
 import GlobalStyle from './GlobalStyle';
 
@@ -133,6 +134,8 @@ function App() {
               <Route path="/faq-guest" element={<FAQGuest/>}/>
               <Route path="/promos-guest" element={<PromosGuest/>}/>
               <Route path="/inquiry-guest" element={<InquiryGuest/>}/>
+
+              <Route path="/change-email-otp" element={<ChangeEmailOtp/>}/>
 
             </Routes>
           </div>

@@ -36,14 +36,14 @@ function UpcomingBooking() {
 
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
+      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
             setError(data.error);
           } else {
             setUser(data);
-            return fetch(`http://localhost:3000/api/bookings/get-all-bookings-by-email/${email}`);
+            return fetch(`https://travelwheelsph.onrender.com/api/bookings/get-all-bookings-by-email/${email}`);
           }
         })
         .then(response => response.json())
@@ -71,7 +71,7 @@ function UpcomingBooking() {
 
   const handleCancelClick = async (bookingId) => {
       try {
-        const response = await fetch(`http://localhost:3000/api/bookings/delete-booking/${bookingId}`, {
+        const response = await fetch(`https://travelwheelsph.onrender.com/api/bookings/delete-booking/${bookingId}`, {
             method: 'DELETE',  // Use DELETE for deletion
             headers: {
                 'Content-Type': 'application/json',
