@@ -73,7 +73,7 @@ function InquiryGuest() {
               </MDBNavbarItem>
 
               <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={() => navigate('/promos-guest')} style={{ color: 'rgb(255, 165, 0)' }}  >Promos</MDBNavbarLink>
+                <MDBNavbarLink onClick={() => navigate('/promos-guest')} >Promos</MDBNavbarLink>
               </MDBNavbarItem>
 
               <MDBNavbarItem style={{ margin: '0 25px', fontWeight: 'bold', fontWeight: 'bold' }}>

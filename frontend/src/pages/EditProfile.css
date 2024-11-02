@@ -35,12 +35,20 @@
   cursor: pointer;
 }
 
+.profile-icon {
+  color: #c0c0c0;
+  margin: 10px 0;
+  height: 150px;
+  width: 150px;
+}
+
+
 /* Edit Profile Container */
 .edit-profile-container {
   font-family: 'Poppins', sans-serif;
   padding: 20px;
   max-width: 900px;
-  margin: 100px auto;
+  margin: 0px auto;
 }
 
 /* Edit Profile Title */

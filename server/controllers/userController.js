@@ -44,16 +44,28 @@ const newAccount = async (req, res) => {
     }
 };
 
-/* This function retrieves one user using unique id */
 const editUser = async (req, res) => {
     const userId = req.params.id;
-    const { name, email, password } = req.body;
+    const { firstname, lastname, email, phone, password } = req.body; 
 
     try {
+        const updatedFields = {};
+
+        if (firstname) updatedFields.firstname = firstname;
+        if (lastname) updatedFields.lastname = lastname;
+        if (email) updatedFields.email = email;
+        if (phone) updatedFields.phone = phone;
+
+     
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+            updatedFields.password = hashedPassword;
+        }
+
         const updatedUser = await UserModel.findByIdAndUpdate(
             userId,
-            { name, email, password },
-            { new: true, runValidators: true }
+            updatedFields,
+            { new: true, runValidators: true } 
         );
 
         if (!updatedUser) {
@@ -66,6 +78,7 @@ const editUser = async (req, res) => {
         res.status(500).json({ error: 'Failed to update user' });
     }
 };
+
 
 /* This function scans databse for matching email and password */
 const signIn = async (req, res) => {

@@ -74,7 +74,7 @@ function FAQ() {
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -122,43 +122,39 @@ if (error) {
         backgroundColor: '#FFFFFF',
       }}
     >
-      {/* Header Section */}
-      <div className="bg-white py-2" style={{ flexShrink: 0 }}>
-        <MDBContainer fluid className="d-flex align-items-center justify-content-between">
-        <MDBCardImage
-    src={logo}
-    style={{ width: '200px', cursor: 'pointer' }}
-    alt="Header Logo"
-    onClick={() => navigate('/home-user', { state: { email: user.email }})} 
-  />
+{/* Header Section */}
+<div className="bg-white py-2 mb-1" style={{ flexShrink: 0 }}>
+            <MDBContainer fluid className="d-flex align-items-center justify-content-between">
+            <MDBCardImage
+        src={logo}
+        style={{ width: '200px', cursor: 'pointer' }}
+        alt="Header Logo"
+        onClick={() => navigate('/home-user', { state: { email: user.email }})}
+      />
           <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
             <MDBNavbarNav className="align-items-center">
-              <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={() => navigate('/services-guest')}>Services</MDBNavbarLink>
+            <MDBNavbarItem style={{ margin: '0 15px' }}>
+              <span style={{ cursor: 'pointer' }} onClick={ () => navigate('/services', { state: { email: user.email }})}>Services</span>
+            </MDBNavbarItem>
+              <MDBNavbarItem style={{ margin: '0 15px' }}>
+                <MDBNavbarLink onClick={() => navigate('/promos', { state: { email: user.email }})}>Promos</MDBNavbarLink>
               </MDBNavbarItem>
-              <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={handleLoginClick}>Promos</MDBNavbarLink>
-              </MDBNavbarItem>
-              <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink 
-                    onClick={handleLoginClick}
-                >
-                    Inquiry
-                </MDBNavbarLink>
+              <MDBNavbarItem style={{ margin: '0 15px' }}>
+                <MDBNavbarLink onClick={() => navigate('/inquiry', { state: { email: user.email }})}>Inquiry</MDBNavbarLink>
               </MDBNavbarItem>
               <span
-                onClick={handleLoginClick}
-                style={{
-                  margin: '0 25px',
-                  fontSize: '1rem',
-                  color: '#000',
-                  display: 'flex',
-                  alignItems: 'center',
-                  cursor: 'pointer',
-                }}
-              >
-                Hi, {user ? user.firstname : 'Guest'}
-              </span>
+                  onClick={ () => navigate('/profile', { state: { email: user.email } })}
+                  style={{
+                    margin: '0 15px',
+                    fontSize: '1rem',
+                    color: '#000',
+                    display: 'flex',
+                    alignItems: 'center',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Hi, {user ? user.firstname : 'Guest'}
+                </span>
             </MDBNavbarNav>
           </MDBNavbar>
         </MDBContainer>

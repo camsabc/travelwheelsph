@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './EditProfile.css';
 import logo from '../images/header.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons'; // Import the user icon
 
 import {
   MDBContainer,
@@ -14,25 +16,25 @@ import {
 
 const EditProfile = () => {
   const [profileData, setProfileData] = useState({
-    firstName: '',
-    lastName: '',
+    firstname: '',
+    lastname: '',
     email: '',
     phone: '',
     password: '',
+    confpassword: ''
   });
 
   const [profileImage, setProfileImage] = useState(null);
-
   const location = useLocation();
   const navigate = useNavigate();
-  const { email } = location.state || {}; 
+  const { email } = location.state || {};
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
     if (email) {
-      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
+      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
@@ -40,6 +42,14 @@ const EditProfile = () => {
             setLoading(false);
           } else {
             setUser(data);
+            setProfileData({
+              firstname: data.firstname || '',
+              lastname: data.lastname || '',
+              email: data.email || '',
+              phone: data.phone || '',
+              password: '',
+              confpassword: ''
+            });
             setLoading(false);
           }
         })
@@ -72,133 +82,165 @@ const EditProfile = () => {
     setProfileImage(e.target.files[0]);
   };
 
-
-
   const handleUploadClick = () => {
+    // Upload image logic here
+  };
 
+  const handleEdit = async () => {
+    // Basic validation if needed
+    if (profileData.password !== profileData.confpassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    try {
+      const userId = user._id; // Assuming user has an `_id` field from your backend
+      const response = await fetch(`http://localhost:3000/api/users/edit-user/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(profileData),
+      });
+
+      if (response.ok) {
+        const updatedData = await response.json();
+        alert('Profile updated successfully!');
+        navigate('/profile', { state: { email: updatedData.email } });
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Failed to update profile.');
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      setError('An error occurred while updating the profile.');
+    }
   };
 
   return (
     <>
-    <div className="bg-white py-2 mb-1" style={{ flexShrink: 0 }}>
-            <MDBContainer fluid className="d-flex align-items-center justify-content-between">
-            <MDBCardImage
-        src={logo}
-        style={{ width: '200px', cursor: 'pointer' }}
-        alt="Header Logo"
-        onClick={() => navigate('/home-user', { state: { email: user.email }})}
-      />
+      <div className="bg-white py-2 mb-1" style={{ flexShrink: 0 }}>
+        <MDBContainer fluid className="d-flex align-items-center justify-content-between">
+          <MDBCardImage
+            src={logo}
+            style={{ width: '200px', cursor: 'pointer' }}
+            alt="Header Logo"
+            onClick={() => navigate('/home-user', { state: { email: user.email } })}
+          />
           <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
             <MDBNavbarNav className="align-items-center">
-            <MDBNavbarItem style={{ margin: '0 15px' }}>
-              <span style={{ cursor: 'pointer' }} onClick={ () => navigate('/services', { state: { email: user.email }})}>Services</span>
-            </MDBNavbarItem>
               <MDBNavbarItem style={{ margin: '0 15px' }}>
-                <MDBNavbarLink onClick={() => navigate('/promos', { state: { email: user.email }})}>Promos</MDBNavbarLink>
+                <span style={{ cursor: 'pointer' }} onClick={() => navigate('/services', { state: { email: user.email } })}>Services</span>
               </MDBNavbarItem>
               <MDBNavbarItem style={{ margin: '0 15px' }}>
-                <MDBNavbarLink onClick={() => navigate('/inquiry', { state: { email: user.email }})}>Inquiry</MDBNavbarLink>
+                <MDBNavbarLink onClick={() => navigate('/promos', { state: { email: user.email } })}>Promos</MDBNavbarLink>
+              </MDBNavbarItem>
+              <MDBNavbarItem style={{ margin: '0 15px' }}>
+                <MDBNavbarLink onClick={() => navigate('/inquiry', { state: { email: user.email } })}>Inquiry</MDBNavbarLink>
               </MDBNavbarItem>
               <span
-                  onClick={ () => navigate('/profile', { state: { email: user.email } })}
-                  style={{
-                    margin: '0 15px',
-                    fontSize: '1rem',
-                    color: '#000',
-                    display: 'flex',
-                    alignItems: 'center',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Hi, {user?.firstname}
-                </span>
+                onClick={() => navigate('/profile', { state: { email: user.email } })}
+                style={{
+                  margin: '0 15px',
+                  fontSize: '1rem',
+                  color: '#000',
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                Hi, {user?.firstname}
+              </span>
             </MDBNavbarNav>
           </MDBNavbar>
         </MDBContainer>
       </div>
 
-    <div className="edit-profile-container">
-      <h1 className="edit-profile-title">Edit Profile</h1>
-      <hr className="title-line" />
+      <div className="edit-profile-container">
+        <h1 className="edit-profile-title">Edit Profile</h1>
+        <hr className="title-line" />
 
-      <div className="profile-photo-section">
-        <img
-          src={profileImage ? URL.createObjectURL(profileImage) : '/path/to/default-image.jpg'}
-          alt="Profile"
-          className="profile-img"
-        />
-        <div className="photo-buttons">
-          {/* Hidden file input for image upload */}
-          <input
-            type="file"
-            accept="image/*"
-            style={{ display: 'none' }}
-            onChange={handleImageChange}
-          />
-          <button className="upload-photo-btn" onClick={handleUploadClick}>
-            Upload Photo
-          </button>
-          <button className="remove-photo-btn" onClick={() => {}}>
-            Remove Photo
-          </button>
+        <div className="profile-photo-section">
+          {profileImage ? (
+            <img
+              src={URL.createObjectURL(profileImage)}
+              alt="Profile"
+              className="profile-img"
+            />
+          ) : (
+            <FontAwesomeIcon icon={faUserCircle} size="6x" className="profile-icon" />
+          )}
+          <div className="photo-buttons">
+            <input
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleImageChange}
+            />
+            <button className="upload-photo-btn" onClick={handleUploadClick}>
+              Upload Photo
+            </button>
+            <button className="remove-photo-btn" onClick={() => setProfileImage(null)}>
+              Remove Photo
+            </button>
+          </div>
         </div>
+
+        <form onSubmit={(e) => { e.preventDefault(); handleEdit(); }} className="edit-profile-form">
+          <div className="account-details-container">
+            <h3>Account Details</h3>
+            <div className="form-grid">
+              <input
+                type="text"
+                name="firstname"
+                value={profileData.firstname}
+                onChange={handleChange}
+                placeholder="First Name"
+              />
+              <input
+                type="text"
+                name="lastname"
+                value={profileData.lastname}
+                onChange={handleChange}
+                placeholder="Last Name"
+              />
+              <input
+                type="email"
+                name="email"
+                value={profileData.email}
+                onChange={handleChange}
+                placeholder="Email"
+              />
+              <input
+                type="tel"
+                name="phone"
+                value={profileData.phone}
+                onChange={handleChange}
+                placeholder="Phone Number"
+              />
+              <input
+                type="password"
+                name="password"
+                value={profileData.password}
+                onChange={handleChange}
+                placeholder="New Password"
+              />
+              <input
+                type="password"
+                name="confpassword"
+                value={profileData.confpassword}
+                onChange={handleChange}
+                placeholder="Confirm Password"
+              />
+            </div>
+
+            <div className="button-container">
+              <button type="submit" className="save-button">SAVE</button>
+              <button type="button" className="cancel-button" onClick={() => navigate('/profile')}>CANCEL</button>
+            </div>
+          </div>
+        </form>
       </div>
-
-      <form onSubmit={() => {}} className="edit-profile-form">
-        <div className="account-details-container">
-          <h3>Account Details</h3>
-          <div className="form-grid">
-            <input
-              type="text"
-              name="firstName"
-              value={profileData.firstName}
-              onChange={handleChange}
-              placeholder="First Name"
-            />
-            <input
-              type="text"
-              name="lastName"
-              value={profileData.lastName}
-              onChange={handleChange}
-              placeholder="Last Name"
-            />
-            <input
-              type="email"
-              name="email"
-              value={profileData.email}
-              onChange={handleChange}
-              placeholder="Email"
-            />
-            <input
-              type="tel"
-              name="phone"
-              value={profileData.phone}
-              onChange={handleChange}
-              placeholder="Phone Number"
-            />
-            <input
-              type="password"
-              name="password"
-              value={profileData.password}
-              onChange={handleChange}
-              placeholder="New Password"
-            />
-            <input
-              type="password"
-              name="confpassword"
-              value={profileData.confpassword}
-              onChange={handleChange}
-              placeholder="Confirm Password"
-            />
-          </div>
-
-          <div className="button-container">
-            <button type="submit" className="save-button">SAVE</button>
-            <button type="button" className="cancel-button">CANCEL</button>
-          </div>
-        </div>
-      </form>
-    </div>
     </>
   );
 };
