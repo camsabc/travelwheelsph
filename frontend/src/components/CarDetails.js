@@ -246,25 +246,28 @@ const handleQuotationSubmit = async (e) => {
 
               <MDBRow>
                 <MDBCol md="6">
-                  <input
-                    id="lastname"
-                    name="lastname"
-                    type="text"
-                    placeholder="Last Name"
-                    value={bookingDetails.lastname}
-                    onChange={handleChange}
-                    required
-                    className="form-control"
-                    style={{
-                      border: '2px solid rgb(250, 207, 32)', 
-                      borderRadius: '15px', 
-                      boxShadow: 'none', 
-                      padding: '10px',
-                      backgroundColor: 'transparent', 
-                      width: '100%',
-                      marginBottom: '10px'
-                    }}
-                  />
+                <label htmlFor="lastname" style={{ color: 'black', fontWeight: 'bold' }}>
+                  Last Name <span style={{ color: 'red' }}>*</span>
+                </label>
+                <input
+                  id="lastname"
+                  name="lastname"
+                  type="text"
+                  value={bookingDetails.lastname}
+                  onChange={handleChange}
+                  required
+                  className="form-control"
+                  style={{
+                    border: '2px solid rgb(250, 207, 32)', 
+                    borderRadius: '15px', 
+                    boxShadow: 'none', 
+                    padding: '10px',
+                    backgroundColor: 'transparent', 
+                    width: '100%',
+                    marginBottom: '10px'
+                  }}
+                />
+
                 </MDBCol>
                 <MDBCol md="6">
                   <input

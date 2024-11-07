@@ -287,95 +287,121 @@ const handleQuotationSubmit = async (e) => {
               <MDBTypography tag="h5" className="text-center mb-5">
                 Kindly complete the details below:
               </MDBTypography>
+              <MDBTypography tag="h6" className="text-start mb-4" style={{color: 'red'}}>Fields with asterisks (*) are required</MDBTypography>
               <form>
 
 <MDBTypography tag="h6" className="text-start mb-3" style={{fontWeight: 'bold'}}>General Information</MDBTypography>
 
-  <MDBRow>
-  <MDBCol md="6">
-        <input
-            id="lastname"
-            name="lastname"
-            type="text"
-            placeholder="Last Name"
-            value={bookingDetails.lastname}
-            onChange={handleChange}
-            required
-            className="form-control"
-            style={{
-                border: '2px solid rgb(250, 207, 32)', 
-                borderRadius: '15px', 
-                boxShadow: 'none', 
-                padding: '10px',
-                backgroundColor: 'transparent', 
-                width: '100%',
-                marginBottom: '10px'
-            }}
-        />
-    </MDBCol>
-    <MDBCol md="6">
-        <input
-            id="firstname"
-            name="firstname"
-            type="text"
-            placeholder="First Name"
-            value={bookingDetails.firstname}
-            onChange={handleChange}
-            required
-            className="form-control"
-            style={{
-                border: '2px solid rgb(250, 207, 32)',
-                borderRadius: '15px', 
-                boxShadow: 'none', 
-                padding: '10px',
-                backgroundColor: 'transparent',
-                width: '100%',
-            }}
-        />
-    </MDBCol>
-  </MDBRow>
+<MDBRow className="mb-3">
+                <MDBCol md="12" className="d-flex align-items-center">
+                  <input 
+                    type="checkbox" 
+                    id="autoFillCheckbox" 
+                    checked={isPopulateChecked} 
+                    onChange={populateCheckboxHandler} 
+                    style={{ marginRight: '10px' }} 
+                  />
+                  <label htmlFor="autoFillCheckbox">
+                    Click here to apply your account information.
+                  </label>
+                </MDBCol>
+              </MDBRow>
+
+              <MDBRow>
+              <MDBCol md="6">
+                <label htmlFor="lastname" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Last Name <span style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input
+                    id="lastname"
+                    name="lastname"
+                    type="text"
+                    value={bookingDetails.lastname}
+                    onChange={handleChange}
+                    required
+                    className="form-control"
+                    style={{
+                      border: '2px solid rgb(250, 207, 32)', 
+                      borderRadius: '15px', 
+                      boxShadow: 'none', 
+                      padding: '10px',
+                      backgroundColor: 'transparent', 
+                      width: '100%',
+                      marginBottom: '10px'
+                    }}
+                  />
+                </MDBCol>
+                <MDBCol md="6">
+                <label htmlFor="firstname" style={{ color: 'black', paddingLeft: '12px' }}>
+                    First Name <span style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input
+                    id="firstname"
+                    name="firstname"
+                    type="text"
+                    value={bookingDetails.firstname}
+                    onChange={handleChange}
+                    required
+                    className="form-control"
+                    style={{
+                      border: '2px solid rgb(250, 207, 32)', 
+                      borderRadius: '15px', 
+                      boxShadow: 'none', 
+                      padding: '10px',
+                      backgroundColor: 'transparent', 
+                      width: '100%',
+                      marginBottom: '10px'
+                    }}
+                  />
+                </MDBCol>
+              </MDBRow>
 
   <MDBRow>
   <MDBCol md="6">
-        <input
-            id="contactNumber"
-            name="contactNumber"
-            type="text"
-            placeholder="Contact Number"
-            value={bookingDetails.contactNumber}
-            onChange={handleChange}
-            required
-            className="form-control"
-            style={{
-                border: '2px solid rgb(250, 207, 32)',
-                borderRadius: '15px', 
-                boxShadow: 'none',
-                padding: '10px',
-                backgroundColor: 'transparent', 
-                width: '100%', 
-                marginBottom: '10px'
-            }}
-        />
+  <label htmlFor="contactNumber" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Contact Number <span style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input
+                    id="contactNumber"
+                    name="contactNumber"
+                    type="text"
+                    value={bookingDetails.contactNumber}
+                    onChange={handleChange}
+                    required
+                    className="form-control"
+                    style={{
+                      border: '2px solid rgb(250, 207, 32)', 
+                      borderRadius: '15px', 
+                      boxShadow: 'none', 
+                      padding: '10px',
+                      backgroundColor: 'transparent', 
+                      width: '100%',
+                      marginBottom: '10px'
+                    }}
+                  />
     </MDBCol>
     <MDBCol md="6">
-        <input
-            id="vehicleName"
-            name="vehicleName"
-            type="text"
-            value={"Package" + educ.num}
-            onChange={handleChange}
-            required
-            className="form-control"
-            style={{
-                border: '2px solid rgb(250, 207, 32)',
-                borderRadius: '15px', 
-                boxShadow: 'none',
-                padding: '10px',
-                backgroundColor: 'transparent', 
-                width: '100%', 
-                marginBottom: '10px'
-            }}
-        />
+    <label htmlFor="vehicleName" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Package <span style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input
+                    id="vehicleName"
+                    name="vehicleName"
+                    type="text"
+                    value={"Package " + educ.num}
+                    onChange={handleChange}
+                    required
+                    className="form-control"
+                    style={{
+                      border: '2px solid rgb(250, 207, 32)', 
+                      borderRadius: '15px', 
+                      boxShadow: 'none', 
+                      padding: '10px',
+                      backgroundColor: 'transparent', 
+                      width: '100%',
+                      marginBottom: '10px'
+                    }}
+                  />
     </MDBCol>
 
 
@@ -446,16 +472,9 @@ const handleQuotationSubmit = async (e) => {
       disabled={
         !isChecked ||
         !bookingDetails.lastname ||
-        !bookingDetails.middlename ||
         !bookingDetails.firstname ||
-        !bookingDetails.email ||
-        !bookingDetails.contactNumber ||
-        !bookingDetails.startDate ||
-        !bookingDetails.endDate ||
+        !bookingDetails.contactNumber
 
-        !bookingDetails.pickupLocation ||
-        !bookingDetails.dropoffLocation ||
-        !bookingDetails.numOfPersons
       } 
     >
       REQUEST QUOTATION

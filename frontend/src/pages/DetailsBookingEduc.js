@@ -259,6 +259,7 @@ function DetailsBookingEduc() {
               <MDBTypography tag="h5" className="text-center mb-5">
                 Kindly complete the details below:
               </MDBTypography>
+              <MDBTypography tag="h6" className="text-start mb-4" style={{color: 'red'}}>Fields with asterisks (*) are required</MDBTypography>
               <form>
 
 <MDBTypography tag="h6" className="text-start mb-3" style={{fontWeight: 'bold'}}>General Information</MDBTypography>

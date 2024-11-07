@@ -81,8 +81,8 @@ function DetailsIntPack() {
     startDate: '',
     endDate: '',
     pickupLocation: '',
-    dropoffLocation: '',
-    numOfPersons: '',
+    dropOffLocation: '',
+    numOfPerson: '',
     remarks: '',
     status: 'Pending',
     num: '',
@@ -564,402 +564,377 @@ const handleQuotationSubmit = async (e) => {
               <MDBTypography tag="h5" className="text-center mb-4">
                 Kindly complete the details below:
               </MDBTypography>
+              <MDBTypography tag="h6" className="text-start mb-4" style={{color: 'red'}}>Fields with asterisks (*) are required</MDBTypography>
               <form>
 
 <MDBTypography tag="h6" className="text-start mb-3" style={{fontWeight: 'bold'}}>General Information</MDBTypography>
-
-  <MDBRow>
-  <MDBCol md="6">
-        <input
-            id="lastname"
-            name="lastname"
-            type="text"
-            placeholder="Last Name"
-            value={bookingDetails.lastname}
-            onChange={handleChange}
-            required
-            className="form-control"
-            style={{
-                border: '2px solid rgb(250, 207, 32)', 
-                borderRadius: '15px', 
-                boxShadow: 'none', 
-                padding: '10px',
-                backgroundColor: 'transparent', 
-                width: '100%',
-                marginBottom: '10px'
-            }}
-        />
-    </MDBCol>
-    <MDBCol md="6">
-        <input
-            id="firstname"
-            name="firstname"
-            type="text"
-            placeholder="First Name"
-            value={bookingDetails.firstname}
-            onChange={handleChange}
-            required
-            className="form-control"
-            style={{
-                border: '2px solid rgb(250, 207, 32)',
-                borderRadius: '15px', 
-                boxShadow: 'none', 
-                padding: '10px',
-                backgroundColor: 'transparent',
-                width: '100%',
-            }}
-        />
-    </MDBCol>
-  </MDBRow>
-
-
-  <MDBRow>
-  <MDBCol md="6">
-        <input
-            id="middlename"
-            name="middlename"
-            type="text"
-            placeholder="Middle Name"
-            value={bookingDetails.middlename}
-            onChange={handleChange}
-            required
-            className="form-control"
-            style={{
-                border: '2px solid rgb(250, 207, 32)',
-                borderRadius: '15px', 
-                boxShadow: 'none', 
-                padding: '10px', 
-                backgroundColor: 'transparent', 
-                width: '100%', 
-                marginBottom: '10px'
-            }}
-        />
-    </MDBCol>
-    <MDBCol md="6">
-        <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="Email"
-            value={bookingDetails.email}
-            onChange={handleChange}
-            required
-            className="form-control"
-            style={{
-                border: '2px solid rgb(250, 207, 32)',
-                borderRadius: '15px',
-                boxShadow: 'none',
-                padding: '10px', 
-                backgroundColor: 'transparent', 
-                width: '100%', 
-                marginBottom: '10px'
-            }}
-        />
-    </MDBCol>
-  </MDBRow>
-
-  <MDBRow>
-  <MDBCol md="6">
-        <input
-            id="contactNumber"
-            name="contactNumber"
-            type="text"
-            placeholder="Contact Number"
-            value={bookingDetails.contactNumber}
-            onChange={handleChange}
-            required
-            className="form-control"
-            style={{
-                border: '2px solid rgb(250, 207, 32)',
-                borderRadius: '15px', 
-                boxShadow: 'none',
-                padding: '10px',
-                backgroundColor: 'transparent', 
-                width: '100%', 
-                marginBottom: '10px'
-            }}
-        />
-    </MDBCol>
+<MDBRow className="mb-3">
+                <MDBCol md="12" className="d-flex align-items-center">
+                  <input 
+                    type="checkbox" 
+                    id="autoFillCheckbox" 
+                    checked={isPopulateChecked} 
+                    onChange={populateCheckboxHandler} 
+                    style={{ marginRight: '10px' }} 
+                  />
+                  <label htmlFor="autoFillCheckbox">
+                    Click here to apply your account information.
+                  </label>
+                </MDBCol>
               </MDBRow>
 
-              <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{ fontWeight: 'bold' }}>
-                  Passengers
-                </MDBTypography>
-                {passengers.map((passenger, index) => (
-  <MDBRow key={index}>
-    <MDBCol md="5"> {/* Adjust column size to fit the new input */}
-      <input
-        type="text"
-        placeholder="First Name"
-        name="firstname"
-        value={passenger.firstname}
-        onChange={(e) => handlePassengerChange(index, e)}
-        className="form-control"
-        style={{
-          border: '2px solid rgb(250, 207, 32)',
-          borderRadius: '15px',
-          boxShadow: 'none',
-          padding: '10px',
-          backgroundColor: 'transparent',
-          width: '100%',
-          marginBottom: '10px',
-        }}
-      />
-    </MDBCol>
-    <MDBCol md="5"> {/* Adjust column size to fit the new input */}
-      <input
-        type="text"
-        placeholder="Last Name"
-        name="lastname"
-        value={passenger.lastname}
-        onChange={(e) => handlePassengerChange(index, e)}
-        className="form-control"
-        style={{
-          border: '2px solid rgb(250, 207, 32)',
-          borderRadius: '15px',
-          boxShadow: 'none',
-          padding: '10px',
-          backgroundColor: 'transparent',
-          width: '100%',
-          marginBottom: '10px',
-        }}
-      />
-    </MDBCol>
-    <MDBCol md="2"> {/* New column for age */}
-      <input
-        type="number" // Use number type for age input
-        placeholder="Age"
-        name="age"
-        value={passenger.age}
-        onChange={(e) => handlePassengerChange(index, e)}
-        className="form-control"
-        style={{
-          border: '2px solid rgb(250, 207, 32)',
-          borderRadius: '15px',
-          boxShadow: 'none',
-          padding: '10px',
-          backgroundColor: 'transparent',
-          width: '100%',
-          marginBottom: '10px',
-        }}
-      />
-    </MDBCol>
-  </MDBRow>
-))}
+<MDBRow>
+              <MDBCol md="6">
+                <label htmlFor="lastname" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Last Name <span style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input
+                    id="lastname"
+                    name="lastname"
+                    type="text"
+                    value={bookingDetails.lastname}
+                    onChange={handleChange}
+                    required
+                    className="form-control"
+                    style={{
+                      border: '2px solid rgb(250, 207, 32)', 
+                      borderRadius: '15px', 
+                      boxShadow: 'none', 
+                      padding: '10px',
+                      backgroundColor: 'transparent', 
+                      width: '100%',
+                      marginBottom: '10px'
+                    }}
+                  />
+                </MDBCol>
+                <MDBCol md="6">
+                <label htmlFor="firstname" style={{ color: 'black', paddingLeft: '12px' }}>
+                    First Name <span style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input
+                    id="firstname"
+                    name="firstname"
+                    type="text"
+                    value={bookingDetails.firstname}
+                    onChange={handleChange}
+                    required
+                    className="form-control"
+                    style={{
+                      border: '2px solid rgb(250, 207, 32)', 
+                      borderRadius: '15px', 
+                      boxShadow: 'none', 
+                      padding: '10px',
+                      backgroundColor: 'transparent', 
+                      width: '100%',
+                      marginBottom: '10px'
+                    }}
+                  />
+                </MDBCol>
+              </MDBRow>
 
-  <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{fontWeight: 'bold'}}>Travel Information</MDBTypography>
 
-  <MDBRow>
+              <MDBRow>
+              <MDBCol md="6">
+              <label htmlFor="middlename" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Middle Name <span style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input
+                    id="middlename"
+                    name="middlename"
+                    type="text"
+                    value={bookingDetails.middlename}
+                    onChange={handleChange}
+                    required
+                    className="form-control"
+                    style={{
+                      border: '2px solid rgb(250, 207, 32)', 
+                      borderRadius: '15px', 
+                      boxShadow: 'none', 
+                      padding: '10px',
+                      backgroundColor: 'transparent', 
+                      width: '100%',
+                      marginBottom: '10px'
+                    }}
+                  />
+                </MDBCol>
+                <MDBCol md="6">
+                <label htmlFor="email" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Email <span style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={bookingDetails.email}
+                    onChange={handleChange}
+                    required
+                    className="form-control"
+                    style={{
+                      border: '2px solid rgb(250, 207, 32)', 
+                      borderRadius: '15px', 
+                      boxShadow: 'none', 
+                      padding: '10px',
+                      backgroundColor: 'transparent', 
+                      width: '100%',
+                      marginBottom: '10px'
+                    }}
+                  />
+                </MDBCol>
+              </MDBRow>
+
+              <MDBRow>
+              <MDBCol md="6">
+              <label htmlFor="contactNumber" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Contact Number <span style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input
+                    id="contactNumber"
+                    name="contactNumber"
+                    type="text"
+                    value={bookingDetails.contactNumber}
+                    onChange={handleChange}
+                    required
+                    className="form-control"
+                    style={{
+                      border: '2px solid rgb(250, 207, 32)', 
+                      borderRadius: '15px', 
+                      boxShadow: 'none', 
+                      padding: '10px',
+                      backgroundColor: 'transparent', 
+                      width: '100%',
+                      marginBottom: '10px'
+                    }}
+                  />
+                </MDBCol>
+              </MDBRow>
+              <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{fontWeight: 'bold'}}>Travel Information</MDBTypography>
+
+<MDBRow>
+            <MDBCol md="6">
+            <label htmlFor="startDate" style={{ color: 'black', paddingLeft: '12px' }}>
+                  Start Date <span style={{ color: 'red' }}>*</span>
+                </label>
+                <input
+                  id="startDate"
+                  name="startDate"
+                  type="date"
+                  value={bookingDetails.startDate}
+                  onChange={handleChange}
+                  required
+                  className="form-control"
+                  style={{
+                    border: '2px solid rgb(250, 207, 32)', 
+                    borderRadius: '15px', 
+                    boxShadow: 'none', 
+                    padding: '10px',
+                    backgroundColor: 'transparent', 
+                    width: '100%',
+                    marginBottom: '10px'
+                  }}
+                />
+              </MDBCol>
+              <MDBCol md="6">
+              <label htmlFor="endDate" style={{ color: 'black', paddingLeft: '12px' }}>
+                  End Date <span style={{ color: 'red' }}>*</span>
+                </label>
+                <input
+                  id="endDate"
+                  name="endDate"
+                  type="date"
+                  value={bookingDetails.endDate}
+                  onChange={handleChange}
+                  required
+                  className="form-control"
+                  style={{
+                    border: '2px solid rgb(250, 207, 32)', 
+                    borderRadius: '15px', 
+                    boxShadow: 'none', 
+                    padding: '10px',
+                    backgroundColor: 'transparent', 
+                    width: '100%',
+                    marginBottom: '10px'
+                  }}
+                />
+              </MDBCol>
+            </MDBRow>
+            <MDBRow>
+            <MDBCol md="6">
+            <label htmlFor="pickupLocation" style={{ color: 'black', paddingLeft: '12px' }}>
+                  Pickup Location <span style={{ color: 'red' }}>*</span>
+                </label>
+                <input
+                  id="pickupLocation"
+                  name="pickupLocation"
+                  type="text"
+                  value={bookingDetails.pickupLocation}
+                  onChange={handleChange}
+                  required
+                  className="form-control"
+                  style={{
+                    border: '2px solid rgb(250, 207, 32)', 
+                    borderRadius: '15px', 
+                    boxShadow: 'none', 
+                    padding: '10px',
+                    backgroundColor: 'transparent', 
+                    width: '100%',
+                    marginBottom: '10px'
+                  }}
+                />
+              </MDBCol>
+              <MDBCol md="6">
+              <label htmlFor="dropOffLocation" style={{ color: 'black', paddingLeft: '12px' }}>
+                  Dropoff Location <span style={{ color: 'red' }}>*</span>
+                </label>
+                <input
+                  id="dropOffLocation"
+                  name="dropOffLocation"
+                  type="text"
+                  value={bookingDetails.dropOffLocation}
+                  onChange={handleChange}
+                  required
+                  className="form-control"
+                  style={{
+                    border: '2px solid rgb(250, 207, 32)', 
+                    borderRadius: '15px', 
+                    boxShadow: 'none', 
+                    padding: '10px',
+                    backgroundColor: 'transparent', 
+                    width: '100%',
+                    marginBottom: '10px'
+                  }}
+                />
+              </MDBCol>
+            </MDBRow>
+
+<MDBRow>
+<MDBCol md="6">
+<label htmlFor="numOfPerson" style={{ color: 'black', paddingLeft: '12px' }}>
+                  Number of Person <span style={{ color: 'red' }}>*</span>
+                </label>
+                <input
+                  id="numOfPerson"
+                  name="numOfPerson"
+                  type="number"
+                  value={bookingDetails.numOfPerson}
+                  onChange={handleChange}
+                  required
+                  className="form-control"
+                  style={{
+                    border: '2px solid rgb(250, 207, 32)', 
+                    borderRadius: '15px', 
+                    boxShadow: 'none', 
+                    padding: '10px',
+                    backgroundColor: 'transparent', 
+                    width: '100%',
+                    marginBottom: '10px'
+                  }}
+                />
+  </MDBCol>
   <MDBCol md="6">
-        <input
-            id="startDate"
-            name="startDate"
-            type="date"
-            placeholder="Start Date"
-            value={bookingDetails.startDate}
-            onChange={handleChange}
-            required
-            className="form-control"
-            style={{
-                border: '2px solid rgb(250, 207, 32)',
-                borderRadius: '15px', 
-                boxShadow: 'none',
-                padding: '10px',
-                backgroundColor: 'transparent', 
-                width: '100%', 
-                marginBottom: '10px'
-            }}
-        />
-    </MDBCol>
-    <MDBCol md="6">
-        <input
-            id="endDate"
-            name="endDate"
-            type="date"
-            placeholder="End Date"
-            value={bookingDetails.endDate}
-            onChange={handleChange}
-            required
-            className="form-control"
-            style={{
-                border: '2px solid rgb(250, 207, 32)',
-                borderRadius: '15px', 
-                boxShadow: 'none',
-                padding: '10px',
-                backgroundColor: 'transparent', 
-                width: '100%', 
-                marginBottom: '10px'
-            }}
-        />
-    </MDBCol>
-  </MDBRow>
-  <MDBRow>
-  <MDBCol md="6">
-        <input
-            id="pickupLocation"
-            name="pickupLocation"
-            type="text"
-            placeholder="Pickup Location"
-            value={bookingDetails.pickupLocation}
-            onChange={handleChange}
-            required
-            className="form-control"
-            style={{
-                border: '2px solid rgb(250, 207, 32)',
-                borderRadius: '15px', 
-                boxShadow: 'none',
-                padding: '10px',
-                backgroundColor: 'transparent', 
-                width: '100%', 
-                marginBottom: '10px'
-            }}
-        />
-    </MDBCol>
-    <MDBCol md="6">
-        <input
-            id="dropOffLocation"
-            name="dropOffLocation"
-            type="text"
-            placeholder="Dropoff Location"
-            value={bookingDetails.dropOffLocation}
-            onChange={handleChange}
-            required
-            className="form-control"
-            style={{
-                border: '2px solid rgb(250, 207, 32)',
-                borderRadius: '15px', 
-                boxShadow: 'none',
-                padding: '10px',
-                backgroundColor: 'transparent', 
-                width: '100%', 
-                marginBottom: '10px'
-            }}
-        />
-    </MDBCol>
-  </MDBRow>
-  <MDBRow>
-  <MDBCol md="6">
-        <input
-            id="numOfPerson"
-            name="numOfPerson"
-            type="number"
-            placeholder="Number of Person"
-            value={bookingDetails.numOfPerson}
-            onChange={handleChange}
-            required
-            className="form-control"
-            style={{
-                border: '2px solid rgb(250, 207, 32)',
-                borderRadius: '15px', 
-                boxShadow: 'none',
-                padding: '10px',
-                backgroundColor: 'transparent', 
-                width: '100%', 
-                marginBottom: '10px'
-            }}
-        />
-    </MDBCol>
-    <MDBCol md="6">
-        <input
-            id="vehicleName"
-            name="vehicleName"
-            type="text"
-            required
-            value={pack.duration + pack.name}
-            onChange={handleChange}
-            className="form-control"
-            style={{
-                border: '2px solid rgb(250, 207, 32)',
-                borderRadius: '15px', 
-                boxShadow: 'none',
-                padding: '10px',
-                backgroundColor: 'transparent', 
-                width: '100%', 
-                marginBottom: '10px'
-            }}
-        />
-    </MDBCol>
+  <label htmlFor="vehicleName" style={{ color: 'black', paddingLeft: '12px' }}>
+                  Package
+                </label>
+                <input
+                  id="vehicleName"
+                  name="vehicleName"
+                  type="text"
+                  value={pack.duration + pack.name}
+                  onChange={handleChange}
+                  required
+                  className="form-control"
+                  style={{
+                    border: '2px solid rgb(250, 207, 32)', 
+                    borderRadius: '15px', 
+                    boxShadow: 'none', 
+                    padding: '10px',
+                    backgroundColor: 'transparent', 
+                    width: '100%',
+                    marginBottom: '10px'
+                  }}
+                />
+  </MDBCol>
+</MDBRow>
+
+<MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{fontWeight: 'bold'}}>Other remarks/requests:</MDBTypography>
+
+<MDBRow>
+  <MDBCol md="12">
+      <input
+      id="remarks"
+      name="remarks"
+      type="text"
+      value={bookingDetails.remarks}
+      placeholder='Remarks'
+      onChange={handleChange}
+      className="form-control"
+      style={{
+          border: '2px solid rgb(250, 207, 32)',
+          borderRadius: '15px', 
+          boxShadow: 'none',
+          padding: '15px', 
+          backgroundColor: 'transparent', 
+          width: '100%', 
+          marginBottom: '10px'
+      }}
+      />
+  </MDBCol>
   </MDBRow>
 
-  <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{fontWeight: 'bold'}}>Other remarks/requests:</MDBTypography>
-
-  <MDBRow>
-    <MDBCol md="12">
-        <input
-        id="remarks"
-        name="remarks"
-        type="text"
-        value={bookingDetails.remarks}
-        placeholder='Remarks'
-        onChange={handleChange}
-        className="form-control"
-        style={{
-            border: '2px solid rgb(250, 207, 32)',
-            borderRadius: '15px', 
-            boxShadow: 'none',
-            padding: '15px', 
-            backgroundColor: 'transparent', 
-            width: '100%', 
-            marginBottom: '10px'
-        }}
-        />
-    </MDBCol>
-    </MDBRow>
-
-    <MDBRow className="mt-3">
-                  <MDBCol md="8" className="d-flex align-items-center">
-                    <input 
-                      type="checkbox" 
-                      id="termsCheckbox" 
-                      checked={isChecked} 
-                      onChange={handleCheckboxChange} 
-                      style={{ marginRight: '10px' }} 
-                    />
-                    <label htmlFor="termsCheckbox">
-                      By clicking this, you agree to our{' '}
-                      <span 
-                        onClick={() => navigate('/terms-and-conditions', { state: { email: user.email }})}
-                        style={{ 
-                          color: '#68BBE3', 
-                          cursor: 'pointer' 
-                        }}
-                      >
-                        Terms and Conditions
-                      </span>.
-                    </label>
-                  </MDBCol>
-
-                  <MDBCol md="4" className="d-flex align-items-center">
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      style={{
-                        fontWeight: 'bold',
-                        width: '100%',
-                        borderRadius: '30px',
-                        backgroundColor: 'rgb(255, 165, 0)',
-                        border: 'none',
-                        padding: '10px 20px',
+  <MDBRow className="mt-3">
+                <MDBCol md="8" className="d-flex align-items-center">
+                  <input 
+                    type="checkbox" 
+                    id="termsCheckbox" 
+                    checked={isChecked} 
+                    onChange={handleCheckboxChange} 
+                    style={{ marginRight: '10px' }} 
+                  />
+                  <label htmlFor="termsCheckbox">
+                    By clicking this, you agree to our{' '}
+                    <span 
+                      onClick={() => navigate('/terms-and-conditions', { state: { email: user.email }})}
+                      style={{ 
+                        color: '#68BBE3', 
+                        cursor: 'pointer' 
                       }}
-                      onClick={handleQuotationSubmit}
-                      disabled={
-                        !isChecked ||
-                        !bookingDetails.lastname ||
-                        !bookingDetails.middlename ||
-                        !bookingDetails.firstname ||
-                        !bookingDetails.email ||
-                        !bookingDetails.contactNumber ||
-                        !bookingDetails.startDate ||
-                        !bookingDetails.endDate ||
-
-                        !bookingDetails.airportDeparture ||
-                        !bookingDetails.airportArrival
-                      } 
                     >
-                      REQUEST QUOTATION
-                    </button>
-                  </MDBCol>
-                </MDBRow>
+                      Terms and Conditions
+                    </span>.
+                  </label>
+                </MDBCol>
+
+                <MDBCol md="4" className="d-flex align-items-center">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    style={{
+                      fontWeight: 'bold',
+                      width: '100%',
+                      borderRadius: '30px',
+                      backgroundColor: 'rgb(255, 165, 0)',
+                      border: 'none',
+                      padding: '10px 20px',
+                    }}
+                    onClick={handleQuotationSubmit}
+                    disabled={
+                      !isChecked ||
+                      !bookingDetails.lastname ||
+                      !bookingDetails.middlename ||
+                      !bookingDetails.firstname ||
+                      !bookingDetails.email ||
+                      !bookingDetails.contactNumber ||
+                      !bookingDetails.startDate ||
+                      !bookingDetails.endDate ||
+
+                      !bookingDetails.pickupLocation ||
+                      !bookingDetails.dropOffLocation ||
+                      !bookingDetails.numOfPerson
+                    } 
+                  >
+                    REQUEST QUOTATION
+                  </button>
+                </MDBCol>
+              </MDBRow>
 
 </form>
             </MDBCardBody>

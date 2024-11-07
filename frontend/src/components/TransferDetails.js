@@ -76,9 +76,12 @@ function TransferDetails() {
     contactNumber: '',
     startDate: '',
     endDate: '',
-    preferredHotel: '',
-    budgetRange: '',
+    pickupLocation: '',
+    dropOffLocation: '',
     numOfPerson: '',
+
+
+
     remarks: '',
     status: 'Pending',
     num: '',
@@ -259,6 +262,7 @@ const handleQuotationSubmit = async (e) => {
         <MDBCard style={{ maxWidth: '900px', width: '100%', marginBottom: '50px', backgroundColor: 'rgba(255, 255, 255)', padding: '20px', borderRadius: '15px' }}>
           <MDBCardBody>
             <MDBTypography tag="h5" className="text-center mb-5">Kindly complete the details below:</MDBTypography>
+            <MDBTypography tag="h6" className="text-start mb-4" style={{color: 'red'}}>Fields with asterisks (*) are required</MDBTypography>
             <form>
               <MDBTypography tag="h6" className="text-start mb-3" style={{fontWeight: 'bold'}}>General Information</MDBTypography>
 
@@ -277,13 +281,15 @@ const handleQuotationSubmit = async (e) => {
   </MDBCol>
 </MDBRow>
 
-              <MDBRow>
-                <MDBCol md="6">
+<MDBRow>
+              <MDBCol md="6">
+                <label htmlFor="lastname" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Last Name <span style={{ color: 'red' }}>*</span>
+                  </label>
                   <input
                     id="lastname"
                     name="lastname"
                     type="text"
-                    placeholder="Last Name"
                     value={bookingDetails.lastname}
                     onChange={handleChange}
                     required
@@ -300,66 +306,74 @@ const handleQuotationSubmit = async (e) => {
                   />
                 </MDBCol>
                 <MDBCol md="6">
+                <label htmlFor="firstname" style={{ color: 'black', paddingLeft: '12px' }}>
+                    First Name <span style={{ color: 'red' }}>*</span>
+                  </label>
                   <input
                     id="firstname"
                     name="firstname"
                     type="text"
-                    placeholder="First Name"
                     value={bookingDetails.firstname}
                     onChange={handleChange}
                     required
                     className="form-control"
                     style={{
-                      border: '2px solid rgb(250, 207, 32)',
+                      border: '2px solid rgb(250, 207, 32)', 
                       borderRadius: '15px', 
                       boxShadow: 'none', 
                       padding: '10px',
-                      backgroundColor: 'transparent',
+                      backgroundColor: 'transparent', 
                       width: '100%',
+                      marginBottom: '10px'
                     }}
                   />
                 </MDBCol>
               </MDBRow>
 
+
               <MDBRow>
-                <MDBCol md="6">
+              <MDBCol md="6">
+              <label htmlFor="middlename" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Middle Name <span style={{ color: 'red' }}>*</span>
+                  </label>
                   <input
                     id="middlename"
                     name="middlename"
                     type="text"
-                    placeholder="Middle Name"
                     value={bookingDetails.middlename}
                     onChange={handleChange}
                     required
                     className="form-control"
                     style={{
-                      border: '2px solid rgb(250, 207, 32)',
+                      border: '2px solid rgb(250, 207, 32)', 
                       borderRadius: '15px', 
                       boxShadow: 'none', 
-                      padding: '10px', 
+                      padding: '10px',
                       backgroundColor: 'transparent', 
-                      width: '100%', 
+                      width: '100%',
                       marginBottom: '10px'
                     }}
                   />
                 </MDBCol>
                 <MDBCol md="6">
+                <label htmlFor="email" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Email <span style={{ color: 'red' }}>*</span>
+                  </label>
                   <input
                     id="email"
                     name="email"
                     type="email"
-                    placeholder="Email"
                     value={bookingDetails.email}
                     onChange={handleChange}
                     required
                     className="form-control"
                     style={{
-                      border: '2px solid rgb(250, 207, 32)',
-                      borderRadius: '15px',
-                      boxShadow: 'none',
-                      padding: '10px', 
+                      border: '2px solid rgb(250, 207, 32)', 
+                      borderRadius: '15px', 
+                      boxShadow: 'none', 
+                      padding: '10px',
                       backgroundColor: 'transparent', 
-                      width: '100%', 
+                      width: '100%',
                       marginBottom: '10px'
                     }}
                   />
@@ -367,23 +381,25 @@ const handleQuotationSubmit = async (e) => {
               </MDBRow>
 
               <MDBRow>
-                <MDBCol md="6">
+              <MDBCol md="6">
+              <label htmlFor="contactNumber" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Contact Number <span style={{ color: 'red' }}>*</span>
+                  </label>
                   <input
                     id="contactNumber"
                     name="contactNumber"
                     type="text"
-                    placeholder="Contact Number"
                     value={bookingDetails.contactNumber}
                     onChange={handleChange}
                     required
                     className="form-control"
                     style={{
-                      border: '2px solid rgb(250, 207, 32)',
+                      border: '2px solid rgb(250, 207, 32)', 
                       borderRadius: '15px', 
-                      boxShadow: 'none',
+                      boxShadow: 'none', 
                       padding: '10px',
                       backgroundColor: 'transparent', 
-                      width: '100%', 
+                      width: '100%',
                       marginBottom: '10px'
                     }}
                   />
@@ -443,89 +459,97 @@ const handleQuotationSubmit = async (e) => {
               </MDBCol>
             </MDBRow>
 
-              <MDBRow>
-                <MDBCol md="6">
+            <MDBRow>
+              <MDBCol md="6">
+              <label htmlFor="startDate" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Start Date <span style={{ color: 'red' }}>*</span>
+                  </label>
                   <input
                     id="startDate"
                     name="startDate"
                     type="date"
-                    placeholder="Start Date"
                     value={bookingDetails.startDate}
                     onChange={handleChange}
                     required
                     className="form-control"
                     style={{
-                      border: '2px solid rgb(250, 207, 32)',
+                      border: '2px solid rgb(250, 207, 32)', 
                       borderRadius: '15px', 
-                      boxShadow: 'none',
+                      boxShadow: 'none', 
                       padding: '10px',
                       backgroundColor: 'transparent', 
-                      width: '100%', 
+                      width: '100%',
                       marginBottom: '10px'
                     }}
                   />
                 </MDBCol>
                 <MDBCol md="6">
+                <label htmlFor="endDate" style={{ color: 'black', paddingLeft: '12px' }}>
+                    End Date <span style={{ color: 'red' }}>*</span>
+                  </label>
                   <input
                     id="endDate"
                     name="endDate"
                     type="date"
-                    placeholder="End Date"
                     value={bookingDetails.endDate}
                     onChange={handleChange}
                     required
                     className="form-control"
                     style={{
-                      border: '2px solid rgb(250, 207, 32)',
+                      border: '2px solid rgb(250, 207, 32)', 
                       borderRadius: '15px', 
-                      boxShadow: 'none',
+                      boxShadow: 'none', 
                       padding: '10px',
                       backgroundColor: 'transparent', 
-                      width: '100%', 
+                      width: '100%',
                       marginBottom: '10px'
                     }}
                   />
                 </MDBCol>
               </MDBRow>
               <MDBRow>
-                <MDBCol md="6">
+              <MDBCol md="6">
+              <label htmlFor="pickupLocation" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Pickup Location <span style={{ color: 'red' }}>*</span>
+                  </label>
                   <input
-                    id="pickuploc"
-                    name="pickuploc"
+                    id="pickupLocation"
+                    name="pickupLocation"
                     type="text"
-                    placeholder="Pick Up Location"
-                    value={bookingDetails.pickuploc}
+                    value={bookingDetails.pickupLocation}
                     onChange={handleChange}
                     required
                     className="form-control"
                     style={{
-                      border: '2px solid rgb(250, 207, 32)',
+                      border: '2px solid rgb(250, 207, 32)', 
                       borderRadius: '15px', 
-                      boxShadow: 'none',
+                      boxShadow: 'none', 
                       padding: '10px',
                       backgroundColor: 'transparent', 
-                      width: '100%', 
+                      width: '100%',
                       marginBottom: '10px'
                     }}
                   />
                 </MDBCol>
                 <MDBCol md="6">
+                <label htmlFor="dropOffLocation" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Dropoff Location <span style={{ color: 'red' }}>*</span>
+                  </label>
                   <input
-                    id="dropoffloc"
-                    name="dropoffloc"
+                    id="dropOffLocation"
+                    name="dropOffLocation"
                     type="text"
-                    placeholder="Drop Off Location"
-                    value={bookingDetails.dropoffloc}
+                    value={bookingDetails.dropOffLocation}
                     onChange={handleChange}
                     required
                     className="form-control"
                     style={{
-                      border: '2px solid rgb(250, 207, 32)',
+                      border: '2px solid rgb(250, 207, 32)', 
                       borderRadius: '15px', 
-                      boxShadow: 'none',
+                      boxShadow: 'none', 
                       padding: '10px',
                       backgroundColor: 'transparent', 
-                      width: '100%', 
+                      width: '100%',
                       marginBottom: '10px'
                     }}
                   />
@@ -534,22 +558,24 @@ const handleQuotationSubmit = async (e) => {
 
               <MDBRow>
                 <MDBCol md="6">
+                <label htmlFor="numOfPerson" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Number of Person <span style={{ color: 'red' }}>*</span>
+                  </label>
                   <input
                     id="numOfPerson"
                     name="numOfPerson"
                     type="number"
-                    placeholder="Number of Persons"
                     value={bookingDetails.numOfPerson}
                     onChange={handleChange}
                     required
                     className="form-control"
                     style={{
-                      border: '2px solid rgb(250, 207, 32)',
+                      border: '2px solid rgb(250, 207, 32)', 
                       borderRadius: '15px', 
-                      boxShadow: 'none',
+                      boxShadow: 'none', 
                       padding: '10px',
                       backgroundColor: 'transparent', 
-                      width: '100%', 
+                      width: '100%',
                       marginBottom: '10px'
                     }}
                   />
@@ -627,8 +653,8 @@ const handleQuotationSubmit = async (e) => {
                         
                         !bookingDetails.startDate ||
                         !bookingDetails.endDate ||
-                        !bookingDetails.preferredHotel ||
-                        !bookingDetails.budgetRange ||
+                        !bookingDetails.pickupLocation ||
+                        !bookingDetails.dropOffLocation ||
                         !bookingDetails.numOfPerson
                       } 
                     >

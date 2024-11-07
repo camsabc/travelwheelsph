@@ -20,12 +20,12 @@ import flightsbg from '../../images/flightsbg.jpg';
 
 import Modal from '../../components/Modal'; 
 
-import pack1 from '../../images/pack1.jpg';
-import pack2 from '../../images/pack2.jpg';
-import pack3 from '../../images/pack3.jpg';
-import pack4 from '../../images/pack4.jpg';
-import pack5 from '../../images/pack5.jpg';
-import pack6 from '../../images/pack6.jpg';
+import pack1 from '../../images/dom1.PNG';
+import pack2 from '../../images/dom2.PNG';
+import pack3 from '../../images/dom3.PNG';
+import pack4 from '../../images/int1.PNG';
+import pack5 from '../../images/int2.PNG';
+import pack6 from '../../images/int3.PNG';
 
 function ServicesPackGuest() {
 
@@ -259,7 +259,7 @@ function ServicesPackGuest() {
                         <MDBCardImage
                           src={getImageForPack(pack.pics)}
                           alt={pack.name}
-                          style={{ height: '350px', width: '100%', objectFit: 'cover', objectPosition: 'center', marginBottom: '-20px' }}
+                          style={{ height: '500', width: '100%', objectFit: 'cover', objectPosition: 'center', marginBottom: '-20px' }}
                         />
                       </div>
                     </MDBCol>

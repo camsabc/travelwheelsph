@@ -14,6 +14,7 @@ const UserModel = require('./models/User');
 const app = express();
 
 /* Middleware */
+// https://travelwheelsapp.travelwheelsph.com
 app.use(bodyParser.json());
 app.use(cors({
   origin: 'https://travelwheelsapp.travelwheelsph.com',
