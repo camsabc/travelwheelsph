@@ -64,7 +64,7 @@ app.post('/new-email-otp', async (req, res) => {
 
   try {
     // Update the user's OTP in the database
-    await UserModel.updateOne({ _id: userId }, { otp: otp }); // Replace `User` with your user model or database interaction logic
+    await UserModel.updateOne({ _id: userId }, { otp: otp }); 
 
     const mailOptions = {
       from: 'cams.castro03@gmail.com',  // Replace with your email

@@ -17,9 +17,9 @@ import {
 
 import logo from '../images/header.jpg';
 
-function Quotation() {
+function InquiryList() {
   const [user, setUser] = useState(null);
-  const [quotations, setQuotations] = useState([]);
+  const [inquiries, setInquiries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const location = useLocation();
@@ -35,7 +35,7 @@ function Quotation() {
             setError(data.error);
           } else {
             setUser(data);
-            return fetch(`http://localhost:3000/api/quotations/get-all-quotations-by-email/${email}`);
+            return fetch(`http://localhost:3000/api/inquiries/get-all-inquiries-by-email/${email}`);
           }
         })
         .then(response => response.json())
@@ -43,7 +43,7 @@ function Quotation() {
           if (data.error) {
             setError(data.error);
           } else {
-            setQuotations(data);
+            setInquiries(data);
           }
           setLoading(false);
         })
@@ -57,9 +57,7 @@ function Quotation() {
     }
   }, [email]);
 
-  const handleDetailsClick = (quotationId, index) => {
-    navigate('/details-quotation', { state: { id: quotationId, email: user.email, index } });
-  };
+
 
   if (loading) {
     return <div className="text-center">Loading...</div>;
@@ -113,60 +111,40 @@ function Quotation() {
       <MDBContainer className="flex-grow-1 py-5">
         {/* Title and Line */}
         <div className="text-center mb-4">
-          <h2 style={{ fontWeight: 'bolder', paddingBottom: '10px', color: 'rgb(61, 132, 185)' }}>QUOTATIONS</h2>
+          <h2 style={{ fontWeight: 'bolder', paddingBottom: '10px', color: 'rgb(61, 132, 185)' }}>INQUIRIES</h2>
           <hr style={{ width: '100%', margin: '0 auto', borderTop: '5px solid rgb(255, 165, 0)', paddingBottom: '10px', opacity: 1 }} />
         </div>
 
-        {quotations.length > 0 ? (
+        {inquiries.length > 0 ? (
           <MDBRow>
-            {quotations.map((quotation, index) => (
-              <MDBCol md="6" lg="4" className="mb-4" key={quotation.id || `fallback-${Math.random()}`}>
+            {inquiries.map((inquiry, index) => (
+              <MDBCol md="6" lg="4" className="mb-4" key={inquiry.id || `fallback-${Math.random()}`}>
                 <MDBCard style={{ minHeight: '175px', position: 'relative', backgroundColor: 'rgb(255, 222, 89)' }}>
                   <MDBCardBody>
                     <MDBTypography tag="h3" style={{ fontWeight: 'bolder', textAlign: 'center', marginBottom: '1rem', color: 'white' }}>
-                      QUOTATION #{index + 1}
+                      INQUIRY #{index + 1}
                     </MDBTypography>
 
                     <MDBTypography tag="h6" style={{ fontWeight: 'bold', textAlign: 'start' }}>
-                      Quotation Details
+                        Inquiry Details
                     </MDBTypography>
 
                     <MDBTypography tag="p" style={{ textAlign: 'start', fontSize: '16px' }}>
-                      Date: {new Date(quotation.date).toLocaleDateString()} <br />
-                      Amount: {quotation.amount} <br />
+                      Inquiry Message: {inquiry.message} 
                     </MDBTypography>
 
-                    <MDBTypography tag="h6" style={{ textAlign: 'start' }}>
-                      <span style={{ fontWeight: 'bold' }}>Status:</span> {quotation.status}
-                    </MDBTypography>
 
-                    <div style={{ marginTop: '50px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                      <MDBBtn
-                        rounded
-                        size="sm"
-                        style={{
-                          backgroundColor: 'white',
-                          width: '200px',
-                          height: '40px',
-                          fontWeight: 'bold',
-                          color: 'black',
-                        }}
-                        onClick={() => handleDetailsClick(quotation._id, index)}
-                      >
-                        MORE DETAILS
-                      </MDBBtn>
-                    </div>
                   </MDBCardBody>
                 </MDBCard>
               </MDBCol>
             ))}
           </MDBRow>
         ) : (
-          <div className="text-center" style={{ padding: '20px', fontSize: '1.25rem', fontWeight: 'bold' }}>No quotations found.</div>
+          <div className="text-center" style={{ padding: '20px', fontSize: '1.25rem', fontWeight: 'bold' }}>No inquiries found.</div>
         )}
       </MDBContainer>
     </div>
   );
 }
 
-export default Quotation;
+export default InquiryList;

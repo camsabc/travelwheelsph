@@ -73,6 +73,8 @@ import DetailsDomPackGuest from './pages/guestPages/DetailsDomPackGuest';
 import DetailsIntPackGuest from './pages/guestPages/DetailsIntPackGuest';
 import TermsAndConditionsGuest from './pages/guestPages/TermsAndConditionsGuest';
 
+import InquiryList from './pages/InquiryList';
+
 function App() {
   return (
     <div className="App">
@@ -150,6 +152,8 @@ function App() {
               <Route path="/pack-dom-guest/:id" element={<DetailsDomPackGuest/>} />
               <Route path="/pack-int-guest/:id" element={<DetailsIntPackGuest/>} />
               <Route path="/terms-and-conditions-guest" element={<TermsAndConditionsGuest/>} />
+
+              <Route path="/inquiry-list" element={<InquiryList/>}/>
 
 
 

@@ -78,48 +78,45 @@ const Homepage = () => {
 
   return (
     <>
-    {/* HEADER */}
-    <div
-      className="py-2"
-      style={{ flexShrink: 0, backgroundColor: 'transparent', zIndex: 1, position: 'relative' }}
-    >
-<MDBContainer fluid className="d-flex align-items-center justify-content-between">
+      {/* Header Section */}
+      <div className="bg-white py-2" style={{ flexShrink: 0 }}>
+        <MDBContainer fluid className="d-flex align-items-center justify-content-between">
         <MDBCardImage
-          src={logo}
-          style={{ width: '200px', cursor: 'pointer' }}
-          alt="Header Logo"
-          onClick={() => navigate('/')} 
-        />
-        <MDBNavbar expand="lg" style={{ boxShadow: 'none' }}>
-          <MDBNavbarNav className="align-items-center">
-            <MDBNavbarItem style={{ margin: '0 25px', color: 'white' }}>
-              <MDBNavbarLink style={{ color: 'white' }} onClick={() => navigate('/services-guest')}>
-                Services
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem style={{ margin: '0 25px' }}>
-              <MDBNavbarLink style={{ color: 'white' }} onClick={() => navigate('/promos-guest')}>Promos</MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem style={{ margin: '0 25px' }}>
-              <MDBNavbarLink style={{ color: 'white' }} onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
-            </MDBNavbarItem>
-            <span
-              onClick={handleLoginClick}
-              style={{
-                margin: '0 25px',
-                fontSize: '1rem',
-                color: 'white',
-                display: 'flex',
-                alignItems: 'center',
-                cursor: 'pointer',
-              }}
-            >
-              Hi, Guest
-            </span>
-          </MDBNavbarNav>
-        </MDBNavbar>
-      </MDBContainer>
-    </div>
+    src={logo}
+    style={{ width: '200px', cursor: 'pointer' }}
+    alt="Header Logo"
+    onClick={() => navigate('/')} 
+  />
+          <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
+            <MDBNavbarNav className="align-items-center">
+              <MDBNavbarItem style={{ margin: '0 25px' }}>
+                <MDBNavbarLink onClick={() => navigate('/services-guest')}>Services</MDBNavbarLink>
+              </MDBNavbarItem>
+
+              <MDBNavbarItem style={{ margin: '0 25px' }}>
+                <MDBNavbarLink onClick={() => navigate('/promos-guest')}>Promos</MDBNavbarLink>
+              </MDBNavbarItem>
+
+              <MDBNavbarItem style={{ margin: '0 25px' }}>
+                <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
+              </MDBNavbarItem>
+              <span
+                onClick={() => {navigate('/login')}}
+                style={{
+                  margin: '0 25px',
+                  fontSize: '1rem',
+                  color: '#000',
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                Hi, Guest
+              </span>
+            </MDBNavbarNav>
+          </MDBNavbar>
+        </MDBContainer>
+      </div>
 
     {/* LOGO SLIDER */}
     <div
@@ -130,7 +127,6 @@ const Homepage = () => {
       transition: 'transform 0.5s ease',
       transform: `translateX(-${activeIndex * 100}%)`,
       position: 'absolute',
-      top: '-80px',
       zIndex: 0,
     }}
     >
@@ -142,7 +138,7 @@ const Homepage = () => {
           className="img-fluid"
           style={{
             width: '100%',
-            height: '420px',
+            height: '400px',
             objectFit: 'cover'
           }}
         />
@@ -169,7 +165,7 @@ const Homepage = () => {
 
 
 
-      <div style={{ width: '100vw', overflow: 'hidden', marginTop: '-35px' }}>
+      <div style={{ width: '100vw', overflow: 'hidden', marginTop: '25px' }}>
         <MDBTypography 
             tag="h1" 
 

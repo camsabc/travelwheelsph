@@ -109,48 +109,43 @@ if (error) {
 
   return (
     <>
-    {/* HEADER */}
-    <div
-      className="py-2"
-      style={{ flexShrink: 0, backgroundColor: 'transparent', zIndex: 1, position: 'relative' }}
-    >
-<MDBContainer fluid className="d-flex align-items-center justify-content-between">
-        <MDBCardImage
-          src={logo}
-          style={{ width: '200px', cursor: 'pointer' }}
-          alt="Header Logo"
-          onClick={() => navigate('/home-user', { state: { email: user.email }})} 
-        />
-        <MDBNavbar expand="lg" style={{ boxShadow: 'none' }}>
-          <MDBNavbarNav className="align-items-center">
-            <MDBNavbarItem style={{ margin: '0 25px', color: 'white' }}>
-              <MDBNavbarLink style={{ color: 'white' }} onClick={() => navigate('/services', { state: { email: user.email }})}>
-                Services
-              </MDBNavbarLink>
+      {/* Header Section */}
+      <div className="bg-white py-2 mb-1" style={{ flexShrink: 0 }}>
+            <MDBContainer fluid className="d-flex align-items-center justify-content-between">
+            <MDBCardImage
+        src={logo}
+        style={{ width: '200px', cursor: 'pointer' }}
+        alt="Header Logo"
+        onClick={() => navigate('/home-user', { state: { email: user.email }})}
+      />
+          <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
+            <MDBNavbarNav className="align-items-center">
+            <MDBNavbarItem style={{ margin: '0 15px' }}>
+              <span style={{ cursor: 'pointer' }} onClick={ () => navigate('/services', { state: { email: user.email }})}>Services</span>
             </MDBNavbarItem>
-            <MDBNavbarItem style={{ margin: '0 25px' }}>
-              <MDBNavbarLink style={{ color: 'white' }} onClick={() => navigate('/promos', { state: { email: user.email }})}>Promos</MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem style={{ margin: '0 25px' }}>
-              <MDBNavbarLink style={{ color: 'white' }} onClick={() => navigate('/inquiry', { state: { email: user.email }})}>Inquiry</MDBNavbarLink>
-            </MDBNavbarItem>
-            <span
-              onClick={() => navigate('/profile', { state: { email: user.email }})}
-              style={{
-                margin: '0 25px',
-                fontSize: '1rem',
-                color: 'white',
-                display: 'flex',
-                alignItems: 'center',
-                cursor: 'pointer',
-              }}
-            >
-              Hi, {user.firstname}
-            </span>
-          </MDBNavbarNav>
-        </MDBNavbar>
-      </MDBContainer>
-    </div>
+              <MDBNavbarItem style={{ margin: '0 15px' }}>
+                <MDBNavbarLink onClick={() => navigate('/promos', { state: { email: user.email }})}>Promos</MDBNavbarLink>
+              </MDBNavbarItem>
+              <MDBNavbarItem style={{ margin: '0 15px' }}>
+                <MDBNavbarLink onClick={() => navigate('/inquiry', { state: { email: user.email }})}>Inquiry</MDBNavbarLink>
+              </MDBNavbarItem>
+              <span
+                  onClick={ () => navigate('/profile', { state: { email: user.email } })}
+                  style={{
+                    margin: '0 15px',
+                    fontSize: '1rem',
+                    color: '#000',
+                    display: 'flex',
+                    alignItems: 'center',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Hi, {user ? user.firstname : 'Guest'}
+                </span>
+            </MDBNavbarNav>
+          </MDBNavbar>
+        </MDBContainer>
+      </div>
 
     {/* LOGO SLIDER */}
     <div
@@ -161,7 +156,6 @@ if (error) {
       transition: 'transform 0.5s ease',
       transform: `translateX(-${activeIndex * 100}%)`,
       position: 'absolute',
-      top: '-80px',
       zIndex: 0,
     }}
     >
@@ -173,7 +167,7 @@ if (error) {
           className="img-fluid"
           style={{
             width: '100%',
-            height: '420px',
+            height: '400px',
             objectFit: 'cover'
           }}
         />
@@ -200,7 +194,7 @@ if (error) {
 
 
 
-      <div style={{ width: '100vw', overflow: 'hidden', marginTop: '-35px' }}>
+      <div style={{ width: '100vw', overflow: 'hidden', marginTop: '25px' }}>
         <MDBTypography 
             tag="h1" 
 

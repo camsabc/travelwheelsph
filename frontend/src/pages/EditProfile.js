@@ -20,7 +20,7 @@ const EditProfile = () => {
     firstname: '',
     lastname: '',
     email: '',
-    phone: '',
+    contactNumber: '',
     password: '',
     confpassword: ''
   });
@@ -57,7 +57,7 @@ const EditProfile = () => {
               firstname: data.firstname || '',
               lastname: data.lastname || '',
               email: data.email || '',
-              phone: data.phone || '',
+              contactNumber: data.contactNumber || '',
               password: '',
               confpassword: ''
             });
@@ -162,7 +162,7 @@ const EditProfile = () => {
 
   const verifyOtp = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/users/verify-otp`, {
+      const response = await fetch(`http://localhost:3000/api/verify-otp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -300,11 +300,11 @@ const EditProfile = () => {
                 placeholder="Email"
               />
               <input
-                type="tel"
-                name="phone"
-                value={profileData.phone}
+                type="number"
+                name="contactNumber"
+                value={profileData.contactNumber}
                 onChange={handleChange}
-                placeholder="Phone Number"
+                placeholder="Contact Number"
               />
               <input
                 type="password"

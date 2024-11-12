@@ -33,6 +33,10 @@ const UserSchema = mongoose.Schema({
     isVerified: {
         type: Boolean,
         required: false
+    },
+    contactNumber: {
+        type: Number,
+        required: false
     }
 });
 
