@@ -58,7 +58,7 @@ function ServicesGuest() {
     const fetchData = async () => {
 
             try {
-                const ridesResponse = await fetch(`https://travelwheelsph.onrender.com/api/rides/get-all-rides`);
+                const ridesResponse = await fetch(`http://localhost:3000/api/rides/get-all-rides`);
                 const ridesData = await ridesResponse.json();
                 if (ridesData.error) {
                     setError(ridesData.error);
@@ -245,7 +245,7 @@ function ServicesGuest() {
             <button 
                 type="button" 
                 className="btn btn-primary"
-                onClick={handleLoginClick}
+                onClick={(handleLoginClick)}
                 style={{ 
                     fontWeight: 'bold',
                     fontSize: '14px', 
@@ -446,7 +446,7 @@ function ServicesGuest() {
             {/* Column 1 */}
             <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
                 <h6 className="mt-4 text-uppercase mb-2 font-weight-bold ms-4">ABOUT US</h6>
-                <h6 className="text-uppercase mb-2 font-weight-bold ms-4">CONTACT US</h6>
+                <h6 className="text-uppercase mb-2 font-weight-bold ms-4" onClick={() => navigate('/inquiry-guest')}>CONTACT US</h6>
                 <h6 className="text-uppercase mb-2 font-weight-bold ms-4" onClick={() => navigate('/faq-guest')}>FAQS</h6>
             </div>
     </div>

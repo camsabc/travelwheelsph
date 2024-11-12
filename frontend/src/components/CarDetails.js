@@ -93,7 +93,7 @@ function CarDetails() {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
+        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ const handleQuotationSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create-quotation', {
+        const response = await fetch('http://localhost:3000/api/quotations/create-quotation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -300,7 +300,7 @@ const handleQuotationSubmit = async (e) => {
                     placeholder="Middle Name"
                     value={bookingDetails.middlename}
                     onChange={handleChange}
-                    required
+                    
                     className="form-control"
                     style={{
                       border: '2px solid rgb(250, 207, 32)',
@@ -540,7 +540,6 @@ const handleQuotationSubmit = async (e) => {
                       disabled={
                         !isChecked ||
                         !bookingDetails.lastname ||
-                        !bookingDetails.middlename ||
                         !bookingDetails.firstname ||
                         !bookingDetails.email ||
                         !bookingDetails.contactNumber ||

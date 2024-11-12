@@ -76,7 +76,7 @@ function ServicesPackGuest() {
   useEffect(() => {
     const fetchData = async () => {
             try {
-                const packsResponse = await fetch(`https://travelwheelsph.onrender.com/api/packs/get-all-packs`);
+                const packsResponse = await fetch(`http://localhost:3000/api/packs/get-all-packs`);
                 const packsData = await packsResponse.json();
                 if (packsData.error) {
                     setError(packsData.error);
@@ -106,6 +106,11 @@ function ServicesPackGuest() {
         backgroundColor: '#eee',
       }}
     >
+
+
+
+
+
       {/* Header Section */}
       <div className="bg-white py-2" style={{ flexShrink: 0 }}>
         <MDBContainer fluid className="d-flex align-items-center justify-content-between">
@@ -153,6 +158,15 @@ function ServicesPackGuest() {
           </MDBNavbar>
         </MDBContainer>
       </div>
+
+
+
+
+
+
+
+
+
 
       {/* Main Content Section */}
       <>
@@ -202,7 +216,7 @@ function ServicesPackGuest() {
                       style={{ position: 'relative', display: 'inline-block', flexShrink: 0, width: '33%' }}
                     >
                       <div
-                        onClick={handleLoginClick}
+                        onClick={() => navigate(`/pack-dom-guest/${pack._id}`)}
                         style={{ cursor: 'pointer', position: 'relative' }}
                       >
                         <MDBCardImage
@@ -253,7 +267,7 @@ function ServicesPackGuest() {
                       style={{ position: 'relative', display: 'inline-block', flexShrink: 0, width: '33%' }}
                     >
                       <div
-                        onClick={handleLoginClick}
+                        onClick={() => navigate(`/pack-int-guest/${pack._id}`)}
                         style={{ cursor: 'pointer', position: 'relative' }}
                       >
                         <MDBCardImage

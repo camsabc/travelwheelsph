@@ -18,24 +18,19 @@ import logo from '../../images/header.jpg';
 import inquirybg from '../../images/inquirybg.jpg';
 import map from '../../images/map.jpg';
 import { FaPhone, FaEnvelope, FaFacebook, FaInstagram } from 'react-icons/fa';
-import Toast from '../../components/Toast';
 
 function InquiryGuest() {
   const [backgroundImage, setBackgroundImage] = useState(inquirybg);
 
   const navigate = useNavigate();
   const location = useLocation();
+  const [successMessage, setSuccessMessage] = useState(null);
 
-  const [toast, setToast] = useState(null);
 
-  const showToast = (message, type) => {
-    console.log('Toast triggered:', message, type); // Debug
-    setToast({ message, type });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    showToast('Inquiry submitted successful!', 'success');
+    setSuccessMessage('Inquiry submitted successfully!');
   };
 
 
@@ -222,13 +217,27 @@ function InquiryGuest() {
                 >
                     Send
                 </button>
+
+                {/* Success message below the button */}
+                {successMessage && (
+                  <div style={{
+                    marginTop: '30px',
+                    backgroundColor: '#28a745',
+                    color: 'white',
+                    padding: '20px',
+                    borderRadius: '15px',
+                    maxWidth: '600px',
+                    margin: '10px auto',
+                  }}>
+                    {successMessage}
+                  </div>
+                )}
               </div>
             </MDBCardBody>
           </MDBCard>
         </div>
       </MDBContainer>
 
-      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 }

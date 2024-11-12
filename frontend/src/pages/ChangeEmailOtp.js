@@ -57,10 +57,10 @@ const ChangeEmailOtp = () => {
     }
   
     try {
-      const response = await axios.post('https://travelwheelsph.onrender.com/verify-otp', { email, otp });
+      const response = await axios.post('http://localhost:3000/verify-otp', { email, otp });
   
       if (response.status === 200) {
-        const updateResponse = await axios.put('https://travelwheelsph.onrender.com/update-email', { 
+        const updateResponse = await axios.put('http://localhost:3000/update-email', { 
           oldEmail: email, 
           newEmail 
         });
@@ -84,7 +84,7 @@ const ChangeEmailOtp = () => {
     try {
       setResendDisabled(true);
       setTimer(30); // Reset the timer to 30 seconds
-      const response = await axios.post('https://travelwheelsph.onrender.com/request-otp', { email });
+      const response = await axios.post('http://localhost:3000/request-otp', { email });
       
       if (response.status === 200) {
         showToast('OTP sent to email!', 'success');

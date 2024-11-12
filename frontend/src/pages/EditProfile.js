@@ -45,7 +45,7 @@ const EditProfile = () => {
 
   useEffect(() => {
     if (email) {
-      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
+      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
@@ -102,7 +102,7 @@ const EditProfile = () => {
 
   const sendOtp = async (newEmail, userId) => {
     try {
-      const response = await axios.post('https://travelwheelsph.onrender.com/new-email-otp', {
+      const response = await axios.post('http://localhost:3000/new-email-otp', {
         newEmail,
         userId,
         firstname: user.firstname
@@ -138,7 +138,7 @@ const EditProfile = () => {
     }
 
     try {
-      const response = await fetch(`https://travelwheelsph.onrender.com/api/users/edit-user/${userId}`, {
+      const response = await fetch(`http://localhost:3000/api/users/edit-user/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -162,7 +162,7 @@ const EditProfile = () => {
 
   const verifyOtp = async () => {
     try {
-      const response = await fetch(`https://travelwheelsph.onrender.com/api/users/verify-otp`, {
+      const response = await fetch(`http://localhost:3000/api/users/verify-otp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

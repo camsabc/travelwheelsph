@@ -100,7 +100,7 @@ function DetailsBookingEduc() {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
+        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ function DetailsBookingEduc() {
     const fetchData = async () => {
       try {
         if (email) {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
           if (userData.error) {
             setError(userData.error);
@@ -136,7 +136,7 @@ function DetailsBookingEduc() {
           setUser(userData);
         }
 
-        const educResponse = await fetch(`https://travelwheelsph.onrender.com/api/educs/get-educ-by-id/${id}`);
+        const educResponse = await fetch(`http://localhost:3000/api/educs/get-educ-by-id/${id}`);
         const educData = await educResponse.json();
         if (educData.error) {
           setError(educData.error);
@@ -318,7 +318,7 @@ function DetailsBookingEduc() {
             placeholder="Middle Name"
             value={bookingDetails.middlename}
             onChange={handleChange}
-            required
+            
             className="form-control"
             style={{
                 border: '2px solid rgb(250, 207, 32)',
@@ -577,7 +577,6 @@ function DetailsBookingEduc() {
       disabled={
         !isChecked ||
         !bookingDetails.lastname ||
-        !bookingDetails.middlename ||
         !bookingDetails.firstname ||
         !bookingDetails.email ||
         !bookingDetails.contactNumber ||

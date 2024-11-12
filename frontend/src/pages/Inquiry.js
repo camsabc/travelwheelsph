@@ -11,14 +11,12 @@ import {
   MDBTypography,
   MDBCardText,
   MDBCardImage,
-  MDBBtn,
 } from 'mdb-react-ui-kit';
 
 import logo from '../images/header.jpg';
 import inquirybg from '../images/inquirybg.jpg';
 import map from '../images/map.jpg';
 import { FaPhone, FaEnvelope, FaFacebook, FaInstagram } from 'react-icons/fa';
-import Toast from '../components/Toast';
 
 function Inquiry() {
   const [backgroundImage, setBackgroundImage] = useState(inquirybg);
@@ -29,24 +27,49 @@ function Inquiry() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [inquiryData, setInquiryData] = useState({
+    email: '',
+    message: '',
+  });
 
-  const [toast, setToast] = useState(null);
-
-  const showToast = (message, type) => {
-    console.log('Toast triggered:', message, type); // Debug
-    setToast({ message, type });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setInquiryData({
+      ...inquiryData,
+      [name]: value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    showToast('Inquiry submitted successful!', 'success');
+
+    // Send the inquiry to the backend
+    try {
+      const response = await fetch('http://localhost:3000/api/inquiries/create-inquiry', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(inquiryData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit the inquiry');
+      }
+
+      setSuccessMessage('Inquiry submitted successfully!');
+      setInquiryData({ email: '', message: '' }); // Clear form
+    } catch (err) {
+      setError('Failed to submit the inquiry.');
+    }
   };
 
   useEffect(() => {
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -67,21 +90,21 @@ function Inquiry() {
     fetchData();
   }, [email]);
 
-if (loading) {
-  return (
-    <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <h3>Loading...</h3>
-    </div>
-  );
-}
+  if (loading) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <h3>Loading...</h3>
+      </div>
+    );
+  }
 
-if (error) {
-  return (
-    <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <h3>{error}</h3>
-    </div>
-  );
-}
+  if (error) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <h3>{error}</h3>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -98,30 +121,30 @@ if (error) {
       {/* Header Section */}
       <div className="bg-white py-2" style={{ flexShrink: 0 }}>
         <MDBContainer fluid className="d-flex align-items-center justify-content-between">
-        <MDBCardImage
-    src={logo}
-    style={{ width: '200px', cursor: 'pointer' }}
-    alt="Header Logo"
-    onClick={() => navigate('/home-user', { state: { email: user.email }})} 
-  />
+          <MDBCardImage
+            src={logo}
+            style={{ width: '200px', cursor: 'pointer' }}
+            alt="Header Logo"
+            onClick={() => navigate('/home-user', { state: { email: user.email } })}
+          />
           <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
             <MDBNavbarNav className="align-items-center">
               <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={() => navigate('/services', { state: { email: user.email }})}>Services</MDBNavbarLink>
+                <MDBNavbarLink onClick={() => navigate('/services', { state: { email: user.email } })}>Services</MDBNavbarLink>
               </MDBNavbarItem>
               <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={() => navigate('/promos', { state: { email: user.email }})}>Promos</MDBNavbarLink>
+                <MDBNavbarLink onClick={() => navigate('/promos', { state: { email: user.email } })}>Promos</MDBNavbarLink>
               </MDBNavbarItem>
               <MDBNavbarItem style={{ margin: '0 25px', fontWeight: 'bold' }}>
-                <MDBNavbarLink 
-                    onClick={() => navigate('/inquiry')}
-                    style={{ color: 'rgb(255, 165, 0)' }} 
+                <MDBNavbarLink
+                  onClick={() => navigate('/inquiry')}
+                  style={{ color: 'rgb(255, 165, 0)' }}
                 >
-                    Inquiry
+                  Inquiry
                 </MDBNavbarLink>
               </MDBNavbarItem>
               <span
-                onClick={() => navigate('/profile', { state: { email: user.email }})}
+                onClick={() => navigate('/profile', { state: { email: user.email } })}
                 style={{
                   margin: '0 25px',
                   fontSize: '1rem',
@@ -138,58 +161,60 @@ if (error) {
         </MDBContainer>
       </div>
 
-      <MDBTypography 
-        tag="h1" 
-        className="text-center mt-5" 
+      <MDBTypography
+        tag="h1"
+        className="text-center mt-5"
         style={{
-            fontWeight: 'bolder', 
-            color: 'white', 
-            fontSize: '60px',
-            textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)'  
+          fontWeight: 'bolder',
+          color: 'white',
+          fontSize: '60px',
+          textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)',
         }}
-    >
+      >
         CONTACT US
-    </MDBTypography>
+      </MDBTypography>
 
       {/* Main Content Section */}
       <MDBContainer className="flex-grow-1 py-4">
         <div className="d-flex justify-content-center">
-          <MDBCard style={{ maxWidth: '1200px', width: '100%', marginBottom: '50px', backgroundColor: 'rgba(255, 255, 255)', padding: '20px', borderRadius: '15px' }}>
+          <MDBCard
+            style={{
+              maxWidth: '1200px',
+              width: '100%',
+              marginBottom: '50px',
+              backgroundColor: 'rgba(255, 255, 255)',
+              padding: '20px',
+              borderRadius: '15px',
+            }}
+          >
             <MDBCardBody>
-
-
-            <div className="row mb-4 justify-content-between">
-              <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
-                <FaPhone style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
-                <div style={{ fontSize: '15px', color: 'black' }}>
-                  GLOBE  0915-262-3898 <br />
-                  GLOBE  0927-893-0271 <br />
-                  GLOBE  0994-639-6953
+              <div className="row mb-4 justify-content-between">
+                <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
+                  <FaPhone style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
+                  <div style={{ fontSize: '15px', color: 'black' }}>
+                    GLOBE  0915-262-3898 <br />
+                    GLOBE  0927-893-0271 <br />
+                    GLOBE  0994-639-6953
+                  </div>
+                </div>
+                <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
+                  <FaEnvelope style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
+                  <div style={{ fontSize: '15px', color: 'black' }}>info@traveltayoph.com</div>
+                </div>
+                <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
+                  <FaFacebook style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
+                  <div style={{ fontSize: '15px', color: 'black' }}>TravelTayo Car Rental and Tours</div>
+                </div>
+                <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
+                  <FaInstagram style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
+                  <div style={{ fontSize: '15px', color: 'black' }}>Travel Tayo PH</div>
                 </div>
               </div>
-              <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
-                <FaEnvelope style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
-                <div style={{ fontSize: '15px', color: 'black' }}>info@traveltayoph.com</div>
-              </div>
-              <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
-                <FaFacebook style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
-                <div style={{ fontSize: '15px', color: 'black' }}>TravelTayo Car Rental and Tours</div>
-              </div>
-              <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
-                <FaInstagram style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
-                <div style={{ fontSize: '15px', color: 'black' }}>Travel Tayo PH</div>
-              </div>
-            </div>
 
-
-              {/* Additional text and image below the row */}
               <MDBCardText className="text-center mb-4 mt-5">
-                <span style={{ color: 'black', fontWeight: 'bold', marginRight: '5px' }}>
-                    ADDRESS
-                </span>
+                <span style={{ color: 'black', fontWeight: 'bold', marginRight: '5px' }}>ADDRESS</span>
                 <span style={{ color: 'rgb(255, 165, 0)' }}>
-                    {' '}
-                    Office Unit 2, Hersyl Building, Blk 5 Lot 25 Phase4, Golden City Subdivision, Brgy. Dila, Santa Rosa, Philippines
+                  Office Unit 2, Hersyl Building, Blk 5 Lot 25 Phase4, Golden City Subdivision, Brgy. Dila, Santa Rosa, Philippines
                 </span>
               </MDBCardText>
 
@@ -197,74 +222,92 @@ if (error) {
                 <MDBCardImage src={map} style={{ maxWidth: '100%', height: 'auto' }} alt="Additional Info" />
               </div>
 
-              {/* Contact Form Section */}
               <div className="text-center mt-5">
                 <MDBTypography tag="h3" style={{ color: 'rgb(250, 165, 0)', fontWeight: 'bolder' }}>
                   SEND AN INQUIRY
                 </MDBTypography>
 
-                {/* Email Address Input */}
-                <div className="mb-1">  {/* Add this div for new row */}
+                <div className="mb-1">
                   <input
                     type="email"
+                    name="email"
+                    value={inquiryData.email}
+                    onChange={handleInputChange}
                     placeholder="Enter email address"
                     required
                     style={{
                       border: '2px solid rgb(250, 165, 0)',
-                      borderRadius: '20px', 
+                      borderRadius: '20px',
                       boxShadow: 'none',
                       padding: '10px',
-                      backgroundColor: 'transparent', 
-                      width: '100%', 
-                      maxWidth: '600px', 
+                      backgroundColor: 'transparent',
+                      width: '100%',
+                      maxWidth: '600px',
                       margin: '10px auto',
-                      textAlign: 'center'
+                      textAlign: 'center',
                     }}
                   />
                 </div>
 
-                {/* Inquiry Textarea */}
-                <div className="mb-3"> 
+                <div className="mb-3">
                   <textarea
+                    name="message"
+                    value={inquiryData.message}
+                    onChange={handleInputChange}
                     placeholder="Your inquiry here..."
                     rows="4"
                     required
                     style={{
                       border: '2px solid rgb(250, 165, 0)',
-                      borderRadius: '20px', 
+                      borderRadius: '20px',
                       boxShadow: 'none',
                       padding: '10px',
-                      backgroundColor: 'transparent', 
-                      width: '100%', 
-                      maxWidth: '600px', 
+                      backgroundColor: 'transparent',
+                      width: '100%',
+                      maxWidth: '600px',
                       margin: '10px auto',
-                      textAlign: 'center'
+                      textAlign: 'center',
                     }}
                   ></textarea>
                 </div>
 
-                <button 
-                    type="button" 
-                    style={{ 
-                        fontWeight: 'bold',
-                        width: '20%', 
-                        borderRadius: '30px', 
-                        backgroundColor: 'rgb(255, 165, 0)', 
-                        border: 'none', 
-                        padding: '7px 10px',
-                        color: 'white'
-                    }}
-                    onClick={handleSubmit} 
+                <button
+                  type="button"
+                  style={{
+                    fontWeight: 'bold',
+                    width: '20%',
+                    borderRadius: '30px',
+                    backgroundColor: 'rgb(255, 165, 0)',
+                    border: 'none',
+                    padding: '7px 10px',
+                    color: 'white',
+                  }}
+                  onClick={handleSubmit}
                 >
-                    Send
+                  Send
                 </button>
+
+                {/* Success message below the button */}
+                {successMessage && (
+                  <div
+                    style={{
+                      marginTop: '30px',
+                      backgroundColor: '#28a745',
+                      color: 'white',
+                      padding: '20px',
+                      borderRadius: '15px',
+                      maxWidth: '600px',
+                      margin: '10px auto',
+                    }}
+                  >
+                    {successMessage}
+                  </div>
+                )}
               </div>
             </MDBCardBody>
           </MDBCard>
         </div>
       </MDBContainer>
-
-      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 }

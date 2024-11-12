@@ -90,7 +90,7 @@ function ServicesEducGuest() {
   useEffect(() => {
     const fetchData = async () => {
             try {
-                const educsResponse = await fetch(`https://travelwheelsph.onrender.com/api/educs/get-all-educs`);
+                const educsResponse = await fetch(`http://localhost:3000/api/educs/get-all-educs`);
                 const educsData = await educsResponse.json();
                 if (educsData.error) {
                     setError(educsData.error);

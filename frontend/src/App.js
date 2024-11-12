@@ -64,7 +64,14 @@ import PromosGuest from './pages/guestPages/PromosGuest';
 import InquiryGuest from './pages/guestPages/InquiryGuest';
 import ChangeEmailOtp from './pages/ChangeEmailOtp';
 
+
+import AboutUsGuest from './pages/guestPages/AboutUsGuest';
+
+
 import GlobalStyle from './GlobalStyle';
+import DetailsDomPackGuest from './pages/guestPages/DetailsDomPackGuest';
+import DetailsIntPackGuest from './pages/guestPages/DetailsIntPackGuest';
+import TermsAndConditionsGuest from './pages/guestPages/TermsAndConditionsGuest';
 
 function App() {
   return (
@@ -136,6 +143,16 @@ function App() {
               <Route path="/inquiry-guest" element={<InquiryGuest/>}/>
 
               <Route path="/change-email-otp" element={<ChangeEmailOtp/>}/>
+
+              <Route path="/about-us-guest" element={<AboutUsGuest/>}/>
+
+
+              <Route path="/pack-dom-guest/:id" element={<DetailsDomPackGuest/>} />
+              <Route path="/pack-int-guest/:id" element={<DetailsIntPackGuest/>} />
+              <Route path="/terms-and-conditions-guest" element={<TermsAndConditionsGuest/>} />
+
+
+
 
             </Routes>
           </div>
