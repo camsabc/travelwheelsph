@@ -69,7 +69,7 @@ function ServicesRideGuest() {
   useEffect(() => {
     const fetchData = async () => {
             try {
-                const ridesResponse = await fetch(`http://localhost:3000/api/rides/get-all-rides`);
+                const ridesResponse = await fetch(`https://travelwheelsph.onrender.com/api/rides/get-all-rides`);
                 const ridesData = await ridesResponse.json();
                 if (ridesData.error) {
                     setError(ridesData.error);
@@ -167,7 +167,7 @@ function ServicesRideGuest() {
               {rides.map((ride) => (
                 <MDBCol md="6" lg="4" className="mb-4 align-items-center" key={ride._id}>
                   <div
-                    onClick={handleLoginClick}
+                    onClick={() => navigate(`/ride-guest/${ride._id}`)}
                     style={{ cursor: 'pointer' }}
                   >
                     <MDBCardImage

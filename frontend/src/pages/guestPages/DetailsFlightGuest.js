@@ -14,14 +14,14 @@ import {
   MDBCardImage,
 } from 'mdb-react-ui-kit';
 
-import flightsbg from '../images/flightsbg.jpg';
-import logo from '../images/header.jpg';
+import flightsbg from '../../images/flightsbg.jpg';
+import logo from '../../images/header.jpg';
 
-import Toast from './Toast'; 
+import Toast from '../../components/Toast'; 
 
 
 
-function FlightsDetails() {
+function DetailsFlightGuest() {
   const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState(flightsbg);
   const [user, setUser] = useState(null);
@@ -189,95 +189,60 @@ const handleQuotationSubmit = async (e) => {
     }
 };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (email) {
-        try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
-          const userData = await userResponse.json();
 
-          if (userData.error) {
-            setError(userData.error);
-          } else {
-            setUser(userData);
-          }
-        } catch (err) {
-          console.error('Error fetching data:', err);
-          setError('Failed to fetch user data.');
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [email]);
-
-  // Conditional rendering based on loading state
-  if (loading) {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <h3>Loading...</h3>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <h3>{error}</h3>
-      </div>
-    );
-  }
 
   return (
     <>
-    {/* Header Section */}
-  <div className="bg-white py-2" style={{ flexShrink: 0 }}>
-  <MDBContainer fluid className="d-flex align-items-center justify-content-between">
-  <MDBCardImage
-    src={logo}
-    style={{ width: '200px', cursor: 'pointer' }}
-    alt="Header Logo"
-    onClick={() => navigate('/home-user', { state: { email: user.email }})}
-  />
-    <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
-      <MDBNavbarNav className="align-items-center">
 
-        <MDBNavbarItem style={{ margin: '0 25px', fontWeight: 'bold' }}>
-          <MDBNavbarLink 
-              onClick={() => navigate('/services', { state: { email: user.email }})}
-              style={{ color: 'rgb(255, 165, 0)' }}  
-          >
-              Services
-          </MDBNavbarLink>
-        </MDBNavbarItem>
 
-        <MDBNavbarItem style={{ margin: '0 25px' }}>
-          <MDBNavbarLink onClick={() => navigate('/promos', { state: { email: user.email }})}>Promos</MDBNavbarLink>
-        </MDBNavbarItem>
+      {/* Header Section */}
+      <div className="bg-white py-2" style={{ flexShrink: 0 }}>
+        <MDBContainer fluid className="d-flex align-items-center justify-content-between">
+        <MDBCardImage
+          src={logo}
+          style={{ width: '200px', cursor: 'pointer' }}  // Added cursor style to indicate it's clickable
+          alt="Header Logo"
+          onClick={() => navigate('/login')} // Added onClick handler
+        />
+          <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
+            <MDBNavbarNav className="align-items-center">
 
-        <MDBNavbarItem style={{ margin: '0 25px' }}>
-          <MDBNavbarLink onClick={() => navigate('/inquiry')}>Inquiry</MDBNavbarLink>
-        </MDBNavbarItem>
-        <span
-          onClick={() => navigate('/profile', { state: { email: user.email } })}
-          style={{
-            margin: '0 25px',
-            fontSize: '1rem',
-            color: '#000',
-            display: 'flex',
-            alignItems: 'center',
-            cursor: 'pointer',
-          }}
-        >
-          Hi, {user ? user.firstname : 'Guest'}
-        </span>
-      </MDBNavbarNav>
-    </MDBNavbar>
-  </MDBContainer>
-</div>
+              <MDBNavbarItem style={{ margin: '0 25px', fontWeight: 'bold' }}>
+                <MDBNavbarLink 
+                    onClick={() => navigate('/services-guest')}
+                    style={{ color: 'rgb(255, 165, 0)' }}  
+                >
+                    Services
+                </MDBNavbarLink>
+              </MDBNavbarItem>
+
+              <MDBNavbarItem style={{ margin: '0 25px' }}>
+                <MDBNavbarLink onClick={() => navigate('/promos-guest')}>Promos</MDBNavbarLink>
+              </MDBNavbarItem>
+
+              <MDBNavbarItem style={{ margin: '0 25px' }}>
+                <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
+              </MDBNavbarItem>
+              <span
+                onClick={() => {navigate('/login')}}
+                style={{
+                  margin: '0 25px',
+                  fontSize: '1rem',
+                  color: '#000',
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                Hi, Guest
+              </span>
+            </MDBNavbarNav>
+          </MDBNavbar>
+        </MDBContainer>
+      </div>
+
+
+
     <div className="d-flex flex-column min-vh-100" style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
@@ -684,7 +649,7 @@ const handleQuotationSubmit = async (e) => {
                     <label htmlFor="termsCheckbox">
                       By clicking this, you agree to our{' '}
                       <span 
-                        onClick={() => navigate('/terms-and-conditions', { state: { email: user.email }})}
+                        onClick={() => navigate('/terms-and-conditions-guest')}
                         style={{ 
                           color: '#68BBE3', 
                           cursor: 'pointer' 
@@ -708,17 +673,7 @@ const handleQuotationSubmit = async (e) => {
                         padding: '10px 20px',
                       }}
                       onClick={handleQuotationSubmit}
-                      disabled={
-                        !isChecked ||
-                        !bookingDetails.lastname ||
-                        !bookingDetails.firstname ||
-                        !bookingDetails.email ||
-                        !bookingDetails.contactNumber ||
-                        !bookingDetails.startDate ||
-                        !bookingDetails.endDate ||
-                        !bookingDetails.airportDeparture ||
-                        !bookingDetails.airportArrival
-                      } 
+                      disabled
                     >
                       REQUEST QUOTATION
                     </button>
@@ -741,4 +696,4 @@ const handleQuotationSubmit = async (e) => {
   );
 }
 
-export default FlightsDetails;
+export default DetailsFlightGuest;

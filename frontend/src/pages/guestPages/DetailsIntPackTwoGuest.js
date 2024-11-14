@@ -17,7 +17,7 @@ import flightsbg from '../../images/flightsbg.jpg';
 import logo from '../../images/header.jpg';
 import Toast from '../../components/Toast';
 
-function DetailsIntPackGuest() {
+function DetailsIntPackTwoGuest() {
   const navigate = useNavigate();
   const [backgroundImage] = useState(flightsbg);
   const { id } = useParams();
@@ -27,7 +27,6 @@ function DetailsIntPackGuest() {
   const [pack, setPack] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [passengers, setPassengers] = useState([]);
 
   const [displayDiv, setDisplayDiv] = useState(1); // Default div
   const [displayDivSub, setDisplayDivSub] = useState(1); // Default div
@@ -45,32 +44,33 @@ function DetailsIntPackGuest() {
     setToast({ message, type });
   };
 
-  const addPassenger = () => {
-    const newPassenger = { firstname: '', lastname: '', age: '' }; // Add age field
-    setPassengers([...passengers, newPassenger]);
-  
-    setBookingDetails(prevDetails => ({
-      ...prevDetails,
-      passengers: [...prevDetails.passengers, newPassenger],
-    }));
+  const [children, setChildren] = useState([{ firstname: '' }]);
+  const [seniors, setSeniors] = useState([{ firstname: '' }]);
+  const [adults, setAdults] = useState([{ firstname: '' }]);
+
+  const handlePassengerChange = (type, index, e) => {
+    const { value } = e.target;
+    const updatedPassengers = type === 'child' ? [...children] : type === 'senior' ? [...seniors] : [...adults];
+    updatedPassengers[index].firstname = value;
+    if (type === 'child') setChildren(updatedPassengers);
+    else if (type === 'senior') setSeniors(updatedPassengers);
+    else setAdults(updatedPassengers);
   };
-  
-  const handlePassengerChange = (index, e) => {
-    const { name, value } = e.target;
-    const updatedPassengers = [...passengers];
-    updatedPassengers[index] = {
-      ...updatedPassengers[index],
-      [name]: value,
-    };
-  
-    setPassengers(updatedPassengers);
-  
-    setBookingDetails(prevDetails => ({
-      ...prevDetails,
-      passengers: updatedPassengers,
-    }));
+
+  const addChildPassenger = () => {
+    const newPassenger = { firstname: '' };
+    setChildren([...children, newPassenger]);
   };
-  
+
+  const addSeniorPassenger = () => {
+    const newPassenger = { firstname: '' };
+    setSeniors([...seniors, newPassenger]);
+  };
+
+  const addAdultPassenger = () => {
+    const newPassenger = { firstname: '' };
+    setAdults([...adults, newPassenger]);
+  };
 
   const [bookingDetails, setBookingDetails] = useState({
     firstname: '',
@@ -131,7 +131,7 @@ function DetailsIntPackGuest() {
     e.preventDefault();
 
     try {
-        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -158,7 +158,7 @@ const handleQuotationSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch('http://localhost:3000/api/quotations/create-quotation', {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create-quotation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -189,7 +189,7 @@ const handleQuotationSubmit = async (e) => {
     const fetchData = async () => {
       try {
         if (email) {
-          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
           if (userData.error) {
             setError(userData.error);
@@ -198,7 +198,7 @@ const handleQuotationSubmit = async (e) => {
           setUser(userData);
         }
 
-        const packResponse = await fetch(`http://localhost:3000/api/packs/get-pack-by-id/${id}`);
+        const packResponse = await fetch(`https://travelwheelsph.onrender.com/api/packs/get-pack-by-id/${id}`);
         const packData = await packResponse.json();
         if (packData.error) {
           setError(packData.error);
@@ -239,25 +239,28 @@ const handleQuotationSubmit = async (e) => {
   return (
     <>
 
+
+
+
       {/* Header Section */}
       <div className="bg-white py-2" style={{ flexShrink: 0 }}>
         <MDBContainer fluid className="d-flex align-items-center justify-content-between">
         <MDBCardImage
-    src={logo}
-    style={{ width: '200px', cursor: 'pointer' }}
-    alt="Header Logo"
-    onClick={() => navigate('/')} 
-  />
+          src={logo}
+          style={{ width: '200px', cursor: 'pointer' }}  // Added cursor style to indicate it's clickable
+          alt="Header Logo"
+          onClick={() => navigate('/login')} // Added onClick handler
+        />
           <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
             <MDBNavbarNav className="align-items-center">
 
               <MDBNavbarItem style={{ margin: '0 25px', fontWeight: 'bold' }}>
                 <MDBNavbarLink 
-                      onClick={() => navigate('/services-guest')}
-                      style={{ color: 'rgb(255, 165, 0)' }}
-                  >
-                      Services
-                  </MDBNavbarLink>
+                    onClick={() => navigate('/services-guest')}
+                    style={{ color: 'rgb(255, 165, 0)' }}  
+                >
+                    Services
+                </MDBNavbarLink>
               </MDBNavbarItem>
 
               <MDBNavbarItem style={{ margin: '0 25px' }}>
@@ -267,7 +270,6 @@ const handleQuotationSubmit = async (e) => {
               <MDBNavbarItem style={{ margin: '0 25px' }}>
                 <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
               </MDBNavbarItem>
-
               <span
                 onClick={() => {navigate('/login')}}
                 style={{
@@ -279,14 +281,12 @@ const handleQuotationSubmit = async (e) => {
                   cursor: 'pointer',
                 }}
               >
-
-              Hi, Guest
+                Hi, Guest
               </span>
             </MDBNavbarNav>
           </MDBNavbar>
         </MDBContainer>
       </div>
-
       {/* Main Content Section */}
       <div
         className="d-flex flex-column min-vh-100"
@@ -323,248 +323,6 @@ const handleQuotationSubmit = async (e) => {
               borderRadius: '15px',
             }}
           >
-            {/* Buttons for changing div */}
-            <div className="text-start mb-0 mt-2">
-              <button
-                type="button"
-                style={{
-                  fontWeight: displayDiv === 1 ? 'bold' : 'normal',
-                  width: '20%',
-                  borderRadius: '30px',
-                  backgroundColor: 'rgb(255, 165, 0)',
-                  border: 'none',
-                  padding: '7px 10px',
-                  color: 'white',
-                  marginLeft: '15px',
-                }}
-                onClick={() => handleButtonClick(1)}
-              >
-                Requirements
-              </button>
-
-              <button
-                type="button"
-                style={{
-                  fontWeight: displayDiv === 2 ? 'bold' : 'normal',
-                  width: '20%',
-                  borderRadius: '30px',
-                  backgroundColor: 'rgb(255, 165, 0)',
-                  border: 'none',
-                  padding: '7px 10px',
-                  color: 'white',
-                  marginLeft: '10px',
-                }}
-                onClick={() => handleButtonClick(2)}
-              >
-                Inclusions
-              </button>
-
-              <button
-                type="button"
-                style={{
-                  fontWeight: displayDiv === 3 ? 'bold' : 'normal',
-                  width: '20%',
-                  borderRadius: '30px',
-                  backgroundColor: 'rgb(255, 165, 0)',
-                  border: 'none',
-                  padding: '7px 10px',
-                  color: 'white',
-                  marginLeft: '10px',
-                }}
-                onClick={() => handleButtonClick(3)}
-              >
-                Itinerary
-              </button>
-            </div>
-
-            {/* Conditionally rendered divs based on button click */}
-            {displayDiv === 1 && (
-              <div className="text-start p-4">
-                <ul>
-                  <li> Passport </li>
-                  <li> Application Form </li>
-                  <li> Birth Certificate </li>
-                </ul>
-              </div>
-            )}
-
-            {displayDiv === 2 && (
-              <div className="text-start p-4">
-              <ul>
-                <li> Japan Airlines </li>
-                <li> Hotel Accommodation </li>
-                <li> Meals: 2 Breakfast, 2 Lunch, 2 Dinner </li>
-                <li> Tours Entrance Fee </li>
-                <li> Tour Guide </li>
-                <li> Free Visa Assistance </li>
-                <li> Sim Card </li>
-              </ul>
-            </div>
-            )}
-
-            {displayDiv === 3 && (
-              <div className="text-start p-4" >
-                <div className="text-start mb-0 mt-0">
-
-                  <button
-                    type="button"
-                    style={{
-                      fontWeight: displayDivSub === 1 ? 'bold' : 'normal',
-                      width: '12%',
-                      borderRadius: '30px',
-                      backgroundColor: 'rgb(255, 165, 0)',
-                      border: 'none',
-                      padding: '7px 10px',
-                      color: 'white'  
-                    }}
-                    onClick={() => handleButtonClickSub(1)}
-                  >
-                    Day 1
-                  </button>
-
-                  <button
-                    type="button"
-                    style={{
-                      fontWeight: displayDivSub === 2 ? 'bold' : 'normal',
-                      width: '12%',
-                      borderRadius: '30px',
-                      backgroundColor: 'rgb(255, 165, 0)',
-                      border: 'none',
-                      padding: '7px 10px',
-                      color: 'white',
-                      marginLeft: '10px',
-                    }}
-                    onClick={() => handleButtonClickSub(2)}
-                  >
-                    Day 2
-                  </button>
-
-                  <button
-                    type="button"
-                    style={{
-                      fontWeight: displayDivSub === 3 ? 'bold' : 'normal',
-                      width: '12%',
-                      borderRadius: '30px',
-                      backgroundColor: 'rgb(255, 165, 0)',
-                      border: 'none',
-                      padding: '7px 10px',
-                      color: 'white',
-                      marginLeft: '10px',
-                    }}
-                    onClick={() => handleButtonClickSub(3)}
-                  >
-                    Day 3
-                  </button>
-
-                  <button
-                    type="button"
-                    style={{
-                      fontWeight: displayDivSub === 4 ? 'bold' : 'normal',
-                      width: '12%',
-                      borderRadius: '30px',
-                      backgroundColor: 'rgb(255, 165, 0)',
-                      border: 'none',
-                      padding: '7px 10px',
-                      color: 'white',
-                      marginLeft: '10px',
-                    }}
-                    onClick={() => handleButtonClickSub(4)}
-                  >
-                    Day 4
-                  </button>
-
-                  <button
-                    type="button"
-                    style={{
-                      fontWeight: displayDivSub === 5 ? 'bold' : 'normal',
-                      width: '12%',
-                      borderRadius: '30px',
-                      backgroundColor: 'rgb(255, 165, 0)',
-                      border: 'none',
-                      padding: '7px 10px',
-                      color: 'white',
-                      marginLeft: '10px',
-                    }}
-                    onClick={() => handleButtonClickSub(5)}
-                  >
-                    Day 5
-                  </button>
-                </div>
-
-                {displayDivSub === 1 && (
-                  <div className="text-start p-4">
-                    <ul>
-                      <li> Arrive HND </li>
-                      <li> Meetup with Tour Guide </li>
-                      <li> Oshino Hakkal </li>
-                      <li> Fuji Highland </li>
-                      <li> Gotemba Premium Outlet </li>
-                      <li> Hotel Checkin </li>
-                      <li> Dinner </li>
-                    </ul>
-                  </div>
-                )}
-
-                {displayDivSub === 2 && (
-                  <div className="text-start p-4">
-                    <ul>
-                      <li> Arrive HND </li>
-                      <li> Meetup with Tour Guide </li>
-                      <li> Oshino Hakkal </li>
-                      <li> Fuji Highland </li>
-                      <li> Gotemba Premium Outlet </li>
-                      <li> Hotel Checkin </li>
-                      <li> Dinner </li>
-                    </ul>
-                  </div>
-                )}
-
-                {displayDivSub === 3 && (
-                  <div className="text-start p-4">
-                    <ul>
-                      <li> Arrive HND </li>
-                      <li> Meetup with Tour Guide </li>
-                      <li> Oshino Hakkal </li>
-                      <li> Fuji Highland </li>
-                      <li> Gotemba Premium Outlet </li>
-                      <li> Hotel Checkin </li>
-                      <li> Dinner </li>
-                    </ul>
-                  </div>
-                )}
-
-                {displayDivSub === 4 && (
-                  <div className="text-start p-4">
-                    <ul>
-                      <li> Arrive HND </li>
-                      <li> Meetup with Tour Guide </li>
-                      <li> Oshino Hakkal </li>
-                      <li> Fuji Highland </li>
-                      <li> Gotemba Premium Outlet </li>
-                      <li> Hotel Checkin </li>
-                      <li> Dinner </li>
-                    </ul>
-                  </div>
-                )}
-
-                {displayDivSub === 5 && (
-                  <div className="text-start p-4">
-                    <ul>
-                      <li> Arrive HND </li>
-                      <li> Meetup with Tour Guide </li>
-                      <li> Oshino Hakkal </li>
-                      <li> Fuji Highland </li>
-                      <li> Gotemba Premium Outlet </li>
-                      <li> Hotel Checkin </li>
-                      <li> Dinner </li>
-                    </ul>
-                  </div>
-                )}    
-
-
-              </div>
-            )}
-
 
             <MDBCardBody>
               <MDBTypography tag="h5" className="text-center mb-4">
@@ -763,16 +521,16 @@ const handleQuotationSubmit = async (e) => {
                 />
               </MDBCol>
             </MDBRow>
+
             <MDBRow>
             <MDBCol md="6">
-            <label htmlFor="pickupLocation" style={{ color: 'black', paddingLeft: '12px' }}>
-                  Pickup Location <span style={{ color: 'red' }}>*</span>
+            <label htmlFor="withChild" style={{ color: 'black', paddingLeft: '12px' }}>
+                Traveling with a child? (Yes or No) 
                 </label>
                 <input
-                  id="pickupLocation"
-                  name="pickupLocation"
+                  id="withChild"
+                  name="withChild"
                   type="text"
-                  value={bookingDetails.pickupLocation}
                   onChange={handleChange}
                   required
                   className="form-control"
@@ -787,15 +545,15 @@ const handleQuotationSubmit = async (e) => {
                   }}
                 />
               </MDBCol>
+
               <MDBCol md="6">
-              <label htmlFor="dropOffLocation" style={{ color: 'black', paddingLeft: '12px' }}>
-                  Dropoff Location <span style={{ color: 'red' }}>*</span>
+              <label htmlFor="childNum" style={{ color: 'black', paddingLeft: '12px' }}>
+                If yes, how many?
                 </label>
                 <input
-                  id="dropOffLocation"
-                  name="dropOffLocation"
-                  type="text"
-                  value={bookingDetails.dropOffLocation}
+                  id="childNum"
+                  name="childNum"
+                  type="number"
                   onChange={handleChange}
                   required
                   className="form-control"
@@ -812,39 +570,64 @@ const handleQuotationSubmit = async (e) => {
               </MDBCol>
             </MDBRow>
 
+                {/* Render Child Passengers */}
+                {children.map((passenger, index) => (
+                  <MDBRow key={index}>
+                    <MDBCol md="6">
+                      <label htmlFor={`child-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
+                        Child's Name 
+                      </label>
+                      <input
+                        type="text"
+                        name="firstname"
+                        id={`child-${index}`}
+                        value={passenger.firstname}
+                        onChange={(e) => handlePassengerChange('child', index, e)}
+                        className="form-control"
+                        style={{
+                          border: '2px solid rgb(250, 207, 32)',
+                          borderRadius: '15px',
+                          boxShadow: 'none',
+                          padding: '10px',
+                          backgroundColor: 'transparent',
+                          width: '100%',
+                          marginBottom: '10px',
+                        }}
+                        required
+                      />
+                    </MDBCol>
+
+                    <MDBCol md="6" className="text-start">
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        style={{
+                          marginTop: '25px',
+                          fontWeight: 'bold',
+                          width: '40%',
+                          borderRadius: '30px',
+                          backgroundColor: 'rgb(255, 165, 0)',
+                          border: 'none',
+                          padding: '10px 20px',
+                        }}
+                        onClick={addChildPassenger}
+                      >
+                        ADD MORE
+                      </button>
+                    </MDBCol>
+                  </MDBRow>
+                ))}
+
+
 <MDBRow>
-<MDBCol md="6">
-<label htmlFor="numOfPerson" style={{ color: 'black', paddingLeft: '12px' }}>
-                  Number of Person <span style={{ color: 'red' }}>*</span>
+            <MDBCol md="6">
+            <label htmlFor="withSenior" style={{ color: 'black', paddingLeft: '12px' }}>
+                Traveling with a senior? (Yes or No) 
                 </label>
                 <input
-                  id="numOfPerson"
-                  name="numOfPerson"
-                  type="number"
-                  value={bookingDetails.numOfPerson}
-                  onChange={handleChange}
-                  required
-                  className="form-control"
-                  style={{
-                    border: '2px solid rgb(250, 207, 32)', 
-                    borderRadius: '15px', 
-                    boxShadow: 'none', 
-                    padding: '10px',
-                    backgroundColor: 'transparent', 
-                    width: '100%',
-                    marginBottom: '10px'
-                  }}
-                />
-  </MDBCol>
-  <MDBCol md="6">
-  <label htmlFor="vehicleName" style={{ color: 'black', paddingLeft: '12px' }}>
-                  Package
-                </label>
-                <input
-                  id="vehicleName"
-                  name="vehicleName"
+                  id="withSenior"
+                  name="withSenior"
                   type="text"
-                  value={pack.duration + pack.name}
                   onChange={handleChange}
                   required
                   className="form-control"
@@ -858,8 +641,138 @@ const handleQuotationSubmit = async (e) => {
                     marginBottom: '10px'
                   }}
                 />
-  </MDBCol>
-</MDBRow>
+              </MDBCol>
+
+              <MDBCol md="6">
+              <label htmlFor="seniorNum" style={{ color: 'black', paddingLeft: '12px' }}>
+                If yes, how many?
+                </label>
+                <input
+                  id="seniorNum"
+                  name="seniorNum"
+                  type="number"
+                  onChange={handleChange}
+                  required
+                  className="form-control"
+                  style={{
+                    border: '2px solid rgb(250, 207, 32)', 
+                    borderRadius: '15px', 
+                    boxShadow: 'none', 
+                    padding: '10px',
+                    backgroundColor: 'transparent', 
+                    width: '100%',
+                    marginBottom: '10px'
+                  }}
+                />
+              </MDBCol>
+            </MDBRow>
+
+                {/* Render Senior Passengers */}
+                {seniors.map((passenger, index) => (
+                  <MDBRow key={index}>
+                    <MDBCol md="6">
+                      <label htmlFor={`senior-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
+                        Senior's Name 
+                      </label>
+                      <input
+                        type="text"
+                        name="firstname"
+                        id={`senior-${index}`}
+                        value={passenger.firstname}
+                        onChange={(e) => handlePassengerChange('senior', index, e)}
+                        className="form-control"
+                        style={{
+                          border: '2px solid rgb(250, 207, 32)',
+                          borderRadius: '15px',
+                          boxShadow: 'none',
+                          padding: '10px',
+                          backgroundColor: 'transparent',
+                          width: '100%',
+                          marginBottom: '10px',
+                        }}
+                        required
+                      />
+                    </MDBCol>
+
+                    <MDBCol md="6" className="text-start">
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        style={{
+                          marginTop: '25px',
+                          fontWeight: 'bold',
+                          width: '40%',
+                          borderRadius: '30px',
+                          backgroundColor: 'rgb(255, 165, 0)',
+                          border: 'none',
+                          padding: '10px 20px',
+                        }}
+                        onClick={addSeniorPassenger}
+                      >
+                        ADD MORE
+                      </button>
+                    </MDBCol>
+                  </MDBRow>
+                ))}
+
+
+                {/* Render Adult Passengers */}
+                {adults.map((passenger, index) => (
+                  <MDBRow key={index}>
+                    <MDBCol md="6">
+                      <label htmlFor={`adult-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
+                        Adult's Name 
+                      </label>
+                      <input
+                        type="text"
+                        name="firstname"
+                        id={`adult-${index}`}
+                        value={passenger.firstname}
+                        onChange={(e) => handlePassengerChange('adult', index, e)}
+                        className="form-control"
+                        style={{
+                          border: '2px solid rgb(250, 207, 32)',
+                          borderRadius: '15px',
+                          boxShadow: 'none',
+                          padding: '10px',
+                          backgroundColor: 'transparent',
+                          width: '100%',
+                          marginBottom: '10px',
+                        }}
+                        required
+                      />
+                    </MDBCol>
+
+                    <MDBCol md="6" className="text-start">
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        style={{
+                          marginTop: '25px',
+                          fontWeight: 'bold',
+                          width: '40%',
+                          borderRadius: '30px',
+                          backgroundColor: 'rgb(255, 165, 0)',
+                          border: 'none',
+                          padding: '10px 20px',
+                        }}
+                        onClick={addAdultPassenger}
+                      >
+                        ADD MORE
+                      </button>
+                    </MDBCol>
+                  </MDBRow>
+                ))}
+
+
+
+
+
+
+
+
+
+
 
 <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{fontWeight: 'bold'}}>Other remarks/requests:</MDBTypography>
 
@@ -939,4 +852,4 @@ const handleQuotationSubmit = async (e) => {
   );
 }
 
-export default DetailsIntPackGuest;
+export default DetailsIntPackTwoGuest;

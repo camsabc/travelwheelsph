@@ -6,7 +6,6 @@ import './Login1.css';
 import headerImage from '../images/header.jpg';
 import Toast from '../components/Toast';
 
-
 const Forgot = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
@@ -19,13 +18,11 @@ const Forgot = () => {
     setToast({ message, type });
   };
 
-
   // Function to validate email format
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-
 
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
@@ -37,17 +34,16 @@ const Forgot = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/request-otp', { email });
+      const response = await fetch('https://travelwheelsph.onrender.com/request-otp', { email });
 
       if (response.status === 201) {
-        if (response.status === 201) {
-          showToast('OTP sent to email!', 'success');
-          navigate('/otp-request', { state: { email } }); 
-        }
+        showToast('OTP sent to email!', 'success');
+        navigate('/otp-request', { state: { email } });
       } else {
         setError('Error sending OTP. Please try again.');
       }
     } catch (error) {
+      console.error(error);  // Log the error to understand what went wrong
       setError('An error occurred while sending the OTP.');
     }
   };
@@ -76,7 +72,6 @@ const Forgot = () => {
         <div className='fbtns'>
           <button type="submit" className="otp-button">Send Code</button>
         </div>
-      
       </form>
 
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}

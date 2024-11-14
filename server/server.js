@@ -15,11 +15,11 @@ const app = express();
 
 /* Middleware */
 // https://travelwheelsapp.travelwheelsph.com
-// http://localhost:3000
+// https://travelwheelsph.onrender.com
 // https://travelwheelsph.onrender.com
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: 'https://travelwheelsapp.travelwheelsph.com',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }));
 
@@ -51,6 +51,7 @@ const travelRoutes = require('./routes/travelRouter');
 const educationRoutes = require('./routes/educationRouter');
 const packageRoutes = require('./routes/packageRouter');
 const inquiryRoutes = require('./routes/inquiryRouter');
+const promoRoutes = require('./routes/promoRouter');
 
 app.get('/', (req, res) => {
   res.send('Hello, World!');
@@ -342,6 +343,7 @@ app.use('/api/travels', travelRoutes);
 app.use('/api/educs', educationRoutes); 
 app.use('/api/packs', packageRoutes); 
 app.use('/api/inquiries', inquiryRoutes); 
+app.use('/api/promos', promoRoutes); 
 
 /* Start the server */
 const PORT = process.env.PORT || 3000;

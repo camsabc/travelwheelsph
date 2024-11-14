@@ -90,7 +90,7 @@ function ServicesEducGuest() {
   useEffect(() => {
     const fetchData = async () => {
             try {
-                const educsResponse = await fetch(`http://localhost:3000/api/educs/get-all-educs`);
+                const educsResponse = await fetch(`https://travelwheelsph.onrender.com/api/educs/get-all-educs`);
                 const educsData = await educsResponse.json();
                 if (educsData.error) {
                     setError(educsData.error);
@@ -186,7 +186,7 @@ function ServicesEducGuest() {
                 {educs.map((educ) => (
                   <MDBCol md="6" lg="4" className="mb-4 align-items-center" key={educ._id} style={{ position: 'relative' }}>
                     <div
-                      onClick={handleLoginClick}
+                      onClick={() => navigate(`/educ-guest/${educ._id}`)}
                       style={{ cursor: 'pointer', position: 'relative' }}
                     >
                       <MDBCardImage

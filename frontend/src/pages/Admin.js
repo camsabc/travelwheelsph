@@ -23,12 +23,13 @@ function Admin() {
   const [bookingFilter, setBookingFilter] = useState('All Bookings');
   const [bookings, setBookings] = useState([]);
   const [quotations, setQuotations] = useState([]);
+  const [inquiries, setInquiries] = useState([]);
   const [selectedBooking, setSelectedBooking] = useState(null);
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/bookings/get-all-bookings');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/get-all-bookings');
         const data = await response.json();
         setBookings(data);
       } catch (error) {
@@ -38,7 +39,7 @@ function Admin() {
 
     const fetchQuotations = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/quotations/get-all-quotations');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/get-all-quotations');
         const data = await response.json();
         setQuotations(data);
       } catch (error) {
@@ -46,10 +47,22 @@ function Admin() {
       }
     };
 
+    const fetchInquiries= async () => {
+      try {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/inquiries/get-all-inquiries');
+        const data = await response.json();
+        setInquiries(data);
+      } catch (error) {
+        console.error('Error fetching inquiries:', error);
+      }
+    };
+
     if (currentContent === 'Booking Management') {
       fetchBookings();
     } else if (currentContent === 'Quotation Management') {
       fetchQuotations();
+    } else if (currentContent === 'Inquiry Management') {
+      fetchInquiries();
     }
   }, [currentContent]);
 
@@ -90,7 +103,18 @@ function Admin() {
     }
   };
 
-  const renderTable = (title, data, filterFunc, isQuotation = false) => (
+  const filterInquiries = (filter) => {
+    switch (filter) {
+      case 'Pending':
+        return inquiries.filter(inquiry => inquiry.status === 'Pending');
+      case 'Replied':
+        return inquiries.filter(inquiry => inquiry.status === 'Replied');
+      default:
+        return inquiries;
+    }
+  };
+
+  const renderTable = (title, data, filterFunc, isQuotation = false, isInquiry = true) => (
     <div className="d-flex flex-column h-100" style={{ backgroundColor: '#fff' }}>
       <h2 className="text-center h1 mb-4" style={{ fontWeight: 'bolder', color: 'rgb(255, 165, 0)' }}>{title}</h2>
       
@@ -105,49 +129,71 @@ function Admin() {
       <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none', width: '100%', padding: '0' }}>
         <MDBNavbarNav className="d-flex w-100" style={{ width: '100%', padding: '0' }}>
 
-          {/* Filter links */}
-          {isQuotation ? ['All Quotations', 'Pending', 'Email Sent'].map(filter => (
-            <MDBNavbarItem key={filter} className="flex-fill">
-              <MDBNavbarLink
-                active={bookingFilter === filter}
-                onClick={() => setBookingFilter(filter)}
-                style={{
-                  backgroundColor: bookingFilter === filter ? 'rgb(255, 165, 0)' : 'transparent',
-                  color: bookingFilter === filter ? '#fff' : '#000',
-                  fontWeight: 'bold', 
-                  borderBottom: 'none', 
-                  borderRadius: '0', 
-                  textAlign: 'center',
-                  padding: '10px 0', 
-                  display: 'block', 
-                  width: '100%', 
-                }}
-              >
-                {filter}
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-          )) : ['All Bookings', 'Pending', 'Awaiting Payment', 'Payment Sent', 'Payment Confirmed', 'Rejected'].map(filter => (
-            <MDBNavbarItem key={filter} className="flex-fill">
-              <MDBNavbarLink
-                
-                active={bookingFilter === filter}
-                onClick={() => setBookingFilter(filter)}
-                style={{
-                  backgroundColor: bookingFilter === filter ? 'rgb(255, 165, 0)' : 'transparent',
-                  color: bookingFilter === filter ? '#fff' : '#000',
-                  fontWeight: 'bold', 
-                  borderBottom: 'none',
-                  borderRadius: '0',
-                  textAlign: 'center',
-                  padding: '10px 0',
-                  display: 'block', 
-                  width: '100%', 
-                }}
-              >
-                {filter}
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-          ))}
+{/* Filter links */}
+{
+  isQuotation ? ['All Quotations', 'Pending', 'Email Sent'].map(filter => (
+    <MDBNavbarItem key={filter} className="flex-fill">
+      <MDBNavbarLink
+        active={bookingFilter === filter}
+        onClick={() => setBookingFilter(filter)}
+        style={{
+          backgroundColor: bookingFilter === filter ? 'rgb(255, 165, 0)' : 'transparent',
+          color: bookingFilter === filter ? '#fff' : '#000',
+          fontWeight: 'bold', 
+          borderBottom: 'none', 
+          borderRadius: '0', 
+          textAlign: 'center',
+          padding: '10px 0', 
+          display: 'block', 
+          width: '100%', 
+        }}
+      >
+        {filter}
+      </MDBNavbarLink>
+    </MDBNavbarItem>
+  )) : isInquiry ? ['All Inquiries', 'Pending', 'Replied'].map(filter => (
+    <MDBNavbarItem key={filter} className="flex-fill">
+      <MDBNavbarLink
+        active={bookingFilter === filter}
+        onClick={() => setBookingFilter(filter)}
+        style={{
+          backgroundColor: bookingFilter === filter ? 'rgb(255, 165, 0)' : 'transparent',
+          color: bookingFilter === filter ? '#fff' : '#000',
+          fontWeight: 'bold', 
+          borderBottom: 'none', 
+          borderRadius: '0', 
+          textAlign: 'center',
+          padding: '10px 0', 
+          display: 'block', 
+          width: '100%', 
+        }}
+      >
+        {filter}
+      </MDBNavbarLink>
+    </MDBNavbarItem>
+  )) : ['All Bookings', 'Pending', 'Awaiting Payment', 'Payment Sent', 'Payment Confirmed', 'Rejected'].map(filter => (
+    <MDBNavbarItem key={filter} className="flex-fill">
+      <MDBNavbarLink
+        active={bookingFilter === filter}
+        onClick={() => setBookingFilter(filter)}
+        style={{
+          backgroundColor: bookingFilter === filter ? 'rgb(255, 165, 0)' : 'transparent',
+          color: bookingFilter === filter ? '#fff' : '#000',
+          fontWeight: 'bold', 
+          borderBottom: 'none',
+          borderRadius: '0',
+          textAlign: 'center',
+          padding: '10px 0',
+          display: 'block', 
+          width: '100%', 
+        }}
+      >
+        {filter}
+      </MDBNavbarLink>
+    </MDBNavbarItem>
+  ))
+}
+
         </MDBNavbarNav>
       </MDBNavbar>
 
@@ -214,7 +260,9 @@ function Admin() {
       case 'Booking Management':
         return renderTable('BOOKING MANAGEMENT', bookings, () => filterBookings(bookingFilter));
       case 'Quotation Management':
-        return renderTable('QUOTATION MANAGEMENT', quotations, () => filterQuotations(bookingFilter), true);
+        return renderTable('QUOTATION MANAGEMENT', quotations, () => filterQuotations(bookingFilter), true, false);
+      case 'Inquiry Management':
+        return renderTable('INQUIRY MANAGEMENT', inquiries, () => filterInquiries(bookingFilter),false, true);
       default:
         return <div className="text-center">Select an option from the menu</div>;
     }

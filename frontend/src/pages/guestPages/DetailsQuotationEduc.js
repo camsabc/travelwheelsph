@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
@@ -14,11 +15,11 @@ import {
   MDBNavbarLink,
   MDBCardImage,
 } from 'mdb-react-ui-kit';
-import flightsbg from '../images/flightsbg.jpg';
-import logo from '../images/header.jpg';
-import Toast from '../components/Toast';
+import flightsbg from '../../images/flightsbg.jpg';
+import logo from '../../images/header.jpg';
+import Toast from '../../components/Toast';
 
-function DetailsQuotationEduc() {
+function DetailsQuotationEducGuest() {
   const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState(flightsbg);
   const { id } = useParams(); 
@@ -204,33 +205,40 @@ const handleQuotationSubmit = async (e) => {
 
   return (
     <>
+
+
+
+
       {/* Header Section */}
       <div className="bg-white py-2" style={{ flexShrink: 0 }}>
         <MDBContainer fluid className="d-flex align-items-center justify-content-between">
         <MDBCardImage
-    src={logo}
-    style={{ width: '200px', cursor: 'pointer' }}
-    alt="Header Logo"
-    onClick={() => navigate('/home-user', { state: { email: user.email }})}  
-  />
+          src={logo}
+          style={{ width: '200px', cursor: 'pointer' }}  // Added cursor style to indicate it's clickable
+          alt="Header Logo"
+          onClick={() => navigate('/login')} // Added onClick handler
+        />
           <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
             <MDBNavbarNav className="align-items-center">
+
               <MDBNavbarItem style={{ margin: '0 25px', fontWeight: 'bold' }}>
-                <MDBNavbarLink
-                  onClick={() => navigate('/services', { state: { email: user.email } })}
-                  style={{ color: 'rgb(255, 165, 0)' }}
+                <MDBNavbarLink 
+                    onClick={() => navigate('/services-guest')}
+                    style={{ color: 'rgb(255, 165, 0)' }}  
                 >
-                  Services
+                    Services
                 </MDBNavbarLink>
               </MDBNavbarItem>
+
               <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={() => navigate('/promos', { state: { email: user.email }})}>Promos</MDBNavbarLink>
+                <MDBNavbarLink onClick={() => navigate('/promos-guest')}>Promos</MDBNavbarLink>
               </MDBNavbarItem>
+
               <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={() => navigate('/inquiry')}>Inquiry</MDBNavbarLink>
+                <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
               </MDBNavbarItem>
               <span
-                onClick={() => navigate('/profile', { state: { email: user.email } })}
+                onClick={() => {navigate('/login')}}
                 style={{
                   margin: '0 25px',
                   fontSize: '1rem',
@@ -240,7 +248,7 @@ const handleQuotationSubmit = async (e) => {
                   cursor: 'pointer',
                 }}
               >
-                Hi, {user.firstname}
+                Hi, Guest
               </span>
             </MDBNavbarNav>
           </MDBNavbar>
@@ -445,7 +453,7 @@ const handleQuotationSubmit = async (e) => {
     <label htmlFor="termsCheckbox">
       By clicking this, you agree to our{' '}
       <span 
-        onClick={() => navigate('/terms-and-conditions', { state: { email: user.email }})}
+        onClick={() => navigate('/terms-and-conditions-guest')}
         style={{ 
           color: '#68BBE3', 
           cursor: 'pointer' 
@@ -469,13 +477,7 @@ const handleQuotationSubmit = async (e) => {
         padding: '10px 20px',
       }}
       onClick={handleQuotationSubmit}
-      disabled={
-        !isChecked ||
-        !bookingDetails.lastname ||
-        !bookingDetails.firstname ||
-        !bookingDetails.contactNumber
-
-      } 
+      disabled
     >
       REQUEST QUOTATION
     </button>
@@ -491,4 +493,4 @@ const handleQuotationSubmit = async (e) => {
   );
 }
 
-export default DetailsQuotationEduc;
+export default DetailsQuotationEducGuest;

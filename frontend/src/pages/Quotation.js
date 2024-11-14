@@ -28,14 +28,14 @@ function Quotation() {
 
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
+      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
             setError(data.error);
           } else {
             setUser(data);
-            return fetch(`http://localhost:3000/api/quotations/get-all-quotations-by-email/${email}`);
+            return fetch(`https://travelwheelsph.onrender.com/api/quotations/get-all-quotations-by-email/${email}`);
           }
         })
         .then(response => response.json())
@@ -132,8 +132,8 @@ function Quotation() {
                     </MDBTypography>
 
                     <MDBTypography tag="p" style={{ textAlign: 'start', fontSize: '16px' }}>
-                      Date: {new Date(quotation.date).toLocaleDateString()} <br />
-                      Amount: {quotation.amount} <br />
+                      Date: {new Date(quotation.startDate).toLocaleDateString()} - {new Date(quotation.endDate).toLocaleDateString()} <br />
+                      Type: {quotation.type} <br />
                     </MDBTypography>
 
                     <MDBTypography tag="h6" style={{ textAlign: 'start' }}>

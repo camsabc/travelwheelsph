@@ -31,7 +31,7 @@ function Promos() {
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -167,6 +167,7 @@ if (error) {
               alt="Promo 1"
               className="img-fluid"
               style={{ width: '300px', height: '300px', objectFit: 'cover' }}
+              
             />
             <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
                 FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>PHP 3,999</span>
@@ -175,6 +176,7 @@ if (error) {
             <button 
                 type="button" 
                 className="btn btn-primary"
+                onClick={() => navigate(`/promo/67341ea80daf57addaf69ba6`, { state: { email: user?.email } })}
                 style={{ 
                     fontWeight: 'bold',
                     fontSize: '14px', 
@@ -205,6 +207,7 @@ if (error) {
             <button 
                 type="button" 
                 className="btn btn-primary"
+                onClick={() => navigate(`/promo/67341f2d0daf57addaf69ba7`, { state: { email: user?.email } })}
                 style={{ 
                     fontWeight: 'bold',
                     fontSize: '14px', 
@@ -226,6 +229,7 @@ if (error) {
               alt="Promo 3"
               className="img-fluid"
               style={{ width: '300px', height: '300px', objectFit: 'cover' }} 
+              
             />
             <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
                 FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>PHP 3,999</span>
@@ -234,6 +238,7 @@ if (error) {
             <button 
                 type="button" 
                 className="btn btn-primary"
+                onClick={() => navigate(`/promo/67341f4f0daf57addaf69ba8`, { state: { email: user?.email } })}
                 style={{ 
                     fontWeight: 'bold',
                     fontSize: '14px', 
@@ -277,7 +282,7 @@ if (error) {
 
             {/* Column 1 */}
             <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h6 className="mt-4 text-uppercase mb-2 font-weight-bold ms-4">ABOUT US</h6>
+                <h6 className="mt-4 text-uppercase mb-2 font-weight-bold ms-4" onClick={() => navigate('/about-us', { state: { email: user.email }})}>ABOUT US</h6>
                 <h6 className="text-uppercase mb-2 font-weight-bold ms-4" onClick={() => navigate('/inquiry', { state: { email: user.email }})}>CONTACT US</h6>
                 <h6 className="text-uppercase mb-2 font-weight-bold ms-4" onClick={() => navigate('/faq', { state: { email: user.email }})}>FAQS</h6>
             </div>

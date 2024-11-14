@@ -14,14 +14,14 @@ import {
   MDBCardImage,
 } from 'mdb-react-ui-kit';
 
-import flightsbg from '../images/flightsbg.jpg';
-import logo from '../images/header.jpg';
+import flightsbg from '../../images/flightsbg.jpg';
+import logo from '../../images/header.jpg';
 
-import Toast from './Toast'; 
+import Toast from '../../components/Toast'; 
 
 
 
-function FlightsDetails() {
+function DetailsInsuranceGuest() {
   const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState(flightsbg);
   const [user, setUser] = useState(null);
@@ -37,7 +37,6 @@ function FlightsDetails() {
   const [isChecked, setIsChecked] = useState(false);
   const [isPopulateChecked, setIsPopulateChecked] = useState(false);
 
-
   const handleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
   };
@@ -47,7 +46,7 @@ function FlightsDetails() {
   };
 
   const addPassenger = () => {
-    const newPassenger = { firstname: '', lastname: '', age: '' }; // Add age field
+    const newPassenger = { firstname: '', lastname: '', age: '', birthday: '' }; // Add age field
     setPassengers([...passengers, newPassenger]);
   
     setBookingDetails(prevDetails => ({
@@ -79,15 +78,15 @@ function FlightsDetails() {
     middlename: '',
     lastname: '',
     email: '',
+    numOfPerson: '',
     contactNumber: '',
     startDate: '',
     endDate: '',
-    airportDeparture: '',
-    airportArrival: '',
+    destination: '',
     remarks: '',
     status: 'Pending',
     num: '',
-    type: 'Flights',
+    type: 'Travel Insurance',
     passengers: []
   });
   
@@ -100,16 +99,15 @@ function FlightsDetails() {
     }));
   };
 
-
   const populateUserData = () => {
     if (user) {
       setBookingDetails(prevDetails => ({
         ...prevDetails,
         firstname: user.firstname,
-        middlename: user.middlename || '',
+        middlename: user.middlename || '', // Assuming user might not have a middlename
         lastname: user.lastname,
         email: user.email,
-        contactNumber: user.contactNumber || '', 
+        contactNumber: user.contactNumber || '', // Assuming user might not have a contact number
       }));
     }
   };
@@ -117,7 +115,7 @@ function FlightsDetails() {
   const populateCheckboxHandler = (e) => {
     setIsPopulateChecked(e.target.checked);
     if (e.target.checked) {
-      populateUserData(); 
+      populateUserData(); // Populate the fields with user data
     } else {
       setBookingDetails(prevDetails => ({
         ...prevDetails,
@@ -126,14 +124,9 @@ function FlightsDetails() {
         lastname: '',
         email: '',
         contactNumber: '',
-      }));
+      })); // Clear the fields when unchecked
     }
   };
-
-
-
-
-
 
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
@@ -189,95 +182,10 @@ const handleQuotationSubmit = async (e) => {
     }
 };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (email) {
-        try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
-          const userData = await userResponse.json();
-
-          if (userData.error) {
-            setError(userData.error);
-          } else {
-            setUser(userData);
-          }
-        } catch (err) {
-          console.error('Error fetching data:', err);
-          setError('Failed to fetch user data.');
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [email]);
-
-  // Conditional rendering based on loading state
-  if (loading) {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <h3>Loading...</h3>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <h3>{error}</h3>
-      </div>
-    );
-  }
 
   return (
     <>
-    {/* Header Section */}
-  <div className="bg-white py-2" style={{ flexShrink: 0 }}>
-  <MDBContainer fluid className="d-flex align-items-center justify-content-between">
-  <MDBCardImage
-    src={logo}
-    style={{ width: '200px', cursor: 'pointer' }}
-    alt="Header Logo"
-    onClick={() => navigate('/home-user', { state: { email: user.email }})}
-  />
-    <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
-      <MDBNavbarNav className="align-items-center">
 
-        <MDBNavbarItem style={{ margin: '0 25px', fontWeight: 'bold' }}>
-          <MDBNavbarLink 
-              onClick={() => navigate('/services', { state: { email: user.email }})}
-              style={{ color: 'rgb(255, 165, 0)' }}  
-          >
-              Services
-          </MDBNavbarLink>
-        </MDBNavbarItem>
-
-        <MDBNavbarItem style={{ margin: '0 25px' }}>
-          <MDBNavbarLink onClick={() => navigate('/promos', { state: { email: user.email }})}>Promos</MDBNavbarLink>
-        </MDBNavbarItem>
-
-        <MDBNavbarItem style={{ margin: '0 25px' }}>
-          <MDBNavbarLink onClick={() => navigate('/inquiry')}>Inquiry</MDBNavbarLink>
-        </MDBNavbarItem>
-        <span
-          onClick={() => navigate('/profile', { state: { email: user.email } })}
-          style={{
-            margin: '0 25px',
-            fontSize: '1rem',
-            color: '#000',
-            display: 'flex',
-            alignItems: 'center',
-            cursor: 'pointer',
-          }}
-        >
-          Hi, {user ? user.firstname : 'Guest'}
-        </span>
-      </MDBNavbarNav>
-    </MDBNavbar>
-  </MDBContainer>
-</div>
     <div className="d-flex flex-column min-vh-100" style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
@@ -286,6 +194,64 @@ const handleQuotationSubmit = async (e) => {
         backgroundAttachment: 'fixed',
         backgroundColor: '#eee',
       }}>
+
+
+
+
+
+
+      {/* Header Section */}
+      <div className="bg-white py-2" style={{ flexShrink: 0 }}>
+        <MDBContainer fluid className="d-flex align-items-center justify-content-between">
+        <MDBCardImage
+          src={logo}
+          style={{ width: '200px', cursor: 'pointer' }}  // Added cursor style to indicate it's clickable
+          alt="Header Logo"
+          onClick={() => navigate('/login')} // Added onClick handler
+        />
+          <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
+            <MDBNavbarNav className="align-items-center">
+
+              <MDBNavbarItem style={{ margin: '0 25px', fontWeight: 'bold' }}>
+                <MDBNavbarLink 
+                    onClick={() => navigate('/services-guest')}
+                    style={{ color: 'rgb(255, 165, 0)' }}  
+                >
+                    Services
+                </MDBNavbarLink>
+              </MDBNavbarItem>
+
+              <MDBNavbarItem style={{ margin: '0 25px' }}>
+                <MDBNavbarLink onClick={() => navigate('/promos-guest')}>Promos</MDBNavbarLink>
+              </MDBNavbarItem>
+
+              <MDBNavbarItem style={{ margin: '0 25px' }}>
+                <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
+              </MDBNavbarItem>
+              <span
+                onClick={() => {navigate('/login')}}
+                style={{
+                  margin: '0 25px',
+                  fontSize: '1rem',
+                  color: '#000',
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                Hi, Guest
+              </span>
+            </MDBNavbarNav>
+          </MDBNavbar>
+        </MDBContainer>
+      </div>
+
+
+
+
+
+
+
       {/* Main Content Section */}
       <MDBTypography 
             tag="h1" 
@@ -297,7 +263,7 @@ const handleQuotationSubmit = async (e) => {
                 textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)'
             }}
         >
-            FLIGHT BOOKING
+            TRAVEL INSURANCE
       </MDBTypography>
 
       <MDBContainer className="flex-grow-1 d-flex align-items-center justify-content-center">
@@ -309,8 +275,7 @@ const handleQuotationSubmit = async (e) => {
 
             <MDBTypography tag="h6" className="text-start mb-3" style={{fontWeight: 'bold'}}>General Information</MDBTypography>
 
- 
-<MDBRow className="mb-3">
+            <MDBRow className="mb-3">
   <MDBCol md="12" className="d-flex align-items-center">
     <input 
       type="checkbox" 
@@ -324,7 +289,6 @@ const handleQuotationSubmit = async (e) => {
     </label>
   </MDBCol>
 </MDBRow>
-
 
               <MDBRow>
                 <MDBCol md="6">
@@ -386,7 +350,7 @@ const handleQuotationSubmit = async (e) => {
                     type="text"
                     value={bookingDetails.middlename}
                     onChange={handleChange}
-                  
+                    required
                     className="form-control"
                     style={{
                       border: '2px solid rgb(250, 207, 32)', 
@@ -448,104 +412,30 @@ const handleQuotationSubmit = async (e) => {
                     }}
                   />
                 </MDBCol>
-
-                <MDBCol md="6" className="text-end">
-                    <button 
-                        type="button" 
-                        className="btn btn-primary"
-                        style={{ 
-                            fontWeight: 'bold',
-                            width: '30%', 
-                            borderRadius: '30px', 
-                            backgroundColor: 'rgb(255, 165, 0)', 
-                            border: 'none', 
-                            padding: '10px 20px' 
-                        }}
-                        onClick={addPassenger} 
-                    >
-                        ADD PAX
-                    </button>
+                <MDBCol md="6">
+                <label htmlFor="numOfPerson" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Number of Person <span style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input
+                    id="numOfPerson"
+                    name="numOfPerson"
+                    type="number"
+                    value={bookingDetails.numOfPerson}
+                    onChange={handleChange}
+                    required
+                    className="form-control"
+                    style={{
+                      border: '2px solid rgb(250, 207, 32)', 
+                      borderRadius: '15px', 
+                      boxShadow: 'none', 
+                      padding: '10px',
+                      backgroundColor: 'transparent', 
+                      width: '100%',
+                      marginBottom: '10px'
+                    }}
+                  />
                 </MDBCol>
               </MDBRow>
-
-              <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{ fontWeight: 'bold' }}>
-                  Passengers
-                </MDBTypography>
-                {passengers.map((passenger, index) => (
-                  <MDBRow key={index}>
-  <MDBCol md="5">
-    <label htmlFor={`firstname-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
-      First Name <span style={{ color: 'red' }}>*</span>
-    </label>
-    <input
-      type="text"
-      name="firstname"
-      id={`firstname-${index}`}
-      value={passenger.firstname}
-      onChange={(e) => handlePassengerChange(index, e)}
-      className="form-control"
-      style={{
-        border: '2px solid rgb(250, 207, 32)',
-        borderRadius: '15px',
-        boxShadow: 'none',
-        padding: '10px',
-        backgroundColor: 'transparent',
-        width: '100%',
-        marginBottom: '10px',
-      }}
-      required
-    />
-  </MDBCol>
-
-  <MDBCol md="5">
-    <label htmlFor={`lastname-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
-      Last Name <span style={{ color: 'red' }}>*</span>
-    </label>
-    <input
-      type="text"
-      name="lastname"
-      id={`lastname-${index}`}
-      value={passenger.lastname}
-      onChange={(e) => handlePassengerChange(index, e)}
-      className="form-control"
-      style={{
-        border: '2px solid rgb(250, 207, 32)',
-        borderRadius: '15px',
-        boxShadow: 'none',
-        padding: '10px',
-        backgroundColor: 'transparent',
-        width: '100%',
-        marginBottom: '10px',
-      }}
-      required
-    />
-  </MDBCol>
-
-  <MDBCol md="2">
-    <label htmlFor={`age-${index}`} style={{ color: 'black', paddingLeft: '12px'  }}>
-      Age
-    </label>
-    <input
-      type="number"
-      name="age"
-      id={`age-${index}`}
-      value={passenger.age}
-      onChange={(e) => handlePassengerChange(index, e)}
-      className="form-control"
-      style={{
-        border: '2px solid rgb(250, 207, 32)',
-        borderRadius: '15px',
-        boxShadow: 'none',
-        padding: '10px',
-        backgroundColor: 'transparent',
-        width: '100%',
-        marginBottom: '10px',
-      }}
-    />
-  </MDBCol>
-</MDBRow>
-
-))}
 
               <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{fontWeight: 'bold'}}>Travel Information</MDBTypography>
 
@@ -600,14 +490,14 @@ const handleQuotationSubmit = async (e) => {
 
               <MDBRow>
                 <MDBCol md="6">
-                <label htmlFor="airportDeparture" style={{ color: 'black', paddingLeft: '12px' }}>
-                    Airport Departure <span style={{ color: 'red' }}>*</span>
+                <label htmlFor="destination" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Destination <span style={{ color: 'red' }}>*</span>
                   </label>
                   <input
-                    id="airportDeparture"
-                    name="airportDeparture"
+                    id="destination"
+                    name="destination"
                     type="text"
-                    value={bookingDetails.airportDeparture}
+                    value={bookingDetails.destination}
                     onChange={handleChange}
                     required
                     className="form-control"
@@ -622,28 +512,132 @@ const handleQuotationSubmit = async (e) => {
                     }}
                   />
                 </MDBCol>
+              </MDBRow>
+
+              <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{ fontWeight: 'bold' }}>
+                  Passengers
+                </MDBTypography>
+                {passengers.map((passenger, index) => (
+                  <MDBRow key={index} className="mb-4">
+  <MDBRow>
+    <MDBCol md="6">
+      <label htmlFor={`firstname-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
+        First Name <span style={{ color: 'red' }}>*</span>
+      </label>
+      <input
+        type="text"
+        name="firstname"
+        id={`firstname-${index}`}
+        value={passenger.firstname}
+        onChange={(e) => handlePassengerChange(index, e)}
+        className="form-control"
+        style={{
+          border: '2px solid rgb(250, 207, 32)',
+          borderRadius: '15px',
+          boxShadow: 'none',
+          padding: '10px',
+          backgroundColor: 'transparent',
+          width: '100%',
+          marginBottom: '10px',
+        }}
+        required
+      />
+    </MDBCol>
+
+    <MDBCol md="6">
+      <label htmlFor={`lastname-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
+        Last Name <span style={{ color: 'red' }}>*</span>
+      </label>
+      <input
+        type="text"
+        name="lastname"
+        id={`lastname-${index}`}
+        value={passenger.lastname}
+        onChange={(e) => handlePassengerChange(index, e)}
+        className="form-control"
+        style={{
+          border: '2px solid rgb(250, 207, 32)',
+          borderRadius: '15px',
+          boxShadow: 'none',
+          padding: '10px',
+          backgroundColor: 'transparent',
+          width: '100%',
+          marginBottom: '10px',
+        }}
+        required
+      />
+    </MDBCol>
+  </MDBRow>
+
+  <MDBRow>
+    <MDBCol md="6">
+      <label htmlFor={`age-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
+        Age <span style={{ color: 'red' }}>*</span>
+      </label>
+      <input
+        type="number"
+        name="age"
+        id={`age-${index}`}
+        value={passenger.age}
+        onChange={(e) => handlePassengerChange(index, e)}
+        className="form-control"
+        style={{
+          border: '2px solid rgb(250, 207, 32)',
+          borderRadius: '15px',
+          boxShadow: 'none',
+          padding: '10px',
+          backgroundColor: 'transparent',
+          width: '100%',
+          marginBottom: '10px',
+        }}
+      />
+    </MDBCol>
+
+    <MDBCol md="6">
+      <label htmlFor={`birthday-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
+        Birthday <span style={{ color: 'red' }}>*</span>
+      </label>
+      <input
+        type="date"
+        name="birthday"
+        id={`birthday-${index}`}
+        value={passenger.birthday}
+        onChange={(e) => handlePassengerChange(index, e)}
+        className="form-control"
+        style={{
+          border: '2px solid rgb(250, 207, 32)',
+          borderRadius: '15px',
+          boxShadow: 'none',
+          padding: '10px',
+          backgroundColor: 'transparent',
+          width: '100%',
+          marginBottom: '10px',
+        }}
+      />
+    </MDBCol>
+  </MDBRow>
+</MDBRow>
+
+))}
+              <MDBRow>
                 <MDBCol md="6">
-                <label htmlFor="airportArrival" style={{ color: 'black', paddingLeft: '12px' }}>
-                    Airport Arrival <span style={{ color: 'red' }}>*</span>
-                  </label>
-                  <input
-                    id="airportArrival"
-                    name="airportArrival"
-                    type="text"
-                    value={bookingDetails.airportArrival}
-                    onChange={handleChange}
-                    required
-                    className="form-control"
-                    style={{
-                      border: '2px solid rgb(250, 207, 32)', 
-                      borderRadius: '15px', 
-                      boxShadow: 'none', 
-                      padding: '10px',
-                      backgroundColor: 'transparent', 
-                      width: '100%',
-                      marginBottom: '10px'
-                    }}
-                  />
+                </MDBCol>
+                <MDBCol md="6" className="text-end">
+                    <button 
+                        type="button" 
+                        className="btn btn-primary"
+                        style={{ 
+                            fontWeight: 'bold',
+                            width: '30%', 
+                            borderRadius: '30px', 
+                            backgroundColor: 'rgb(255, 165, 0)', 
+                            border: 'none', 
+                            padding: '10px 20px' 
+                        }}
+                        onClick={addPassenger} 
+                    >
+                        ADD PAX
+                    </button>
                 </MDBCol>
               </MDBRow>
 
@@ -708,23 +702,12 @@ const handleQuotationSubmit = async (e) => {
                         padding: '10px 20px',
                       }}
                       onClick={handleQuotationSubmit}
-                      disabled={
-                        !isChecked ||
-                        !bookingDetails.lastname ||
-                        !bookingDetails.firstname ||
-                        !bookingDetails.email ||
-                        !bookingDetails.contactNumber ||
-                        !bookingDetails.startDate ||
-                        !bookingDetails.endDate ||
-                        !bookingDetails.airportDeparture ||
-                        !bookingDetails.airportArrival
-                      } 
+                      disabled={!isChecked}
                     >
                       REQUEST QUOTATION
                     </button>
                   </MDBCol>
                 </MDBRow>
-
 
                 <MDBRow className='mt-4' style={{paddingLeft: '50px'}}>
                     Note: When requesting quotation, no need to input details of companion. It’s only needed when booking. 
@@ -741,4 +724,4 @@ const handleQuotationSubmit = async (e) => {
   );
 }
 
-export default FlightsDetails;
+export default DetailsInsuranceGuest;

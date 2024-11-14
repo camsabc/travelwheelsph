@@ -27,7 +27,7 @@ function DetailsBooking() {
 
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
+      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
@@ -35,7 +35,7 @@ function DetailsBooking() {
             setLoading(false);
           } else {
             setUser(data);
-            return fetch(`http://localhost:3000/api/bookings/get-booking-by-id/${id}`);
+            return fetch(`https://travelwheelsph.onrender.com/api/bookings/get-booking-by-id/${id}`);
           }
         })
         .then(response => response.json())
@@ -71,7 +71,7 @@ function DetailsBooking() {
   };
 
   const handleSave = () => {
-    fetch(`http://localhost:3000/api/bookings/edit-booking/${id}`, {
+    fetch(`https://travelwheelsph.onrender.com/api/bookings/edit-booking/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'

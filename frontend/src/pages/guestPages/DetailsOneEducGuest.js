@@ -14,10 +14,10 @@ import {
   MDBCardImage
 } from 'mdb-react-ui-kit';
 
-import logo from '../images/header.jpg';
-import bg from '../images/bg.jpg';
+import logo from '../../images/header.jpg';
+import bg from '../../images/bg.jpg';
 
-function DetailsOneEduc() {
+function DetailsOneEducGuest() {
   const [user, setUser] = useState(null);
   const [educ, setEduc] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -60,13 +60,9 @@ function DetailsOneEduc() {
     fetchData();
   }, [id, email]);
 
-  const handleBookingSubmit = async (e) => {
-    navigate(`/educ-bookings/${educ._id}`, { state: { email: user?.email } })
-  };
-
 
 const handleQuotationSubmit = async (e) => {
-    navigate(`/educ-quotations/${educ._id}`, { state: { email: user?.email } })
+    navigate(`/educ-quotations-guest/${educ._id}`)
 };
 
 
@@ -95,29 +91,37 @@ const handleQuotationSubmit = async (e) => {
 
 
       {/* Header Section */}
-      <div className="bg-white py-2 mb-1" style={{ flexShrink: 0 }}>
+      <div className="bg-white py-2" style={{ flexShrink: 0 }}>
         <MDBContainer fluid className="d-flex align-items-center justify-content-between">
         <MDBCardImage
-    src={logo}
-    style={{ width: '200px', cursor: 'pointer' }}
-    alt="Header Logo"
-    onClick={() => navigate('/home-user', { state: { email: user.email }})} 
-  />
+          src={logo}
+          style={{ width: '200px', cursor: 'pointer' }}  // Added cursor style to indicate it's clickable
+          alt="Header Logo"
+          onClick={() => navigate('/login')} // Added onClick handler
+        />
           <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
             <MDBNavbarNav className="align-items-center">
-              <MDBNavbarItem style={{ margin: '0 15px' }}>
-                <span style={{ cursor: 'pointer' }} onClick={() => navigate('/services', { state: { email: user.email } })}>Services</span>
+
+              <MDBNavbarItem style={{ margin: '0 25px', fontWeight: 'bold' }}>
+                <MDBNavbarLink 
+                    onClick={() => navigate('/services-guest')}
+                    style={{ color: 'rgb(255, 165, 0)' }}  
+                >
+                    Services
+                </MDBNavbarLink>
               </MDBNavbarItem>
-              <MDBNavbarItem style={{ margin: '0 15px' }}>
-                <MDBNavbarLink>Promos</MDBNavbarLink>
+
+              <MDBNavbarItem style={{ margin: '0 25px' }}>
+                <MDBNavbarLink onClick={() => navigate('/promos-guest')}>Promos</MDBNavbarLink>
               </MDBNavbarItem>
-              <MDBNavbarItem style={{ margin: '0 15px' }}>
-                <MDBNavbarLink>Inquiry</MDBNavbarLink>
+
+              <MDBNavbarItem style={{ margin: '0 25px' }}>
+                <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
               </MDBNavbarItem>
               <span
-                onClick={() => navigate('/profile', { state: { email: user.email } })}
+                onClick={() => {navigate('/login')}}
                 style={{
-                  margin: '0 15px',
+                  margin: '0 25px',
                   fontSize: '1rem',
                   color: '#000',
                   display: 'flex',
@@ -125,7 +129,7 @@ const handleQuotationSubmit = async (e) => {
                   cursor: 'pointer',
                 }}
               >
-                Hi, {user?.firstname}
+                Hi, Guest
               </span>
             </MDBNavbarNav>
           </MDBNavbar>
@@ -195,4 +199,4 @@ const handleQuotationSubmit = async (e) => {
   );
 }
 
-export default DetailsOneEduc;
+export default DetailsOneEducGuest;

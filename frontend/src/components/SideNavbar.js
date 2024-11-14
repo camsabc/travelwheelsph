@@ -8,6 +8,7 @@ const iconMapping = {
   'User Account Management': 'users',
   'Content Management': 'file-alt',
   'Quotation Management': 'comment-dollar',
+  'Inquiry Management': 'file-invoice',
   'Promotional Management System': 'bullhorn',
   'Logout': 'sign-out-alt'
 };

@@ -34,7 +34,8 @@ import DetailsQuotationEduc from './pages/DetailsQuotationEduc';
 
 import Login3 from './pages/Login3';
 import DetailsDomPack from './pages/DetailsDomPack';
-import DetailsIntPack from './pages/DetailsIntPack';
+import DetailsIntPackOne from './pages/DetailsIntPackOne';
+import DetailsIntPackTwo from './pages/DetailsIntPackTwo';
 
 
 
@@ -70,10 +71,31 @@ import AboutUsGuest from './pages/guestPages/AboutUsGuest';
 
 import GlobalStyle from './GlobalStyle';
 import DetailsDomPackGuest from './pages/guestPages/DetailsDomPackGuest';
-import DetailsIntPackGuest from './pages/guestPages/DetailsIntPackGuest';
+import DetailsIntPackGuest from './pages/guestPages/DetailsIntPackOneGuest';
 import TermsAndConditionsGuest from './pages/guestPages/TermsAndConditionsGuest';
 
 import InquiryList from './pages/InquiryList';
+import DetailsPromos from './pages/DetailsPromos';
+import AboutUs from './pages/AboutUs';
+
+
+
+import DetailsHotelGuest from './pages/guestPages/DetailsHotelGuest';
+import DetailsPassportGuest from './pages/guestPages/DetailsPassportGuest';
+import DetailsFlightGuest from './pages/guestPages/DetailsFlightGuest';
+import DetailsRideGuest from './pages/guestPages/DetailsRideGuest';
+import DetailsTransferGuest from './pages/guestPages/DetailsTransferGuest';
+import DetailsVisaGuest from './pages/guestPages/DetailsVisaGuest';
+import DetailsInsuranceGuest from './pages/guestPages/DetailsInsuranceGuest';
+import DetailsMiceGuest from './pages/guestPages/DetailsMiceGuest';
+import DetailsOneEducGuest from './pages/guestPages/DetailsOneEducGuest';
+import DetailsQuotationEducGuest from './pages/guestPages/DetailsQuotationEduc';
+import DetailsIntPackOneGuest from './pages/guestPages/DetailsIntPackOneGuest';
+import DetailsIntPackTwoGuest from './pages/guestPages/DetailsIntPackTwoGuest';
+
+
+
+
 
 function App() {
   return (
@@ -116,7 +138,9 @@ function App() {
               <Route path="/educ-quotations/:id" element={<DetailsQuotationEduc />} />
 
               <Route path="/pack-dom/:id" element={<DetailsDomPack />} />
-              <Route path="/pack-int/:id" element={<DetailsIntPack />} />
+
+              <Route path="/pack-int/:id" element={<DetailsIntPackOne />} />
+              <Route path="/pack-int-two/:id" element={<DetailsIntPackTwo />} />
 
               <Route path="/admin" element={<Admin />} />
 
@@ -147,13 +171,28 @@ function App() {
               <Route path="/change-email-otp" element={<ChangeEmailOtp/>}/>
 
               <Route path="/about-us-guest" element={<AboutUsGuest/>}/>
+              <Route path="/about-us" element={<AboutUs/>}/>
 
 
               <Route path="/pack-dom-guest/:id" element={<DetailsDomPackGuest/>} />
-              <Route path="/pack-int-guest/:id" element={<DetailsIntPackGuest/>} />
+              <Route path="/pack-int-guest/:id" element={<DetailsIntPackOneGuest/>} />
+              <Route path="/pack-int-two-guest/:id" element={<DetailsIntPackTwoGuest/>} />
+
               <Route path="/terms-and-conditions-guest" element={<TermsAndConditionsGuest/>} />
 
               <Route path="/inquiry-list" element={<InquiryList/>}/>
+              <Route path="/promo/:id" element={<DetailsPromos/>}/>
+
+              <Route path="/hotel-guest" element={<DetailsHotelGuest/>}/>
+              <Route path="/passport-guest" element={<DetailsPassportGuest/>}/>
+              <Route path="/flight-guest" element={<DetailsFlightGuest/>}/>
+              <Route path="/ride-guest/:id" element={<DetailsRideGuest />} />
+              <Route path="/transfer-guest" element={<DetailsTransferGuest />} />
+              <Route path="/visa-guest" element={<DetailsVisaGuest />} />
+              <Route path="/insurance-guest" element={<DetailsInsuranceGuest />} />
+              <Route path="/mice-guest" element={<DetailsMiceGuest />} />
+              <Route path="/educ-guest/:id" element={<DetailsOneEducGuest />} />
+              <Route path="/educ-quotations-guest/:id" element={<DetailsQuotationEducGuest />} />
 
 
 

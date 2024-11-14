@@ -135,10 +135,10 @@ function Inquiry() {
               <MDBNavbarItem style={{ margin: '0 25px' }}>
                 <MDBNavbarLink onClick={() => navigate('/promos', { state: { email: user.email } })}>Promos</MDBNavbarLink>
               </MDBNavbarItem>
-              <MDBNavbarItem style={{ margin: '0 25px', fontWeight: 'bold' }}>
+              <MDBNavbarItem style={{ margin: '0 25px' }}>
                 <MDBNavbarLink
                   onClick={() => navigate('/inquiry')}
-                  style={{ color: 'rgb(255, 165, 0)' }}
+                  
                 >
                   Inquiry
                 </MDBNavbarLink>
@@ -171,7 +171,7 @@ function Inquiry() {
           textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)',
         }}
       >
-        CONTACT US
+        ABOUT US
       </MDBTypography>
 
       {/* Main Content Section */}
@@ -188,122 +188,23 @@ function Inquiry() {
             }}
           >
             <MDBCardBody>
-              <div className="row mb-4 justify-content-between">
-                <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
-                  <FaPhone style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
-                  <div style={{ fontSize: '15px', color: 'black' }}>
-                    GLOBE  0915-262-3898 <br />
-                    GLOBE  0927-893-0271 <br />
-                    GLOBE  0994-639-6953
-                  </div>
+                <div className="row mb-0 justify-content-between">
+                    <MDBTypography style={{ fontSize: '25px', color: 'rgb(255, 165, 0)', fontWeight: 'bolder' }}>
+                        Travel Tayo Car Rental & Tours
+                    </MDBTypography>
+
+                    <MDBTypography>
+                        Travel Tayo Car Rental and Tours is a private owned business, located at Unit 2, 2nd Flr, Hersyl Building, Blk 5 Lot 25 Ph4 Golden City Subdivision, Brgy. Dita, Sta Rosa, Laguna. Founded on October 2015, the company has projected revenues and started to establish its name and connections in the local market. It foresees potentials and has expanded the range of services vigorously.
+                    </MDBTypography>
+
+                    <MDBTypography className='mt-3' style={{ fontSize: '25px', color: 'rgb(255, 165, 0)', fontWeight: 'bolder' }}>
+                        Why Choose Us?
+                    </MDBTypography>
+
+                    <MDBTypography>
+                        We offer unmatched value, safety, and convenience. We prioritize top-notch customer service, cultural experiences, and safe mobility for all clients. The company is operated and managed based on the international standard environment gained from the previous companies attended by the founders, applying the quality standard of leadership, processes, strategy, resources, and people. With continuous innovation and nationwide accessibility, we guarantee every journey leaves a lasting impact, making us your ideal travel partner.
+                    </MDBTypography>
                 </div>
-                <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
-                  <FaEnvelope style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
-                  <div style={{ fontSize: '15px', color: 'black' }}>info@traveltayoph.com</div>
-                </div>
-                <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
-                  <FaFacebook style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
-                  <div style={{ fontSize: '15px', color: 'black' }}>TravelTayo Car Rental and Tours</div>
-                </div>
-                <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
-                  <FaInstagram style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
-                  <div style={{ fontSize: '15px', color: 'black' }}>Travel Tayo PH</div>
-                </div>
-              </div>
-
-              <MDBCardText className="text-center mb-4 mt-5">
-                <span style={{ color: 'black', fontWeight: 'bold', marginRight: '5px' }}>ADDRESS</span>
-                <span style={{ color: 'rgb(255, 165, 0)' }}>
-                  Office Unit 2, Hersyl Building, Blk 5 Lot 25 Phase4, Golden City Subdivision, Brgy. Dila, Santa Rosa, Philippines
-                </span>
-              </MDBCardText>
-
-              <div className="d-flex justify-content-center mb-4">
-                <MDBCardImage src={map} style={{ maxWidth: '100%', height: 'auto' }} alt="Additional Info" />
-              </div>
-
-              <div className="text-center mt-5">
-                <MDBTypography tag="h3" style={{ color: 'rgb(250, 165, 0)', fontWeight: 'bolder' }}>
-                  SEND AN INQUIRY
-                </MDBTypography>
-
-                <div className="mb-1">
-                  <input
-                    type="email"
-                    name="email"
-                    value={inquiryData.email}
-                    onChange={handleInputChange}
-                    placeholder="Enter email address"
-                    required
-                    style={{
-                      border: '2px solid rgb(250, 165, 0)',
-                      borderRadius: '20px',
-                      boxShadow: 'none',
-                      padding: '10px',
-                      backgroundColor: 'transparent',
-                      width: '100%',
-                      maxWidth: '600px',
-                      margin: '10px auto',
-                      textAlign: 'center',
-                    }}
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <textarea
-                    name="message"
-                    value={inquiryData.message}
-                    onChange={handleInputChange}
-                    placeholder="Your inquiry here..."
-                    rows="4"
-                    required
-                    style={{
-                      border: '2px solid rgb(250, 165, 0)',
-                      borderRadius: '20px',
-                      boxShadow: 'none',
-                      padding: '10px',
-                      backgroundColor: 'transparent',
-                      width: '100%',
-                      maxWidth: '600px',
-                      margin: '10px auto',
-                      textAlign: 'center',
-                    }}
-                  ></textarea>
-                </div>
-
-                <button
-                  type="button"
-                  style={{
-                    fontWeight: 'bold',
-                    width: '20%',
-                    borderRadius: '30px',
-                    backgroundColor: 'rgb(255, 165, 0)',
-                    border: 'none',
-                    padding: '7px 10px',
-                    color: 'white',
-                  }}
-                  onClick={handleSubmit}
-                >
-                  Send
-                </button>
-
-                {/* Success message below the button */}
-                {successMessage && (
-                  <div
-                    style={{
-                      marginTop: '30px',
-                      backgroundColor: '#28a745',
-                      color: 'white',
-                      padding: '20px',
-                      borderRadius: '15px',
-                      maxWidth: '600px',
-                      margin: '10px auto',
-                    }}
-                  >
-                    {successMessage}
-                  </div>
-                )}
-              </div>
             </MDBCardBody>
           </MDBCard>
         </div>
