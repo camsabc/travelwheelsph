@@ -19,7 +19,7 @@ const app = express();
 // https://travelwheelsph.onrender.com
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'https://travelwheelsapp.travelwheelsph.com',
+  origin: 'https://travelwheelsph.com',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }));
 
