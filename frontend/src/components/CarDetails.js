@@ -362,6 +362,7 @@ const handleQuotationSubmit = async (e) => {
 
               <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{fontWeight: 'bold'}}>Travel Information</MDBTypography>
 
+
               <MDBRow>
                 <MDBCol md="6">
                   <input
@@ -372,14 +373,15 @@ const handleQuotationSubmit = async (e) => {
                     value={bookingDetails.startDate}
                     onChange={handleChange}
                     required
+                    min={new Date().toISOString().split("T")[0]}
                     className="form-control"
                     style={{
                       border: '2px solid rgb(250, 207, 32)',
-                      borderRadius: '15px', 
+                      borderRadius: '15px',
                       boxShadow: 'none',
                       padding: '10px',
-                      backgroundColor: 'transparent', 
-                      width: '100%', 
+                      backgroundColor: 'transparent',
+                      width: '100%',
                       marginBottom: '10px'
                     }}
                   />
@@ -393,19 +395,23 @@ const handleQuotationSubmit = async (e) => {
                     value={bookingDetails.endDate}
                     onChange={handleChange}
                     required
+                    min={bookingDetails.startDate || new Date().toISOString().split("T")[0]}
                     className="form-control"
                     style={{
                       border: '2px solid rgb(250, 207, 32)',
-                      borderRadius: '15px', 
+                      borderRadius: '15px',
                       boxShadow: 'none',
                       padding: '10px',
-                      backgroundColor: 'transparent', 
-                      width: '100%', 
+                      backgroundColor: 'transparent',
+                      width: '100%',
                       marginBottom: '10px'
                     }}
                   />
                 </MDBCol>
               </MDBRow>
+
+
+
               <MDBRow>
                 <MDBCol md="6">
                   <input

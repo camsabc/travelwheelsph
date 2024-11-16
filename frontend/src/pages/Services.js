@@ -251,7 +251,7 @@ function Services() {
                 <MDBNavbarLink onClick={() => navigate('/inquiry', { state: { email: user.email }})}>Inquiry</MDBNavbarLink>
               </MDBNavbarItem>
               <span
-                onClick={() => {}}
+                onClick={() => navigate('/profile', { state: { email: user.email }})}
                 style={{
                   margin: '0 25px',
                   fontSize: '1rem',

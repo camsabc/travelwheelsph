@@ -8,7 +8,15 @@ const InquirySchema = mongoose.Schema({
     message: {
         type: String,
         required: false
-    }
+    },
+    note: {
+        type: String,
+        required: false
+    },
+    status: {
+        type: String,
+        required: false
+    },
 });
 
 const InquiryModel = mongoose.model('Inquiry', InquirySchema);

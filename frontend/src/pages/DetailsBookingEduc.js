@@ -391,6 +391,7 @@ function DetailsBookingEduc() {
             onChange={handleChange}
             required
             className="form-control"
+            min={new Date().toISOString().split("T")[0]}
             style={{
                 border: '2px solid rgb(250, 207, 32)',
                 borderRadius: '15px', 
@@ -412,6 +413,7 @@ function DetailsBookingEduc() {
             onChange={handleChange}
             required
             className="form-control"
+            min={bookingDetails.startDate || new Date().toISOString().split("T")[0]}
             style={{
                 border: '2px solid rgb(250, 207, 32)',
                 borderRadius: '15px', 
@@ -435,6 +437,7 @@ function DetailsBookingEduc() {
             onChange={handleChange}
             required
             className="form-control"
+            min={new Date().toISOString().split("T")[0]}
             style={{
                 border: '2px solid rgb(250, 207, 32)',
                 borderRadius: '15px', 

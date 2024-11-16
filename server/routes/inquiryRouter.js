@@ -7,6 +7,8 @@ const inquiryController = require('../controllers/inquiryController');
 router.get('/get-all-inquiries', inquiryController.getAllInquiries);
 router.get('/get-all-inquiries-by-email/:email', inquiryController.getInquiryByEmail);
 router.post('/create-inquiry', inquiryController.createInquiry);
+router.post('/change-status', inquiryController.changeStatus);
+router.post('/update-note', inquiryController.updateNote);
 
 
 module.exports = router;

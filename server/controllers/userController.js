@@ -46,7 +46,7 @@ const newAccount = async (req, res) => {
 
 const editUser = async (req, res) => {
     const userId = req.params.id;
-    const { firstname, lastname, email, phone, password } = req.body; 
+    const { firstname, lastname, email, phone, password, contactNumber } = req.body; 
 
     try {
         const updatedFields = {};
@@ -55,6 +55,7 @@ const editUser = async (req, res) => {
         if (lastname) updatedFields.lastname = lastname;
         if (email) updatedFields.email = email;
         if (phone) updatedFields.phone = phone;
+        if (contactNumber) updatedFields.contactNumber = contactNumber;
 
      
         if (password) {
@@ -121,6 +122,22 @@ const getUserByEmail = async (req, res) => {
 };
 
 
+
+/* This function retrieves all emails in the database */
+const getAllEmails = (req, res) => {
+    UserModel.find({}, { email: 1, _id: 0 }) // Select only the email field, exclude _id
+        .then(emails => {
+            const emailList = emails.map(user => user.email); // Extract emails into a simple array
+            res.json(emailList);
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'Failed to fetch emails' });
+        });
+};
+
+
+
 module.exports = {
     getUsers,
     getUserById,
@@ -129,5 +146,6 @@ module.exports = {
     signIn,
     getUserByEmail,
     newAccount,
+    getAllEmails
     
 };

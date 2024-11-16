@@ -146,7 +146,7 @@ const Homepage = () => {
         <div
           style={{
             position: 'absolute',
-            top: '40%',
+            top: '25%',
             left: '7%',
             color: 'white',
             fontSize: '3rem',
@@ -154,10 +154,10 @@ const Homepage = () => {
             textAlign: 'left',
             textTransform: 'uppercase',
             textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)',
-            width: '60%'
+            width: '50%'
           }}
         >
-          Inspiring destinations are just within your reach
+          Inspiring destinations are just within your reach.
         </div>
       </div>
     ))}
@@ -208,7 +208,7 @@ const Homepage = () => {
         <MDBCol size="4" className="d-flex justify-content-end"> {/* Adjust size based on the layout you want */}
             <button 
                 type="button" 
-                onClick={() => {navigate('/services-pack-guest')}}
+                onClick={() => {navigate('/destination-form-guest')}}
                 className="btn btn-primary"
                 style={{ 
                     fontWeight: 'bold',

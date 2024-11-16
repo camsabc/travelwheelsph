@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.0c829861.css",
-    "main.js": "/static/js/main.200030f0.js",
+    "main.js": "/static/js/main.aeabff4c.js",
     "static/media/visabg.jpg": "/static/media/visabg.c8b89b7bed2418c64234.jpg",
     "static/media/home_bg.jpg": "/static/media/home_bg.ce1ff30264383a7e0d05.jpg",
     "static/media/dom1.PNG": "/static/media/dom1.97f1cea93ebfb925fb3b.PNG",
@@ -13,21 +13,27 @@
     "static/media/bg.png": "/static/media/bg.f822d16efbe8a0b578e1.png",
     "static/media/int2.PNG": "/static/media/int2.7240957cc73396a2d7df.PNG",
     "static/media/home_bg2.jpg": "/static/media/home_bg2.0f111f2ea7a59879f6f2.jpg",
+    "static/media/anneImage.png": "/static/media/anneImage.ad7c03f44149c32af733.png",
     "static/media/h1.png": "/static/media/h1.6326967643bb51db36e4.png",
     "static/media/f1.png": "/static/media/f1.d3e2f118a1ce5e7fd79a.png",
     "static/media/f2.png": "/static/media/f2.263bb8e87dba26126191.png",
     "static/media/h2.png": "/static/media/h2.e687f5a889b844adedf5.png",
+    "static/media/lovePhilippines.png": "/static/media/lovePhilippines.e26c91b1e08974dd250a.png",
     "static/media/fa-solid-900.ttf": "/static/media/fa-solid-900.07ed6d5fa32c1d54af0f.ttf",
     "static/media/educ2.jpg": "/static/media/educ2.199010498f877d72164d.jpg",
     "static/media/h3.png": "/static/media/h3.afa7ac33430e76a3076c.png",
     "static/media/f3.png": "/static/media/f3.360c4815cfaae27eeac1.png",
     "static/media/rq_bg.jpg": "/static/media/rq_bg.c2a835eb14b4f513833a.jpg",
+    "static/media/dot.png": "/static/media/dot.28ac56ccdd7825ba7cd3.png",
     "static/media/pack7.jpg": "/static/media/pack7.ff8667d6d1494f2ed9d6.jpg",
     "static/media/pack2.jpg": "/static/media/pack2.4418246a533fa5c3f245.jpg",
     "static/media/fa-brands-400.ttf": "/static/media/fa-brands-400.0ff70dcbf135d859ebf3.ttf",
     "static/media/hotelbg.jpg": "/static/media/hotelbg.9c269d7615ad5d93f4f1.jpg",
     "static/media/pack3.jpg": "/static/media/pack3.a0d4ebfc16b0f75914c5.jpg",
+    "static/media/ptaa.png": "/static/media/ptaa.dc0b9fb472045114b992.png",
+    "static/media/altta.png": "/static/media/altta.adc261c8c1d5e9d59a07.png",
     "static/media/fa-solid-900.woff2": "/static/media/fa-solid-900.93f719f4d62bfa3e748c.woff2",
+    "static/media/philtoa.png": "/static/media/philtoa.48335ccc45da6e86d7ee.png",
     "static/media/flightsbg.jpg": "/static/media/flightsbg.ff9b9426b0b492f5d16a.jpg",
     "static/media/bg.jpg": "/static/media/bg.7e0256fdd6033efca3b8.jpg",
     "static/media/inquirybg.jpg": "/static/media/inquirybg.56e6c9dcd6b2728a2100.jpg",
@@ -64,10 +70,10 @@
     "static/media/fa-v4compatibility.woff2": "/static/media/fa-v4compatibility.6cfec8414be20e2c3426.woff2",
     "index.html": "/index.html",
     "main.0c829861.css.map": "/static/css/main.0c829861.css.map",
-    "main.200030f0.js.map": "/static/js/main.200030f0.js.map"
+    "main.aeabff4c.js.map": "/static/js/main.aeabff4c.js.map"
   },
   "entrypoints": [
     "static/css/main.0c829861.css",
-    "static/js/main.200030f0.js"
+    "static/js/main.aeabff4c.js"
   ]
 }

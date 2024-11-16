@@ -562,6 +562,7 @@ const handleQuotationSubmit = async (e) => {
                     onChange={handleChange}
                     required
                     className="form-control"
+                    min={new Date().toISOString().split("T")[0]}
                     style={{
                       border: '2px solid rgb(250, 207, 32)', 
                       borderRadius: '15px', 
@@ -585,6 +586,7 @@ const handleQuotationSubmit = async (e) => {
                     onChange={handleChange}
                     required
                     className="form-control"
+                    min={bookingDetails.startDate || new Date().toISOString().split("T")[0]}
                     style={{
                       border: '2px solid rgb(250, 207, 32)', 
                       borderRadius: '15px', 

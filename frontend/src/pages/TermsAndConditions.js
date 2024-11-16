@@ -16,8 +16,6 @@ import {
 
 import logo from '../images/header.jpg';
 import inquirybg from '../images/inquirybg.jpg';
-import map from '../images/map.jpg';
-import { FaPhone, FaEnvelope, FaFacebook, FaInstagram } from 'react-icons/fa';
 import Toast from '../components/Toast';
 
 function TermsAndConditions() {

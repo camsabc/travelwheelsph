@@ -11,12 +11,23 @@ import {
   MDBTypography,
   MDBCardText,
   MDBCardImage,
+  MDBRow,
+  MDBCol
 } from 'mdb-react-ui-kit';
 
 import logo from '../images/header.jpg';
 import inquirybg from '../images/inquirybg.jpg';
-import map from '../images/map.jpg';
-import { FaPhone, FaEnvelope, FaFacebook, FaInstagram } from 'react-icons/fa';
+
+
+
+import anneImage from '../images/anneImage.png';
+import philtoaLogo from '../images/philtoa.png';
+import dotLogo from '../images/dot.png';
+import ptaaLogo from '../images/ptaa.png';
+import alttaLogo from '../images/altta.png';
+import lovePhilippinesLogo from '../images/lovePhilippines.png';
+
+
 
 function Inquiry() {
   const [backgroundImage, setBackgroundImage] = useState(inquirybg);
@@ -204,6 +215,46 @@ function Inquiry() {
                     <MDBTypography>
                         We offer unmatched value, safety, and convenience. We prioritize top-notch customer service, cultural experiences, and safe mobility for all clients. The company is operated and managed based on the international standard environment gained from the previous companies attended by the founders, applying the quality standard of leadership, processes, strategy, resources, and people. With continuous innovation and nationwide accessibility, we guarantee every journey leaves a lasting impact, making us your ideal travel partner.
                     </MDBTypography>
+
+                    
+                    <MDBTypography className='mt-3' style={{ fontSize: '25px', color: 'rgb(255, 165, 0)', fontWeight: 'bolder' }}>
+                      Accreditations & Affiliations
+                    </MDBTypography>
+
+                    <MDBTypography>
+                    As part of continuous improvement and raising the quality standard, the company has started attaining the accreditation and affiliations:
+                    </MDBTypography>
+
+                    <MDBTypography>
+                    <ul>
+                      <li>Accreditation of Philippine Department of Tourism</li>
+                      <li>Member, Tourism Promotions Board</li>
+                      <li>Member, PhilGEPS (#233306)</li>
+                      <li>Member, Philippine Tour Operator Association (PHILTOA)</li>
+                      <li>Member, Philippine Travel Agencies Association</li>
+                      <li>Member, Alliance of Laguna Travel and Tour Agencies</li>
+                    </ul>
+                    </MDBTypography>
+
+                    <div className="container mt-3">
+                    <MDBRow className="justify-content-center align-items-center affiliations-logos" style={{ gap: '20px' }}>
+                      <MDBCol size="auto">
+                        <img src={philtoaLogo} alt="PHILTOA Logo" className="affiliation-logo img-fluid" style={{ maxWidth: '100px' }} />
+                      </MDBCol>
+                      <MDBCol size="auto">
+                        <img src={dotLogo} alt="DOT Logo" className="affiliation-logo img-fluid" style={{ maxWidth: '100px' }} />
+                      </MDBCol>
+                      <MDBCol size="auto">
+                        <img src={ptaaLogo} alt="PTAA Logo" className="affiliation-logo img-fluid" style={{ maxWidth: '100px' }} />
+                      </MDBCol>
+                      <MDBCol size="auto">
+                        <img src={alttaLogo} alt="ALTTA Logo" className="affiliation-logo img-fluid" style={{ maxWidth: '100px' }} />
+                      </MDBCol>
+                      <MDBCol size="auto">
+                        <img src={lovePhilippinesLogo} alt="Love Philippines Logo" className="affiliation-logo img-fluid" style={{ maxWidth: '100px' }} />
+                      </MDBCol>
+                    </MDBRow>
+                  </div>
                 </div>
             </MDBCardBody>
           </MDBCard>

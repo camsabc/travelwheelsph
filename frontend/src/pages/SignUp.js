@@ -11,6 +11,7 @@ const SignUp = () => {
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
   const [type, setType] = useState('user');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -65,6 +66,7 @@ const SignUp = () => {
           email,
           password,
           type,
+          contactNumber
         });
 
         if (response.status === 201) {

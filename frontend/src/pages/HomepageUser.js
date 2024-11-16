@@ -175,7 +175,7 @@ if (error) {
         <div
           style={{
             position: 'absolute',
-            top: '40%',
+            top: '25%',
             left: '7%',
             color: 'white',
             fontSize: '3rem',
@@ -183,10 +183,10 @@ if (error) {
             textAlign: 'left',
             textTransform: 'uppercase',
             textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)',
-            width: '60%'
+            width: '50%'
           }}
         >
-          Inspiring destinations are just within your reach
+          Inspiring destinations are just within your reach.
         </div>
       </div>
     ))}
@@ -238,7 +238,7 @@ if (error) {
             <button 
                 type="button" 
                 className="btn btn-primary"
-                onClick={() => navigate('/services-portal', { state: { serviceName: 'Tour', email: user.email } })}
+                onClick={() => navigate('/destination-form', { state: { email: user.email } })}
                 style={{ 
                     fontWeight: 'bold',
                     fontSize: '14px', 

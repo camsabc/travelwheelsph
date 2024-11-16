@@ -38,7 +38,9 @@ const createInquiry = (req, res) => {
     const newInquiry = new InquiryModel({
         email,
         message,
-        createdAt: new Date()
+        note: '',
+        status: 'Pending',
+        date: new Date()
     });
 
     newInquiry.save()
@@ -49,9 +51,52 @@ const createInquiry = (req, res) => {
         });
 };
 
+
+
+
+
+const changeStatus = (req, res) => {
+    const { inquiryId, status } = req.body;
+
+    InquiryModel.findByIdAndUpdate(inquiryId, { status }, { new: true })
+        .then(updatedInquiry => {
+            if (!updatedInquiry) {
+                return res.status(404).json({ error: 'Inquiry not found' });
+            }
+            res.json(updatedInquiry);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ error: 'Failed to change status' });
+        });
+};
+
+
+const updateNote = (req, res) => {
+    const { inquiryId, note } = req.body;
+
+    InquiryModel.findByIdAndUpdate(inquiryId, { note }, { new: true })
+        .then(updatedInquiry => {
+            if (!updatedInquiry) {
+                return res.status(404).json({ error: 'Inquiry not found' });
+            }
+            res.json(updatedInquiry);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ error: 'Failed to change status' });
+        });
+};
+
+
+
+
+
 module.exports = {
     getAllInquiries,
     getInquiryByEmail,
-    createInquiry
+    createInquiry,
+    updateNote,
+    changeStatus
 };
 

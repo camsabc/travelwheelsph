@@ -20,7 +20,7 @@ const EditProfile = () => {
     firstname: '',
     lastname: '',
     email: '',
-    contactNumber: '',
+    contactNumber: 0,
     password: '',
     confpassword: ''
   });
@@ -102,24 +102,33 @@ const EditProfile = () => {
 
   const sendOtp = async (newEmail, userId) => {
     try {
-      const response = await axios.post('https://travelwheelsph.onrender.com/new-email-otp', {
+      // Fetch all existing emails using the getEmails API
+      const response = await axios.get('https://travelwheelsph.onrender.com/api/users/get-all-emails');
+  
+      // Check if the new email already exists in the fetched list
+      const existingEmails = response.data; // Assuming it returns an array of email strings
+      if (existingEmails.includes(newEmail)) {
+        showToast('This email is already registered. Please use a different email.', 'error');
+        return;
+      }
+  
+      // Send OTP if email doesn't exist
+      const otpResponse = await axios.post('https://travelwheelsph.onrender.com/new-email-otp', {
         newEmail,
         userId,
         firstname: user.firstname
       });
-
-      if (response.status === 201) {
+  
+      if (otpResponse.status === 201) {
         showToast('An OTP has been sent to your email.', 'success');
         navigate('/change-email-otp', { state: { newEmail, email: user.email, firstname: user.firstname, userId } });
       }
     } catch (error) {
-      if (error.response && error.response.status === 400 && error.response.data === 'User already exists') {
-        setErrors({ email: 'This email is already registered. Please use a different email.' });
-      } else {
-        showToast('An error occurred while submitting the form.', 'error');
-      }
+      console.error('Error in sendOtp:', error);
+      showToast('An error occurred while submitting the form.', 'error');
     }
   };
+  
 
 
   const handleEdit = async () => {
@@ -300,7 +309,7 @@ const EditProfile = () => {
                 placeholder="Email"
               />
               <input
-                type="number"
+                type="text"
                 name="contactNumber"
                 value={profileData.contactNumber}
                 onChange={handleChange}

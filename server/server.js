@@ -14,7 +14,7 @@ const UserModel = require('./models/User');
 const app = express();
 
 /* Middleware */
-// https://travelwheelsapp.travelwheelsph.com
+// https://travelwheelsph.com
 // https://travelwheelsph.onrender.com
 // https://travelwheelsph.onrender.com
 app.use(bodyParser.json());
@@ -95,7 +95,7 @@ app.post('/new-email-otp', async (req, res) => {
 
 // Sign-up route with OTP
 app.post('/signup', async (req, res) => {
-  const { firstname, lastname, email, password, type } = req.body;
+  const { firstname, lastname, email, password, type, contactNumber } = req.body;
 
   try {
     const existingUser = await UserModel.findOne({ email });
@@ -114,7 +114,8 @@ app.post('/signup', async (req, res) => {
       password: hashedPassword,
       type,
       otp,
-      isVerified: false
+      isVerified: false,
+      contactNumber
     });
 
     await newUser.save();

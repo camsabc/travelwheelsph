@@ -17,7 +17,7 @@ function BookingDetails({ booking, onBack }) {
   const detailsTitle = isBooking ? 'BOOKING DETAILS' : 'QUOTATION DETAILS';
 
   const [toast, setToast] = useState(null);
-  const [adminNote, setAdminNote] = useState(booking.note || ''); // Pre-fill the note if it exists
+  const [adminNote, setAdminNote] = useState(booking.note || ''); 
 
   const navigate = useNavigate();
 

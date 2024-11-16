@@ -92,6 +92,8 @@ import DetailsOneEducGuest from './pages/guestPages/DetailsOneEducGuest';
 import DetailsQuotationEducGuest from './pages/guestPages/DetailsQuotationEduc';
 import DetailsIntPackOneGuest from './pages/guestPages/DetailsIntPackOneGuest';
 import DetailsIntPackTwoGuest from './pages/guestPages/DetailsIntPackTwoGuest';
+import DestinationForm from './pages/DestinationForm';
+import DestinationFormGuest from './pages/guestPages/DestinationFormGuest';
 
 
 
@@ -193,6 +195,9 @@ function App() {
               <Route path="/mice-guest" element={<DetailsMiceGuest />} />
               <Route path="/educ-guest/:id" element={<DetailsOneEducGuest />} />
               <Route path="/educ-quotations-guest/:id" element={<DetailsQuotationEducGuest />} />
+
+              <Route path="/destination-form" element={<DestinationForm />} />
+              <Route path="/destination-form-guest" element={<DestinationFormGuest />} />
 
 
 
