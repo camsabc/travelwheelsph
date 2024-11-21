@@ -85,7 +85,7 @@ const Otp = () => {
   };
 
   return (
-    <div className="signup-container"> {/* Reusing signup-container for layout */}
+    <div className="otp-container"> {/* Reusing signup-container for layout */}
       <form className="signup-form" onSubmit={handleOtpSubmit}>
         <div className="logo-header">
           <img src={headerImage} alt="Travel Wheels Logo" className="logo-image" />

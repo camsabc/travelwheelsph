@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Login1.css';  // Import the CSS file here
+import { MDBContainer, MDBCard, MDBCardBody, MDBRow, MDBCol, MDBTypography } from 'mdb-react-ui-kit';
 
 import headerImage from '../images/header.jpg';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import the eye icons
@@ -104,29 +105,73 @@ const Login = () => {
           <img src={headerImage} alt="Travel Wheels Logo" className="logo-image" />
         </div>
 
-        <input
-          type="email"
-          placeholder="Email Address"
-          className="input-field full-width-emails"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <MDBRow>
+                <MDBCol md="12">
+                <label htmlFor="email" style={{ color: 'black', textAlign: 'left', display: 'block', paddingLeft: '16px', paddingBottom: '2px' }}>
+                    Email 
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="form-control"
+                    style={{
+                      border: '2px solid rgb(250, 207, 32)', 
+                      borderRadius: '15px', 
+                      boxShadow: 'none', 
+                      padding: '10px',
+                      backgroundColor: 'transparent', 
+                      width: '100%',
+                      marginBottom: '10px'
+                    }}
+                  />
+                </MDBCol>
+              </MDBRow>
 
-        <div className="password-container">  {/* New wrapper for password field */}
-          <input
-            type={showPassword ? 'text' : 'password'} // Toggle between text and password types
-            placeholder="Password"
-            className="input-field full-width-emails"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <span
-            className="toggle-password" // Add a class to style the eye icon
-            onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
-          >
-            {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Switch between eye and eye-slash */}
-          </span>
-        </div>
+<MDBRow className='mb-2'>
+          <MDBCol md="12">
+            <label htmlFor="password" style={{ color: 'black', textAlign: 'left', display: 'block', paddingLeft: '16px', paddingBottom: '2px' }}>
+              Password
+            </label>
+            <div style={{ position: 'relative', width: '100%' }}>
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="form-control"
+                style={{
+                  border: '2px solid rgb(250, 207, 32)',
+                  borderRadius: '15px',
+                  boxShadow: 'none',
+                  padding: '10px',
+                  backgroundColor: 'transparent',
+                  width: '100%',
+                  paddingRight: '40px', // Add padding to accommodate the icon
+                }}
+              />
+              <span
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute',
+                  right: '10px', // Position the icon to the right
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  cursor: 'pointer',
+                  color: 'black',
+                  fontSize: '1.2em',
+                }}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+          </MDBCol>
+        </MDBRow>
 
         {error && <p className="error-message">{error}</p>}
 

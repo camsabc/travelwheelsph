@@ -3,15 +3,28 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    width: 100vw; /* Ensure the background covers the entire viewport width */
+    padding-top: 20px;
+    padding-bottom: 20px;
     background-image: url('../images/home_bg2.jpg'); /* Ensure the path is correct */
-    background-size: cover;
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Ensure the background does not repeat */
     background-attachment: fixed; /* Keep the background fixed while scrolling */
     font-family: 'Poppins', sans-serif;
 }
+
+.otp-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url('../images/home_bg2.jpg'); /* Ensure the path is correct */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Ensure the background does not repeat */
+    background-attachment: fixed; /* Keep the background fixed while scrolling */
+    font-family: 'Poppins', sans-serif;
+}
+
 
 .signup-form {
     background-color: white;

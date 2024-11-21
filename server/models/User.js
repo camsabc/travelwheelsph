@@ -37,6 +37,10 @@ const UserSchema = mongoose.Schema({
     contactNumber: {
         type: String,
         required: false
+    },
+    bday: {
+        type: Date,
+        required: false
     }
 });
 
