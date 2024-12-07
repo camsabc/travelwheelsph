@@ -17,6 +17,8 @@ import {
 } from 'mdb-react-ui-kit';
 
 import logo from '../images/header.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -47,6 +49,7 @@ function Profile() {
       setLoading(false);  
     }
   }, [email]);
+  
 
   const handleUpcomingBookingClick = () => {
     if (user) {
@@ -75,7 +78,7 @@ function Profile() {
   }
 
   return (
-    <div className="d-flex flex-column vh-100" style={{ backgroundColor: '#eee' }}>
+    <div className="d-flex flex-column" style={{ backgroundColor: '#eee' }}>
       {/* Header Section */}
       <div className="bg-white py-2 mb-1" style={{ flexShrink: 0 }}>
             <MDBContainer fluid className="d-flex align-items-center justify-content-between">
@@ -124,10 +127,15 @@ function Profile() {
           <MDBCol md="6" xl="4" className="mb-2">
             <MDBCard style={{ borderRadius: '15px', paddingBottom: '20px' }}>
               <MDBCardBody className="text-center" style={{ paddingBottom: '35px' }}>
-                <div className="mt-3 mb-4">
-                  <MDBIcon icon="circle-user" size="7x" style={{ color: 'rgb(84, 84, 84)' }} className="mb-1" />
+              <div className="mt-1 mb-3">
+                  <MDBCardImage
+                    src={user?.profileImage || <FontAwesomeIcon icon={faUserCircle} size="6x" className="profile-icon" />}
+                    className="rounded-circle"
+                    style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+                    alt="User Profile"
+                  />
                 </div>
-                <MDBTypography tag="h2" className="mb-3" style={{ fontWeight: 'bolder' }}>
+                <MDBTypography tag="h2" className="mb-2" style={{ fontWeight: 'bolder' }}>
                   {user?.firstname} {user?.lastname}
                 </MDBTypography>
                 <MDBTypography tag="h5" className="mb-4" style={{ fontWeight: 'bold' }}>
@@ -139,6 +147,10 @@ function Profile() {
                 <MDBBtn rounded size="lg" onClick={() => navigate('/')} style={{ backgroundColor: '#dc3545', width: '200px', fontWeight: 'bold', marginTop: '10px' }}>
                   Log Out
                 </MDBBtn>
+
+
+
+
               </MDBCardBody>
             </MDBCard>
           </MDBCol>

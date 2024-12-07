@@ -96,9 +96,6 @@ const EditProfile = () => {
     }
   };
 
-  const handleUploadClick = () => {
-    // Logic to trigger the hidden file input
-  };
 
   const sendOtp = async (newEmail, userId) => {
     try {
@@ -192,20 +189,67 @@ const EditProfile = () => {
     }
   };
 
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    setLoading(true);
+    const data = new FormData();
+    data.append('file', file);
+    data.append('upload_preset', 'travelwheels_upload');
+    data.append('cloud_name', 'dnazfwgby');
+
+    try {
+      const res = await fetch('https://api.cloudinary.com/v1_1/dnazfwgby/image/upload', {
+        method: 'POST',
+        body: data,
+      });
+      const uploadedImage = await res.json();
+
+      if (uploadedImage.secure_url) {
+
+        const response = await fetch(`https://travelwheelsph.onrender.com/api/users/${user._id}/profile-image`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ profileImage: uploadedImage.secure_url }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          setUser((prevUser) => ({ ...prevUser, profileImage: uploadedImage.secure_url }));
+        } else {
+          console.error('Error updating profile image:', result.error);
+        }
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
+  const removeProfileImage = async () => {
+    try {
 
+      setUser((prevUser) => ({ ...prevUser, profileImage: null }));
 
-
-
-
-
-
-
-
-
-
-
+      const response = await fetch(`https://travelwheelsph.onrender.com/api/users/${user._id}/profile-image`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profileImage: null }), // Set it to null or a default image URL
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to remove profile image.');
+      }
+    } catch (error) {
+      console.error('Error removing profile image:', error);
+    }
+  };
+  
 
 
 
@@ -258,29 +302,37 @@ const EditProfile = () => {
         <hr className="title-line" />
 
         <div className="profile-photo-section">
-          {profileImage ? (
+          {user.profileImage ? (
             <img
-              src={URL.createObjectURL(profileImage)}
+              src={user.profileImage}
               alt="Profile"
               className="profile-img"
+              style={{height: '150px', width: '150px'}}
             />
           ) : (
             <FontAwesomeIcon icon={faUserCircle} size="6x" className="profile-icon" />
           )}
-          <div className="photo-buttons">
+
+          <div className="photo-buttons" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+
             <input
               type="file"
+              className="form-control"
               accept="image/*"
-              style={{ display: 'none' }}
-              onChange={handleImageChange}
+              onChange={handleFileUpload}
+              style={{ maxWidth: '300px', margin: '10px' }}
             />
-            <button className="upload-photo-btn" onClick={handleUploadClick}>
-              Upload Photo
-            </button>
-            <button className="remove-photo-btn" onClick={() => setProfileImage(null)}>
+
+            <button
+              className="remove-photo-btn btn btn-danger"
+              onClick={removeProfileImage}
+              style={{ marginLeft: '10px' }}
+            >
               Remove Photo
             </button>
           </div>
+
+
         </div>
 
         <form onSubmit={(e) => { e.preventDefault(); isOtpSent ? verifyOtp() : handleEdit(); }} className="edit-profile-form">
@@ -341,7 +393,7 @@ const EditProfile = () => {
 
             <div className="button-container">
               <button type="submit" className="save-button">SAVE</button>
-              <button type="button" className="cancel-button" onClick={() => navigate('/profile')}>CANCEL</button>
+              <button type="button" className="cancel-button" onClick={() => navigate('/profile', { state: { email: user.email } })}>CANCEL</button>
             </div>
           </div>
         </form>

@@ -15,8 +15,8 @@ const app = express();
 
 /* Middleware */
 // https://travelwheelsph.com
-// https://travelwheelsph.onrender.com
-// https://travelwheelsph.onrender.com
+// http://localhost:x3000
+// https://travelwheelsph.onrender.xcom
 // http://localhost:3002
 app.use(bodyParser.json());
 app.use(cors({
@@ -331,6 +331,7 @@ app.put('/update-email', async (req, res) => {
     res.status(500).send('Internal server error.');
   }
 });
+
 
 
 

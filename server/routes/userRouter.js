@@ -13,5 +13,6 @@ router.post('/signin', userController.signIn);
 router.get('/get-user-by-email/:email', userController.getUserByEmail);
 router.post('/signup', userController.newAccount);
 router.get('/get-all-emails', userController.getAllEmails);
+router.patch('/:id/profile-image', userController.setProfileImage);
 
 module.exports = router;

@@ -136,6 +136,33 @@ const getAllEmails = (req, res) => {
         });
 };
 
+const setProfileImage = async (req, res) => {
+    const userId = req.params.id; 
+    const { profileImage } = req.body; 
+
+    try {
+        if (!profileImage) {
+            return res.status(400).json({ error: 'Profile image is required' });
+        }
+
+        const updatedUser = await UserModel.findByIdAndUpdate(
+            userId,
+            { profileImage },
+            { new: true, runValidators: true } 
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({ message: 'Profile image updated successfully', user: updatedUser });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to update profile image' });
+    }
+};
+
+
 
 
 module.exports = {
@@ -146,6 +173,7 @@ module.exports = {
     signIn,
     getUserByEmail,
     newAccount,
-    getAllEmails
+    getAllEmails,
+    setProfileImage
     
 };
