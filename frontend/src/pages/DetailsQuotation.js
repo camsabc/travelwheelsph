@@ -26,7 +26,7 @@ function DetailsQuotation() {
 
   useEffect(() => {
     if (email) {
-      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
+      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
@@ -35,7 +35,7 @@ function DetailsQuotation() {
           } else {
             setUser(data);
 
-            return fetch(`https://travelwheelsph.onrender.com/api/quotations/get-all-quotations-by-email/${email}`);
+            return fetch(`http://localhost:3000/api/quotations/get-all-quotations-by-email/${email}`);
           }
         })
         .then(response => response.json())
@@ -45,7 +45,7 @@ function DetailsQuotation() {
           } else {
             setQuotations(data);
             if (id) {
-              return fetch(`https://travelwheelsph.onrender.com/api/quotations/get-quotation-by-id/${id}`);
+              return fetch(`http://localhost:3000/api/quotations/get-quotation-by-id/${id}`);
             }
           }
           setLoading(false);
@@ -55,6 +55,7 @@ function DetailsQuotation() {
           if (data.error) {
             setError(data.error);
           } else {
+            console.log(data)
             setQuotationDetails(data);
           }
           setLoading(false);
@@ -213,6 +214,25 @@ function DetailsQuotation() {
                 {renderAttribute('FULL ADDRESS', quotationDetails.fullAddress)}
                 {renderAttribute('LANDMARK', quotationDetails.landmark)}
               </MDBTypography>
+
+              {quotationDetails.file && (
+                <MDBTypography tag="h5" style={{ paddingTop: '20px', fontWeight: 'bold', textAlign: 'start', paddingBottom: '10px' }}>
+                  ATTACHED FILE
+                </MDBTypography>
+              )}
+
+              {quotationDetails.file && (
+                <div style={{ textAlign: 'start' }}>
+                  <embed
+                    src={quotationDetails.file}
+                    type="application/pdf"
+                    width="100%"
+                    height="500px"
+                    style={{ border: '1px solid #ddd', borderRadius: '5px' }}
+                  />
+                </div>
+              )}
+
             </MDBCardBody>
           </MDBCard>
         )}

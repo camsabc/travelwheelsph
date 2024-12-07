@@ -17,10 +17,10 @@ const app = express();
 // https://travelwheelsph.com
 // http://localhost:x3000
 // https://travelwheelsph.onrender.xcom
-// http://localhost:3002
+// http://localhost:3001
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'https://travelwheelsph.com',
+  origin: 'http://localhost:3001',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }));
 

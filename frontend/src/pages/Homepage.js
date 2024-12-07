@@ -259,6 +259,7 @@ const Homepage = () => {
           alt={`Promo ${index + 1}`}
           className="img-fluid"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          onClick={() => {navigate('/destination-form-guest')}}
         />
       </div>
       <h3

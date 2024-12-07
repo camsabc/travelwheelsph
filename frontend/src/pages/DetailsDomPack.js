@@ -129,7 +129,7 @@ function DetailsDomPack() {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
+        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -156,7 +156,7 @@ const handleQuotationSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create-quotation', {
+        const response = await fetch('http://localhost:3000/api/quotations/create-quotation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -183,7 +183,7 @@ const handleQuotationSubmit = async (e) => {
     const fetchData = async () => {
       try {
         if (email) {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
           if (userData.error) {
             setError(userData.error);
@@ -192,7 +192,7 @@ const handleQuotationSubmit = async (e) => {
           setUser(userData);
         }
 
-        const packResponse = await fetch(`https://travelwheelsph.onrender.com/api/packs/get-pack-by-id/${id}`);
+        const packResponse = await fetch(`http://localhost:3000/api/packs/get-pack-by-id/${id}`);
         const packData = await packResponse.json();
         if (packData.error) {
           setError(packData.error);

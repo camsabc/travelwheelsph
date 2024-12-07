@@ -209,7 +209,11 @@ const QuotationSchema = mongoose.Schema({
     destination: {
         type: String,
         required: false
-    }
+    },
+    file: {
+        type: String,
+        required: false
+    },
 });
 
 const QuotationModel = mongoose.model('Quotation', QuotationSchema);

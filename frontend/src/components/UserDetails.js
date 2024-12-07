@@ -32,7 +32,7 @@ function UserDetails({ user, onBack }) {
       setError(null);
 
       try {
-        const response = await fetch(`https://travelwheelsph.onrender.com/api/quotations/get-all-quotations-by-email/${user.email}`)
+        const response = await fetch(`http://localhost:3000/api/quotations/get-all-quotations-by-email/${user.email}`)
         const data = await response.json();
         setQuotations(data);
       } catch (error) {

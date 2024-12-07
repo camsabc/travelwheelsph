@@ -46,7 +46,7 @@ function Inquiry() {
 
     // Send the inquiry to the backend
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/inquiries/create-inquiry', {
+      const response = await fetch('http://localhost:3000/api/inquiries/create-inquiry', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ function Inquiry() {
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {

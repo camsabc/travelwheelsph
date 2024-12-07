@@ -68,7 +68,7 @@ const HomepageUser = () => {
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -289,6 +289,7 @@ if (error) {
           alt={`Promo ${index + 1}`}
           className="img-fluid"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          onClick={() => navigate('/destination-form', { state: { email: user.email } })}
         />
       </div>
       <h3

@@ -28,14 +28,14 @@ function InquiryList() {
 
   useEffect(() => {
     if (email) {
-      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
+      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
             setError(data.error);
           } else {
             setUser(data);
-            return fetch(`https://travelwheelsph.onrender.com/api/inquiries/get-all-inquiries-by-email/${email}`);
+            return fetch(`http://localhost:3000/api/inquiries/get-all-inquiries-by-email/${email}`);
           }
         })
         .then(response => response.json())

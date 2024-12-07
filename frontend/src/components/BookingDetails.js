@@ -18,6 +18,7 @@ function BookingDetails({ booking, onBack }) {
 
   const [toast, setToast] = useState(null);
   const [adminNote, setAdminNote] = useState(booking.note || ''); 
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -28,7 +29,7 @@ function BookingDetails({ booking, onBack }) {
   // Asynchronous function to change booking status
   const changeBookingStatus = async (bookingId, status) => {
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/change-status', {
+      const response = await fetch('http://localhost:3000/api/bookings/change-status', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +49,7 @@ function BookingDetails({ booking, onBack }) {
   // Asynchronous function to change quotation status
   const changeQuotationStatus = async (quotationId, status) => {
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/change-status', {
+      const response = await fetch('http://localhost:3000/api/quotations/change-status', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +68,7 @@ function BookingDetails({ booking, onBack }) {
 
   const updateAdminNote = async (bookingId, note) => {
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/update-note', {
+      const response = await fetch('http://localhost:3000/api/bookings/update-note', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,6 +82,37 @@ function BookingDetails({ booking, onBack }) {
       navigate(`/admin`, { state: { name: "Admin" } });
     } catch (error) {
       showToast('An error occurred', 'error');
+    }
+  };
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    setLoading(true);
+    const data = new FormData();
+    data.append('file', file);
+    data.append('upload_preset', 'travelwheels_upload');
+    data.append('cloud_name', 'dnazfwgby');
+
+    try {
+      const res = await fetch('https://api.cloudinary.com/v1_1/dnazfwgby/upload', { method: 'POST', body: data });
+      const uploadedFile = await res.json();
+      if (!uploadedFile.secure_url) throw new Error('Upload failed');
+
+      const response = await fetch(`http://localhost:3000/api/quotations/${booking._id}/file`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ file: uploadedFile.secure_url }),
+      });
+
+      if (!response.ok) throw new Error('File update failed');
+      showToast('File uploaded successfully!', 'success');
+    } catch (error) {
+      console.error(error);
+      showToast('Error uploading file. Please try again.', 'error');
+    } finally {
+      setLoading(false);
     }
   };
   
@@ -177,11 +209,46 @@ function BookingDetails({ booking, onBack }) {
             <>
               {/* Existing button for quotation status changes */}
               <MDBBtn
-                style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
+                style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff', height: '50px', top: '7px' }}
                 onClick={() => changeQuotationStatus(booking._id, 'Email Sent')}
               >
                 Email Sent
               </MDBBtn>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center', 
+                  border: '5px solid rgb(255, 165, 0)',
+                  padding: '10px',
+                  borderRadius: '15px',
+                  maxWidth: '600px', 
+                  margin: '0px 5px', 
+                  backgroundColor: '#f9f9f9', 
+                  marginLeft: '25px'
+                }}
+              >
+                <p
+                  style={{
+                    fontWeight: 'bold', 
+                    fontSize: '1.2rem', 
+                    margin: '0 10px 0 0', 
+                  }}
+                >
+                  ADMIN's NOTE
+                </p>
+                <input
+                  type="file"
+                  className="form-control"
+                  accept="image/*, .pdf"
+                  onChange={handleFileUpload}
+                  style={{
+                    maxWidth: '300px',
+                    marginLeft: '20px'
+                  }}
+                />
+              </div>
+
             </>
           )}
         </div>

@@ -8,6 +8,7 @@ router.get('/get-all-quotations', quotationController.getAllQuotations);
 router.get('/get-all-quotations-by-email/:email', quotationController.getQuotationByEmail);
 router.get('/get-quotation-by-id/:id', quotationController.getQuotationById);
 router.post('/create-quotation', quotationController.createQuotation);
+router.patch('/:id/file', quotationController.attachFile);
 
 router.post('/change-status', quotationController.changeStatus);
 
