@@ -96,7 +96,7 @@ import DestinationForm from './pages/DestinationForm';
 import DestinationFormGuest from './pages/guestPages/DestinationFormGuest';
 
 
-
+import DeactAccOtp from './pages/DeactAccOtp';
 
 
 function App() {
@@ -171,6 +171,7 @@ function App() {
               <Route path="/inquiry-guest" element={<InquiryGuest/>}/>
 
               <Route path="/change-email-otp" element={<ChangeEmailOtp/>}/>
+              <Route path="/deact-acc-otp" element={<DeactAccOtp/>}/>
 
               <Route path="/about-us-guest" element={<AboutUsGuest/>}/>
               <Route path="/about-us" element={<AboutUs/>}/>

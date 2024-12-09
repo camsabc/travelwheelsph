@@ -20,7 +20,7 @@ const app = express();
 // http://localhost:3001
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: 'https://travelwheelsph.com',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }));
 
@@ -57,6 +57,41 @@ const promoRoutes = require('./routes/promoRouter');
 app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
+
+
+
+app.post('/deact-acc-otp', async (req, res) => {
+  const { email, userId, firstname } = req.body;
+
+  const otp = generateOTP();
+
+  try {
+    // Update the user's OTP in the database
+    await UserModel.updateOne({ _id: userId }, { otp: otp }); 
+
+    const mailOptions = {
+      from: 'cams.castro03@gmail.com',  // Replace with your email
+      to: email,
+      subject: 'Verify your account - OTP',
+      text: `Hi ${firstname},\n\nYour OTP code is ${otp}. \n\nBest regards,\nYour Travel Tayo Team`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Email Error:", error);
+        return res.status(500).send('OTP email could not be sent');
+      } else {
+        console.log(`Email sent: ${info.response}`);
+        res.status(201).send('Please check your email for OTP.');
+      }
+    });
+
+  } catch (error) {
+    console.error("Signup Error:", error);
+    res.status(500).send('Server error');
+  }
+});
+
 
 
 app.post('/new-email-otp', async (req, res) => {
