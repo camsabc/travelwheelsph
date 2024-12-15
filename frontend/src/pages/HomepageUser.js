@@ -238,7 +238,7 @@ if (error) {
             <button 
                 type="button" 
                 className="btn btn-primary"
-                onClick={() => navigate('/destination-form', { state: { email: user.email } })}
+                onClick={() => navigate('/services-portal', { state: { serviceName: 'Tour', email: user.email } })}
                 style={{ 
                     fontWeight: 'bold',
                     fontSize: '14px', 

@@ -208,7 +208,7 @@ const Homepage = () => {
         <MDBCol size="4" className="d-flex justify-content-end"> {/* Adjust size based on the layout you want */}
             <button 
                 type="button" 
-                onClick={() => {navigate('/destination-form-guest')}}
+                onClick={() => navigate('/services-pack-guest')}
                 className="btn btn-primary"
                 style={{ 
                     fontWeight: 'bold',
