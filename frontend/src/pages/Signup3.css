@@ -123,3 +123,23 @@
   cursor: pointer;
   color: #555;
 }
+
+
+
+
+.deact-otp-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
+    background-image: url('../images/home_bg2.jpg'); /* Ensure the path is correct */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Ensure the background does not repeat */
+    background-attachment: fixed; /* Keep the background fixed while scrolling */
+    font-family: 'Poppins', sans-serif;
+    background-size: cover; /* Make sure the background covers the entire container */
+}

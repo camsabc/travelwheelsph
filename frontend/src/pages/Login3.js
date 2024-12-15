@@ -28,53 +28,86 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Clear any previous errors
     setError('');
-
+  
     // Check for empty inputs
     if (!email && !password) {
       setError('All inputs are required');
       return;
     }
-
+  
     if (!email) {
       setError('Email is required');
       return;
     }
-
+  
     if (!password) {
       setError('Password is required');
       return;
     }
-
+  
     // Validate email format
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError('Email is invalid');
       return;
     }
-
+  
     // Validate password complexity
     const passwordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
     if (!passwordValidationRegex.test(password)) {
       setError('Invalid Password');
       return;
     }
-
+  
     try {
       const response = await axios.post('https://travelwheelsph.onrender.com/login', { email, password });
+  
+      if (response.status === 200) {
+        // After login, check the Deact database for any dates exceeding 30 days
+        const deactResponse = await axios.get('https://travelwheelsph.onrender.com/api/deacts/get-all-deacts');
+  
+        const currentDate = new Date();
+  
+        // Check if any Deact date exceeds 30 days
+        const exceededDeacts = deactResponse.data.filter(deact => {
+          const deactDate = new Date(deact.date);
+          const timeDifference = currentDate - deactDate;
+          const daysDifference = timeDifference / (1000 * 3600 * 24); // Convert ms to days
+          return daysDifference > 30;
+        });
+  
+        if (exceededDeacts.length > 0) {
+          const emailToDelete = exceededDeacts[0].email;
+  
+          await axios.delete('https://travelwheelsph.onrender.com/api/users/delete-account', {
+            data: { email: emailToDelete }  
+          });
+          
+  
+          showToast('Account deleted due to Deact entries exceeding 30 days.', 'error');
+          return; // Stop further processing
+        }
+  
+        // Navigate based on the user type
+        if (email === 'traveltayo2024@gmail.com') {
+          showToast('Login successful!', 'success');
+          navigate(`/admin`, { state: { name: "Admin" } });
+        } else {
+          showToast('Login successful!', 'success');
 
-      if (response.status === 200 && email === 'traveltayo2024@gmail.com') {
-        showToast('Login successful!', 'success');
-        navigate(`/admin`, { state: { name: "Admin" } });
-      } else {
-        showToast('Login successful!', 'success');
-        navigate(`/home-user`, { state: { email: email } });
+          await axios.delete(`https://travelwheelsph.onrender.com/api/deacts/remove-deact/${email}`);
+
+          navigate(`/home-user`, { state: { email: email } });
+        }
       }
     } catch (error) {
       setError('Invalid email or password');
     }
   };
+  
+  
 
   useEffect(() => {
     if (email) {

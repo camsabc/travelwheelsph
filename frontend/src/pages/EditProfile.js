@@ -420,7 +420,7 @@ const EditProfile = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <button
             className="remove-photo-btn btn"
-            onClick={() => { sendDeactivationOtp(user.id, user.email); }}
+            onClick={() => { sendDeactivationOtp(user._id, user.email); }}
             style={{ backgroundColor: 'red' }}
           >
             Deactivate Account

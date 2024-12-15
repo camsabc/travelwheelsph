@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import headerImage from '../images/header.jpg';
-import './Signup3.css'; 
+import './Signup3.css';
 import Toast from '../components/Toast';
 
 const DeactAccOtp = () => {
@@ -13,7 +13,7 @@ const DeactAccOtp = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { email } = location.state || {}; 
-  
+
   const [toast, setToast] = useState(null);
 
   const showToast = (message, type) => {
@@ -38,9 +38,6 @@ const DeactAccOtp = () => {
     return () => clearInterval(interval);
   }, [resendDisabled, timer]);
 
-
-
-
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
   
@@ -60,13 +57,29 @@ const DeactAccOtp = () => {
       const response = await axios.post('https://travelwheelsph.onrender.com/verify-otp', { email, otp });
   
       if (response.status === 200) {
-        // CODE HERE
+        const currentDate = new Date().toISOString(); 
+        await addDeact(email, currentDate);  
       }
     } catch (error) {
       setErrors({ otp: 'Invalid or expired OTP' });
     }
   };
+
+  const addDeact = async (email, date) => {
+    try {
+      const response = await axios.post('https://travelwheelsph.onrender.com/api/deacts/add-deact', { email, date });
+      if (response.status === 201) {
+        showToast('Your account has now been deactivated', 'success');
   
+       
+        setTimeout(() => {
+          navigate('/');
+        }, 3000); 
+      }
+    } catch (error) {
+      setErrors({ otp: 'Error adding Deact. Please try again later.' });
+    }
+  };
 
   const resendOtp = async () => {
     try {
@@ -83,11 +96,8 @@ const DeactAccOtp = () => {
     }
   };
 
-
-
-
   return (
-    <div className="signup-container"> {/* Reusing signup-container for layout */}
+    <div className="deact-otp-container">
       <form className="signup-form" onSubmit={handleOtpSubmit}>
         <div className="logo-header">
           <img src={headerImage} alt="Travel Wheels Logo" className="logo-image" />
@@ -109,7 +119,7 @@ const DeactAccOtp = () => {
           className="signup-button full-width" 
           onClick={resendOtp} 
           disabled={resendDisabled}
-          style={{marginLeft: "10px"}}
+          style={{ marginLeft: "10px" }}
         >
           {resendDisabled ? `Resend OTP in ${timer}s` : 'Resend OTP'}
         </button>

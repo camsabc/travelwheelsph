@@ -15,4 +15,6 @@ router.post('/signup', userController.newAccount);
 router.get('/get-all-emails', userController.getAllEmails);
 router.patch('/:id/profile-image', userController.setProfileImage);
 
+router.delete('/delete-user/:id', userController.deleteUser);
+
 module.exports = router;

@@ -14,7 +14,7 @@ const UserModel = require('./models/User');
 const app = express();
 
 /* Middleware */
-// https://travelwheelsph.com
+// https://travelwheelsph.onrender.com
 // http://localhost:x3000
 // https://travelwheelsph.onrender.xcom
 // http://localhost:3001
@@ -53,6 +53,7 @@ const educationRoutes = require('./routes/educationRouter');
 const packageRoutes = require('./routes/packageRouter');
 const inquiryRoutes = require('./routes/inquiryRouter');
 const promoRoutes = require('./routes/promoRouter');
+const deactRoutes = require('./routes/deactRouter');
 
 app.get('/', (req, res) => {
   res.send('Hello, World!');
@@ -67,7 +68,12 @@ app.post('/deact-acc-otp', async (req, res) => {
 
   try {
     // Update the user's OTP in the database
-    await UserModel.updateOne({ _id: userId }, { otp: otp }); 
+    await UserModel.updateOne(
+      { _id: userId },
+      { $set: { otp: otp } },
+      { upsert: true }
+    );
+    
 
     const mailOptions = {
       from: 'cams.castro03@gmail.com',  // Replace with your email
@@ -368,10 +374,6 @@ app.put('/update-email', async (req, res) => {
 });
 
 
-
-
-
-
 /* API Routes */
 app.use('/api/users', userRoutes);
 app.use('/api/bookings', bookingRoutes);
@@ -382,6 +384,7 @@ app.use('/api/educs', educationRoutes);
 app.use('/api/packs', packageRoutes); 
 app.use('/api/inquiries', inquiryRoutes); 
 app.use('/api/promos', promoRoutes); 
+app.use('/api/deacts', deactRoutes); 
 
 /* Start the server */
 const PORT = process.env.PORT || 3000;

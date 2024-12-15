@@ -162,18 +162,33 @@ const setProfileImage = async (req, res) => {
     }
 };
 
+/* This function deletes a user by their unique ID */
+const deleteUser = async (req, res) => {
+    const { email } = req.body;  // Expecting email in the request body
 
+    try {
+        const deletedUser = await UserModel.findOneAndDelete({ email });
 
+        if (!deletedUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({ message: 'User deleted successfully', user: deletedUser });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to delete user' });
+    }
+};
 
 module.exports = {
     getUsers,
     getUserById,
-    /* createUser, */
     editUser,
     signIn,
     getUserByEmail,
     newAccount,
     getAllEmails,
-    setProfileImage
-    
+    setProfileImage,
+    deleteUser, 
 };
+
