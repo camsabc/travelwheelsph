@@ -123,7 +123,7 @@ const Login = () => {
         } else {
           showToast('Login successful!', 'success');
 
-          deleteDeact(email);
+          //deleteDeact(email);
 
           navigate(`/home-user`, { state: { email: email } });
         }
