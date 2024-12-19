@@ -26,32 +26,6 @@ const Login = () => {
     setToast({ message, type });
   };
 
-
-
-  const deleteDeact = async (email) => {
-    try {
-        const response = await fetch(`https://travelwheelsph.onrender.com/api/deacts/remove-deact/${email}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            // Handle errors if the status is not 2xx
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Failed to delete deact');
-        }
-
-        const data = await response.json();
-        console.log('Success:', data);
-    } catch (error) {
-        console.error('Error:', error.message);
-    }
-  };
-
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -122,8 +96,6 @@ const Login = () => {
           navigate(`/admin`, { state: { name: "Admin" } });
         } else {
           showToast('Login successful!', 'success');
-
-          //deleteDeact(email);
 
           navigate(`/home-user`, { state: { email: email } });
         }
