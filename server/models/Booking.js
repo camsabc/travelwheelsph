@@ -217,6 +217,22 @@ const BookingSchema = mongoose.Schema({
     destination: {
         type: String,
         required: false
+    },
+    pickupTime: {
+        type: Date,
+        required: false
+    },
+    dropoffTime: {
+        type: Date,
+        required: false
+    },
+    pickupDate: {
+        type: Date,
+        required: false
+    },
+    dropoffDate: {
+        type: Date,
+        required: false
     }
 });
 

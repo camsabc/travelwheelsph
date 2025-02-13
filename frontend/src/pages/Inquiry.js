@@ -59,7 +59,7 @@ function Inquiry() {
       }
 
       setSuccessMessage('Inquiry submitted successfully!');
-      setInquiryData({ email: '', message: '' }); // Clear form
+      setInquiryData({ message: '' }); // Clear form
     } catch (err) {
       setError('Failed to submit the inquiry.');
     }
@@ -76,6 +76,7 @@ function Inquiry() {
             setError(userData.error);
           } else {
             setUser(userData);
+            setInquiryData({ email: email})
           }
         } catch (err) {
           console.error('Error fetching data:', err);
@@ -226,28 +227,6 @@ function Inquiry() {
                 <MDBTypography tag="h3" style={{ color: 'rgb(250, 165, 0)', fontWeight: 'bolder' }}>
                   SEND AN INQUIRY
                 </MDBTypography>
-
-                <div className="mb-1">
-                  <input
-                    type="email"
-                    name="email"
-                    value={inquiryData.email}
-                    onChange={handleInputChange}
-                    placeholder="Enter email address"
-                    required
-                    style={{
-                      border: '2px solid rgb(250, 165, 0)',
-                      borderRadius: '20px',
-                      boxShadow: 'none',
-                      padding: '10px',
-                      backgroundColor: 'transparent',
-                      width: '100%',
-                      maxWidth: '600px',
-                      margin: '10px auto',
-                      textAlign: 'center',
-                    }}
-                  />
-                </div>
 
                 <div className="mb-3">
                   <textarea

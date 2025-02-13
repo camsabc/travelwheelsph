@@ -133,6 +133,14 @@ function InquiryList() {
                       Inquiry Message: {inquiry.message} 
                     </MDBTypography>
 
+                    <MDBTypography tag="h6" style={{ fontWeight: 'bold', textAlign: 'start', paddingTop: '5px' }}>
+                      Admin Note
+                    </MDBTypography>
+
+                    <MDBTypography tag="p" style={{ textAlign: 'start', fontSize: '16px' }}>
+                      {inquiry.note} 
+                    </MDBTypography>
+
 
                   </MDBCardBody>
                 </MDBCard>

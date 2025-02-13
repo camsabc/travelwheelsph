@@ -162,26 +162,6 @@ function InquiryGuest() {
                   SEND AN INQUIRY
                 </MDBTypography>
 
-                {/* Email Address Input */}
-                <div className="mb-1">  {/* Add this div for new row */}
-                  <input
-                    type="email"
-                    placeholder="Enter email address"
-                    required
-                    style={{
-                      border: '2px solid rgb(250, 165, 0)',
-                      borderRadius: '20px', 
-                      boxShadow: 'none',
-                      padding: '10px',
-                      backgroundColor: 'transparent', 
-                      width: '100%', 
-                      maxWidth: '600px', 
-                      margin: '10px auto',
-                      textAlign: 'center'
-                    }}
-                  />
-                </div>
-
                 {/* Inquiry Textarea */}
                 <div className="mb-3"> 
                   <textarea

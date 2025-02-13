@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MDBContainer, MDBCard, MDBCardBody, MDBRow, MDBCol, MDBTypography, MDBInput } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBCard, MDBCardBody, MDBRow, MDBCol, MDBTypography, MDBInput, MDBModal, MDBModalDialog, MDBModalContent, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBBtn } from 'mdb-react-ui-kit';
 import {
   MDBNavbar,
   MDBNavbarNav,
@@ -29,10 +29,14 @@ function PassportDetails() {
   const [toast, setToast] = useState(null);
   const [isPopulateChecked, setIsPopulateChecked] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-
+  const [selectedService, setSelectedService] = useState('pickup');
   
   const handleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
+  };
+
+  const handleServiceChange = (e) => {
+    setSelectedService(e.target.value);
   };
 
   const showToast = (message, type) => {
@@ -128,6 +132,150 @@ function PassportDetails() {
       })); // Clear the fields when unchecked
     }
   };
+
+
+
+
+
+
+  const [showPreview, setShowPreview] = useState(false);
+
+
+  const handlePreviewQuotation = (e) => {
+    e.preventDefault();
+    setShowPreview(true);
+};
+
+
+const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => {
+    return (
+        <MDBModal open={show} tabIndex="-1" setOpen={onClose}>
+            <MDBModalDialog size='lg'>
+                <MDBModalContent>
+                    <MDBModalHeader>
+                        <h5 className="modal-title">Kindly confirm if details below are correct</h5>
+                        <MDBBtn className="btn-close" color="none" onClick={onClose}></MDBBtn>
+                    </MDBModalHeader>
+                    <MDBModalBody>
+                        {/* Two-column layout for main details */}
+                        <p><strong>Service Type:</strong> {bookingDetails.type} </p>
+                        <MDBRow>
+
+                        <MDBCol md="6">
+                          <p style={{ fontWeight: 'bold', marginBottom: '5px' }}>Contact Person</p>
+                          <p style={{ marginBottom: '5px' }}>Name: {bookingDetails.firstname} {bookingDetails.lastname}</p>
+                          <p style={{ marginBottom: '5px' }}>Email: {bookingDetails.email}</p>
+                          <p style={{ marginBottom: '5px' }}>Contact: {bookingDetails.contactNumber}</p>
+                        </MDBCol>
+
+                        <MDBCol md="6">
+                          <p style={{ fontWeight: 'bold', marginBottom: '5px' }}>Other Details</p>
+                          <p style={{ marginBottom: '5px' }}>Gender: {bookingDetails.gender} </p>
+                          <p style={{ marginBottom: '5px' }}>Civil Status: {bookingDetails.civilStatus} </p>
+                          <p style={{ marginBottom: '5px' }}>Birthdate: {bookingDetails.birthDate}</p>
+                          <p style={{ marginBottom: '5px' }}>Country Birth: {bookingDetails.countryBirth}</p>
+                          <p style={{ marginBottom: '5px' }}>Province Birth: {bookingDetails.provinceBirth}</p>
+                          <p style={{ marginBottom: '5px' }}>Municipality Birth: {bookingDetails.municipalityBirth}</p>
+
+                          <p style={{ marginBottom: '5px' }}>Last Name of Father: {bookingDetails.lastnameFather}</p>
+                          <p style={{ marginBottom: '5px' }}>First Name of Father: {bookingDetails.firstnameFather}</p>
+                          <p style={{ marginBottom: '5px' }}>Middle Name of Father: {bookingDetails.middlenameFather}</p>
+                          <p style={{ marginBottom: '5px' }}>Citizenship of Father: {bookingDetails.countryCitizenshipFather}</p>
+
+                          <p style={{ marginBottom: '5px' }}>Last Name of Mother: {bookingDetails.lastnameMother}</p>
+                          <p style={{ marginBottom: '5px' }}>First Name of Mother: {bookingDetails.firstnameMother}</p>
+                          <p style={{ marginBottom: '5px' }}>Middle Name of Mother: {bookingDetails.middlenameMother}</p>
+                          <p style={{ marginBottom: '5px' }}>Citizenship of Mother: {bookingDetails.countryCitizenshipMother}</p>
+
+                          <p style={{ marginBottom: '5px' }}>Last Name of Spouse: {bookingDetails.lastnameSpouse}</p>
+                          <p style={{ marginBottom: '5px' }}>First Name of Spouse: {bookingDetails.firstnameSpouse}</p>
+                          <p style={{ marginBottom: '5px' }}>Middle Name of Spouse: {bookingDetails.middlenameSpouse}</p>
+
+                          <p style={{ marginBottom: '5px' }}>Old Passport of Number: {bookingDetails.oldPassportNumber}</p>
+                          <p style={{ marginBottom: '5px' }}>Issuing Authority: {bookingDetails.issuingAuthority}</p>
+                          <p style={{ marginBottom: '5px' }}>Date Issued: {bookingDetails.dateIssued}</p>
+
+                          <p style={{ marginBottom: '5px' }}>Foreign Passport Holder: {bookingDetails.foreignPassportHolder}</p>
+                          <p style={{ marginBottom: '5px' }}>Emergency Contact Person: {bookingDetails.emergencyContactPerson}</p>
+                          <p style={{ marginBottom: '5px' }}>Contact Number Foreign: {bookingDetails.contactNumberForeign}</p>
+
+                          <p style={{ marginBottom: '5px' }}>Province: {bookingDetails.province}</p>
+                          <p style={{ marginBottom: '5px' }}>City: {bookingDetails.city}</p>
+                          <p style={{ marginBottom: '5px' }}>Occuputation: {bookingDetails.occuputation}</p>
+                          <p style={{ marginBottom: '5px' }}>Office Details: {bookingDetails.officeDetails}</p>
+                          <p style={{ marginBottom: '5px' }}>Office Number: {bookingDetails.officeNumber}</p>
+
+                          <p style={{ marginBottom: '5px' }}>Selected Service: {bookingDetails.selectedService}</p>
+                          
+                        </MDBCol>
+
+                        </MDBRow>
+
+
+                    </MDBModalBody>
+                    <MDBModalFooter style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    {/* Travel Insurance Checkbox */}
+    <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+        <input 
+            type="checkbox" 
+            id="travelInsurance" 
+            style={{ marginRight: '8px' }}
+        />
+        <label htmlFor="travelInsurance">I would like to add  <strong>Travel Insurance</strong>  to this trip.</label>
+    </div>
+
+    {/* Centered Buttons with Styling */}
+    <div style={{ display: 'flex', gap: '100px' }}>
+        <button
+            type="button"
+            className="btn btn-secondary"
+            style={{
+                fontWeight: 'bold',
+                width: '100%',
+                width: '250px',
+                fontSize: '14px',
+                borderRadius: '30px',
+                backgroundColor: 'red', 
+                border: 'none',
+                padding: '10px 10px',
+            }}
+            onClick={onClose}
+        >
+            Cancel
+        </button>
+
+        <button
+            type="button"
+            className="btn btn-primary"
+            style={{
+                fontWeight: 'bold',
+                width: '100%',
+                width: '250px',
+                fontSize: '14px',
+                borderRadius: '30px',
+                backgroundColor: 'rgb(255, 165, 0)', // Matching the request quotation button
+                border: 'none',
+                padding: '10px 20px',
+            }}
+            onClick={onConfirm}
+        >
+            Confirm & Send
+        </button>
+    </div>
+</MDBModalFooter>
+
+
+                </MDBModalContent>
+            </MDBModalDialog>
+        </MDBModal>
+    );
+};
+
+
+
+
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -241,7 +389,7 @@ const handleQuotationSubmit = async (e) => {
 
           <MDBNavbarItem style={{ margin: '0 25px', fontWeight: 'bold' }}>
             <MDBNavbarLink 
-                onClick={() => navigate('/services')}
+                onClick={() =>  navigate('/services', { state: { email: user.email }})}
                 style={{ color: 'rgb(255, 165, 0)' }}  
             >
                 Services
@@ -308,7 +456,7 @@ const handleQuotationSubmit = async (e) => {
           </MDBTypography>
                     <ol style={{paddingLeft: "50px", fontWeight: "bold", paddingBottom: "10px"}}>
                         <li> Provide the Personal details, (New passport: PSA copy / Renewal: Old Passport copy) </li>
-                        <li> Choose 2 nearest location of DFA </li>
+                        <li> Choose a DFA Branch </li>
                         <li> Pay 1800 via Bank Deposit or G-Cash/Maya </li>
                     </ol>
 
@@ -1230,56 +1378,114 @@ const handleQuotationSubmit = async (e) => {
 
 
 
-            <MDBTypography tag="h6" className="text-start mt-4 mb-3" style={{fontWeight: 'bold'}}>Courier Delivery Address</MDBTypography>
 
-            <MDBRow>
+
+
+
+
+
+      {/* Service Selection: Pickup or Delivery */}
+      <MDBTypography tag="h6" className="text-start mt-4 mb-3" style={{ fontWeight: 'bold' }}>
+        Select Service Type
+      </MDBTypography>
+
+      <MDBRow className="mb-4">
+        <MDBCol md="6">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="serviceType"
+              id="pickup"
+              value="pickup"
+              checked={selectedService === 'pickup'}
+              onChange={handleServiceChange}
+            />
+            <label className="form-check-label" htmlFor="pickup">
+              Pickup
+            </label>
+          </div>
+        </MDBCol>
+        <MDBCol md="6">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="serviceType"
+              id="delivery"
+              value="delivery"
+              checked={selectedService === 'delivery'}
+              onChange={handleServiceChange}
+            />
+            <label className="form-check-label" htmlFor="delivery">
+              Delivery
+            </label>
+          </div>
+        </MDBCol>
+      </MDBRow>
+
+      {/* Conditionally Render Delivery Address Fields */}
+      {selectedService === 'delivery' && (
+        <>
+          <MDBTypography tag="h6" className="text-start mt-4 mb-3" style={{ fontWeight: 'bold' }}>
+            Courier Delivery Address
+          </MDBTypography>
+
+          <MDBRow>
             <MDBCol md="6">
-            <label htmlFor="fullAddress" style={{ color: 'black', paddingLeft: '12px' }}>
-              Full Address <span style={{ color: 'red' }}>*</span>
-                  </label>
-                  <input
-                    id="fullAddress"
-                    name="fullAddress"
-                    type="text"
-                    value={bookingDetails.fullAddress}
-                    onChange={handleChange}
-                    required
-                    className="form-control"
-                    style={{
-                      border: '2px solid rgb(250, 207, 32)', 
-                      borderRadius: '15px', 
-                      boxShadow: 'none', 
-                      padding: '10px',
-                      backgroundColor: 'transparent', 
-                      width: '100%',
-                      marginBottom: '10px'
-                    }}
-                  />
+              <label htmlFor="fullAddress" style={{ color: 'black', paddingLeft: '12px' }}>
+                Full Address <span style={{ color: 'red' }}>*</span>
+              </label>
+              <input
+                id="fullAddress"
+                name="fullAddress"
+                type="text"
+                value={bookingDetails.fullAddress}
+                onChange={handleChange}
+                required
+                className="form-control"
+                style={{
+                  border: '2px solid rgb(250, 207, 32)',
+                  borderRadius: '15px',
+                  boxShadow: 'none',
+                  padding: '10px',
+                  backgroundColor: 'transparent',
+                  width: '100%',
+                  marginBottom: '10px',
+                }}
+              />
             </MDBCol>
             <MDBCol md="6">
-            <label htmlFor="landmark" style={{ color: 'black', paddingLeft: '12px' }}>
-                    Landmark <span style={{ color: 'red' }}>*</span>
-                  </label>
-                  <input
-                    id="landmark"
-                    name="landmark"
-                    type="text"
-                    value={bookingDetails.landmark}
-                    onChange={handleChange}
-                    required
-                    className="form-control"
-                    style={{
-                      border: '2px solid rgb(250, 207, 32)', 
-                      borderRadius: '15px', 
-                      boxShadow: 'none', 
-                      padding: '10px',
-                      backgroundColor: 'transparent', 
-                      width: '100%',
-                      marginBottom: '10px'
-                    }}
-                  />
+              <label htmlFor="landmark" style={{ color: 'black', paddingLeft: '12px' }}>
+                Landmark <span style={{ color: 'red' }}>*</span>
+              </label>
+              <input
+                id="landmark"
+                name="landmark"
+                type="text"
+                value={bookingDetails.landmark}
+                onChange={handleChange}
+                required
+                className="form-control"
+                style={{
+                  border: '2px solid rgb(250, 207, 32)',
+                  borderRadius: '15px',
+                  boxShadow: 'none',
+                  padding: '10px',
+                  backgroundColor: 'transparent',
+                  width: '100%',
+                  marginBottom: '10px',
+                }}
+              />
             </MDBCol>
-            </MDBRow>
+          </MDBRow>
+        </>
+      )}
+
+
+
+
+
 
 
 
@@ -1345,7 +1551,7 @@ const handleQuotationSubmit = async (e) => {
                         border: 'none',
                         padding: '10px 20px',
                       }}
-                      onClick={handleQuotationSubmit}
+                      onClick={handlePreviewQuotation}
                       disabled={
                         !isChecked ||
                         !bookingDetails.lastname ||
@@ -1388,10 +1594,7 @@ const handleQuotationSubmit = async (e) => {
                         !bookingDetails.city ||
                         !bookingDetails.occuputation ||
                         !bookingDetails.officeNumber ||
-                        !bookingDetails.officeDetails ||
-
-                        !bookingDetails.fullAddress ||
-                        !bookingDetails.landmark
+                        !bookingDetails.officeDetails
 
                       } 
                     >
@@ -1406,6 +1609,13 @@ const handleQuotationSubmit = async (e) => {
         </MDBCard>
       </div>
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+
+      <QuotationPreviewModal
+        show={showPreview}
+        onClose={() => setShowPreview(false)}
+        onConfirm={handleQuotationSubmit}
+        bookingDetails={bookingDetails}
+    />
     </div>
     </>
   );

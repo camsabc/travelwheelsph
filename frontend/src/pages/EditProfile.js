@@ -378,6 +378,7 @@ const EditProfile = () => {
                 value={profileData.email}
                 onChange={handleChange}
                 placeholder="Email"
+                disabled="true"
               />
               <input
                 type="text"

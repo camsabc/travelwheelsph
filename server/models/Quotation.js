@@ -214,6 +214,22 @@ const QuotationSchema = mongoose.Schema({
         type: String,
         required: false
     },
+    pickupTime: {
+        type: String,
+        required: false
+    },
+    dropoffTime: {
+        type: String,
+        required: false
+    },
+    pickupDate: {
+        type: Date,
+        required: false
+    },
+    dropoffDate: {
+        type: Date,
+        required: false
+    }
 });
 
 const QuotationModel = mongoose.model('Quotation', QuotationSchema);

@@ -166,6 +166,10 @@ function DetailsQuotation() {
                 {renderAttribute('TIME OF PICKUP', quotationDetails.startDate && new Date(quotationDetails.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }))}
                 {renderAttribute('PICKUP LOCATION', quotationDetails.pickupLocation)}
                 {renderAttribute('DROP-OFF LOCATION', quotationDetails.dropOffLocation)}
+                {renderAttribute('PICKUP TIME', quotationDetails.pickupTIme)}
+                {renderAttribute('DROP-OFF TIME', quotationDetails.dropoffTime)}
+                {renderAttribute('PICKUP DATE', quotationDetails.pickupDate)}
+                {renderAttribute('DROP-OFF DATE', quotationDetails.dropoffDate)}
                 {renderAttribute('VEHICLE NAME', quotationDetails.vehicleName)}
                 {renderAttribute('NUMBER OF PERSONS', quotationDetails.numOfPerson)}
                 {renderAttribute('REMARKS', quotationDetails.remarks)}

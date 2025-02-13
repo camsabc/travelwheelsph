@@ -29,6 +29,14 @@ function DetailsPassportGuest() {
   const [toast, setToast] = useState(null);
   const [isPopulateChecked, setIsPopulateChecked] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [selectedService, setSelectedService] = useState('pickup');
+    
+
+  
+  const handleServiceChange = (e) => {
+    setSelectedService(e.target.value);
+  };
+  
 
   
   const handleCheckboxChange = (e) => {
@@ -271,7 +279,7 @@ const handleQuotationSubmit = async (e) => {
           </MDBTypography>
                     <ol style={{paddingLeft: "50px", fontWeight: "bold", paddingBottom: "10px"}}>
                         <li> Provide the Personal details, (New passport: PSA copy / Renewal: Old Passport copy) </li>
-                        <li> Choose 2 nearest location of DFA </li>
+                        <li> Choose a DFA Branch </li>
                         <li> Pay 1800 via Bank Deposit or G-Cash/Maya </li>
                     </ol>
 
@@ -1193,56 +1201,106 @@ const handleQuotationSubmit = async (e) => {
 
 
 
-            <MDBTypography tag="h6" className="text-start mt-4 mb-3" style={{fontWeight: 'bold'}}>Courier Delivery Address</MDBTypography>
 
-            <MDBRow>
+
+
+      {/* Service Selection: Pickup or Delivery */}
+      <MDBTypography tag="h6" className="text-start mt-4 mb-3" style={{ fontWeight: 'bold' }}>
+        Select Service Type
+      </MDBTypography>
+
+      <MDBRow className="mb-4">
+        <MDBCol md="6">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="serviceType"
+              id="pickup"
+              value="pickup"
+              checked={selectedService === 'pickup'}
+              onChange={handleServiceChange}
+            />
+            <label className="form-check-label" htmlFor="pickup">
+              Pickup
+            </label>
+          </div>
+        </MDBCol>
+        <MDBCol md="6">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="serviceType"
+              id="delivery"
+              value="delivery"
+              checked={selectedService === 'delivery'}
+              onChange={handleServiceChange}
+            />
+            <label className="form-check-label" htmlFor="delivery">
+              Delivery
+            </label>
+          </div>
+        </MDBCol>
+      </MDBRow>
+
+      {/* Conditionally Render Delivery Address Fields */}
+      {selectedService === 'delivery' && (
+        <>
+          <MDBTypography tag="h6" className="text-start mt-4 mb-3" style={{ fontWeight: 'bold' }}>
+            Courier Delivery Address
+          </MDBTypography>
+
+          <MDBRow>
             <MDBCol md="6">
-            <label htmlFor="fullAddress" style={{ color: 'black', paddingLeft: '12px' }}>
-              Full Address <span style={{ color: 'red' }}>*</span>
-                  </label>
-                  <input
-                    id="fullAddress"
-                    name="fullAddress"
-                    type="text"
-                    value={bookingDetails.fullAddress}
-                    onChange={handleChange}
-                    required
-                    className="form-control"
-                    style={{
-                      border: '2px solid rgb(250, 207, 32)', 
-                      borderRadius: '15px', 
-                      boxShadow: 'none', 
-                      padding: '10px',
-                      backgroundColor: 'transparent', 
-                      width: '100%',
-                      marginBottom: '10px'
-                    }}
-                  />
+              <label htmlFor="fullAddress" style={{ color: 'black', paddingLeft: '12px' }}>
+                Full Address <span style={{ color: 'red' }}>*</span>
+              </label>
+              <input
+                id="fullAddress"
+                name="fullAddress"
+                type="text"
+                value={bookingDetails.fullAddress}
+                onChange={handleChange}
+                required
+                className="form-control"
+                style={{
+                  border: '2px solid rgb(250, 207, 32)',
+                  borderRadius: '15px',
+                  boxShadow: 'none',
+                  padding: '10px',
+                  backgroundColor: 'transparent',
+                  width: '100%',
+                  marginBottom: '10px',
+                }}
+              />
             </MDBCol>
             <MDBCol md="6">
-            <label htmlFor="landmark" style={{ color: 'black', paddingLeft: '12px' }}>
-                    Landmark <span style={{ color: 'red' }}>*</span>
-                  </label>
-                  <input
-                    id="landmark"
-                    name="landmark"
-                    type="text"
-                    value={bookingDetails.landmark}
-                    onChange={handleChange}
-                    required
-                    className="form-control"
-                    style={{
-                      border: '2px solid rgb(250, 207, 32)', 
-                      borderRadius: '15px', 
-                      boxShadow: 'none', 
-                      padding: '10px',
-                      backgroundColor: 'transparent', 
-                      width: '100%',
-                      marginBottom: '10px'
-                    }}
-                  />
+              <label htmlFor="landmark" style={{ color: 'black', paddingLeft: '12px' }}>
+                Landmark <span style={{ color: 'red' }}>*</span>
+              </label>
+              <input
+                id="landmark"
+                name="landmark"
+                type="text"
+                value={bookingDetails.landmark}
+                onChange={handleChange}
+                required
+                className="form-control"
+                style={{
+                  border: '2px solid rgb(250, 207, 32)',
+                  borderRadius: '15px',
+                  boxShadow: 'none',
+                  padding: '10px',
+                  backgroundColor: 'transparent',
+                  width: '100%',
+                  marginBottom: '10px',
+                }}
+              />
             </MDBCol>
-            </MDBRow>
+          </MDBRow>
+        </>
+      )}
 
 
 

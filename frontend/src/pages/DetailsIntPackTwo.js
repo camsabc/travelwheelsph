@@ -12,6 +12,7 @@ import {
   MDBNavbarItem,
   MDBNavbarLink,
   MDBCardImage,
+  MDBModal, MDBModalDialog, MDBModalContent, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBBtn
 } from 'mdb-react-ui-kit';
 import flightsbg from '../images/flightsbg.jpg';
 import logo from '../images/header.jpg';
@@ -47,32 +48,7 @@ function DetailsIntPackTwo() {
   const [children, setChildren] = useState([{ firstname: '' }]);
   const [seniors, setSeniors] = useState([{ firstname: '' }]);
   const [adults, setAdults] = useState([{ firstname: '' }]);
-
-  const handlePassengerChange = (type, index, e) => {
-    const { name, value } = e.target;  // Destructure to get the input name and value
-  
-    let updatedPassengers;
-    // Check which type (child, senior, or adult) and clone the corresponding array
-    if (type === 'child') {
-      updatedPassengers = [...children];
-    } else if (type === 'senior') {
-      updatedPassengers = [...seniors];
-    } else {
-      updatedPassengers = [...adults];
-    }
-  
-    // Update the appropriate field (firstname or age) based on the name attribute
-    if (name === 'firstname') {
-      updatedPassengers[index].firstname = value;
-    } else if (name === 'age') {
-      updatedPassengers[index].age = value;
-    }
-  
-    // Update the state based on the type
-    if (type === 'child') setChildren(updatedPassengers);
-    else if (type === 'senior') setSeniors(updatedPassengers);
-    else setAdults(updatedPassengers);
-  };
+  const [passengers, setPassengers] = useState([]);
   
 
   const addChildPassenger = () => {
@@ -97,12 +73,12 @@ function DetailsIntPackTwo() {
 
   const deleteSeniorPassenger = (index) => {
     const newSenior = seniors.filter((_, i) => i !== index);
-    setChildren(newSenior);
+    setSeniors(newSenior);
   };
 
   const deleteAdultPassenger = (index) => {
     const newAdult = adults.filter((_, i) => i !== index);
-    setChildren(newAdult);
+    setAdults(newAdult);
   };
   
 
@@ -124,12 +100,47 @@ function DetailsIntPackTwo() {
     passengers: []
   });
 
+
+  const handlePassengerChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedPassengers = [...passengers];
+    updatedPassengers[index] = { 
+      ...updatedPassengers[index], 
+      [name]: value 
+    };
+    setPassengers(updatedPassengers);
+  
+    setBookingDetails(prevDetails => ({
+      ...prevDetails,
+      passengers: updatedPassengers,
+    }));
+  };
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setBookingDetails((prevDetails) => ({
-      ...prevDetails,
-      [name]: value,
-    }));
+  
+    if (name === "numOfPerson") {
+      const count = parseInt(value, 10) || 0; 
+      const updatedPassengers = Array.from({ length: count }, (_, index) => ({
+        firstname: passengers[index]?.firstname || '',
+        middlename: passengers[index]?.middlename || '',
+        lastname: passengers[index]?.lastname || '',
+        birthdate: passengers[index]?.birthdate || '',
+      }));
+      
+      setPassengers(updatedPassengers);
+  
+      setBookingDetails((prevDetails) => ({
+        ...prevDetails,
+        numOfPerson: value,
+        passengers: updatedPassengers,
+      }));
+    } else {
+      setBookingDetails((prevDetails) => ({
+        ...prevDetails,
+        [name]: value,
+      }));
+    }
   };
 
   const populateUserData = () => {
@@ -160,6 +171,170 @@ function DetailsIntPackTwo() {
       }));
     }
   };
+
+
+
+
+
+
+
+
+  const [showPreview, setShowPreview] = useState(false);
+
+
+  const handlePreviewQuotation = (e) => {
+    e.preventDefault();
+    setShowPreview(true);
+};
+
+
+const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => {
+    return (
+        <MDBModal open={show} tabIndex="-1" setOpen={onClose}>
+            <MDBModalDialog size='lg'>
+                <MDBModalContent>
+                    <MDBModalHeader>
+                        <h5 className="modal-title">Kindly confirm if details below are correct</h5>
+                        <MDBBtn className="btn-close" color="none" onClick={onClose}></MDBBtn>
+                    </MDBModalHeader>
+                    <MDBModalBody>
+                        {/* Two-column layout for main details */}
+                        <p><strong>Service Type:</strong> {bookingDetails.type} </p>
+                        <MDBRow>
+
+                        <MDBCol md="6">
+                          <p style={{ fontWeight: 'bold', marginBottom: '5px' }}>Contact Person</p>
+                          <p style={{ marginBottom: '5px' }}>Name: {bookingDetails.firstname} {bookingDetails.lastname}</p>
+                          <p style={{ marginBottom: '5px' }}>Email: {bookingDetails.email}</p>
+                          <p style={{ marginBottom: '5px' }}>Contact: {bookingDetails.contactNumber}</p>
+                        </MDBCol>
+
+                        <MDBCol md="6">
+                          <p style={{ fontWeight: 'bold', marginBottom: '5px' }}>Travel Details</p>
+                          <p style={{ marginBottom: '5px' }}>Start Date: {bookingDetails.startDate} </p>
+                          <p style={{ marginBottom: '5px' }}>End Date: {bookingDetails.endDate}</p>
+                          <p style={{ marginBottom: '5px' }}>Number of Person: {bookingDetails.numOfPerson}</p>
+                        </MDBCol>
+
+                        </MDBRow>
+
+                        {/* Passengers list below */}
+                        <hr />
+<h5>Pax List</h5>
+<div>
+    {bookingDetails.passengers.length > 0 ? (
+        <ul style={{ listStyle: 'none', padding: '0' }}>
+            {bookingDetails.passengers.map((p, index) => {
+                // Compute age from birthdate
+                const birthYear = new Date(p.birthdate).getFullYear();
+                const currentYear = new Date().getFullYear();
+                const age = currentYear - birthYear;
+
+                // Determine category
+                let category = "Adult";
+                if (age < 12) category = "Child";
+                else if (age >= 60) category = "Senior";
+
+                return (
+                    <li key={index} style={{ marginBottom: '10px' }}>
+                        <div style={{
+                            backgroundColor: '#f8f9fa', // Gray background for each card
+                            padding: '15px',
+                            borderRadius: '8px',
+                            boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)',
+                            border: '1px solid #ddd'
+                        }}>
+                            <MDBCol md="12">
+                                <p style={{ fontWeight: 'bold', marginBottom: '5px' }}>Person #{index + 1}</p>
+                                <p style={{ marginBottom: '5px' }}>
+                                    Name: {p.firstname} {p.middlename} {p.lastname}
+                                </p>
+
+                                <MDBRow>
+                                    <MDBCol md="6">
+                                        <p style={{ marginBottom: '5px' }}>Age: {age}</p>
+                                    </MDBCol>
+                                    <MDBCol md="6">
+                                        <p style={{ marginBottom: '5px' }}>Category: {category}</p>
+                                    </MDBCol>
+                                </MDBRow>
+                            </MDBCol>
+                        </div>
+                    </li>
+                );
+            })}
+        </ul>
+    ) : (
+        <p style={{ margin: '0', padding: '10px' }}>No passengers added.</p>
+    )}
+</div>
+
+
+                    </MDBModalBody>
+                    <MDBModalFooter style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    {/* Travel Insurance Checkbox */}
+    <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+        <input 
+            type="checkbox" 
+            id="travelInsurance" 
+            style={{ marginRight: '8px' }}
+        />
+        <label htmlFor="travelInsurance">I would like to add <strong>Travel Insurance</strong> to this trip.</label>
+    </div>
+
+    {/* Centered Buttons with Styling */}
+    <div style={{ display: 'flex', gap: '100px' }}>
+        <button
+            type="button"
+            className="btn btn-secondary"
+            style={{
+                fontWeight: 'bold',
+                width: '100%',
+                width: '250px',
+                fontSize: '14px',
+                borderRadius: '30px',
+                backgroundColor: 'red', 
+                border: 'none',
+                padding: '10px 10px',
+            }}
+            onClick={onClose}
+        >
+            Cancel
+        </button>
+
+        <button
+            type="button"
+            className="btn btn-primary"
+            style={{
+                fontWeight: 'bold',
+                width: '100%',
+                width: '250px',
+                fontSize: '14px',
+                borderRadius: '30px',
+                backgroundColor: 'rgb(255, 165, 0)', // Matching the request quotation button
+                border: 'none',
+                padding: '10px 20px',
+            }}
+            onClick={onConfirm}
+        >
+            Confirm & Send
+        </button>
+    </div>
+</MDBModalFooter>
+
+
+                </MDBModalContent>
+            </MDBModalDialog>
+        </MDBModal>
+    );
+};
+
+
+
+
+
+
+
 
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
@@ -498,7 +673,159 @@ const handleQuotationSubmit = async (e) => {
                     }}
                   />
                 </MDBCol>
-              </MDBRow>
+                              <MDBCol md="6">
+                  <label htmlFor="numOfPerson" style={{ color: 'black', paddingLeft: '12px' }}>
+                    Number of Persons <span style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input
+                    id="numOfPerson"
+                    name="numOfPerson"
+                    type="number"
+                    min="1"
+                    value={bookingDetails.numOfPerson}
+                    onChange={handleChange}
+                    required
+                    className="form-control"
+                    style={{
+                      border: '2px solid rgb(250, 207, 32)',
+                      borderRadius: '15px',
+                      boxShadow: 'none',
+                      padding: '10px',
+                      backgroundColor: 'transparent',
+                      width: '100%',
+                      marginBottom: '10px'
+                    }}
+                  />
+                </MDBCol>
+                            </MDBRow>
+              
+              
+              
+              
+              
+              
+              <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{fontWeight: 'bold'}}>Pax List</MDBTypography>
+              
+              {passengers.map((passenger, index) => (
+                <div key={index} className="mb-4">
+                  <MDBTypography tag="h6" className="text-start" style={{ fontWeight: 'bold', paddingLeft: '12px' }}>
+                    Person {index + 1}
+                  </MDBTypography>
+                  
+                  <MDBRow>
+                    <MDBCol md="6">
+                      <label htmlFor={`passenger-lastname-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
+                        Last Name <span style={{ color: 'red' }}>*</span>
+                      </label>
+                      <input
+                        id={`passenger-lastname-${index}`}
+                        name="lastname"
+                        type="text"
+                        value={passenger.lastname}
+                        onChange={(e) => handlePassengerChange(index, e)}
+                        required
+                        className="form-control"
+                        style={{
+                          border: '2px solid rgb(250, 207, 32)',
+                          borderRadius: '15px',
+                          boxShadow: 'none',
+                          padding: '10px',
+                          backgroundColor: 'transparent',
+                          width: '100%',
+                          marginBottom: '10px'
+                        }}
+                      />
+                    </MDBCol>
+                    
+                    <MDBCol md="6">
+                      <label htmlFor={`passenger-firstname-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
+                        First Name <span style={{ color: 'red' }}>*</span>
+                      </label>
+                      <input
+                        id={`passenger-firstname-${index}`}
+                        name="firstname"
+                        type="text"
+                        value={passenger.firstname}
+                        onChange={(e) => handlePassengerChange(index, e)}
+                        required
+                        className="form-control"
+                        style={{
+                          border: '2px solid rgb(250, 207, 32)',
+                          borderRadius: '15px',
+                          boxShadow: 'none',
+                          padding: '10px',
+                          backgroundColor: 'transparent',
+                          width: '100%',
+                          marginBottom: '10px'
+                        }}
+                      />
+                    </MDBCol>
+                    </MDBRow>
+              
+                    <MDBRow>
+                    <MDBCol md="6">
+                      <label htmlFor={`passenger-middlename-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
+                        Middle Name
+                      </label>
+                      <input
+                        id={`passenger-middlename-${index}`}
+                        name="middlename"
+                        type="text"
+                        value={passenger.middlename}
+                        onChange={(e) => handlePassengerChange(index, e)}
+                        className="form-control"
+                        style={{
+                          border: '2px solid rgb(250, 207, 32)',
+                          borderRadius: '15px',
+                          boxShadow: 'none',
+                          padding: '10px',
+                          backgroundColor: 'transparent',
+                          width: '100%',
+                          marginBottom: '10px'
+                        }}
+                      />
+                    </MDBCol>
+              
+                
+                    <MDBCol md="6">
+                      <label htmlFor={`passenger-birthdate-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
+                        Birthdate <span style={{ color: 'red' }}>*</span>
+                      </label>
+                      <input
+                        id={`passenger-birthdate-${index}`}
+                        name="birthdate"
+                        type="date"
+                        value={passenger.birthdate}
+                        onChange={(e) => handlePassengerChange(index, e)}
+                        required
+                        className="form-control"
+                        style={{
+                          border: '2px solid rgb(250, 207, 32)',
+                          borderRadius: '15px',
+                          boxShadow: 'none',
+                          padding: '10px',
+                          backgroundColor: 'transparent',
+                          width: '100%',
+                          marginBottom: '10px'
+                        }}
+                      />
+                    </MDBCol>
+                  </MDBRow>
+                </div>
+              ))}
+
+
+
+
+
+
+
+
+
+
+
+
+
               <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{fontWeight: 'bold'}}>Travel Information</MDBTypography>
 
 <MDBRow>
@@ -551,403 +878,6 @@ const handleQuotationSubmit = async (e) => {
                 />
               </MDBCol>
             </MDBRow>
-
-            <MDBRow>
-            <MDBCol md="6">
-            <label htmlFor="withChild" style={{ color: 'black', paddingLeft: '12px' }}>
-                Traveling with a child? (Yes or No) 
-                </label>
-                <input
-                  id="withChild"
-                  name="withChild"
-                  type="text"
-                  onChange={handleChange}
-                  required
-                  className="form-control"
-                  style={{
-                    border: '2px solid rgb(250, 207, 32)', 
-                    borderRadius: '15px', 
-                    boxShadow: 'none', 
-                    padding: '10px',
-                    backgroundColor: 'transparent', 
-                    width: '100%',
-                    marginBottom: '10px'
-                  }}
-                />
-              </MDBCol>
-
-              <MDBCol md="6">
-              <label htmlFor="childNum" style={{ color: 'black', paddingLeft: '12px' }}>
-                If yes, how many?
-                </label>
-                <input
-                  id="childNum"
-                  name="childNum"
-                  type="number"
-                  onChange={handleChange}
-                  required
-                  className="form-control"
-                  style={{
-                    border: '2px solid rgb(250, 207, 32)', 
-                    borderRadius: '15px', 
-                    boxShadow: 'none', 
-                    padding: '10px',
-                    backgroundColor: 'transparent', 
-                    width: '100%',
-                    marginBottom: '10px'
-                  }}
-                />
-              </MDBCol>
-            </MDBRow>
-
-
-
-
-
-            
-
-            {/* Render Child Passengers */}
-            {children.map((passenger, index) => (
-              <MDBRow key={index}>
-
-                <MDBCol md="6">
-                  <label htmlFor={`child-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
-                    Child's Name
-                  </label>
-                  <input
-                    type="text"
-                    name="firstname"
-                    id={`child-${index}`}
-                    value={passenger.firstname}
-                    onChange={(e) => handlePassengerChange('child', index, e)}
-                    className="form-control"
-                    style={{
-                      border: '2px solid rgb(250, 207, 32)',
-                      borderRadius: '15px',
-                      boxShadow: 'none',
-                      padding: '10px',
-                      backgroundColor: 'transparent',
-                      width: '100%',
-                      marginBottom: '10px',
-                    }}
-                    required
-                  />
-                </MDBCol>
-
-                <MDBCol md="3"> {/* Adjusted to leave space for the age input and trash icon */}
-                  <label htmlFor={`child-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
-                    Child's Age
-                  </label>
-                  <input
-                    type="number"
-                    name="age"
-                    id={`age-${index}`}
-                    value={passenger.age}
-                    onChange={(e) => handlePassengerChange('child', index, e)}
-                    className="form-control"
-                    style={{
-                      padding: '10px',
-                      backgroundColor: 'transparent',
-                      border: '2px solid rgb(250, 207, 32)',
-                      borderRadius: '15px',
-                      width: '100%',
-                      marginBottom: '10px',
-                    }}
-                    required
-                  />
-                </MDBCol>
-
-                <MDBCol md="3" className="d-flex justify-content-between align-items-center">
-                  {/* Add More Button */}
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    style={{
-                      fontWeight: 'bold',
-                      width: '70%',
-                      borderRadius: '30px',
-                      backgroundColor: 'rgb(255, 165, 0)',
-                      border: 'none',
-                      padding: '10px 20px',
-                      marginTop: '15px',
-                    }}
-                    onClick={addChildPassenger}
-                  >
-                    ADD MORE
-                  </button>
-
-                  {/* Trash Icon - Delete Passenger */}
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    style={{
-                      borderRadius: '50%',
-                      width: '35px',
-                      height: '35px',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      backgroundColor: 'transparent',
-                      border: 'none',
-                      marginTop: '15px',
-                    }}
-                    onClick={() => deleteChildPassenger(index)} // Delete passenger
-                  >
-                    <i className="fas fa-trash" style={{ fontSize: '18px', color: '#ff4747' }}></i>
-                  </button>
-                </MDBCol>
-              </MDBRow>
-            ))}
-
-
-
-<MDBRow>
-            <MDBCol md="6">
-            <label htmlFor="withSenior" style={{ color: 'black', paddingLeft: '12px' }}>
-                Traveling with a senior? (Yes or No) 
-                </label>
-                <input
-                  id="withSenior"
-                  name="withSenior"
-                  type="text"
-                  onChange={handleChange}
-                  required
-                  className="form-control"
-                  style={{
-                    border: '2px solid rgb(250, 207, 32)', 
-                    borderRadius: '15px', 
-                    boxShadow: 'none', 
-                    padding: '10px',
-                    backgroundColor: 'transparent', 
-                    width: '100%',
-                    marginBottom: '10px'
-                  }}
-                />
-              </MDBCol>
-
-              <MDBCol md="6">
-              <label htmlFor="seniorNum" style={{ color: 'black', paddingLeft: '12px' }}>
-                If yes, how many?
-                </label>
-                <input
-                  id="seniorNum"
-                  name="seniorNum"
-                  type="number"
-                  onChange={handleChange}
-                  required
-                  className="form-control"
-                  style={{
-                    border: '2px solid rgb(250, 207, 32)', 
-                    borderRadius: '15px', 
-                    boxShadow: 'none', 
-                    padding: '10px',
-                    backgroundColor: 'transparent', 
-                    width: '100%',
-                    marginBottom: '10px'
-                  }}
-                />
-              </MDBCol>
-            </MDBRow>
-
-
-                
-            {/* Render Seniors Passengers */}
-            {seniors.map((passenger, index) => (
-              <MDBRow key={index}>
-
-                <MDBCol md="6">
-                  <label htmlFor={`senior-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
-                    Senior's Name
-                  </label>
-                  <input
-                    type="text"
-                    name="firstname"
-                    id={`senior-${index}`}
-                    value={passenger.firstname}
-                    onChange={(e) => handlePassengerChange('senior', index, e)}
-                    className="form-control"
-                    style={{
-                      border: '2px solid rgb(250, 207, 32)',
-                      borderRadius: '15px',
-                      boxShadow: 'none',
-                      padding: '10px',
-                      backgroundColor: 'transparent',
-                      width: '100%',
-                      marginBottom: '10px',
-                    }}
-                    required
-                  />
-                </MDBCol>
-
-                <MDBCol md="3"> {/* Adjusted to leave space for the age input and trash icon */}
-                  <label htmlFor={`senior-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
-                    Senior's Age
-                  </label>
-                  <input
-                    type="number"
-                    name="age"
-                    id={`age-${index}`}
-                    value={passenger.age}
-                    onChange={(e) => handlePassengerChange('senior', index, e)}
-                    className="form-control"
-                    style={{
-                      padding: '10px',
-                      backgroundColor: 'transparent',
-                      border: '2px solid rgb(250, 207, 32)',
-                      borderRadius: '15px',
-                      width: '100%',
-                      marginBottom: '10px',
-                    }}
-                    required
-                  />
-                </MDBCol>
-
-                <MDBCol md="3" className="d-flex justify-content-between align-items-center">
-                  {/* Add More Button */}
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    style={{
-                      fontWeight: 'bold',
-                      width: '70%',
-                      borderRadius: '30px',
-                      backgroundColor: 'rgb(255, 165, 0)',
-                      border: 'none',
-                      padding: '10px 20px',
-                      marginTop: '15px',
-                    }}
-                    onClick={addSeniorPassenger}
-                  >
-                    ADD MORE
-                  </button>
-
-                  {/* Trash Icon - Delete Passenger */}
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    style={{
-                      borderRadius: '50%',
-                      width: '35px',
-                      height: '35px',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      backgroundColor: 'transparent',
-                      border: 'none',
-                      marginTop: '15px',
-                    }}
-                    onClick={() => deleteSeniorPassenger(index)} // Delete passenger
-                  >
-                    <i className="fas fa-trash" style={{ fontSize: '18px', color: '#ff4747' }}></i>
-                  </button>
-                </MDBCol>
-              </MDBRow>
-            ))}
-
-
-
-
-
-
-
-
-
-
-
-            {/* Render Child Passengers */}
-            {adults.map((passenger, index) => (
-              <MDBRow key={index}>
-
-                <MDBCol md="6">
-                  <label htmlFor={`adult-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
-                    Adult's Name
-                  </label>
-                  <input
-                    type="text"
-                    name="firstname"
-                    id={`adult-${index}`}
-                    value={passenger.firstname}
-                    onChange={(e) => handlePassengerChange('adult', index, e)}
-                    className="form-control"
-                    style={{
-                      border: '2px solid rgb(250, 207, 32)',
-                      borderRadius: '15px',
-                      boxShadow: 'none',
-                      padding: '10px',
-                      backgroundColor: 'transparent',
-                      width: '100%',
-                      marginBottom: '10px',
-                    }}
-                    required
-                  />
-                </MDBCol>
-
-                <MDBCol md="3"> {/* Adjusted to leave space for the age input and trash icon */}
-                  <label htmlFor={`adult-${index}`} style={{ color: 'black', paddingLeft: '12px' }}>
-                    Adult's Age
-                  </label>
-                  <input
-                    type="number"
-                    name="age"
-                    id={`age-${index}`}
-                    value={passenger.age}
-                    onChange={(e) => handlePassengerChange('adult', index, e)}
-                    className="form-control"
-                    style={{
-                      padding: '10px',
-                      backgroundColor: 'transparent',
-                      border: '2px solid rgb(250, 207, 32)',
-                      borderRadius: '15px',
-                      width: '100%',
-                      marginBottom: '10px',
-                    }}
-                    required
-                  />
-                </MDBCol>
-
-                <MDBCol md="3" className="d-flex justify-content-between align-items-center">
-                  {/* Add More Button */}
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    style={{
-                      fontWeight: 'bold',
-                      width: '70%',
-                      borderRadius: '30px',
-                      backgroundColor: 'rgb(255, 165, 0)',
-                      border: 'none',
-                      padding: '10px 20px',
-                      marginTop: '15px',
-                    }}
-                    onClick={addAdultPassenger}
-                  >
-                    ADD MORE
-                  </button>
-
-                  {/* Trash Icon - Delete Passenger */}
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    style={{
-                      borderRadius: '50%',
-                      width: '35px',
-                      height: '35px',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      backgroundColor: 'transparent',
-                      border: 'none',
-                      marginTop: '15px',
-                    }}
-                    onClick={() => deleteAdultPassenger(index)} // Delete passenger
-                  >
-                    <i className="fas fa-trash" style={{ fontSize: '18px', color: '#ff4747' }}></i>
-                  </button>
-                </MDBCol>
-              </MDBRow>
-            ))}
-
-
 
 
 
@@ -1016,7 +946,7 @@ const handleQuotationSubmit = async (e) => {
                       border: 'none',
                       padding: '10px 20px',
                     }}
-                    onClick={handleQuotationSubmit}
+                    onClick={handlePreviewQuotation}
                     disabled={
                       !isChecked ||
                       !bookingDetails.lastname ||
@@ -1039,6 +969,14 @@ const handleQuotationSubmit = async (e) => {
         </MDBContainer>
       </div>
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+
+
+      <QuotationPreviewModal
+        show={showPreview}
+        onClose={() => setShowPreview(false)}
+        onConfirm={handleQuotationSubmit}
+        bookingDetails={bookingDetails}
+    />
     </>
   );
 }
