@@ -214,6 +214,10 @@ const QuotationSchema = mongoose.Schema({
         type: String,
         required: false
     },
+    payment: {
+        type: String,
+        required: false
+    },
     pickupTime: {
         type: String,
         required: false

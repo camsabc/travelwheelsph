@@ -165,6 +165,47 @@ const Homepage = () => {
 
 
 
+ 
+    <div className="d-flex justify-content-center flex-wrap gap-3 my-4">
+    {[
+        { icon: "fa-torii-gate", label: "Tour" },
+        { icon: "fa-bed", label: "Hotel" },
+        { icon: "fa-passport", label: "Passport Assistance" },
+        { icon: "fa-plane", label: "Flights" },
+        { icon: "fa-car", label: "Car Rental" },
+        { icon: "fa-bus", label: "Transfers" },
+        { icon: "fa-address-card", label: "VISA" },
+        { icon: "fa-plane-circle-check", label: "Travel Insurance" },
+        { icon: "fa-globe", label: "Educational Tour" },
+        { icon: "fa-handshake", label: "MICE" }
+    ].map((item, i) => (
+        <div key={i} className="d-flex flex-column align-items-center" style={{ width: '80px' }}>
+            {/* Circular Icon */}
+            <div 
+                style={{
+                    width: '50px', 
+                    height: '50px',
+                    borderRadius: '50%',
+                    backgroundColor: 'rgb(255, 165, 0)', 
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    marginBottom: '5px',
+                }}
+            >
+                <i className={`fas ${item.icon}`} style={{ fontSize: '1.2rem' }}></i> 
+            </div>
+
+            <span style={{ fontSize: '12px', fontWeight: 'bold', textAlign: 'center', opacity: '0.7'}}>
+                {item.label}
+            </span>
+        </div>
+    ))}
+</div>
+
+
+
       <div style={{ width: '100vw', overflow: 'hidden', marginTop: '25px' }}>
         <MDBTypography 
             tag="h1" 
@@ -285,8 +326,9 @@ const Homepage = () => {
 
 
 
+
     <div className="my-2" style={{ width: '100%' }}>
-  <MDBRow className="align-items-center mt-3" style={{ marginLeft: '50px', style: '80%' }}>
+  <MDBRow className="align-items-center mt-4" style={{ marginLeft: '30px', width: '100%' }}>
     <MDBCol size="7">
       <MDBTypography
         tag="h1"
@@ -294,8 +336,7 @@ const Homepage = () => {
         style={{
           fontWeight: 'bolder',
           color: 'rgb(255, 165, 0)',
-          fontSize: '30px',
-          marginLeft: '30px',
+          fontSize: '36px',
         }}
       >
         CLIENT'S FEEDBACK
@@ -335,8 +376,8 @@ const Homepage = () => {
     >
       <div
         style={{
-          width: '100%',
-          height: '250px',        
+          width: '390px',
+          height: '390px',       
           borderRadius: '20px',
           overflow: 'hidden',
           marginBottom: '10px',
@@ -350,12 +391,15 @@ const Homepage = () => {
         />
       </div>
       
-      {/* 5-Star Rating Below the Image */}
+      {/* 
       <div className="d-flex justify-content-center" style={{ marginTop: '10px' }}>
         {Array(5).fill().map((_, i) => (
           <i key={i} className="fas fa-star text-warning" style={{ fontSize: '1.5rem', margin: '0px 2px' }}></i>
         ))}
       </div>
+      */}
+
+
     </div>
   ))}
 </div>

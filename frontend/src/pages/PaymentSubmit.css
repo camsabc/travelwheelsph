@@ -1,0 +1,85 @@
+.confirmation-container {
+    font-family: 'Poppins', sans-serif;
+    min-height: 87vh;
+    background-image: url('../images/paybg.jpg'); /* Background image for the page */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.confirmation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+    padding: 10px 20px;
+    position: absolute;
+    top: 0;
+}
+
+.logo-container img {
+    height: 60px; /* Adjust the height as needed */
+}
+
+.confirmation-nav {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.confirmation-nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.user-greeting {
+    margin-right: 10px;
+}
+
+.search-button {
+    border: none;
+    background: none;
+    font-size: 1.2em;
+}
+
+.confirmation-content {
+    background-color: rgba(255, 255, 255, 0.9); /* White background with slight transparency */
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.confirmation-icon img {
+    width: 80px; /* Adjust the size as needed */
+    margin-bottom: 20px;
+}
+
+.confirmation-message h1 {
+    font-size: 2.5em;
+    color: #28a745; /* Green color for the confirmation message */
+    margin-bottom: 20px;
+}
+
+.confirmation-message p {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.back-home-link {
+    font-size: 1em;
+    color: #ff8c00;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.back-home-link:hover {
+    text-decoration: underline;
+}

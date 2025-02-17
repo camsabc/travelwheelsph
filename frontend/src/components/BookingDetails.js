@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MDBBtn } from 'mdb-react-ui-kit';
+import { MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
 import Toast from './Toast'; 
 
 function formatDate(dateString) {
@@ -19,6 +19,7 @@ function BookingDetails({ booking, onBack }) {
   const [toast, setToast] = useState(null);
   const [adminNote, setAdminNote] = useState(booking.note || ''); 
   const [loading, setLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const navigate = useNavigate();
 
@@ -43,6 +44,25 @@ function BookingDetails({ booking, onBack }) {
       navigate(`/admin`, { state: { name: "Admin" } });
     } catch (error) {
       showToast('An error occurred', 'error');
+    }
+  };
+
+
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(booking.payment);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = booking.payment.split('/').pop(); // Extracts filename from URL
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading file:', error);
     }
   };
 
@@ -85,36 +105,44 @@ function BookingDetails({ booking, onBack }) {
     }
   };
 
-  const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+// Handle file selection without uploading immediately
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  setSelectedFile(file);
+};
 
-    setLoading(true);
-    const data = new FormData();
-    data.append('file', file);
-    data.append('upload_preset', 'travelwheels_upload');
-    data.append('cloud_name', 'dnazfwgby');
+// Handle file upload when button is clicked
+const handleFileUpload = async () => {
+  if (!selectedFile) {
+    showToast('Please select a file first.', 'error');
+    return;
+  }
 
-    try {
-      const res = await fetch('https://api.cloudinary.com/v1_1/dnazfwgby/upload', { method: 'POST', body: data });
-      const uploadedFile = await res.json();
-      if (!uploadedFile.secure_url) throw new Error('Upload failed');
+  setLoading(true);
+  const data = new FormData();
+  data.append('file', selectedFile);
+  data.append('upload_preset', 'travelwheels_upload');
+  data.append('cloud_name', 'dnazfwgby');
 
-      const response = await fetch(`https://travelwheelsph.onrender.com/api/quotations/${booking._id}/file`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ file: uploadedFile.secure_url }),
-      });
+  try {
+    const res = await fetch('https://api.cloudinary.com/v1_1/dnazfwgby/upload', { method: 'POST', body: data });
+    const uploadedFile = await res.json();
+    if (!uploadedFile.secure_url) throw new Error('Upload failed');
 
-      if (!response.ok) throw new Error('File update failed');
-      showToast('File uploaded successfully!', 'success');
-    } catch (error) {
-      console.error(error);
-      showToast('Error uploading file. Please try again.', 'error');
-    } finally {
-      setLoading(false);
-    }
-  };
+    showToast('File uploaded successfully!', 'success');
+
+    // You can store the uploaded file URL somewhere or enable further actions
+    console.log('Uploaded File URL:', uploadedFile.secure_url);
+    
+    setSelectedFile(null); // Reset file selection after upload
+
+  } catch (error) {
+    console.error(error);
+    showToast('Error uploading file. Please try again.', 'error');
+  } finally {
+    setLoading(false);
+  }
+};
   
 
   return (
@@ -166,6 +194,30 @@ function BookingDetails({ booking, onBack }) {
         </div>
       </div>
 
+      {!isBooking && (
+                <>
+                  <MDBTypography tag="h5" style={{ paddingTop: '30px', color: buttonColor, fontWeight: 'bold', textAlign: 'start', paddingBottom: '10px' }}>
+                    PROOF OF PAYMENT
+                  </MDBTypography>
+                  
+                  <div style={{ textAlign: 'start' }}>
+                    <embed
+                      src={booking.payment}
+                      type="application/pdf"
+                      width="100%"
+                      height="500px"
+                      style={{ border: '1px solid #ddd', borderRadius: '5px' }}
+                    />
+                  </div>
+
+                  <div className="text-center mt-2" style={{ display: 'flex', justifyContent: 'flex-start' }} >
+                  <MDBBtn color="success" onClick={handleDownload}>
+                    <i className="fas fa-download"></i> Download File
+                  </MDBBtn>
+                  </div>
+                </>
+              )}
+
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '35px' }}>
         {/* Buttons on the left */}
         <div style={{ display: 'flex', gap: '10px' }}>
@@ -205,57 +257,113 @@ function BookingDetails({ booking, onBack }) {
             </>
           )}
 
-          {!isBooking && (
-            <>
-              {/* Existing button for quotation status changes */}
-              <MDBBtn
-                style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff', height: '50px', top: '7px' }}
-                onClick={() => changeQuotationStatus(booking._id, 'Email Sent')}
-              >
-                Email Sent
-              </MDBBtn>
 
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center', 
-                  border: '5px solid rgb(255, 165, 0)',
-                  padding: '10px',
-                  borderRadius: '15px',
-                  maxWidth: '600px', 
-                  margin: '0px 5px', 
-                  backgroundColor: '#f9f9f9', 
-                  marginLeft: '25px'
-                }}
-              >
-                <p
-                  style={{
-                    fontWeight: 'bold', 
-                    fontSize: '1.2rem', 
-                    margin: '0 10px 0 0', 
-                  }}
-                >
-                  ADMIN's NOTE
-                </p>
-                <input
-                  type="file"
-                  className="form-control"
-                  accept="image/*, .pdf"
-                  onChange={handleFileUpload}
-                  style={{
-                    maxWidth: '300px',
-                    marginLeft: '20px'
-                  }}
-                />
-              </div>
 
-            </>
-          )}
+
+{!isBooking && booking.status !== "PAYMENT SENT" && (
+  <div style={{ display: 'flex', alignItems: 'center', margin: '20px 5px', maxWidth: '600px' }}>
+    <p style={{ fontWeight: 'bold', fontSize: '1.2rem', marginRight: '15px', marginTop: '12px' }}>
+      Upload Quote Here:
+    </p>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        border: '3px solid rgb(255, 165, 0)',
+        padding: '5px 10px',
+        borderRadius: '15px',
+        backgroundColor: '#f9f9f9',
+        flex: 1
+      }}
+    >
+      <input
+        type="file"
+        className="form-control"
+        accept="image/*, .pdf"
+        onChange={handleFileChange}
+        style={{ maxWidth: '300px' }}
+      />
+    </div>
+          {/* Upload Button */}
+          {!isBooking && selectedFile && (
+          <MDBBtn
+            style={{
+              backgroundColor: buttonColor,
+              borderColor: buttonColor,
+              color: '#fff',
+              height: '50px',
+              marginLeft: '20px',
+              borderRadius: '12px'
+            }}
+            onClick={handleFileUpload}
+            disabled={loading}
+          >
+            {loading ? 'Uploading...' : 'Upload File'}
+          </MDBBtn>
+      )}
+  </div>
+)}
+
+
+
+{!isBooking && booking.status === "PAYMENT SENT" && (
+  <div style={{ display: 'flex', alignItems: 'center', margin: '20px 5px', maxWidth: '600px' }}>
+    <p style={{ fontWeight: 'bold', fontSize: '1.2rem', marginRight: '15px', marginTop: '12px' }}>
+      Upload AR Here:
+    </p>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        border: '3px solid rgb(255, 165, 0)',
+        padding: '5px 10px',
+        borderRadius: '15px',
+        backgroundColor: '#f9f9f9',
+        flex: 1
+      }}
+    >
+      <input
+        type="file"
+        className="form-control"
+        accept="image/*, .pdf"
+        onChange={handleFileChange}
+        style={{ maxWidth: '300px' }}
+      />
+    </div>
+
+          {/* Upload Button */}
+          {!isBooking && selectedFile && (
+          <MDBBtn
+            style={{
+              backgroundColor: buttonColor,
+              borderColor: buttonColor,
+              color: '#fff',
+              height: '50px',
+              marginLeft: '20px',
+              borderRadius: '12px'
+            }}
+            onClick={handleFileUpload}
+            disabled={loading}
+          >
+            {loading ? 'Uploading...' : 'Upload File'}
+          </MDBBtn>
+      )}
+  </div>
+)}
+
+
+
+      
+
+
+
+
+
         </div>
 
         {/* Back button on the right */}
         <MDBBtn
-          style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
+          style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff', width: '90px', height: '50px', borderRadius: '15px', marginTop: '25px' }}
           onClick={onBack}
         >
           Back

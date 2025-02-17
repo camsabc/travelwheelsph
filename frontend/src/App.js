@@ -94,7 +94,8 @@ import DetailsIntPackOneGuest from './pages/guestPages/DetailsIntPackOneGuest';
 import DetailsIntPackTwoGuest from './pages/guestPages/DetailsIntPackTwoGuest';
 import DestinationForm from './pages/DestinationForm';
 import DestinationFormGuest from './pages/guestPages/DestinationFormGuest';
-
+import Payment from './pages/Payment';
+import PaymentSubmit from './pages/PaymentSubmit';
 
 import DeactAccOtp from './pages/DeactAccOtp';
 
@@ -200,8 +201,8 @@ function App() {
               <Route path="/destination-form" element={<DestinationForm />} />
               <Route path="/destination-form-guest" element={<DestinationFormGuest />} />
 
-
-
+              <Route path="/payment" element={<Payment />} />
+              <Route path="/payment-submit" element={<PaymentSubmit />} />
 
             </Routes>
           </div>

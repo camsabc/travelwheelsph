@@ -24,6 +24,25 @@ function DetailsQuotation() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(quotationDetails.file);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = quotationDetails.file.split('/').pop(); // Extracts filename from URL
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading file:', error);
+    }
+  };
+  
+
   useEffect(() => {
     if (email) {
       fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
@@ -89,7 +108,7 @@ function DetailsQuotation() {
     );
 
   return (
-    <div className="d-flex flex-column h-100" style={{ backgroundColor: '#eee', fontFamily: "'Poppins', sans-serif" }}>
+    <div className="d-flex flex-column h-100" style={{ backgroundColor: '#fcfcfc', fontFamily: "'Poppins', sans-serif" }}>
       {/* Header Section */}
       <div className="bg-white py-2 mb-1" style={{ flexShrink: 0 }}>
         <MDBContainer fluid className="d-flex align-items-center justify-content-between">
@@ -138,9 +157,9 @@ function DetailsQuotation() {
 
         {/* Quotation Details Card */}
         {quotationDetails && (
-          <MDBCard className="w-100" style={{ overflowX: 'auto', backgroundColor: 'rgb(255, 222, 89)' }}>
+          <MDBCard className="w-100" style={{ overflowX: 'auto', backgroundColor: 'rgb(241, 241, 240)' }}>
             <MDBCardBody>
-              <MDBTypography tag="h2" className="text-center mb-4" style={{ fontWeight: 'bold', color: 'white' }}>
+              <MDBTypography tag="h2" className="text-center mb-4" style={{ fontWeight: 'bold', color: 'black' }}>
                 QUOTATION #{index + 1}
               </MDBTypography>
 
@@ -219,38 +238,71 @@ function DetailsQuotation() {
                 {renderAttribute('LANDMARK', quotationDetails.landmark)}
               </MDBTypography>
 
-              {quotationDetails.file && (
-                <MDBTypography tag="h5" style={{ paddingTop: '20px', fontWeight: 'bold', textAlign: 'start', paddingBottom: '10px' }}>
-                  ATTACHED FILE
-                </MDBTypography>
-              )}
+
+
 
               {quotationDetails.file && (
-                <div style={{ textAlign: 'start' }}>
-                  <embed
-                    src={quotationDetails.file}
-                    type="application/pdf"
-                    width="100%"
-                    height="500px"
-                    style={{ border: '1px solid #ddd', borderRadius: '5px' }}
-                  />
-                </div>
-              )}
+                <>
+                  <MDBTypography tag="h5" style={{ paddingTop: '20px', fontWeight: 'bold', textAlign: 'start', paddingBottom: '10px' }}>
+                    ATTACHED FILE
+                  </MDBTypography>
+                  
+                  <div style={{ textAlign: 'start' }}>
+                    <embed
+                      src={quotationDetails.file}
+                      type="application/pdf"
+                      width="100%"
+                      height="500px"
+                      style={{ border: '1px solid #ddd', borderRadius: '5px' }}
+                    />
+                  </div>
 
+                  <div className="text-center mt-3" style={{ display: 'flex', justifyContent: 'flex-start' }} >
+                  <MDBBtn color="success" onClick={handleDownload}>
+                    <i className="fas fa-download"></i> Download File
+                  </MDBBtn>
+                  </div>
+                </>
+              )}
             </MDBCardBody>
           </MDBCard>
         )}
 
-        {/* Floating Button */}
-        <MDBBtn
-          floating
-          color="primary"
-          className="position-fixed"
-          style={{ bottom: '50px', right: '110px', borderRadius: '50%', width: '50px', height: '50px', backgroundColor: 'white' }} // Increased button size
-          onClick={() => navigate(-1)}
-        >
-          <i className="fas fa-arrow-left" style={{ fontSize: '24px', color: 'rgb(255, 222, 89)' }}></i> 
-        </MDBBtn>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '20px', paddingTop: '20px' }}>
+            <button
+                type="button"
+                className="btn btn-secondary"
+                style={{
+                    fontWeight: 'bold',
+                    width: '200px',
+                    fontSize: '14px',
+                    borderRadius: '30px',
+                    backgroundColor: 'red', 
+                    border: 'none',
+                    padding: '10px 10px',
+                }}
+                onClick={() => {navigate('/quotation', { state: { email: user.email } })}}
+            >
+                Reject Quote
+            </button>
+
+            <button
+                type="button"
+                className="btn btn-primary"
+                style={{
+                    fontWeight: 'bold',
+                    width: '200px',
+                    fontSize: '14px',
+                    borderRadius: '30px',
+                    backgroundColor: 'rgb(255, 165, 0)', // Matching the request quotation button
+                    border: 'none',
+                    padding: '10px 20px',
+                }}
+                onClick={() => {navigate('/payment', { state: { id: quotationDetails._id, email: user.email } })}}
+            >
+                Book Now
+            </button>
+        </div>
 
       </MDBContainer>
     </div>

@@ -70,7 +70,7 @@ function Quotation() {
   }
 
   return (
-    <div className="d-flex flex-column vh-100" style={{ backgroundColor: '#eee' }}>
+    <div className="d-flex flex-column vh-100" style={{ backgroundColor: '#ffffff' }}>
       {/* Header Section */}
       <div className="bg-white py-2 mb-1" style={{ flexShrink: 0 }}>
             <MDBContainer fluid className="d-flex align-items-center justify-content-between">
@@ -121,40 +121,36 @@ function Quotation() {
           <MDBRow>
             {quotations.map((quotation, index) => (
               <MDBCol md="6" lg="4" className="mb-4" key={quotation.id || `fallback-${Math.random()}`}>
-                <MDBCard style={{ minHeight: '175px', position: 'relative', backgroundColor: 'rgb(255, 222, 89)' }}>
-                  <MDBCardBody>
-                    <MDBTypography tag="h3" style={{ fontWeight: 'bolder', textAlign: 'center', marginBottom: '1rem', color: 'white' }}>
+                <MDBCard style={{ border: 'none', boxShadow: 'none', minHeight: '175px', position: 'relative', backgroundColor: 'rgb(241, 241, 240)', borderRadius: '25px' }}>
+                <MDBCardBody style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1rem' }}>
+
+                    <MDBTypography tag="h4" style={{ fontWeight: 'bolder', textAlign: 'center', marginBottom: '1rem', color: 'black' }}>
                       QUOTATION #{index + 1}
                     </MDBTypography>
 
-                    <MDBTypography tag="h6" style={{ fontWeight: 'bold', textAlign: 'start' }}>
-                      Quotation Details
+                    <MDBTypography tag="p" style={{ textAlign: 'start', fontSize: '16px', paddingLeft: '10px' }}>
+                      {quotation.type} <br />
+                      Date: {new Date(quotation.startDate).toLocaleDateString()} <br />
+                      Status: {quotation.status} <br />
                     </MDBTypography>
 
-                    <MDBTypography tag="p" style={{ textAlign: 'start', fontSize: '16px' }}>
-                      Date: {new Date(quotation.startDate).toLocaleDateString()} - {new Date(quotation.endDate).toLocaleDateString()} <br />
-                      Type: {quotation.type} <br />
-                    </MDBTypography>
-
-                    <MDBTypography tag="h6" style={{ textAlign: 'start' }}>
-                      <span style={{ fontWeight: 'bold' }}>Status:</span> {quotation.status}
-                    </MDBTypography>
-
-                    <div style={{ marginTop: '50px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                      <MDBBtn
-                        rounded
-                        size="sm"
+                    <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <button
+                        type="button"
+                        className="btn btn-primary"
                         style={{
-                          backgroundColor: 'white',
-                          width: '200px',
-                          height: '40px',
                           fontWeight: 'bold',
-                          color: 'black',
+                          width: '100%',
+                          borderRadius: '30px',
+                          backgroundColor: 'rgb(255, 165, 0)',
+                          border: 'none',
+                          padding: '10px 50px',
+                          fontSize: '14px'
                         }}
                         onClick={() => handleDetailsClick(quotation._id, index)}
                       >
                         MORE DETAILS
-                      </MDBBtn>
+                      </button>
                     </div>
                   </MDBCardBody>
                 </MDBCard>

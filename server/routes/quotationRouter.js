@@ -9,6 +9,7 @@ router.get('/get-all-quotations-by-email/:email', quotationController.getQuotati
 router.get('/get-quotation-by-id/:id', quotationController.getQuotationById);
 router.post('/create-quotation', quotationController.createQuotation);
 router.patch('/:id/file', quotationController.attachFile);
+router.patch('/:id/payment', quotationController.attachPayment);
 
 router.post('/change-status', quotationController.changeStatus);
 

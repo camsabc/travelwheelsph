@@ -56,6 +56,32 @@ const attachFile = async (req, res) => {
     }
 };
 
+const attachPayment = async (req, res) => {
+    const quotationId = req.params.id; 
+    const { payment } = req.body; 
+
+    try {
+        if (!payment) {
+            return res.status(400).json({ error: 'File is required' });
+        }
+
+        const updatedQuotation = await QuotationModel.findByIdAndUpdate(
+            quotationId,
+            { payment },
+            { new: true, runValidators: true } 
+        );
+
+        if (!updatedQuotation) {
+            return res.status(404).json({ error: 'Quotation not found' });
+        }
+
+        res.json({ message: 'File attached successfully', quotation: updatedQuotation });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to attach file' });
+    }
+};
+
 
 
 
@@ -242,5 +268,6 @@ module.exports = {
     createQuotation,
     getQuotationById,
     changeStatus,
-    attachFile 
+    attachFile,
+    attachPayment
 };

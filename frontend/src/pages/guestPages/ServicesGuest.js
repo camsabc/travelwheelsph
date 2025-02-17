@@ -308,7 +308,7 @@ function ServicesGuest() {
                     padding: '10px 20px' 
                 }}
             >
-                AIRPORT TRANSFERS
+                TRANSFER
             </button>
           </MDBCol>
 

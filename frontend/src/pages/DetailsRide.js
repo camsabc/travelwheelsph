@@ -797,57 +797,6 @@ const handleQuotationSubmit = async (e) => {
 
               <MDBTypography tag="h6" className="text-start mb-3 mt-4" style={{fontWeight: 'bold'}}>Travel Information</MDBTypography>
 
-              <MDBRow>
-              <MDBCol md="6">
-              <label htmlFor="startDate" style={{ color: 'black', paddingLeft: '12px' }}>
-                    Start Date <span style={{ color: 'red' }}>*</span>
-                  </label>
-                  <input
-                    id="startDate"
-                    name="startDate"
-                    type="date"
-                    value={bookingDetails.startDate}
-                    onChange={handleChange}
-                    required
-                    className="form-control"
-                    min={new Date().toISOString().split("T")[0]}
-                    style={{
-                      border: '2px solid rgb(250, 207, 32)', 
-                      borderRadius: '15px', 
-                      boxShadow: 'none', 
-                      padding: '10px',
-                      backgroundColor: 'transparent', 
-                      width: '100%',
-                      marginBottom: '10px'
-                    }}
-                  />
-                </MDBCol>
-                <MDBCol md="6">
-                <label htmlFor="endDate" style={{ color: 'black', paddingLeft: '12px' }}>
-                    End Date <span style={{ color: 'red' }}>*</span>
-                  </label>
-                  <input
-                    id="endDate"
-                    name="endDate"
-                    type="date"
-                    value={bookingDetails.endDate}
-                    onChange={handleChange}
-                    required
-                    className="form-control"
-                    min={bookingDetails.startDate || new Date().toISOString().split("T")[0]}
-                    style={{
-                      border: '2px solid rgb(250, 207, 32)', 
-                      borderRadius: '15px', 
-                      boxShadow: 'none', 
-                      padding: '10px',
-                      backgroundColor: 'transparent', 
-                      width: '100%',
-                      marginBottom: '10px'
-                    }}
-                  />
-                </MDBCol>
-              </MDBRow>
-
 
               
               <MDBRow>
@@ -1098,8 +1047,6 @@ const handleQuotationSubmit = async (e) => {
                         !bookingDetails.firstname ||
                         !bookingDetails.email ||
                         !bookingDetails.contactNumber ||
-                        !bookingDetails.startDate ||
-                        !bookingDetails.endDate ||
                         !bookingDetails.pickupTime ||
                         !bookingDetails.pickupDate ||
                         !bookingDetails.dropoffTime ||
