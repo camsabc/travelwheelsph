@@ -142,16 +142,20 @@ function Quotation() {
                           fontWeight: 'bold',
                           width: '100%',
                           borderRadius: '30px',
-                          backgroundColor: 'rgb(255, 165, 0)',
+                          backgroundColor: quotation.disabled ? 'gray' : 'rgb(255, 165, 0)',
                           border: 'none',
                           padding: '10px 50px',
-                          fontSize: '14px'
+                          fontSize: '14px',
+                          cursor: quotation.disabled ? 'not-allowed' : 'pointer',
+                          opacity: quotation.disabled ? 0.6 : 1,
                         }}
                         onClick={() => handleDetailsClick(quotation._id, index)}
+                        disabled={quotation.disabled === 'true'}
                       >
                         MORE DETAILS
                       </button>
                     </div>
+
                   </MDBCardBody>
                 </MDBCard>
               </MDBCol>

@@ -59,7 +59,7 @@ function Payment() {
       });
 
       if (!response.ok) throw new Error('File update failed');
-      showToast('File uploaded successfully!', 'success');
+      showToast('Proof of Payment Uploaded!', 'success');
     } catch (error) {
       console.error(error);
       showToast('Error uploading file. Please try again.', 'error');
@@ -85,7 +85,7 @@ function Payment() {
       }
 
       showToast('Status changed successfully', 'success');
-      {navigate('/payment-submit', { state: { email: user.email } })}
+      navigate('/payment-submit', { state: { id: quotationId, email: user.email } })
 
     } catch (error) {
       showToast('An error occurred', 'error');
@@ -343,7 +343,7 @@ function Payment() {
                     border: 'none',
                     padding: '10px 20px',
                 }}
-                onClick={changeQuotationStatus(quotationDetails._id, "PAYMENT SENT")}
+                onClick={() => {changeQuotationStatus(quotationDetails._id, "PAYMENT SENT")}}
             >
                 Submit
             </button>

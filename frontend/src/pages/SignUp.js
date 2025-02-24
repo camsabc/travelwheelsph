@@ -147,28 +147,40 @@ const SignUp = () => {
 
               <MDBRow>
               <MDBCol md="6">
-                <label htmlFor="contactNumber" style={{ color: 'black', textAlign: 'left', display: 'block', paddingLeft: '16px', paddingBottom: '2px' }}>
-                    Contact Number 
-                  </label>
-                  <input
-                    id="contactNumber"
-                    name="contactNumber"
-                    type="text"
-                    value={contactNumber}
-                    onChange={(e) => setContactNumber(e.target.value)}
-                    required
-                    className="form-control"
-                    style={{
-                      border: '2px solid rgb(250, 207, 32)', 
-                      borderRadius: '15px', 
-                      boxShadow: 'none', 
-                      padding: '10px',
-                      backgroundColor: 'transparent', 
-                      width: '100%',
-                      marginBottom: '10px'
-                    }}
-                  />
-                </MDBCol>
+              <label
+                htmlFor="contactNumber"
+                style={{
+                  color: 'black',
+                  textAlign: 'left',
+                  display: 'block',
+                  paddingLeft: '16px',
+                  paddingBottom: '2px'
+                }}
+              >
+                Contact Number
+              </label>
+              <input
+                id="contactNumber"
+                name="contactNumber"
+                type="text"
+                value={contactNumber}
+                onChange={(e) => setContactNumber(e.target.value)}
+                required
+                pattern="\d{11}"
+                title="Please enter exactly 11 digits"
+                className="form-control"
+                style={{
+                  border: '2px solid rgb(250, 207, 32)',
+                  borderRadius: '15px',
+                  boxShadow: 'none',
+                  padding: '10px',
+                  backgroundColor: 'transparent',
+                  width: '100%',
+                  marginBottom: '10px'
+                }}
+              />
+            </MDBCol>
+
                 <MDBCol md="6">
                 <label htmlFor="bday" style={{ color: 'black', textAlign: 'left', display: 'block', paddingLeft: '16px', paddingBottom: '2px' }}>
                     Birthday

@@ -25,11 +25,14 @@ function FAQGuest() {
   const navigate = useNavigate();
   const location = useLocation();
 
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
   const [toast, setToast] = useState(null);
 
   const [expandedCards, setExpandedCards] = useState([false, false, false, false]);
 
   const [isModalOpen, setModalOpen] = useState(false);
+    const [content, setContent] = useState(null);
 
   const handleLoginClick = () => {
     setModalOpen(true);
@@ -46,10 +49,10 @@ function FAQGuest() {
   
 
   const faqData = [
-    { question: "How do I rent a vehicle through TravelTayo?", answer: " Renting with us is simple! Just head to our website or app, select your desired vehicle, dates, and location, then follow the booking process." },
-    { question: "What types of vehicles do you offer for rent?", answer: " [Answer] " },
-    { question: "Are there any age restrictions for renting a vehicle?", answer: " [Answer] " },
-    { question: "Do I need a credit card to rent a vehicle?", answer: " [Answer] " },
+    { question: content?.question1 || "Loading question...", answer: content?.answer1 || "Loading answer..." },
+    { question: content?.question2 || "Loading question...", answer: content?.answer2 || "Loading answer..." },
+    { question: content?.question3 || "Loading question...", answer: content?.answer3 || "Loading answer..." },
+    { question: content?.question4 || "Loading question...", answer: content?.answer4 || "Loading answer..." },
   ];
 
   const showToast = (message, type) => {
@@ -66,6 +69,24 @@ function FAQGuest() {
     e.preventDefault();
     showToast('Inquiry submitted successful!', 'success');
   };
+
+    useEffect(() => {
+      const fetchContent = async () => {
+        try {
+          const response = await fetch('https://travelwheelsph.onrender.com/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+          const result = await response.json();
+          if (response.ok) {
+            setContent(result);
+          } 
+        } catch (error) {
+          console.error('Error fetching content:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchContent();
+    }, []);
 
 
   return (
@@ -101,19 +122,22 @@ function FAQGuest() {
               <MDBNavbarItem style={{ margin: '0 25px' }}>
                 <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
               </MDBNavbarItem>
-              <span
-                onClick={() => {navigate('/login')}}
+              <button
+                type="button"
+                className="btn btn-primary"
                 style={{
-                  margin: '0 25px',
-                  fontSize: '1rem',
-                  color: '#000',
-                  display: 'flex',
-                  alignItems: 'center',
-                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  width: '100%',
+                  borderRadius: '30px',
+                  border: 'none',
+                  backgroundColor: 'rgb(255, 165, 0)',
+                  padding: '5x 20px',
+                  fontSize: '14px'
                 }}
+                onClick={() => navigate('/login')}
               >
-                Hi, Guest
-              </span>
+                Log In / Sign up
+              </button>
             </MDBNavbarNav>
           </MDBNavbar>
         </MDBContainer>

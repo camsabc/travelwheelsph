@@ -32,6 +32,9 @@ import bg3 from '../images/home_bg.jpg';
 const Homepage = () => {
   
   const [isModalOpen, setModalOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const navigate = useNavigate(); 
 
   const handleLoginClick = () => {
     setModalOpen(true);
@@ -45,23 +48,27 @@ const Homepage = () => {
     navigate('/login')
   };
 
-  const slides = [
-    { src: promoImage1, label: 'DAVAO' },
-    { src: promoImage2, label: 'BORACAY' },
-    { src: promoImage3, label: 'TAIWAN' },
-  ];
 
-  const feedbacks = [
-    { img: f1, label: 'Feedback 1' },
-    { img: f2, label: 'Feedback 2' },
-    { img: f3, label: 'Feedback 3' },
-  ];
+  const [content, setContent] = useState(null);
 
-  const logos = [
-    bg,
-    bg2,
-    bg3
-  ];
+
+  const slides = content ? [
+    { src: content.adventureImage1, label: 'DAVAO' },
+    { src: content.adventureImage2, label: 'BORACAY' },
+    { src: content.adventureImage3, label: 'TAIWAN' },
+  ] : [];
+
+  const feedbacks = content ? [
+    { img: content.feedbackImage1, label: 'Feedback 1' },
+    { img: content.feedbackImage2, label: 'Feedback 2' },
+    { img: content.feedbackImage3, label: 'Feedback 3' },
+  ] : [];
+
+  const logos = content ? [
+    content.bannerImage1,
+    content.bannerImage2,
+    content.bannerImage3
+  ] : [];
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -72,9 +79,43 @@ const Homepage = () => {
 
     return () => clearInterval(intervalId); // Clear interval on unmount
   }, []);
+  
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
+  }, []);
+
+if (loading) {
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <h3>Loading...</h3>
+    </div>
+  );
+}
+
+if (error) {
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <h3>{error}</h3>
+    </div>
+  );
+}
 
 
-  const navigate = useNavigate(); 
 
   return (
     <>
@@ -100,19 +141,22 @@ const Homepage = () => {
               <MDBNavbarItem style={{ margin: '0 25px' }}>
                 <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
               </MDBNavbarItem>
-              <span
-                onClick={() => {navigate('/login')}}
+              <button
+                type="button"
+                className="btn btn-primary"
                 style={{
-                  margin: '0 25px',
-                  fontSize: '1rem',
-                  color: '#000',
-                  display: 'flex',
-                  alignItems: 'center',
-                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  width: '100%',
+                  borderRadius: '30px',
+                  border: 'none',
+                  backgroundColor: 'rgb(255, 165, 0)',
+                  padding: '5x 20px',
+                  fontSize: '14px'
                 }}
+                onClick={() => navigate('/login')}
               >
-                Hi, Guest
-              </span>
+                Log In / Sign up
+              </button>
             </MDBNavbarNav>
           </MDBNavbar>
         </MDBContainer>
@@ -157,7 +201,7 @@ const Homepage = () => {
             width: '50%'
           }}
         >
-          Inspiring destinations are just within your reach.
+          {content.bannerText}
         </div>
       </div>
     ))}
@@ -168,16 +212,16 @@ const Homepage = () => {
  
     <div className="d-flex justify-content-center flex-wrap gap-3 my-4">
     {[
-        { icon: "fa-torii-gate", label: "Tour" },
-        { icon: "fa-bed", label: "Hotel" },
-        { icon: "fa-passport", label: "Passport Assistance" },
-        { icon: "fa-plane", label: "Flights" },
-        { icon: "fa-car", label: "Car Rental" },
-        { icon: "fa-bus", label: "Transfers" },
-        { icon: "fa-address-card", label: "VISA" },
-        { icon: "fa-plane-circle-check", label: "Travel Insurance" },
-        { icon: "fa-globe", label: "Educational Tour" },
-        { icon: "fa-handshake", label: "MICE" }
+      { icon: "fa-torii-gate", label: "Tour Packages", route: "/services-pack-guest" },
+      { icon: "fa-bed", label: "Hotel", route: "/hotel-guest" },
+      { icon: "fa-passport", label: "Passport Assistance", route: "/passport-guest" },
+      { icon: "fa-plane", label: "Flights", route: "/flight-guest" },
+      { icon: "fa-car", label: "Car Rental", route: "/services-ride-guest" },
+      { icon: "fa-bus", label: "Transfers", route: "/transfer-guest" },
+      { icon: "fa-address-card", label: "VISA", route: "/visa-guest" },
+      { icon: "fa-plane-circle-check", label: "Travel Insurance", route: "/insurance-guest" },
+      { icon: "fa-globe", label: "Educational Tour", route: "/services-educ-guest" },
+      { icon: "fa-handshake", label: "MICE", route: "/mice-guest" }
     ].map((item, i) => (
         <div key={i} className="d-flex flex-column align-items-center" style={{ width: '80px' }}>
             {/* Circular Icon */}
@@ -193,6 +237,7 @@ const Homepage = () => {
                     color: 'white',
                     marginBottom: '5px',
                 }}
+                onClick={() => {navigate(item.route)}}
             >
                 <i className={`fas ${item.icon}`} style={{ fontSize: '1.2rem' }}></i> 
             </div>
@@ -391,13 +436,12 @@ const Homepage = () => {
         />
       </div>
       
-      {/* 
       <div className="d-flex justify-content-center" style={{ marginTop: '10px' }}>
         {Array(5).fill().map((_, i) => (
           <i key={i} className="fas fa-star text-warning" style={{ fontSize: '1.5rem', margin: '0px 2px' }}></i>
         ))}
       </div>
-      */}
+
 
 
     </div>

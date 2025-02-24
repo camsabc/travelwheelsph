@@ -35,23 +35,26 @@ const HomepageUser = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const slides = [
-    { src: promoImage1, label: 'DAVAO' },
-    { src: promoImage2, label: 'BORACAY' },
-    { src: promoImage3, label: 'TAIWAN' },
-  ];
+  const [content, setContent] = useState(null);
 
-  const feedbacks = [
-    { img: f1, label: 'Feedback 1' },
-    { img: f2, label: 'Feedback 2' },
-    { img: f3, label: 'Feedback 3' },
-  ];
 
-  const logos = [
-    lg1,
-    lg2,
-    lg3
-  ];
+  const slides = content ? [
+    { src: content.adventureImage1, label: 'DAVAO' },
+    { src: content.adventureImage2, label: 'BORACAY' },
+    { src: content.adventureImage3, label: 'TAIWAN' },
+  ] : [];
+
+  const feedbacks = content ? [
+    { img: content.feedbackImage1, label: 'Feedback 1' },
+    { img: content.feedbackImage2, label: 'Feedback 2' },
+    { img: content.feedbackImage3, label: 'Feedback 3' },
+  ] : [];
+
+  const logos = content ? [
+    content.bannerImage1,
+    content.bannerImage2,
+    content.bannerImage3
+  ] : [];
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -86,6 +89,22 @@ const HomepageUser = () => {
         setLoading(false);
       }
     };
+
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
     fetchData();
   }, [email]);
 
@@ -186,7 +205,7 @@ if (error) {
             width: '50%'
           }}
         >
-          Inspiring destinations are just within your reach.
+          {content.bannerText}
         </div>
       </div>
     ))}
@@ -196,18 +215,19 @@ if (error) {
 
 
 
+ 
     <div className="d-flex justify-content-center flex-wrap gap-3 my-4">
     {[
-        { icon: "fa-torii-gate", label: "Tour" },
-        { icon: "fa-bed", label: "Hotel" },
-        { icon: "fa-passport", label: "Passport Assistance" },
-        { icon: "fa-plane", label: "Flights" },
-        { icon: "fa-car", label: "Car Rental" },
-        { icon: "fa-bus", label: "Transfers" },
-        { icon: "fa-address-card", label: "VISA" },
-        { icon: "fa-plane-circle-check", label: "Travel Insurance" },
-        { icon: "fa-globe", label: "Educational Tour" },
-        { icon: "fa-handshake", label: "MICE" }
+      { icon: "fa-torii-gate", label: "Tour Packages", route: "/services-portal", serviceName: "Tour" },
+      { icon: "fa-bed", label: "Hotel", route: "/hotel", serviceName: "" },
+      { icon: "fa-passport", label: "Passport Assistance", route: "/passport", serviceName: "" },
+      { icon: "fa-plane", label: "Flights", route: "/flight", serviceName: "Flight Booking" },
+      { icon: "fa-car", label: "Car Rental", route: "/services-portal", serviceName: "Ride" },
+      { icon: "fa-bus", label: "Transfers", route: "/services-portal", serviceName: "Transfer" },
+      { icon: "fa-address-card", label: "VISA", route: "/services-portal", serviceName: "Visa" },
+      { icon: "fa-plane-circle-check", label: "Travel Insurance", route: "/services-portal", serviceName: "Travel Insurance" },
+      { icon: "fa-globe", label: "Educational Tour", route: "/services-portal", serviceName: "Educational Tour" },
+      { icon: "fa-handshake", label: "MICE", route: "/mice", serviceName: "Special Services" }
     ].map((item, i) => (
         <div key={i} className="d-flex flex-column align-items-center" style={{ width: '80px' }}>
             {/* Circular Icon */}
@@ -223,6 +243,7 @@ if (error) {
                     color: 'white',
                     marginBottom: '5px',
                 }}
+                onClick={() => navigate(item.route, { state: { serviceName: item.serviceName, email: user.email } })}
             >
                 <i className={`fas ${item.icon}`} style={{ fontSize: '1.2rem' }}></i> 
             </div>
@@ -425,13 +446,11 @@ if (error) {
       </div>
       
       
-      {/* 
       <div className="d-flex justify-content-center" style={{ marginTop: '10px' }}>
         {Array(5).fill().map((_, i) => (
           <i key={i} className="fas fa-star text-warning" style={{ fontSize: '1.5rem', margin: '0px 2px' }}></i>
         ))}
       </div>
-      */}
 
 
     </div>

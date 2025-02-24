@@ -47,12 +47,13 @@ function FAQ() {
   const [toast, setToast] = useState(null);
 
   const [expandedCards, setExpandedCards] = useState([false, false, false, false]);
+    const [content, setContent] = useState(null);
 
   const faqData = [
-    { question: "How do I rent a vehicle through TravelTayo?", answer: " Renting with us is simple! Just head to our website or app, select your desired vehicle, dates, and location, then follow the booking process." },
-    { question: "What types of vehicles do you offer for rent?", answer: " [Answer] " },
-    { question: "Are there any age restrictions for renting a vehicle?", answer: " [Answer] " },
-    { question: "Do I need a credit card to rent a vehicle?", answer: " [Answer] " },
+    { question: content?.question1 || "Loading question...", answer: content?.answer1 || "Loading answer..." },
+    { question: content?.question2 || "Loading question...", answer: content?.answer2 || "Loading answer..." },
+    { question: content?.question3 || "Loading question...", answer: content?.answer3 || "Loading answer..." },
+    { question: content?.question4 || "Loading question...", answer: content?.answer4 || "Loading answer..." },
   ];
 
   const showToast = (message, type) => {
@@ -92,6 +93,21 @@ function FAQ() {
         setLoading(false);
       }
     };
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
     fetchData();
   }, [email]);
 

@@ -54,6 +54,8 @@ const packageRoutes = require('./routes/packageRouter');
 const inquiryRoutes = require('./routes/inquiryRouter');
 const promoRoutes = require('./routes/promoRouter');
 const deactRoutes = require('./routes/deactRouter');
+const feedbackRoutes = require('./routes/feedbackRouter');
+const contentRoutes = require('./routes/contentRouter');
 
 app.get('/', (req, res) => {
   res.send('Hello, World!');
@@ -385,6 +387,8 @@ app.use('/api/packs', packageRoutes);
 app.use('/api/inquiries', inquiryRoutes); 
 app.use('/api/promos', promoRoutes); 
 app.use('/api/deacts', deactRoutes); 
+app.use('/api/feedbacks', feedbackRoutes); 
+app.use('/api/contents', contentRoutes);
 
 /* Start the server */
 const PORT = process.env.PORT || 3000;

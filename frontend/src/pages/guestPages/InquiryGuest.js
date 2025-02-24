@@ -79,19 +79,22 @@ function InquiryGuest() {
                     Inquiry
                 </MDBNavbarLink>
               </MDBNavbarItem>
-              <span
-                onClick={() => {navigate('/login')}}
+              <button
+                type="button"
+                className="btn btn-primary"
                 style={{
-                  margin: '0 25px',
-                  fontSize: '1rem',
-                  color: '#000',
-                  display: 'flex',
-                  alignItems: 'center',
-                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  width: '100%',
+                  borderRadius: '30px',
+                  border: 'none',
+                  backgroundColor: 'rgb(255, 165, 0)',
+                  padding: '5x 20px',
+                  fontSize: '14px'
                 }}
+                onClick={() => navigate('/login')}
               >
-                Hi, Guest
-              </span>
+                Log In / Sign up
+              </button>
             </MDBNavbarNav>
           </MDBNavbar>
         </MDBContainer>
@@ -161,6 +164,17 @@ function InquiryGuest() {
                 <MDBTypography tag="h3" style={{ color: 'rgb(250, 165, 0)', fontWeight: 'bolder' }}>
                   SEND AN INQUIRY
                 </MDBTypography>
+
+                              <MDBTypography className="text-center mb-4" style={{ color: 'black', fontSize: '18px' }}>
+                                <span
+                                  style={{ fontWeight: 'bold', cursor: 'pointer', textDecoration: 'underline' }}
+                                  onClick={() => navigate('/login')}
+                                > Sign in </span>{' '}or{' '}
+                                <span
+                                  style={{ fontWeight: 'bold', cursor: 'pointer', textDecoration: 'underline'}}
+                                  onClick={() => navigate('/signup')}
+                                > Sign up </span>{' '}here to request a quotation!
+                              </MDBTypography>
 
                 {/* Inquiry Textarea */}
                 <div className="mb-3"> 

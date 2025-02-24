@@ -142,11 +142,13 @@ const createQuotation = (req, res) => {
         contactNumberForeign,
         province,
         city,
-        occuputation,
+        occupation,
         officeNumber,
         officeDetails,
         fullAddress,
         landmark,
+        passengers,
+        disabled,
         num,
         type,
         db
@@ -208,13 +210,15 @@ const createQuotation = (req, res) => {
         contactNumberForeign,
         province,
         city,
-        occuputation,
+        occupation,
         officeNumber,
         officeDetails,
         fullAddress,
+        passengers,
         landmark,
         num: generateRandomNumber(), 
         type,
+        disabled: 'false',
         db: 'quotation'
     });
 
@@ -262,6 +266,24 @@ const changeStatus = (req, res) => {
         });
 };
 
+/* Changes the activity of a particular quotation using unique id */
+const toggleQuotation = (req, res) => {
+    const { quotationId, disabled } = req.body;
+
+
+    QuotationModel.findByIdAndUpdate(quotationId, { disabled }, { new: true })
+        .then(updatedQuotation => {
+            if (!updatedQuotation) {
+                return res.status(404).json({ error: 'Quotation not found' });
+            }
+            res.json(updatedQuotation);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ error: 'Failed to change status' });
+        });
+};
+
 module.exports = {
     getAllQuotations,
     getQuotationByEmail,
@@ -269,5 +291,6 @@ module.exports = {
     getQuotationById,
     changeStatus,
     attachFile,
-    attachPayment
+    attachPayment,
+    toggleQuotation
 };

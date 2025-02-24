@@ -10,11 +10,13 @@ router.get('/get-user/:id', userController.getUserById);
 router.put('/edit-user/:id', userController.editUser); 
 
 router.post('/signin', userController.signIn);
+router.post('/create-staff-account', userController.createStaffAccount);
 router.get('/get-user-by-email/:email', userController.getUserByEmail);
 router.post('/signup', userController.newAccount);
 router.get('/get-all-emails', userController.getAllEmails);
 router.patch('/:id/profile-image', userController.setProfileImage);
 
-router.delete('/delete-user/:id', userController.deleteUser);
+router.delete('/delete-user', userController.deleteUser);
+router.patch('/update-service-role', userController.changeServiceHandle);
 
 module.exports = router;

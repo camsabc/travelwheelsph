@@ -27,6 +27,7 @@ function HotelDetails() {
   const { email } = location.state || {};
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [content, setContent] = useState(null);
 
   const [toast, setToast] = useState(null);
   const [passengers, setPassengers] = useState([]);
@@ -378,6 +379,21 @@ const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => 
         setLoading(false);
       }
     };
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
     fetchData();
   }, [email]);
 
@@ -446,7 +462,7 @@ const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => 
   </MDBContainer>
 </div>
     <div className="d-flex flex-column min-vh-100" style={{
-      backgroundImage: `url(${backgroundImage})`,
+      backgroundImage: `url(${content?.backgroundImage || ''})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
@@ -474,7 +490,7 @@ const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => 
           fontSize: '16px',
         }}
       >
-        We provide access to a wide range of hotels, from luxurious resorts to budget-friendly options, ensuring you find the perfect stay
+        {content?.subtitle || "We provide access to a wide range of hotels, from luxurious resorts to budget-friendly options, ensuring you find the perfect stay"}
       </MDBTypography>
 
       <MDBContainer className="flex-grow-1 d-flex align-items-center justify-content-center">
@@ -889,7 +905,7 @@ const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => 
       </MDBRow>
 
   <MDBRow className="mt-3">
-                  <MDBCol md="8" className="d-flex align-items-center">
+                  <MDBCol md="6" className="d-flex align-items-center">
                     <input 
                       type="checkbox" 
                       id="termsCheckbox" 
@@ -897,18 +913,41 @@ const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => 
                       onChange={handleCheckboxChange} 
                       style={{ marginRight: '10px' }} 
                     />
-                    <label htmlFor="termsCheckbox">
-                      By clicking this, you agree to our{' '}
+                    <label htmlFor="termsCheckbox" style={{ fontSize: '15px'}}>
+                      By clicking this, you agree to {' '}
                       <span 
                         onClick={() => navigate('/terms-and-conditions', { state: { email: user.email }})}
                         style={{ 
                           color: '#68BBE3', 
-                          cursor: 'pointer' 
+                          cursor: 'pointer' ,
+                          fontSize: '15px'
                         }}
                       >
-                        Terms and Conditions
+                        Terms & Conditions
                       </span>.
                     </label>
+                  </MDBCol>
+
+                  
+                  <MDBCol md="2" className="d-flex align-items-center">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      style={{
+                        fontWeight: 'bold',
+                        width: '100%',
+                        borderRadius: '30px',
+                        backgroundColor: 'white',
+                        border: 'solid',
+                        borderColor: 'rgb(255, 165, 0)',
+                        borderWidth: '3px',
+                        padding: '10px 5px',
+                        color: 'rgb(255, 165, 0)',
+                      }}
+                      onClick={() => navigate('/services', { state: { email: user.email } })}
+                    >
+                      BACK
+                    </button>
                   </MDBCol>
 
                   <MDBCol md="4" className="d-flex align-items-center">

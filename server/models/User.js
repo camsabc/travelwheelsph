@@ -41,6 +41,14 @@ const UserSchema = mongoose.Schema({
     bday: {
         type: Date,
         required: false
+    },
+    serviceHandle: {
+        type: String,
+        required: false
+    },
+    accountStatus: {
+        type: String,
+        required: false
     }
 });
 

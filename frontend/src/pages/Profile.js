@@ -158,43 +158,6 @@ function Profile() {
           {/* Mini Cards on the Right Side */}
           <MDBCol md="6" xl="8">
             <MDBRow>
-              {/* First Row */}
-              <MDBCol md="6" lg="6" className="mb-4">
-                <MDBCard style={{ minHeight: '175px', position: 'relative' }}>
-                  <MDBCardBody className="d-flex flex-column align-items-center justify-content-center">
-                    <MDBIcon icon="calendar-days" size="4x" style={{ color: 'rgb(148, 0, 211)' }} className="mb-3" />
-                    <MDBTypography tag="h6" style={{ fontWeight: 'bold' }}>Past Transactions</MDBTypography>
-                  </MDBCardBody>
-                  <div style={{ 
-                    position: 'absolute', 
-                    bottom: 0, 
-                    left: 0, 
-                    width: '100%', 
-                    height: '5px', 
-                    backgroundColor: 'rgb(148, 0, 211)' 
-                  }} />
-                </MDBCard>
-              </MDBCol>
-
-              <MDBCol md="6" lg="6" className="mb-4">
-                <MDBCard style={{ minHeight: '175px', position: 'relative' }} onClick={handleUpcomingBookingClick}>
-                  <MDBCardBody className="d-flex flex-column align-items-center justify-content-center">
-                    <MDBIcon icon="book" size="4x" style={{ color: 'rgb(61, 132, 185)' }} className="mb-3" />
-                    <MDBTypography tag="h6" style={{ fontWeight: 'bold' }}>Upcoming Booking</MDBTypography>
-                  </MDBCardBody>
-                  <div style={{ 
-                    position: 'absolute', 
-                    bottom: 0, 
-                    left: 0, 
-                    width: '100%', 
-                    height: '5px', 
-                    backgroundColor: 'rgb(61, 132, 185)' 
-                  }} />
-                </MDBCard>
-              </MDBCol>
-            </MDBRow>
-
-            <MDBRow>
               {/* Second Row */}
               <MDBCol md="6" lg="6" className="mb-4">
                 <MDBCard style={{ minHeight: '175px', position: 'relative' }} onClick={handleInquiryClick}>
@@ -226,6 +189,43 @@ function Profile() {
                     width: '100%', 
                     height: '5px', 
                     backgroundColor: 'rgb(255, 165, 0)' 
+                  }} />
+                </MDBCard>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              {/* First Row */}
+              <MDBCol md="6" lg="6" className="mb-4">
+                <MDBCard style={{ minHeight: '175px', position: 'relative' }} onClick={handleUpcomingBookingClick}>
+                  <MDBCardBody className="d-flex flex-column align-items-center justify-content-center">
+                    <MDBIcon icon="book" size="4x" style={{ color: 'rgb(61, 132, 185)' }} className="mb-3" />
+                    <MDBTypography tag="h6" style={{ fontWeight: 'bold' }}>Upcoming Booking</MDBTypography>
+                  </MDBCardBody>
+                  <div style={{ 
+                    position: 'absolute', 
+                    bottom: 0, 
+                    left: 0, 
+                    width: '100%', 
+                    height: '5px', 
+                    backgroundColor: 'rgb(61, 132, 185)' 
+                  }} />
+                </MDBCard>
+              </MDBCol>
+
+              <MDBCol md="6" lg="6" className="mb-4">
+                <MDBCard style={{ minHeight: '175px', position: 'relative' }}>
+                  <MDBCardBody className="d-flex flex-column align-items-center justify-content-center">
+                    <MDBIcon icon="calendar-days" size="4x" style={{ color: 'rgb(148, 0, 211)' }} className="mb-3" />
+                    <MDBTypography tag="h6" style={{ fontWeight: 'bold' }}>Past Bookings</MDBTypography>
+                  </MDBCardBody>
+                  <div style={{ 
+                    position: 'absolute', 
+                    bottom: 0, 
+                    left: 0, 
+                    width: '100%', 
+                    height: '5px', 
+                    backgroundColor: 'rgb(148, 0, 211)' 
                   }} />
                 </MDBCard>
               </MDBCol>

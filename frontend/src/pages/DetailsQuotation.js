@@ -41,6 +41,28 @@ function DetailsQuotation() {
       console.error('Error downloading file:', error);
     }
   };
+
+  const handleButtonClick = async (quotationId, disabled, type) => {
+    try {
+      const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/toggle', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ quotationId, disabled }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to change status');
+      }
+
+      if (type == 'book') {navigate('/payment', { state: { id: quotationDetails._id, email: user.email } })}
+      else {navigate('/quotation', { state: { email: user.email } })}
+
+    } catch (error) {
+      console.log('error');
+    }
+  };
   
 
   useEffect(() => {
@@ -281,7 +303,7 @@ function DetailsQuotation() {
                     border: 'none',
                     padding: '10px 10px',
                 }}
-                onClick={() => {navigate('/quotation', { state: { email: user.email } })}}
+                onClick={() => {handleButtonClick(quotationDetails._id, 'true', 'reject')}}
             >
                 Reject Quote
             </button>
@@ -298,7 +320,7 @@ function DetailsQuotation() {
                     border: 'none',
                     padding: '10px 20px',
                 }}
-                onClick={() => {navigate('/payment', { state: { id: quotationDetails._id, email: user.email } })}}
+                onClick={() => {handleButtonClick(quotationDetails._id, 'true', 'book')}}
             >
                 Book Now
             </button>

@@ -303,19 +303,22 @@ const handleQuotationSubmit = async (e) => {
               <MDBNavbarItem style={{ margin: '0 25px' }}>
                 <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
               </MDBNavbarItem>
-              <span
-                onClick={() => {navigate('/login')}}
+              <button
+                type="button"
+                className="btn btn-primary"
                 style={{
-                  margin: '0 25px',
-                  fontSize: '1rem',
-                  color: '#000',
-                  display: 'flex',
-                  alignItems: 'center',
-                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  width: '100%',
+                  borderRadius: '30px',
+                  border: 'none',
+                  backgroundColor: 'rgb(255, 165, 0)',
+                  padding: '5x 20px',
+                  fontSize: '14px'
                 }}
+                onClick={() => navigate('/login')}
               >
-                Hi, Guest
-              </span>
+                Log In / Sign up
+              </button>
             </MDBNavbarNav>
           </MDBNavbar>
         </MDBContainer>
@@ -358,6 +361,16 @@ const handleQuotationSubmit = async (e) => {
           >
 
             <MDBCardBody>
+              <MDBTypography className="text-center mb-4" style={{ color: 'rgb(255, 165, 0)', fontSize: '18px' }}>
+                <span
+                  style={{ fontWeight: 'bold', cursor: 'pointer', textDecoration: 'underline' }}
+                  onClick={() => navigate('/login')}
+                > Sign in </span>{' '}or{' '}
+                <span
+                  style={{ fontWeight: 'bold', cursor: 'pointer', textDecoration: 'underline'}}
+                  onClick={() => navigate('/signup')}
+                > Sign up </span>{' '}here to request a quotation!
+              </MDBTypography>
               <MDBTypography tag="h5" className="text-center mb-4">
                 Kindly complete the details below:
               </MDBTypography>
@@ -747,27 +760,50 @@ const handleQuotationSubmit = async (e) => {
   </MDBRow>
 
   <MDBRow className="mt-3">
-                <MDBCol md="8" className="d-flex align-items-center">
-                  <input 
-                    type="checkbox" 
-                    id="termsCheckbox" 
-                    checked={isChecked} 
-                    onChange={handleCheckboxChange} 
-                    style={{ marginRight: '10px' }} 
-                  />
-                  <label htmlFor="termsCheckbox">
-                    By clicking this, you agree to our{' '}
-                    <span 
-                      onClick={() => navigate('/terms-and-conditions-guest')}
-                      style={{ 
-                        color: '#68BBE3', 
-                        cursor: 'pointer' 
+    <MDBCol md="6" className="d-flex align-items-center">
+                    <input 
+                      type="checkbox" 
+                      id="termsCheckbox" 
+                      checked={isChecked} 
+                      onChange={handleCheckboxChange} 
+                      style={{ marginRight: '10px' }} 
+                    />
+                    <label htmlFor="termsCheckbox" style={{ fontSize: '15px'}}>
+                      By clicking this, you agree to {' '}
+                      <span 
+                        onClick={() => navigate('/terms-and-conditions-guest')}
+                        style={{ 
+                          color: '#68BBE3', 
+                          cursor: 'pointer' ,
+                          fontSize: '15px'
+                        }}
+                      >
+                        Terms & Conditions
+                      </span>.
+                    </label>
+                  </MDBCol>
+
+                  
+                  <MDBCol md="2" className="d-flex align-items-center">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      style={{
+                        fontWeight: 'bold',
+                        width: '100%',
+                        borderRadius: '30px',
+                        backgroundColor: 'white',
+                        border: 'solid',
+                        borderColor: 'rgb(255, 165, 0)',
+                        borderWidth: '3px',
+                        padding: '10px 5px',
+                        color: 'rgb(255, 165, 0)',
                       }}
+                      onClick={() => navigate('/services-guest')}
                     >
-                      Terms and Conditions
-                    </span>.
-                  </label>
-                </MDBCol>
+                      BACK
+                    </button>
+                  </MDBCol>
 
                 <MDBCol md="4" className="d-flex align-items-center">
                   <button

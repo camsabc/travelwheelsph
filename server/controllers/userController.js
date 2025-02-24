@@ -180,6 +180,64 @@ const deleteUser = async (req, res) => {
     }
 };
 
+const createStaffAccount = async (req, res) => {
+    try {
+        const { firstname, lastname, email, password, contactNumber, serviceHandle } = req.body;
+
+        // Check if the email already exists
+        const existingUser = await UserModel.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ error: 'Email is already registered' });
+        }
+
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Create the staff user object
+        const staffUser = new UserModel({
+            firstname,
+            lastname,
+            email,
+            serviceHandle,
+            password: hashedPassword,
+            contactNumber,
+            type: "staff", 
+            isVerified: false,
+            accountStatus: "active",
+        });
+
+        // Save to the database
+        await staffUser.save();
+
+        res.status(201).json({ message: 'Staff account created successfully', user: staffUser });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to create staff account' });
+    }
+};
+
+
+/* Changes the service handle of a particular user using email as unique identifier */
+const changeServiceHandle = (req, res) => {
+    const { email, serviceHandle } = req.body;
+
+    console.log(email);
+
+    UserModel.findOneAndUpdate({ email }, { serviceHandle }, { new: true })
+        .then(updatedUser => {
+            if (!updatedUser) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+            res.json(updatedUser);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ error: 'Failed to change status' });
+        });
+};
+
+
+
 module.exports = {
     getUsers,
     getUserById,
@@ -189,6 +247,8 @@ module.exports = {
     newAccount,
     getAllEmails,
     setProfileImage,
-    deleteUser, 
+    deleteUser,
+    createStaffAccount, 
+    changeServiceHandle
 };
 

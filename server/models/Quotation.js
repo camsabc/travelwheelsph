@@ -233,6 +233,10 @@ const QuotationSchema = mongoose.Schema({
     dropoffDate: {
         type: Date,
         required: false
+    },
+    disabled: {
+        type: String,
+        required: false
     }
 });
 

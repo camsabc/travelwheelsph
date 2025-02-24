@@ -52,7 +52,6 @@ import OtpRequest from './pages/OtpRequest';
 import ChangePass from './pages/ChangePass';
 
 import EditProfile from './pages/EditProfile';
-import FeedbackGuest from './pages/guestPages/FeedbackGuest';
 import Feedback from './pages/Feedback';
 import PaymentConfirmation from './pages/PaymentConfirmation';
 
@@ -158,7 +157,7 @@ function App() {
               <Route path="/payment-confirmation" element={<PaymentConfirmation/>}/>
               <Route path="/edit-profile" element={<EditProfile/>}/>
               <Route path="/feedback" element={<Feedback/>}/>
-              <Route path="/feedback-guest" element={<FeedbackGuest/>}/>
+  
 
               <Route path="/payment-confirmation" element={<PaymentConfirmation/>}/>
 

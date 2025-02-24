@@ -28,37 +28,64 @@ const PaymentSubmit = () => {
     const [error, setError] = useState('');
     const location = useLocation();
     const navigate = useNavigate();
-    const { email } = location.state || {};
+    const { id, email } = location.state || {}; 
+    const [quotationDetails, setQuotationDetails] = useState(null);
+    const [quotations, setQuotations] = useState([]); 
   
-    useEffect(() => {
-      if (email) {
-        fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
-          .then(response => response.json())
-          .then(data => {
-            if (data.error) {
-              setError(data.error);
-            } else {
-              setUser(data);
-            }
-            setLoading(false);  
-          })
-          .catch(err => {
-            console.error('Error fetching user:', err);
-            setError('Failed to fetch user data.');
+
+  useEffect(() => {
+    if (email) {
+      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            setError(data.error);
             setLoading(false);
-          });
-      } else {
-        setLoading(false);  
-      }
-    }, [email]);
-  
-    if (loading) {
-      return <div className="text-center">Loading...</div>;
+          } else {
+            setUser(data);
+
+            return fetch(`https://travelwheelsph.onrender.com/api/quotations/get-all-quotations-by-email/${email}`);
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            setError(data.error);
+          } else {
+            setQuotations(data);
+            if (id) {
+              return fetch(`https://travelwheelsph.onrender.com/api/quotations/get-quotation-by-id/${id}`);
+            }
+          }
+          setLoading(false);
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            setError(data.error);
+          } else {
+            console.log(data)
+            setQuotationDetails(data);
+          }
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error('Error fetching data:', err);
+          setError('Failed to fetch data.');
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
     }
-  
-    if (error) {
-      return <div className="text-center">{error}</div>;
-    }
+  }, [id, email]);
+
+  if (loading) {
+    return <div className="text-center">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center">{error}</div>;
+  }
 
     return (
         <>
@@ -102,19 +129,45 @@ const PaymentSubmit = () => {
         <div className="confirmation-container">
             <div className="confirmation-content">
                 <div className="confirmation-message">
-                <div className="confirmation-icon">
-                    {/* You can add an icon here if needed */}
-                </div>
                 <h1 style={{fontWeight: 'bolder'}}> <i className="fas fa-circle-check" style={{fontSize: '50px', paddingRight: '15px'}}></i>  We’ve received your payment!</h1>
                 <p>You will receive an email confirmation about your acknowledged receipt soon! Thank you!</p>
 
-                <button 
-                    className="back-home-link" 
-                    onClick={() => navigate('/home-user', {state: { email: user.email }})}
-                    style={{ cursor: 'pointer', background: 'none', border: 'none', color: '#007bff', textDecoration: 'underline', padding: '0' }}
-                >
-                    Back to Homepage
-                </button>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '20px', paddingTop: '20px' }}>
+                  <button
+                      type="button"
+                      className="btn btn-primary"
+                      style={{
+                          fontWeight: 'bold',
+                          width: '200px',
+                          fontSize: '14px',
+                          borderRadius: '30px',
+                          backgroundColor: 'rgb(255, 165, 0)',
+                          border: 'none',
+                          padding: '10px 20px',
+                      }}
+                      onClick={() => navigate('/feedback', { state: { id: quotationDetails._id, email: user.email }})}
+                  >
+                      Give us a feedback
+                  </button>
+
+                  <button
+                      type="button"
+                      className="btn btn-primary"
+                      style={{
+                          fontWeight: 'bold',
+                          width: '200px',
+                          fontSize: '14px',
+                          borderRadius: '30px',
+                          backgroundColor: 'rgb(255, 165, 0)',
+                          border: 'none',
+                          padding: '10px 20px',
+                      }}
+                      onClick={() => navigate('/home-user', { state: { email: user.email }})}
+                  >
+                      Back to Homepage
+                  </button>
+              </div>
+
                 </div>
             </div>
             </div>

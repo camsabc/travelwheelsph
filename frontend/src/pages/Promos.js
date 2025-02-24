@@ -26,6 +26,7 @@ function Promos() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [content, setContent] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,6 +50,22 @@ function Promos() {
         setLoading(false);
       }
     };
+
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
     fetchData();
   }, [email]);
 
@@ -109,7 +126,8 @@ if (error) {
                   cursor: 'pointer',
                 }}
               >
-                Hi, {user.firstname}
+                Hi, {user?.firstname || 'Guest'}
+
               </span>
             </MDBNavbarNav>
           </MDBNavbar>
@@ -155,7 +173,7 @@ if (error) {
                 fontSize: '35px', 
             }}
             >
-            BOOK YOUR NEXT VACATION WITH OUR SALE!!!
+            {content?.promoTitle || 'Promo'}
         </MDBTypography>
 
       <MDBContainer className="my-4">
@@ -163,14 +181,14 @@ if (error) {
           {/* Column 1 */}
           <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center">
             <MDBCardImage
-              src={promoImage1}
+              src={content.promoImage1}
               alt="Promo 1"
               className="img-fluid"
               style={{ width: '300px', height: '300px', objectFit: 'cover' }}
               
             />
             <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
-                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>PHP 3,999</span>
+                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{content.promoText1}</span>
             </h5>
 
             <button 
@@ -195,13 +213,13 @@ if (error) {
           {/* Column 2 */}
           <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center">
             <MDBCardImage
-              src={promoImage2}
+              src={content.promoImage2}
               alt="Promo 2"
               className="img-fluid"
               style={{ width: '300px', height: '300px', objectFit: 'cover' }} 
             />
             <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
-                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>PHP 4,999</span>
+                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{content.promoText2}</span>
             </h5>
 
             <button 
@@ -225,14 +243,14 @@ if (error) {
           {/* Column 3 */}
           <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center">
             <MDBCardImage
-              src={promoImage3}
+              src={content.promoImage3}
               alt="Promo 3"
               className="img-fluid"
               style={{ width: '300px', height: '300px', objectFit: 'cover' }} 
               
             />
             <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
-                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>PHP 3,999</span>
+                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{content.promoText3}</span>
             </h5> 
 
             <button 

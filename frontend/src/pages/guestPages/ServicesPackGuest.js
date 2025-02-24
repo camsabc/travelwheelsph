@@ -36,6 +36,7 @@ function ServicesPackGuest() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [content, setContent] = useState(null);
 
 
   const [isModalOpen, setModalOpen] = useState(false);
@@ -57,17 +58,17 @@ function ServicesPackGuest() {
   const getImageForPack = (picsValue) => {
     switch (picsValue) {
       case 1:
-        return pack1;
+        return content?.domesticImage1 || "Loading Image...";
       case 2:
-        return pack2;
+        return content?.domesticImage2 || "Loading Image...";
       case 3:
-        return pack3;
+        return content?.domesticImage3 || "Loading Image...";
       case 4:
-        return pack4;
+        return content?.internationalImage1 || "Loading Image...";
       case 5:
-        return pack5;
+        return content?.internationalImage2 || "Loading Image...";
       case 6:
-        return pack6;
+        return content?.internationalImage3 || "Loading Image...";
     default:
         return null; 
     }
@@ -91,6 +92,22 @@ function ServicesPackGuest() {
                 setLoading(false);
             }
     };
+
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
     fetchData();
 }, []);
 
@@ -140,20 +157,22 @@ function ServicesPackGuest() {
                 <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
               </MDBNavbarItem>
 
-              <span
-                onClick={() => {navigate('/login')}}
+              <button
+                type="button"
+                className="btn btn-primary"
                 style={{
-                  margin: '0 25px',
-                  fontSize: '1rem',
-                  color: '#000',
-                  display: 'flex',
-                  alignItems: 'center',
-                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  width: '100%',
+                  borderRadius: '30px',
+                  border: 'none',
+                  backgroundColor: 'rgb(255, 165, 0)',
+                  padding: '5x 20px',
+                  fontSize: '14px'
                 }}
+                onClick={() => navigate('/login')}
               >
-
-              Hi, Guest
-              </span>
+                Log In / Sign up
+              </button>
             </MDBNavbarNav>
           </MDBNavbar>
         </MDBContainer>

@@ -15,10 +15,19 @@ import SideNavbar from '../components/SideNavbar';
 import BookingDetails from '../components/BookingDetails';
 import InquiryDetails from '../components/InquiryDetails';
 import UserDetails from '../components/UserDetails';
+import Dashboard from '../components/Dashboard';
+import EmployeeDetails from '../components/EmployeeDetails';
+import CreateStaffAccount from '../components/CreateStaffAccount';
+import ContentManagementHomepage from '../components/ContentManagementHomepage';
+import ContentManagementPromo from '../components/ContentManagementPromo';
+import ContentManagementFAQ from '../components/ContentManagementFAQ';
+import ContentManagementTour from '../components/ContentManagementTour';
+import ContentManagementHotel from '../components/ContentManagementHotel';
+import ContentManagementCar from '../components/ContentManagementCar';
 
 function Admin() {
   const location = useLocation();
-  const { name } = location.state || {};
+  const { name, role } = location.state || {};
   const navigate = useNavigate(); 
 
   const [currentContent, setCurrentContent] = useState('Quotation Management');
@@ -30,6 +39,36 @@ function Admin() {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [selectedInquiry, setSelectedInquiry] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [selectedCreateStaffAccount, setSelectedCreateStaffAccount] = useState(null);
+
+  const hasAccess = (section) => {
+    const access = {
+
+      'client services coordinator': ['Booking Management', 'Quotation Management', 'User Account Management', 'User Account', 'Employee Account', 'Logout'],
+
+      'sales executive': ['Content Management', 'Homepage', 'Tour Package', 'Promo', 'Car Rental', 'Hotel Booking', 'FAQ', 'User Account Management', 'User Account', 'Employee Account', 'Logout'],
+ 
+      'admin': [
+        'Dashboard',
+        'Booking Management',
+        'Quotation Management',
+        'Inquiry Management',
+        'User Account Management',
+        'Content Management',
+        'User Account',
+        'Employee Account',
+        'Homepage',
+        'Tour Package',
+        'Car Rental',
+        'Hotel Booking',
+        'Promo',
+        'FAQ',
+        'Logout'
+      ],
+    };
+    return access[role] && access[role].includes(section);
+  };
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -429,7 +468,7 @@ function Admin() {
     <div className="d-flex flex-column h-100" style={{ backgroundColor: '#fff' }}>
       <h2 className="text-center h1 mb-4" style={{ fontWeight: 'bolder', color: 'rgb(255, 165, 0)' }}>USER ACCOUNT MANAGEMENT</h2>
       <div style={{ borderTop: '2px solid rgb(255, 165, 0)', width: '100%', marginBottom: '0', zIndex: '1' }}></div>
-
+  
       <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none', width: '100%', padding: '0' }}>
         <MDBNavbarNav className="d-flex w-100" style={{ width: '100%', padding: '0' }}>
           {['All Users'].map(filter => (
@@ -455,18 +494,18 @@ function Admin() {
           ))}
         </MDBNavbarNav>
       </MDBNavbar>
-
+  
       <div style={{ borderBottom: '2px solid rgb(255, 165, 0)', width: '100%', marginTop: '0', zIndex: '1' }}></div>
-
-      <div className="mt-3 text-center">
+  
+      <div className="text-center">
         <div style={{ overflowX: 'auto' }}>
           <table className="table table-striped" style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
                 <th style={{ fontWeight: 'bold' }}>Email</th>
                 <th style={{ fontWeight: 'bold' }}>Full Name</th>
-                <th style={{ fontWeight: 'bold' }}>Contact Number</th>
-                <th style={{ fontWeight: 'bold' }}>Type</th>
+                <th style={{ fontWeight: 'bold' }}>Service Handle</th>
+                <th style={{ fontWeight: 'bold' }}>Account Status</th>
                 <th style={{ fontWeight: 'bold' }}></th>
               </tr>
             </thead>
@@ -476,10 +515,10 @@ function Admin() {
                   <tr key={index}>
                     <td style={{ fontWeight: 'bold' }}>{user.email}</td>
                     <td style={{ fontWeight: 'bold' }}>{`${user.firstname} ${user.lastname}`}</td>
-                    <td style={{ fontWeight: 'bold' }}>{user.contactNumber}</td>
-                    <td style={{ fontWeight: 'bold' }}>{user.type}</td>
+                    <td style={{ fontWeight: 'bold' }}>{user.serviceHandle}</td>
+                    <td style={{ fontWeight: 'bold' }}>{user.accountStatus}</td>
                     <td>
-                      <MDBBtn color="primary" size="sm" onClick={() => setSelectedUser(user)}>More Details</MDBBtn>
+                      <MDBBtn color="primary" size="sm" onClick={() => setSelectedEmployee(user)}>More Details</MDBBtn>
                     </td>
                   </tr>
                 ))
@@ -492,36 +531,84 @@ function Admin() {
           </table>
         </div>
       </div>
+
+            {/* Button aligned to the left */}
+            <div className="mt-3 mb-3 d-flex">
+        <MDBBtn style={{ backgroundColor: 'rgb(255, 165, 0)', borderColor: 'rgb(255, 165, 0)', height: '40px', fontSize: '14px'}}   onClick={() => setSelectedCreateStaffAccount(1)}>Create Staff Account</MDBBtn>
+      </div>
     </div>
   );
+  
 
   const renderContent = () => {
     if (selectedBooking) {
       return <BookingDetails booking={selectedBooking} onBack={() => setSelectedBooking(null)} />;
     }
-
     if (selectedInquiry) {
       return <InquiryDetails inquiry={selectedInquiry} onBack={() => setSelectedInquiry(null)} />;
     }
-
     if (selectedUser) {
       return <UserDetails user={selectedUser} onBack={() => setSelectedUser(null)} />;
     }
-
-    if (currentContent === 'Booking Management') {
+    if (selectedEmployee) {
+      return <EmployeeDetails user={selectedEmployee} onBack={() => setSelectedEmployee(null)} />;
+    }
+    if (selectedCreateStaffAccount) {
+      return <CreateStaffAccount key={1} onBack={() => setSelectedCreateStaffAccount(null)} />;
+    }
+    // Render content based on currentContent and access rights
+    if (currentContent === 'Dashboard' && hasAccess('Dashboard')) {
+      return <Dashboard onBack={() => {}} />;
+    } else if (currentContent === 'Booking Management' && hasAccess('Booking Management')) {
       return renderBookingTable();
-    } else if (currentContent === 'Quotation Management') {
+    } else if (currentContent === 'Quotation Management' && hasAccess('Quotation Management')) {
       return renderQuotationTable();
-    } else if (currentContent === 'Inquiry Management') {
+    } else if (currentContent === 'Inquiry Management' && hasAccess('Inquiry Management')) {
       return renderInquiryTable();
-    } else if (currentContent === 'User Account') {
+    } else if (currentContent === 'User Account' && hasAccess('User Account')) {
       return renderUserTable();
-    } else if (currentContent === 'Employee Account') {
+    } else if (currentContent === 'Employee Account' && hasAccess('Employee Account')) {
       return renderEmployeeTable();
+    } else if (currentContent === 'Homepage' && hasAccess('Homepage')) {
+      return <ContentManagementHomepage key={1} onBack={() => {}} />;
+    } else if (currentContent === 'Tour Package' && hasAccess('Tour Package')) {
+      return <ContentManagementTour key={1} onBack={() => {}} />;
+    } else if (currentContent === 'Promo' && hasAccess('Promo')) {
+      return <ContentManagementPromo key={1} onBack={() => {}} />;
+    } else if (currentContent === 'FAQ' && hasAccess('FAQ')) {
+      return <ContentManagementFAQ key={1} onBack={() => {}} />;
+    }else if (currentContent === 'Hotel Booking' && hasAccess('Hotel Booking')) {
+      return <ContentManagementHotel key={1} onBack={() => {}} />;
+    } else if (currentContent === 'Car Rental' && hasAccess('Car Rental')) {
+      return <ContentManagementCar key={1} onBack={() => {}} />;
     } else {
       return <div className="text-center">Select an option from the menu</div>;
     }
   };
+
+  const availableSections = {
+    'client services coordinator': ['Booking Management', 'Quotation Management', 'User Account Management', 'User Account', 'Employee Account', 'Logout'],
+    'sales executive': ['Content Management', 'Homepage', 'Tour Package', 'Promo', 'Car Rental', 'Hotel Booking', 'FAQ', 'User Account Management', 'User Account', 'Employee Account', 'Logout'],
+    'admin': [
+      'Dashboard',
+      'Booking Management',
+      'Quotation Management',
+      'User Account Management',
+      'Inquiry Management',
+      'Content Management',
+      'User Account',
+      'Employee Account',
+      'Homepage',
+      'Tour Package',
+      'Promo',
+      'FAQ',
+      'Car Rental',
+      'Hotel Booking',
+      'Logout'
+    ],
+  };
+
+  const sectionsToShow = availableSections[role] || [];
 
   return (
     <div className="d-flex flex-column vh-100" style={{ backgroundColor: '#fff' }}>
@@ -556,7 +643,7 @@ function Admin() {
       {/* Main Content Section */}
       <div className="d-flex flex-grow-1 mt-3">
         {/* Side Navbar */}
-        <SideNavbar setCurrentContent={setCurrentContent} />
+        <SideNavbar sections={sectionsToShow} setCurrentContent={setCurrentContent} />
 
         {/* Main Content */}
         <div className="flex-grow-1 d-flex flex-column p-3" style={{ backgroundColor: '#fff' }}>

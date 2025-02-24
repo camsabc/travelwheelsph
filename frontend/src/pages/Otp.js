@@ -57,7 +57,7 @@ const Otp = () => {
       const response = await axios.post('https://travelwheelsph.onrender.com/verify-otp', { email, otp });
 
       if (response.status === 200) {
-        showToast('OTP verified successfully!', 'success');
+        showToast('Account Successfully Created!', 'success');
         if (type === 'user') {
           navigate(`/login`);
         } else {

@@ -91,9 +91,9 @@ const Login = () => {
         }
   
         // Navigate based on the user type
-        if (email === 'traveltayo2024@gmail.com') {
+        if (user.type != 'user') {
           showToast('Login successful!', 'success');
-          navigate(`/admin`, { state: { name: "Admin" } });
+          navigate(`/admin`, { state: { name: user.firstname, role: user.type } });
         } else {
           showToast('Login successful!', 'success');
 

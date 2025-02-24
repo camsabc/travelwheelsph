@@ -912,27 +912,50 @@ const handleQuotationSubmit = async (e) => {
   </MDBRow>
 
   <MDBRow className="mt-3">
-                <MDBCol md="8" className="d-flex align-items-center">
-                  <input 
-                    type="checkbox" 
-                    id="termsCheckbox" 
-                    checked={isChecked} 
-                    onChange={handleCheckboxChange} 
-                    style={{ marginRight: '10px' }} 
-                  />
-                  <label htmlFor="termsCheckbox">
-                    By clicking this, you agree to our{' '}
-                    <span 
-                      onClick={() => navigate('/terms-and-conditions', { state: { email: user.email }})}
-                      style={{ 
-                        color: '#68BBE3', 
-                        cursor: 'pointer' 
+                  <MDBCol md="6" className="d-flex align-items-center">
+                    <input 
+                      type="checkbox" 
+                      id="termsCheckbox" 
+                      checked={isChecked} 
+                      onChange={handleCheckboxChange} 
+                      style={{ marginRight: '10px' }} 
+                    />
+                    <label htmlFor="termsCheckbox" style={{ fontSize: '15px'}}>
+                      By clicking this, you agree to {' '}
+                      <span 
+                        onClick={() => navigate('/terms-and-conditions', { state: { email: user.email }})}
+                        style={{ 
+                          color: '#68BBE3', 
+                          cursor: 'pointer' ,
+                          fontSize: '15px'
+                        }}
+                      >
+                        Terms & Conditions
+                      </span>.
+                    </label>
+                  </MDBCol>
+
+                  
+                  <MDBCol md="2" className="d-flex align-items-center">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      style={{
+                        fontWeight: 'bold',
+                        width: '100%',
+                        borderRadius: '30px',
+                        backgroundColor: 'white',
+                        border: 'solid',
+                        borderColor: 'rgb(255, 165, 0)',
+                        borderWidth: '3px',
+                        padding: '10px 5px',
+                        color: 'rgb(255, 165, 0)',
                       }}
+                      onClick={() => navigate('/services', { state: { email: user.email } })}
                     >
-                      Terms and Conditions
-                    </span>.
-                  </label>
-                </MDBCol>
+                      BACK
+                    </button>
+                  </MDBCol>
 
                 <MDBCol md="4" className="d-flex align-items-center">
                   <button

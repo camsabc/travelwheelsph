@@ -12,5 +12,6 @@ router.patch('/:id/file', quotationController.attachFile);
 router.patch('/:id/payment', quotationController.attachPayment);
 
 router.post('/change-status', quotationController.changeStatus);
+router.post('/toggle', quotationController.toggleQuotation);
 
 module.exports = router;

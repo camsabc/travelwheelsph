@@ -83,7 +83,7 @@ function PassportDetails() {
 
     province: '',
     city: '',
-    occuputation: '',
+    occupation: '',
     officeNumber: '',
     officeDetails: '',
 
@@ -201,7 +201,7 @@ const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => 
 
                           <p style={{ marginBottom: '5px' }}>Province: {bookingDetails.province}</p>
                           <p style={{ marginBottom: '5px' }}>City: {bookingDetails.city}</p>
-                          <p style={{ marginBottom: '5px' }}>Occuputation: {bookingDetails.occuputation}</p>
+                          <p style={{ marginBottom: '5px' }}>Occupation: {bookingDetails.occupation}</p>
                           <p style={{ marginBottom: '5px' }}>Office Details: {bookingDetails.officeDetails}</p>
                           <p style={{ marginBottom: '5px' }}>Office Number: {bookingDetails.officeNumber}</p>
 
@@ -1517,7 +1517,7 @@ const handleQuotationSubmit = async (e) => {
                 </MDBRow>
 
                 <MDBRow className="mt-3">
-                  <MDBCol md="8" className="d-flex align-items-center">
+                  <MDBCol md="6" className="d-flex align-items-center">
                     <input 
                       type="checkbox" 
                       id="termsCheckbox" 
@@ -1525,18 +1525,41 @@ const handleQuotationSubmit = async (e) => {
                       onChange={handleCheckboxChange} 
                       style={{ marginRight: '10px' }} 
                     />
-                    <label htmlFor="termsCheckbox">
-                      By clicking this, you agree to our{' '}
+                    <label htmlFor="termsCheckbox" style={{ fontSize: '15px'}}>
+                      By clicking this, you agree to {' '}
                       <span 
                         onClick={() => navigate('/terms-and-conditions', { state: { email: user.email }})}
                         style={{ 
                           color: '#68BBE3', 
-                          cursor: 'pointer' 
+                          cursor: 'pointer' ,
+                          fontSize: '15px'
                         }}
                       >
-                        Terms and Conditions
+                        Terms & Conditions
                       </span>.
                     </label>
+                  </MDBCol>
+
+                  
+                  <MDBCol md="2" className="d-flex align-items-center">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      style={{
+                        fontWeight: 'bold',
+                        width: '100%',
+                        borderRadius: '30px',
+                        backgroundColor: 'white',
+                        border: 'solid',
+                        borderColor: 'rgb(255, 165, 0)',
+                        borderWidth: '3px',
+                        padding: '10px 5px',
+                        color: 'rgb(255, 165, 0)',
+                      }}
+                      onClick={() => navigate('/services', { state: { email: user.email } })}
+                    >
+                      BACK
+                    </button>
                   </MDBCol>
 
                   <MDBCol md="4" className="d-flex align-items-center">

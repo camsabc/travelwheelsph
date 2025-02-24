@@ -220,7 +220,7 @@ function Inquiry() {
               </MDBCardText>
 
               <div className="d-flex justify-content-center mb-4">
-                <MDBCardImage src={map} style={{ maxWidth: '100%', height: 'auto' }} alt="Additional Info" />
+                <iframe src="https://www.google.com/maps/embed?pb=!4v1740334015873!6m8!1m7!1ssMlAtNm_5dRpja_xjpcRHQ!2m2!1d14.3132602404735!2d121.0992767952367!3f243.60938!4f0!5f0.7820865974627469" width="700" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
               </div>
 
               <div className="text-center mt-5">
