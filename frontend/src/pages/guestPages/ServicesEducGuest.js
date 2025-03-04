@@ -29,6 +29,7 @@ import pack3 from '../../images/pack3.jpg';
 import pack4 from '../../images/pack4.jpg';
 import pack5 from '../../images/pack5.jpg';
 import pack6 from '../../images/pack6.jpg';
+import ChatbotGuest from './ChatbotGuest';
 
 function ServicesEducGuest() {
 
@@ -218,6 +219,8 @@ function ServicesEducGuest() {
 
 
         </>
+
+        <ChatbotGuest />
 
           <Modal
         isOpen={isModalOpen}

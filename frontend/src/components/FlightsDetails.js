@@ -75,7 +75,9 @@ function FlightsDetails() {
     status: 'Pending',
     num: '',
     type: 'Flights',
-    passengers: []
+    passengers: [],
+    file: '',
+    payment: ''
   });
   
 

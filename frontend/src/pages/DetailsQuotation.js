@@ -13,6 +13,7 @@ import {
   MDBBtn
 } from 'mdb-react-ui-kit';
 import logo from '../images/header.jpg';
+import Chatbot from "../components/Chatbot";
 
 function DetailsQuotation() {
   const location = useLocation();
@@ -290,43 +291,49 @@ function DetailsQuotation() {
           </MDBCard>
         )}
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '20px', paddingTop: '20px' }}>
-            <button
-                type="button"
-                className="btn btn-secondary"
-                style={{
-                    fontWeight: 'bold',
-                    width: '200px',
-                    fontSize: '14px',
-                    borderRadius: '30px',
-                    backgroundColor: 'red', 
-                    border: 'none',
-                    padding: '10px 10px',
-                }}
-                onClick={() => {handleButtonClick(quotationDetails._id, 'true', 'reject')}}
-            >
-                Reject Quote
-            </button>
+{quotationDetails.file && (
+    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '20px', paddingTop: '20px' }}>
+        <button
+            type="button"
+            className="btn btn-secondary"
+            style={{
+                fontWeight: 'bold',
+                width: '200px',
+                fontSize: '14px',
+                borderRadius: '30px',
+                backgroundColor: 'red',
+                border: 'none',
+                padding: '10px 10px',
+            }}
+            onClick={() => handleButtonClick(quotationDetails._id, 'true', 'reject')}
+            disabled={quotationDetails.disabled === 'true'}
+        >
+            Reject Quote
+        </button>
 
-            <button
-                type="button"
-                className="btn btn-primary"
-                style={{
-                    fontWeight: 'bold',
-                    width: '200px',
-                    fontSize: '14px',
-                    borderRadius: '30px',
-                    backgroundColor: 'rgb(255, 165, 0)', // Matching the request quotation button
-                    border: 'none',
-                    padding: '10px 20px',
-                }}
-                onClick={() => {handleButtonClick(quotationDetails._id, 'true', 'book')}}
-            >
-                Book Now
-            </button>
-        </div>
+        <button
+            type="button"
+            className="btn btn-primary"
+            style={{
+                fontWeight: 'bold',
+                width: '200px',
+                fontSize: '14px',
+                borderRadius: '30px',
+                backgroundColor: 'rgb(255, 165, 0)',
+                border: 'none',
+                padding: '10px 50px',
+            }}
+            onClick={() => handleButtonClick(quotationDetails._id, 'true', 'book')}
+            disabled={quotationDetails.disabled === 'true'}
+        >
+            Book Now
+        </button>
+    </div>
+)}
+
 
       </MDBContainer>
+      <Chatbot user={user}/>
     </div>
   );
 }

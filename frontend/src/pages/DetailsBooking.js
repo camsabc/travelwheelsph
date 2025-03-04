@@ -14,6 +14,7 @@ import {
   MDBBtn
 } from 'mdb-react-ui-kit';
 import logo from '../images/header.jpg';
+import Chatbot from "../components/Chatbot";
 
 function DetailsBooking() {
   const location = useLocation();
@@ -283,6 +284,7 @@ function DetailsBooking() {
           <i className="fas fa-arrow-left" style={{ fontSize: '24px', color: 'rgb(255, 222, 89)', fontWeight: 'bolder' }}></i>
         </MDBBtn>
       </MDBContainer>
+      <Chatbot user={user}/>
     </div>
   );
 }

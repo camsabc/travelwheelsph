@@ -6,6 +6,7 @@ import logo from '../images/header.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import Toast from '../components/Toast';
+import Chatbot from "../components/Chatbot";
 import {
   MDBContainer,
   MDBCardImage,
@@ -173,12 +174,16 @@ const EditProfile = () => {
 
       if (response.ok) {
         const updatedData = await response.json();
-        alert('Profile updated successfully!');
-        navigate('/profile', { state: { email: updatedData.email } });
-      } else {
+        showToast('Profile updated successfully!', 'success');
+    
+        setTimeout(() => {
+            navigate('/profile', { state: { email: updatedData.email } });
+        }, 2000); // Delay navigation by 2 seconds to let the toast appear
+    } else {
         const errorData = await response.json();
         setError(errorData.message || 'Failed to update profile.');
-      }
+    }
+    
     } catch (error) {
       console.error('Error updating profile:', error);
       setError('An error occurred while updating the profile.');
@@ -252,18 +257,21 @@ const EditProfile = () => {
 
   const removeProfileImage = async () => {
     try {
-
-      setUser((prevUser) => ({ ...prevUser, profileImage: null }));
+      console.log('Removing profile image for user:', user._id);
 
       const response = await fetch(`https://travelwheelsph.onrender.com/api/users/${user._id}/profile-image`, {
-        method: 'PATCH',
+        method: 'PATCH',  
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profileImage: null }), // Set it to null or a default image URL
+        body: JSON.stringify({ profileImage: null }), 
       });
   
       if (!response.ok) {
         throw new Error('Failed to remove profile image.');
       }
+
+      setUser((prevUser) => ({ ...prevUser, profileImage: null }));
+  
+      console.log('Profile image removed successfully');
     } catch (error) {
       console.error('Error removing profile image:', error);
     }
@@ -433,6 +441,7 @@ const EditProfile = () => {
 
 
         {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+        <Chatbot user={user}/>
       </div>
     </>
   );

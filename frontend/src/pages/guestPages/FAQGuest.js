@@ -18,6 +18,7 @@ import logo from '../../images/header.jpg';
 import inquirybg from '../../images/inquirybg.jpg';
 import Toast from '../../components/Toast';
 import Modal from '../../components/Modal'; 
+import ChatbotGuest from './ChatbotGuest';
 
 function FAQGuest() {
   const [backgroundImage, setBackgroundImage] = useState(inquirybg);
@@ -189,6 +190,8 @@ function FAQGuest() {
       </MDBContainer>
 
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+
+      <ChatbotGuest />
 
       <Modal
         isOpen={isModalOpen}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
 import {
   MDBCol,
   MDBContainer,
@@ -142,15 +143,15 @@ function Quotation() {
                           fontWeight: 'bold',
                           width: '100%',
                           borderRadius: '30px',
-                          backgroundColor: quotation.disabled ? 'gray' : 'rgb(255, 165, 0)',
+                          backgroundColor:  'rgb(255, 165, 0)',
                           border: 'none',
                           padding: '10px 50px',
                           fontSize: '14px',
-                          cursor: quotation.disabled ? 'not-allowed' : 'pointer',
-                          opacity: quotation.disabled ? 0.6 : 1,
+                          cursor:  'pointer',
+                          opacity: 1,
                         }}
                         onClick={() => handleDetailsClick(quotation._id, index)}
-                        disabled={quotation.disabled === 'true'}
+              
                       >
                         MORE DETAILS
                       </button>
@@ -165,6 +166,32 @@ function Quotation() {
           <div className="text-center" style={{ padding: '20px', fontSize: '1.25rem', fontWeight: 'bold' }}>No quotations found.</div>
         )}
       </MDBContainer>
+
+      <button
+        onClick={() => navigate('/profile', { state: { email: user.email }})}
+        style={{
+          position: 'fixed',
+          bottom: '30px',
+          right: '40px',
+          backgroundColor: 'rgb(255, 165, 0)',
+          border: 'none',
+          color: 'white',
+          fontWeight: 'bold',
+          padding: '12px',
+          borderRadius: '50%',
+          cursor: 'pointer',
+          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)',
+          fontSize: '20px',
+          width: '50px',
+          height: '50px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <FaArrowLeft />
+      </button>
+
     </div>
   );
 }

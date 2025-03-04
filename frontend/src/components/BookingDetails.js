@@ -129,6 +129,15 @@ const handleFileUpload = async () => {
     const uploadedFile = await res.json();
     if (!uploadedFile.secure_url) throw new Error('Upload failed');
 
+    const response = await fetch(`https://travelwheelsph.onrender.com/api/quotations/${booking._id}/file`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ file: uploadedFile.secure_url }),
+    });
+
+    if (!response.ok) throw new Error('File update failed');
+
+
     showToast('File uploaded successfully!', 'success');
 
     // You can store the uploaded file URL somewhere or enable further actions

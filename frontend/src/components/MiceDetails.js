@@ -63,7 +63,9 @@ function MiceDetails() {
     status: 'Pending',
     num: '',
     type: 'MICE',
-    passengers: []
+    passengers: [],
+    file: '',
+    payment: ''
   });
 
   const handlePassengerChange = (index, e) => {

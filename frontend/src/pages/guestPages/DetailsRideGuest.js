@@ -22,6 +22,7 @@ import ride2 from '../../images/ride2.jpg';
 import ride3 from '../../images/ride3.jpg';
 import bg from '../../images/bg.jpg';
 import Toast from '../../components/Toast';
+import ChatbotGuest from './ChatbotGuest';
 
 function DetailsRideGuest() {
   const [user, setUser] = useState(null);
@@ -950,6 +951,7 @@ const handleQuotationSubmit = async (e) => {
         </MDBCard>
       </MDBContainer>
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      <ChatbotGuest />
     </div>
   );
 }

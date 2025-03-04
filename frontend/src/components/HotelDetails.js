@@ -58,7 +58,9 @@ function HotelDetails() {
     status: 'Pending',
     num: '',
     type: 'Hotel Reservation',
-    passengers: []
+    passengers: [],
+    file: '',
+    payment: ''
   });
 
   const handlePassengerChange = (index, e) => {
@@ -455,7 +457,7 @@ const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => 
             cursor: 'pointer',
           }}
         >
-          Hi, {user.firstname}
+          Hi, {user?.firstname || "Loading..."}
         </span>
       </MDBNavbarNav>
     </MDBNavbar>

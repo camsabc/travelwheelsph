@@ -19,6 +19,7 @@ import hotelbg from '../../images/hotelbg.jpg';
 import logo from '../../images/header.jpg';
 
 import Toast from '../../components/Toast'; 
+import ChatbotGuest from './ChatbotGuest';
 
 function DetailsMiceGuest() {
   const navigate = useNavigate();
@@ -845,6 +846,7 @@ const handleQuotationSubmit = async (e) => {
         </MDBCard>
       </MDBContainer>
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      <ChatbotGuest />
     </div>
     </>
   );

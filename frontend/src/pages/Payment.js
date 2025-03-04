@@ -21,6 +21,7 @@ import gcash from '../images/gcash.png';
 import paypal from '../images/paypal.png';
 import maya from '../images/maya.png';
 import qr from '../images/qr.png';
+import Chatbot from "../components/Chatbot";
 
 function Payment() {
   const location = useLocation();
@@ -356,6 +357,7 @@ function Payment() {
 
       </MDBContainer>
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      <Chatbot user={user}/>
     </div>
   );
 }

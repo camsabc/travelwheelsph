@@ -18,6 +18,7 @@ import {
 
 import visabg from '../../images/visabg.jpg';
 import logo from '../../images/header.jpg';
+import ChatbotGuest from './ChatbotGuest';
 
 function DetailsVisaGuest() {
   const navigate = useNavigate();
@@ -562,6 +563,8 @@ function DetailsVisaGuest() {
         </MDBCard>
       </MDBContainer>
     </div>
+
+    <ChatbotGuest />
     </>
   );
 }

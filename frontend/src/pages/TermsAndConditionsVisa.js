@@ -19,6 +19,7 @@ import inquirybg from '../images/inquirybg.jpg';
 import map from '../images/map.jpg';
 import { FaPhone, FaEnvelope, FaFacebook, FaInstagram } from 'react-icons/fa';
 import Toast from '../components/Toast';
+import Chatbot from "../components/Chatbot";
 
 function TermsAndConditionsVisa() {
   const [backgroundImage, setBackgroundImage] = useState(inquirybg);
@@ -168,6 +169,7 @@ if (error) {
       </MDBContainer>
 
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      <Chatbot user={user}/>
     </div>
   );
 }

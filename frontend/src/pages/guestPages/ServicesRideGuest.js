@@ -25,6 +25,7 @@ import Modal from '../../components/Modal';
 import ride1 from '../../images/ride1.jpg';
 import ride2 from '../../images/ride2.jpg';
 import ride3 from '../../images/ride3.jpg';
+import ChatbotGuest from './ChatbotGuest';
 
 
 function ServicesRideGuest() {
@@ -210,6 +211,8 @@ function ServicesRideGuest() {
             </MDBRow>
           </MDBCard>
           </>
+
+          <ChatbotGuest />
 
           <Modal
         isOpen={isModalOpen}

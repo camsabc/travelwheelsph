@@ -17,7 +17,7 @@ import {
 
 import logo from '../images/header.jpg';
 import flightsbg from '../images/flightsbg.jpg';
-
+import Chatbot from "../components/Chatbot";
 
 import FlightsDetails from '../components/FlightsDetails';
 import HotelDetails from '../components/HotelDetails';
@@ -602,6 +602,7 @@ function Services() {
       </MDBContainer>
 
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      <Chatbot user={user}/>
     </div>
   );
 }

@@ -18,6 +18,7 @@ import logo from '../../images/header.jpg';
 import inquirybg from '../../images/inquirybg.jpg';
 import map from '../../images/map.jpg';
 import { FaPhone, FaEnvelope, FaFacebook, FaInstagram } from 'react-icons/fa';
+import ChatbotGuest from './ChatbotGuest';
 
 function InquiryGuest() {
   const [backgroundImage, setBackgroundImage] = useState(inquirybg);
@@ -231,6 +232,8 @@ function InquiryGuest() {
           </MDBCard>
         </div>
       </MDBContainer>
+
+      <ChatbotGuest />
 
     </div>
   );

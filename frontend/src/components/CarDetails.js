@@ -48,7 +48,9 @@ function CarDetails() {
     remarks: '',
     status: 'Pending',
     num: '',
-    type: 'Hotel Reservation'
+    type: 'Hotel Reservation',
+    file: '',
+    payment: ''
   });
 
   const handleChange = (e) => {

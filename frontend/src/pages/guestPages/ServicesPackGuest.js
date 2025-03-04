@@ -26,6 +26,7 @@ import pack3 from '../../images/dom3.PNG';
 import pack4 from '../../images/int1.PNG';
 import pack5 from '../../images/int2.PNG';
 import pack6 from '../../images/int3.PNG';
+import ChatbotGuest from './ChatbotGuest';
 
 function ServicesPackGuest() {
 
@@ -302,6 +303,8 @@ function ServicesPackGuest() {
             </div>
           </MDBCard>
         </>
+
+        <ChatbotGuest />
 
           <Modal
         isOpen={isModalOpen}

@@ -18,6 +18,7 @@ import flightsbg from '../../images/flightsbg.jpg';
 import logo from '../../images/header.jpg';
 
 import Toast from '../../components/Toast'; 
+import ChatbotGuest from './ChatbotGuest';
 
 
 
@@ -778,6 +779,7 @@ const handleQuotationSubmit = async (e) => {
       </MDBContainer>
 
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      <ChatbotGuest />
     </div>
     </>
   );

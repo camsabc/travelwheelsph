@@ -92,7 +92,9 @@ function TransferDetails() {
     num: '',
     type: 'Transfer',
     class: 'vipescort',
-    passengers: []  
+    passengers: []  ,
+    file: '',
+    payment: ''
   });
 
   const handleChange = (e) => {

@@ -16,6 +16,7 @@ import {
 import flightsbg from '../images/flightsbg.jpg';
 import logo from '../images/header.jpg';
 import Toast from '../components/Toast';
+import Chatbot from "../components/Chatbot";
 
 function DetailsBookingEduc() {
   const navigate = useNavigate();
@@ -57,6 +58,8 @@ function DetailsBookingEduc() {
     status: 'Pending',
     num: '',
     type: 'Educational Tour',
+    file: '',
+    payment: ''
   });
 
   const handleChange = (e) => {
@@ -601,7 +604,9 @@ function DetailsBookingEduc() {
           </MDBCard>
         </MDBContainer>
         {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+        <Chatbot user={user}/>
       </div>
+
     </>
   );
 }

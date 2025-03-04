@@ -24,6 +24,8 @@ import flightsbg from '../images/flightsbg.jpg';
 import logo from '../images/header.jpg';
 import Toast from '../components/Toast';
 
+import Chatbot from "../components/Chatbot";
+
 function DetailsDomPack() {
   const navigate = useNavigate();
   const [backgroundImage] = useState(flightsbg);
@@ -76,7 +78,9 @@ function DetailsDomPack() {
     status: 'Pending',
     num: '',
     type: 'Tour Packages - Domestic',
-    passengers: []  // Now contains first name, middle name, last name, and birthdate
+    passengers: [],
+    file: '',
+    payment: ''
   });
 
   const handlePassengerChange = (index, e) => {
@@ -1132,6 +1136,7 @@ const handleQuotationSubmit = async (e) => {
         </MDBContainer>
       </div>
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      <Chatbot user={user}/>
 
 
 

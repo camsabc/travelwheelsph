@@ -20,6 +20,7 @@ import promoImage2 from '../../images/promo2.jpg';
 import promoImage3 from '../../images/promo3.jpg';
 import Toast from '../../components/Toast';
 import Modal from '../../components/Modal'; 
+import ChatbotGuest from './ChatbotGuest';
 
 function PromosGuest() {
   const navigate = useNavigate();
@@ -271,11 +272,57 @@ function PromosGuest() {
       <MDBFooter bgColor="light" className="text-start text-lg-left mt-auto">
         <div className="container text-left text-md-left">
             <div className="row mt-2 mb-2">
+{/* Column 1 */}
+<div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+    <h5 className="text-uppercase mt-2 mb-4 font-weight-bold" style={{ fontWeight: 'bold' }}>FOLLOW US</h5>
+    
+        {/* Social Media Icons Row */}
+        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+            {/* Facebook Button */}
+            <a 
+                href="https://www.facebook.com/TravelTayoCarRentalandTours" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'rgb(255, 165, 0)', // Orange
+                    color: 'white',
+                    textDecoration: 'none',
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '50%', // Makes it circular
+                    fontSize: '24px',
+                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                }}
+            >
+                <i className="fab fa-facebook-f"></i>
+            </a>
 
-            {/* Column 1 */}
-            <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h5 className="text-uppercase mb-4 font-weight-bold" style={{fontWeight: 'bold'}}>FOLLOW US</h5>
-            </div>
+            {/* Instagram Button */}
+            <a 
+                href="https://www.instagram.com/traveltayoph/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'rgb(255, 165, 0)', // Orange
+                    color: 'white',
+                    textDecoration: 'none',
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '50%', // Makes it circular
+                    fontSize: '24px',
+                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                }}
+            >
+                <i className="fab fa-instagram"></i>
+            </a>
+        </div>
+    </div>
 
             {/* Column 1 */}
             <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
@@ -303,6 +350,8 @@ function PromosGuest() {
   </div>
 
 </MDBFooter>
+
+<ChatbotGuest/>
 
     </div>
   );

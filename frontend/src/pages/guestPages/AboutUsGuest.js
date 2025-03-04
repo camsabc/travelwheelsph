@@ -24,6 +24,7 @@ import dotLogo from '../../images/dot.png';
 import ptaaLogo from '../../images/ptaa.png';
 import alttaLogo from '../../images/altta.png';
 import lovePhilippinesLogo from '../../images/lovePhilippines.png';
+import ChatbotGuest from './ChatbotGuest';
 
 function AboutUsGuest() {
   const [backgroundImage, setBackgroundImage] = useState(inquirybg);
@@ -206,6 +207,8 @@ function AboutUsGuest() {
           </MDBCard>
         </div>
       </MDBContainer>
+
+      <ChatbotGuest />
     </div>
   );
 }

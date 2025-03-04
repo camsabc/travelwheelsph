@@ -13,9 +13,11 @@ import {
   MDBNavbarLink,
   MDBCardImage,
 } from 'mdb-react-ui-kit';
+
 import flightsbg from '../images/flightsbg.jpg';
 import logo from '../images/header.jpg';
 import Toast from '../components/Toast';
+import Chatbot from "../components/Chatbot";
 
 function DestinationForm() {
   const navigate = useNavigate();
@@ -86,7 +88,9 @@ function DestinationForm() {
     status: 'Pending',
     num: '',
     type: 'Tour Packages - Domestic',
-    passengers: []
+    passengers: [],
+    file: '',
+    payment: ''
   });
 
   const handleChange = (e) => {
@@ -695,6 +699,7 @@ const handleQuotationSubmit = async (e) => {
         </MDBContainer>
       </div>
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      <Chatbot user={user}/>
     </>
   );
 }

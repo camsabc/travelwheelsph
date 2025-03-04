@@ -18,7 +18,9 @@ import {
 
 import logo from '../images/header.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faComments } from "@fortawesome/free-solid-svg-icons";
+import Chatbot from "../components/Chatbot";
+
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -27,6 +29,7 @@ function Profile() {
   const location = useLocation();
   const navigate = useNavigate();
   const { email } = location.state || {};
+
 
   useEffect(() => {
     if (email) {
@@ -233,6 +236,12 @@ function Profile() {
           </MDBCol>
         </MDBRow>
       </MDBContainer>
+
+
+      {/* Chatbot Modal */}
+      <Chatbot user={user}/>
+
+
     </div>
   );
 }

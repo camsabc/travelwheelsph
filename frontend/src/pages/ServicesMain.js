@@ -39,6 +39,9 @@ import VisaDetails from '../components/VisaDetails';
 import ride1 from '../images/ride1.jpg';
 import ride2 from '../images/ride2.jpg';
 import ride3 from '../images/ride3.jpg';
+
+import Chatbot from "../components/Chatbot";
+
 function ServicesMain() {
   const navigate = useNavigate();
   const [selectedRide, setSelectedRide] = useState(null);
@@ -436,10 +439,57 @@ function ServicesMain() {
             <MDBFooter bgColor="light" className="text-start text-lg-left mt-auto">
         <div className="container text-left text-md-left">
             <div className="row mt-2 mb-2">
-            {/* Column 1 */}
-            <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h5 className="text-uppercase mb-4 font-weight-bold" style={{fontWeight: 'bold'}}>FOLLOW US</h5>
-            </div>
+{/* Column 1 */}
+<div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+    <h5 className="text-uppercase mt-2 mb-4 font-weight-bold" style={{ fontWeight: 'bold' }}>FOLLOW US</h5>
+    
+        {/* Social Media Icons Row */}
+        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+            {/* Facebook Button */}
+            <a 
+                href="https://www.facebook.com/TravelTayoCarRentalandTours" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'rgb(255, 165, 0)', // Orange
+                    color: 'white',
+                    textDecoration: 'none',
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '50%', // Makes it circular
+                    fontSize: '24px',
+                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                }}
+            >
+                <i className="fab fa-facebook-f"></i>
+            </a>
+
+            {/* Instagram Button */}
+            <a 
+                href="https://www.instagram.com/traveltayoph/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'rgb(255, 165, 0)', // Orange
+                    color: 'white',
+                    textDecoration: 'none',
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '50%', // Makes it circular
+                    fontSize: '24px',
+                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                }}
+            >
+                <i className="fab fa-instagram"></i>
+            </a>
+        </div>
+    </div>
 
             {/* Column 1 */}
             <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
@@ -467,6 +517,8 @@ function ServicesMain() {
   </div>
 
 </MDBFooter>
+
+<Chatbot user={user}/>
     </div>
   );
 }

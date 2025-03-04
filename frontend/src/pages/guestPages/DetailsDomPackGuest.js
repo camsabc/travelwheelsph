@@ -16,6 +16,7 @@ import {
 import flightsbg from '../../images/flightsbg.jpg';
 import logo from '../../images/header.jpg';
 import Toast from '../../components/Toast';
+import ChatbotGuest from './ChatbotGuest';
 
 function DetailsDomPackGuest() {
   const navigate = useNavigate();
@@ -887,6 +888,7 @@ const handleQuotationSubmit = async (e) => {
         </MDBContainer>
       </div>
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      <ChatbotGuest />
     </>
   );
 }

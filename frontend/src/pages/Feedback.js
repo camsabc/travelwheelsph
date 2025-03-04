@@ -16,6 +16,7 @@ import {
 import flightsbg from '../images/flightsbg.jpg';
 import logo from '../images/header.jpg';
 import Toast from '../components/Toast';
+import Chatbot from "../components/Chatbot";
 
 function Feedback() {
   const [user, setUser] = useState(null);
@@ -556,6 +557,7 @@ function Feedback() {
         </MDBContainer>
       </div>
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      <Chatbot user={user}/>
     </>
   );
 }

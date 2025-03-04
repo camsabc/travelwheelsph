@@ -18,7 +18,7 @@ import {
 import logo from '../images/header.jpg';
 import inquirybg from '../images/inquirybg.jpg';
 
-
+import Chatbot from "../components/Chatbot";
 
 import anneImage from '../images/anneImage.png';
 import philtoaLogo from '../images/philtoa.png';
@@ -260,6 +260,8 @@ function Inquiry() {
           </MDBCard>
         </div>
       </MDBContainer>
+
+      <Chatbot user={user}/>
     </div>
   );
 }

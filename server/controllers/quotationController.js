@@ -151,7 +151,9 @@ const createQuotation = (req, res) => {
         disabled,
         num,
         type,
-        db
+        db,
+        file,
+        payment
     } = req.body;
 
     /* Generates a random nine-digit number */
@@ -219,7 +221,9 @@ const createQuotation = (req, res) => {
         num: generateRandomNumber(), 
         type,
         disabled: 'false',
-        db: 'quotation'
+        db: 'quotation',
+        file,
+        payment
     });
 
     newQuotation.save()

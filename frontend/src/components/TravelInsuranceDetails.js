@@ -68,7 +68,9 @@ function TravelInsuranceDetails() {
     status: 'Pending',
     num: '',
     type: 'Travel Insurance',
-    passengers: []
+    passengers: [],
+    file: '',
+    payment: ''
   });
   
 

@@ -137,18 +137,15 @@ const getAllEmails = (req, res) => {
 };
 
 const setProfileImage = async (req, res) => {
-    const userId = req.params.id; 
+    const userId = req.params.id;
     const { profileImage } = req.body; 
 
     try {
-        if (!profileImage) {
-            return res.status(400).json({ error: 'Profile image is required' });
-        }
-
+        // Allow `null` or `""` to remove the profile image
         const updatedUser = await UserModel.findByIdAndUpdate(
             userId,
-            { profileImage },
-            { new: true, runValidators: true } 
+            { profileImage: profileImage || null }, // Set `null` if empty
+            { new: true, runValidators: true }
         );
 
         if (!updatedUser) {
@@ -161,6 +158,7 @@ const setProfileImage = async (req, res) => {
         res.status(500).json({ error: 'Failed to update profile image' });
     }
 };
+
 
 /* This function deletes a user by their unique ID */
 const deleteUser = async (req, res) => {

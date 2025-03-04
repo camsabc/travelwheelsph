@@ -16,6 +16,7 @@ import {
 
 import logo from '../../images/header.jpg';
 import bg from '../../images/bg.jpg';
+import ChatbotGuest from './ChatbotGuest';
 
 function DetailsOneEducGuest() {
   const [user, setUser] = useState(null);
@@ -198,6 +199,8 @@ const handleQuotationSubmit = async (e) => {
           </MDBCardBody>
         </MDBCard>
       </MDBContainer>
+
+      <ChatbotGuest />
     </div>
   );
 }

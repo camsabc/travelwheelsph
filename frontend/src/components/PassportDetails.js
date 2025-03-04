@@ -93,7 +93,9 @@ function PassportDetails() {
     remarks: '',
     status: 'Pending',
     num: '',
-    type: 'Passport Appointment'
+    type: 'Passport Appointment',
+    file: '',
+    payment: ''
   });
 
   const handleChange = (e) => {

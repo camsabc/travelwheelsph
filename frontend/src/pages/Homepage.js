@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '../components/Modal'; 
 import './global.css'
+import { FaFacebookF, FaInstagram } from "react-icons/fa";
 
 import { useNavigate } from 'react-router-dom';
 import {
@@ -28,6 +29,8 @@ import logo from '../images/header.jpg';
 import bg from '../images/bg.png';
 import bg2 from '../images/home_bg2.jpg';
 import bg3 from '../images/home_bg.jpg';
+
+import ChatbotGuest from "./guestPages/ChatbotGuest";
 
 const Homepage = () => {
   
@@ -64,21 +67,35 @@ const Homepage = () => {
     { img: content.feedbackImage3, label: 'Feedback 3' },
   ] : [];
 
-  const logos = content ? [
-    content.bannerImage1,
-    content.bannerImage2,
-    content.bannerImage3
-  ] : [];
+  const logos = content
+  ? [
+
+      `<iframe src="https://www.google.com/maps/embed?pb=!4v1740938048542!6m8!1m7!1skDh_bxXlGpgVlNgdscqU_A!2m2!1d11.94987721533076!2d121.9469231882238!3f114.26280566728494!4f-0.04381137292116932!5f0.7820865974627469" 
+      width="1350" height="380" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" scrolling="no" frameborder="0" 
+      style="border-radius: 12px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); overflow: hidden;"></iframe>`,
+
+      `<iframe src="https://www.google.com/maps/embed?pb=!4v1740938115799!6m8!1m7!1spIEcK5UrfGg1jkiaeNkGfw!2m2!1d7.073649258285839!2d125.6111223506343!3f211.95818!4f0!5f0.7820865974627469"
+      width="1350" height="380" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" scrolling="no" frameborder="0" 
+      style="border-radius: 12px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); overflow: hidden;"></iframe>`,
+
+      `<iframe src="https://www.google.com/maps/embed?pb=!4v1740937849107!6m8!1m7!1sqCuHEF_Pa6mBh2lO8TnAhQ!2m2!1d35.35966629101768!2d138.7311853983154!3f359.88742!4f30!5f0.7820865974627469"
+      width="1350" height="380" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" scrolling="no" frameborder="0" 
+     style="border-radius: 12px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); overflow: hidden;"></iframe>`,
+     
+    ]
+  : [];
+
 
   const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setActiveIndex((prevIndex) => (prevIndex + 1) % slides.length);
-    }, 5000);
 
-    return () => clearInterval(intervalId); // Clear interval on unmount
-  }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prevIndex) => (prevIndex + 1) % logos.length);
+    }, 7000);
+
+    return () => clearInterval(interval);
+  }, [logos.length]);
   
 
   useEffect(() => {
@@ -162,50 +179,57 @@ if (error) {
         </MDBContainer>
       </div>
 
-    {/* LOGO SLIDER */}
+      
+
     <div
-    className="position-relative"
-    style={{
-      width: '100%',
-      display: 'flex',
-      transition: 'transform 0.5s ease',
-      transform: `translateX(-${activeIndex * 100}%)`,
-      position: 'absolute',
-      zIndex: 0,
-    }}
+      className="slider-container"
+      style={{
+        overflow: "hidden",
+        width: "100%",
+        position: "relative",
+      }}
     >
-    {logos.map((logo, index) => (
-      <div key={index} style={{ minWidth: '100%', position: 'relative' }}>
-        <MDBCardImage
-          src={logo}
-          alt={`Logo ${index + 1}`}
-          className="img-fluid"
-          style={{
-            width: '100%',
-            height: '400px',
-            objectFit: 'cover'
-          }}
-        />
-        {/* Overlay Text */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '25%',
-            left: '7%',
-            color: 'white',
-            fontSize: '3rem',
-            fontWeight: 'bold',
-            textAlign: 'left',
-            textTransform: 'uppercase',
-            textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)',
-            width: '50%'
-          }}
-        >
-          {content.bannerText}
-        </div>
+      <div
+        className="slider-wrapper"
+        style={{
+          display: "flex",
+          transition: "transform 0.5s ease-in-out",
+          transform: `translateX(-${activeIndex * 100}%)`,
+          width: `${logos.length * 100}%`,
+        }}
+      >
+        {logos.map((iframeString, index) => (
+          <div
+            key={index}
+            style={{
+              minWidth: "100%",
+              position: "relative",
+            }}
+          >
+            <div dangerouslySetInnerHTML={{ __html: iframeString }} />
+
+            {/* Overlay Text */}
+            <div
+              style={{
+                position: "absolute",
+                top: "25%",
+                left: "2%",
+                color: "white",
+                fontSize: "3rem",
+                fontWeight: "bold",
+                textAlign: "left",
+                textTransform: "uppercase",
+                textShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
+                width: "18%",
+              }}
+            >
+              {content.bannerText}
+            </div>
+          </div>
+        ))}
       </div>
-    ))}
     </div>
+
 
 
 
@@ -384,7 +408,7 @@ if (error) {
           fontSize: '36px',
         }}
       >
-        CLIENT'S FEEDBACK
+        AVAILABLE PROMOS
       </MDBTypography>
     </MDBCol>
 
@@ -436,12 +460,9 @@ if (error) {
         />
       </div>
       
-      <div className="d-flex justify-content-center" style={{ marginTop: '10px' }}>
-        {Array(5).fill().map((_, i) => (
-          <i key={i} className="fas fa-star text-warning" style={{ fontSize: '1.5rem', margin: '0px 2px' }}></i>
-        ))}
+      <div className="d-flex justify-content-center" style={{ marginTop: '10px', fontWeight: 'bold', fontSize: '20px' }}>
+        FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)', marginLeft: '7px' }}>{content?.promoText3 || "PHP 3999"}</span>
       </div>
-
 
 
     </div>
@@ -468,10 +489,63 @@ if (error) {
       <MDBFooter bgColor="light" className="text-start text-lg-left mt-auto">
         <div className="container text-left text-md-left">
             <div className="row mt-2 mb-2">
+
+
             {/* Column 1 */}
             <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h5 className="text-uppercase mb-4 font-weight-bold" style={{fontWeight: 'bold'}}>FOLLOW US</h5>
-            </div>
+                <h5 className="text-uppercase mt-2 mb-4 font-weight-bold" style={{ fontWeight: 'bold' }}>FOLLOW US</h5>
+                
+                    {/* Social Media Icons Row */}
+                    <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+                        {/* Facebook Button */}
+                        <a 
+                            href="https://www.facebook.com/TravelTayoCarRentalandTours" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                backgroundColor: 'rgb(255, 165, 0)', // Orange
+                                color: 'white',
+                                textDecoration: 'none',
+                                width: '50px',
+                                height: '50px',
+                                borderRadius: '50%', // Makes it circular
+                                fontSize: '24px',
+                                boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                            }}
+                        >
+                            <i className="fab fa-facebook-f"></i>
+                        </a>
+
+                        {/* Instagram Button */}
+                        <a 
+                            href="https://www.instagram.com/traveltayoph/" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                backgroundColor: 'rgb(255, 165, 0)', // Orange
+                                color: 'white',
+                                textDecoration: 'none',
+                                width: '50px',
+                                height: '50px',
+                                borderRadius: '50%', // Makes it circular
+                                fontSize: '24px',
+                                boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                            }}
+                        >
+                            <i className="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+
+
+
+
 
             {/* Column 1 */}
             <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
@@ -499,6 +573,8 @@ if (error) {
   </div>
 
 </MDBFooter>
+
+<ChatbotGuest />
 
 <Modal
         isOpen={isModalOpen}

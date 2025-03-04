@@ -17,6 +17,7 @@ import {
 import logo from '../../images/header.jpg';
 import inquirybg from '../../images/inquirybg.jpg';
 import Toast from '../../components/Toast';
+import ChatbotGuest from './ChatbotGuest';
 
 function TermsAndConditionsGuest() {
   const [backgroundImage, setBackgroundImage] = useState(inquirybg);
@@ -170,6 +171,7 @@ if (error) {
       </MDBContainer>
 
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      <ChatbotGuest />
     </div>
   );
 }
