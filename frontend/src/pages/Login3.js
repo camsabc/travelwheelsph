@@ -62,11 +62,11 @@ const Login = () => {
     }
   
     try {
-      const response = await axios.post('http://localhost:3000/login', { email, password });
+      const response = await axios.post('https://travelwheelsph.onrender.com/login', { email, password });
   
       if (response.status === 200) {
         // After login, check the Deact database for any dates exceeding 30 days
-        const deactResponse = await axios.get('http://localhost:3000/api/deacts/get-all-deacts');
+        const deactResponse = await axios.get('https://travelwheelsph.onrender.com/api/deacts/get-all-deacts');
   
         const currentDate = new Date();
   
@@ -81,7 +81,7 @@ const Login = () => {
         if (exceededDeacts.length > 0) {
           const emailToDelete = exceededDeacts[0].email;
   
-          await axios.delete('http://localhost:3000/api/users/delete-account', {
+          await axios.delete('https://travelwheelsph.onrender.com/api/users/delete-account', {
             data: { email: emailToDelete }  
           });
           
@@ -109,7 +109,7 @@ const Login = () => {
 
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
+      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {

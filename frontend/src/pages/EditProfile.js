@@ -49,7 +49,7 @@ const EditProfile = () => {
 
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
+      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
@@ -79,7 +79,7 @@ const EditProfile = () => {
 
     const fetchContent = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/contents/get-content/67b8bf22dcf4d107a677a21f');
         const result = await response.json();
         if (response.ok) {
           setContent(result);
@@ -119,7 +119,7 @@ const EditProfile = () => {
   const sendDeactivationOtp = async (userId, email) => {
     try {
       // Send OTP if email doesn't exist
-      const otpResponse = await axios.post('http://localhost:3000/deact-acc-otp', {
+      const otpResponse = await axios.post('https://travelwheelsph.onrender.com/deact-acc-otp', {
         email,
         userId,
         firstname: user.firstname
@@ -139,7 +139,7 @@ const EditProfile = () => {
   const sendOtp = async (newEmail, userId) => {
     try {
       // Fetch all existing emails using the getEmails API
-      const response = await axios.get('http://localhost:3000/api/users/get-all-emails');
+      const response = await axios.get('https://travelwheelsph.onrender.com/api/users/get-all-emails');
   
       // Check if the new email already exists in the fetched list
       const existingEmails = response.data; // Assuming it returns an array of email strings
@@ -149,7 +149,7 @@ const EditProfile = () => {
       }
   
       // Send OTP if email doesn't exist
-      const otpResponse = await axios.post('http://localhost:3000/new-email-otp', {
+      const otpResponse = await axios.post('https://travelwheelsph.onrender.com/new-email-otp', {
         newEmail,
         userId,
         firstname: user.firstname
@@ -183,7 +183,7 @@ const EditProfile = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/api/users/edit-user/${userId}`, {
+      const response = await fetch(`https://travelwheelsph.onrender.com/api/users/edit-user/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -211,7 +211,7 @@ const EditProfile = () => {
 
   const verifyOtp = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/verify-otp`, {
+      const response = await fetch(`https://travelwheelsph.onrender.com/api/verify-otp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -252,7 +252,7 @@ const EditProfile = () => {
 
       if (uploadedImage.secure_url) {
 
-        const response = await fetch(`http://localhost:3000/api/users/${user._id}/profile-image`, {
+        const response = await fetch(`https://travelwheelsph.onrender.com/api/users/${user._id}/profile-image`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ profileImage: uploadedImage.secure_url }),
@@ -278,7 +278,7 @@ const EditProfile = () => {
     try {
       console.log('Removing profile image for user:', user._id);
 
-      const response = await fetch(`http://localhost:3000/api/users/${user._id}/profile-image`, {
+      const response = await fetch(`https://travelwheelsph.onrender.com/api/users/${user._id}/profile-image`, {
         method: 'PATCH',  
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ profileImage: null }), 

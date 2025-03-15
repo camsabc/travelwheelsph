@@ -120,7 +120,7 @@ function Admin() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/bookings/get-all-bookings');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/get-all-bookings');
         const data = await response.json();
         setBookings(data);
       } catch (error) {
@@ -130,7 +130,7 @@ function Admin() {
 
     const fetchQuotations = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/quotations/get-all-quotations');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/get-all-quotations');
         const data = await response.json();
         setQuotations(data);
       } catch (error) {
@@ -140,7 +140,7 @@ function Admin() {
 
     const fetchInquiries = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/inquiries/get-all-inquiries');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/inquiries/get-all-inquiries');
         const data = await response.json();
         setInquiries(data);
       } catch (error) {
@@ -150,7 +150,7 @@ function Admin() {
 
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/users/get-all-users');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/users/get-all-users');
         const data = await response.json();
         setUsers(data);
       } catch (error) {

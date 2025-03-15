@@ -16,7 +16,7 @@ function EmployeeDetails({ user, onBack }) {
 
   const updateServiceRole = async (email, newRole) => {
     try {
-      const response = await fetch('http://localhost:3000/api/users/update-service-role', {
+      const response = await fetch('https://travelwheelsph.onrender.com/api/users/update-service-role', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ function EmployeeDetails({ user, onBack }) {
   
   const deleteStaffAccount = async (email) => {
     try {
-      const response = await fetch('http://localhost:3000/api/users/delete-user', {
+      const response = await fetch('https://travelwheelsph.onrender.com/api/users/delete-user', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

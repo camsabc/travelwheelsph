@@ -55,7 +55,7 @@ function Payment() {
       const uploadedFile = await res.json();
       if (!uploadedFile.secure_url) throw new Error('Upload failed');
 
-      const response = await fetch(`http://localhost:3000/api/quotations/${quotationDetails._id}/payment`, {
+      const response = await fetch(`https://travelwheelsph.onrender.com/api/quotations/${quotationDetails._id}/payment`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ payment: uploadedFile.secure_url }),
@@ -75,7 +75,7 @@ function Payment() {
   
   const changeQuotationStatus = async (quotationId, status) => {
     try {
-      const response = await fetch('http://localhost:3000/api/quotations/change-status', {
+      const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/change-status', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ function Payment() {
 
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
+      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
@@ -108,7 +108,7 @@ function Payment() {
           } else {
             setUser(data);
 
-            return fetch(`http://localhost:3000/api/quotations/get-all-quotations-by-email/${email}`);
+            return fetch(`https://travelwheelsph.onrender.com/api/quotations/get-all-quotations-by-email/${email}`);
           }
         })
         .then(response => response.json())
@@ -118,7 +118,7 @@ function Payment() {
           } else {
             setQuotations(data);
             if (id) {
-              return fetch(`http://localhost:3000/api/quotations/get-quotation-by-id/${id}`);
+              return fetch(`https://travelwheelsph.onrender.com/api/quotations/get-quotation-by-id/${id}`);
             }
           }
           setLoading(false);
@@ -144,7 +144,7 @@ function Payment() {
 
     const fetchContent = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/contents/get-content/67b8bf22dcf4d107a677a21f');
         const result = await response.json();
         if (response.ok) {
           setContent(result);

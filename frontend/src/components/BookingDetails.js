@@ -30,7 +30,7 @@ function BookingDetails({ booking, onBack }) {
   // Asynchronous function to change booking status
   const changeBookingStatus = async (bookingId, status) => {
     try {
-      const response = await fetch('http://localhost:3000/api/bookings/change-status', {
+      const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/change-status', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ function BookingDetails({ booking, onBack }) {
   // Asynchronous function to change quotation status
   const changeQuotationStatus = async (quotationId, status) => {
     try {
-      const response = await fetch('http://localhost:3000/api/quotations/change-status', {
+      const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/change-status', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ function BookingDetails({ booking, onBack }) {
 
   const updateAdminNote = async (bookingId, note) => {
     try {
-      const response = await fetch('http://localhost:3000/api/bookings/update-note', {
+      const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/update-note', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ const handleFileUpload = async () => {
     const uploadedFile = await res.json();
     if (!uploadedFile.secure_url) throw new Error('Upload failed');
 
-    const response = await fetch(`http://localhost:3000/api/quotations/${booking._id}/file`, {
+    const response = await fetch(`https://travelwheelsph.onrender.com/api/quotations/${booking._id}/file`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ file: uploadedFile.secure_url }),

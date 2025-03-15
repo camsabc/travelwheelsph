@@ -39,7 +39,7 @@ function CreateStaffAccount({ key, onBack }) {
 
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:3000/api/users/create-staff-account', submitData);
+      const response = await axios.post('https://travelwheelsph.onrender.com/api/users/create-staff-account', submitData);
       if (response.status === 201) {
         showToast('Staff account created successfully', 'success');
         onBack();

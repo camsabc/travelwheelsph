@@ -45,7 +45,7 @@ function DetailsQuotation() {
 
   const handleButtonClick = async (quotationId, disabled, type) => {
     try {
-      const response = await fetch('http://localhost:3000/api/quotations/toggle', {
+      const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/toggle', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ function DetailsQuotation() {
 
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
+      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
@@ -77,7 +77,7 @@ function DetailsQuotation() {
           } else {
             setUser(data);
 
-            return fetch(`http://localhost:3000/api/quotations/get-all-quotations-by-email/${email}`);
+            return fetch(`https://travelwheelsph.onrender.com/api/quotations/get-all-quotations-by-email/${email}`);
           }
         })
         .then(response => response.json())
@@ -87,7 +87,7 @@ function DetailsQuotation() {
           } else {
             setQuotations(data);
             if (id) {
-              return fetch(`http://localhost:3000/api/quotations/get-quotation-by-id/${id}`);
+              return fetch(`https://travelwheelsph.onrender.com/api/quotations/get-quotation-by-id/${id}`);
             }
           }
           setLoading(false);

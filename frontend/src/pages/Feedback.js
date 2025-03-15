@@ -77,7 +77,7 @@ function Feedback() {
     e.preventDefault();
 
     try {
-        const response = await fetch('http://localhost:3000/api/feedbacks/create-feedback', {
+        const response = await fetch('https://travelwheelsph.onrender.com/api/feedbacks/create-feedback', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ function Feedback() {
 
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
+      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
@@ -117,7 +117,7 @@ function Feedback() {
               ...prev,
               name: fullName
             }));
-            return fetch(`http://localhost:3000/api/quotations/get-all-quotations-by-email/${email}`);
+            return fetch(`https://travelwheelsph.onrender.com/api/quotations/get-all-quotations-by-email/${email}`);
           }
         })
         .then(response => response && response.json())
@@ -127,7 +127,7 @@ function Feedback() {
           } else if (data) {
             setQuotations(data);
             if (id) {
-              return fetch(`http://localhost:3000/api/quotations/get-quotation-by-id/${id}`);
+              return fetch(`https://travelwheelsph.onrender.com/api/quotations/get-quotation-by-id/${id}`);
             }
           }
           setLoading(false);

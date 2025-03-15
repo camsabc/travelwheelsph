@@ -26,7 +26,7 @@ function Dashboard() {
 
   // Fetch aggregated feedback count data (for pie chart)
   useEffect(() => {
-    fetch(`http://localhost:3000/api/feedbacks/get-feedback-count-by-service`)
+    fetch(`https://travelwheelsph.onrender.com/api/feedbacks/get-feedback-count-by-service`)
       .then(response => response.json())
       .then(data => {
         if (data.error) {
@@ -47,7 +47,7 @@ function Dashboard() {
 
   // Fetch all feedback documents (for bar chart and details)
   useEffect(() => {
-    fetch(`http://localhost:3000/api/feedbacks/get-all-feedbacks`)
+    fetch(`https://travelwheelsph.onrender.com/api/feedbacks/get-all-feedbacks`)
       .then(response => response.json())
       .then(data => {
         if (data.error) {
