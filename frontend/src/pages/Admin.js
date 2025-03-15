@@ -24,6 +24,18 @@ import ContentManagementFAQ from '../components/ContentManagementFAQ';
 import ContentManagementTour from '../components/ContentManagementTour';
 import ContentManagementHotel from '../components/ContentManagementHotel';
 import ContentManagementCar from '../components/ContentManagementCar';
+import ContentManagementAboutUs from '../components/ContentManagementAboutUs';
+import ContentManagementContactUs from '../components/ContentManagementContactUs';
+import ContentManagementEditProfile from '../components/ContentManagementEditProfile.js';
+import ContentManagementPayment from '../components/ContentManagementPayment';
+import ContentManagementTY from '../components/ContentManagementTY';
+import ContentManagementFlights from '../components/ContentManagementFlights';
+import ContentManagementPassport from '../components/ContentManagementPassport';
+import ContentManagementVisa from '../components/ContentManagementVisa';
+import ContentManagementMICE from '../components/ContentManagementMICE';
+import ContentManagementInsurance from '../components/ContentManagementInsurance';
+import ContentManagementTransfer from '../components/ContentManagementTransfer';
+import ContentManagementEduc from '../components/ContentManagementEduc';
 
 function Admin() {
   const location = useLocation();
@@ -47,7 +59,30 @@ function Admin() {
 
       'client services coordinator': ['Booking Management', 'Quotation Management', 'User Account Management', 'User Account', 'Employee Account', 'Logout'],
 
-      'sales executive': ['Content Management', 'Homepage', 'Tour Package', 'Promo', 'Car Rental', 'Hotel Booking', 'FAQ', 'User Account Management', 'User Account', 'Employee Account', 'Logout'],
+      'sales executive': [
+        'Content Management',
+        'Homepage',
+        'Payment',
+        'Thank You',
+        'Contact Us',
+        'Edit Profile',
+        'About Us',
+        'Tour Package',
+        'Promo',
+        'Car Rental',
+        'Hotel Booking',
+        'Flights',
+        'Passport',
+        'Transfer',
+        'VISA',
+        'MICE',
+        'Insurance',
+        'Educ','FAQ',
+        'User Account Management',
+        'User Account',
+        'Employee Account',
+        'Logout'
+      ],
  
       'admin': [
         'Dashboard',
@@ -62,8 +97,20 @@ function Admin() {
         'Tour Package',
         'Car Rental',
         'Hotel Booking',
+        'Flights',
+        'Passport',
+        'Transfer',
+        'VISA',
+        'MICE',
+        'Insurance',
+        'Educ',
+        'About Us',
         'Promo',
         'FAQ',
+        'Contact Us',
+        'Edit Profile',
+        'Payment',
+        'Thank You',
         'Logout'
       ],
     };
@@ -73,7 +120,7 @@ function Admin() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/get-all-bookings');
+        const response = await fetch('http://localhost:3000/api/bookings/get-all-bookings');
         const data = await response.json();
         setBookings(data);
       } catch (error) {
@@ -83,7 +130,7 @@ function Admin() {
 
     const fetchQuotations = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/get-all-quotations');
+        const response = await fetch('http://localhost:3000/api/quotations/get-all-quotations');
         const data = await response.json();
         setQuotations(data);
       } catch (error) {
@@ -93,7 +140,7 @@ function Admin() {
 
     const fetchInquiries = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/inquiries/get-all-inquiries');
+        const response = await fetch('http://localhost:3000/api/inquiries/get-all-inquiries');
         const data = await response.json();
         setInquiries(data);
       } catch (error) {
@@ -103,7 +150,7 @@ function Admin() {
 
     const fetchUsers = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/users/get-all-users');
+        const response = await fetch('http://localhost:3000/api/users/get-all-users');
         const data = await response.json();
         setUsers(data);
       } catch (error) {
@@ -581,6 +628,30 @@ function Admin() {
       return <ContentManagementHotel key={1} onBack={() => {}} />;
     } else if (currentContent === 'Car Rental' && hasAccess('Car Rental')) {
       return <ContentManagementCar key={1} onBack={() => {}} />;
+    } else if (currentContent === 'About Us' && hasAccess('About Us')) {
+      return <ContentManagementAboutUs key={1} onBack={() => {}} />;
+    } else if (currentContent === 'Contact Us' && hasAccess('Contact Us')) {
+      return <ContentManagementContactUs key={1} onBack={() => {}} />;
+    } else if (currentContent === 'Edit Profile' && hasAccess('Edit Profile')) {
+      return <ContentManagementEditProfile key={1} onBack={() => {}} />;
+    } else if (currentContent === 'Payment' && hasAccess('Payment')) {
+      return <ContentManagementPayment key={1} onBack={() => {}} />;
+    } else if (currentContent === 'Thank You' && hasAccess('Thank You')) {
+      return <ContentManagementTY key={1} onBack={() => {}} />;
+    } else if (currentContent === 'Flights' && hasAccess('Flights')) {
+      return <ContentManagementFlights key={1} onBack={() => {}} />;
+    } else if (currentContent === 'Passport' && hasAccess('Passport')) {
+      return <ContentManagementPassport key={1} onBack={() => {}} />;
+    } else if (currentContent === 'Transfer' && hasAccess('Transfer')) {
+      return <ContentManagementTransfer key={1} onBack={() => {}} />;
+    } else if (currentContent === 'MICE' && hasAccess('MICE')) {
+      return <ContentManagementMICE key={1} onBack={() => {}} />;
+    } else if (currentContent === 'VISA' && hasAccess('VISA')) {
+      return <ContentManagementVisa key={1} onBack={() => {}} />;
+    } else if (currentContent === 'Educ' && hasAccess('Educ')) {
+      return <ContentManagementEduc key={1} onBack={() => {}} />;
+    } else if (currentContent === 'Insurance' && hasAccess('Insurance')) {
+      return <ContentManagementInsurance key={1} onBack={() => {}} />;
     } else {
       return <div className="text-center">Select an option from the menu</div>;
     }
@@ -588,22 +659,60 @@ function Admin() {
 
   const availableSections = {
     'client services coordinator': ['Booking Management', 'Quotation Management', 'User Account Management', 'User Account', 'Employee Account', 'Logout'],
-    'sales executive': ['Content Management', 'Homepage', 'Tour Package', 'Promo', 'Car Rental', 'Hotel Booking', 'FAQ', 'User Account Management', 'User Account', 'Employee Account', 'Logout'],
+    
+    'sales executive': [
+      'Content Management',
+      'Homepage',
+      'Payment',
+      'Thank You',
+      'Contact Us',
+      'Edit Profile',
+      'About Us',
+      'Tour Package',
+      'Promo',
+      'Car Rental',
+      'Hotel Booking',
+      'Flights',
+      'Passport',
+      'Transfer',
+      'VISA',
+      'MICE',
+      'Insurance',
+      'Educ',
+      'FAQ',
+      'User Account Management',
+      'User Account',
+      'Employee Account',
+      'Logout'
+    ],
+
     'admin': [
       'Dashboard',
       'Booking Management',
       'Quotation Management',
-      'User Account Management',
       'Inquiry Management',
+      'User Account Management',
       'Content Management',
       'User Account',
       'Employee Account',
       'Homepage',
       'Tour Package',
-      'Promo',
-      'FAQ',
       'Car Rental',
       'Hotel Booking',
+      'Flights',
+      'Passport',
+      'Transfer',
+      'VISA',
+      'MICE',
+      'Insurance',
+      'Educ',
+      'About Us',
+      'Promo',
+      'FAQ',
+      'Contact Us',
+      'Edit Profile',
+      'Payment',
+      'Thank You',
       'Logout'
     ],
   };

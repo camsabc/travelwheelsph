@@ -35,6 +35,7 @@ function ServicesEducGuest() {
 
   const navigate = useNavigate();  
   const [backgroundImage, setBackgroundImage] = useState(flightsbg);
+  const [content, setContent] = useState(null);
 
   const [educs, setEducs] = useState([]);
 
@@ -59,11 +60,11 @@ function ServicesEducGuest() {
   const getImageForEduc = (picsValue) => {
     switch (picsValue) {
       case 1:
-        return educ1;
+        return content?.educImage1 ||  educ1;
       case 2:
-        return educ2;
+        return content?.educImage2 ||  educ2;
       case 3:
-        return educ3;
+        return content?.educImage3 ||  educ3;
       default:
         return null; 
     }
@@ -91,7 +92,7 @@ function ServicesEducGuest() {
   useEffect(() => {
     const fetchData = async () => {
             try {
-                const educsResponse = await fetch(`https://travelwheelsph.onrender.com/api/educs/get-all-educs`);
+                const educsResponse = await fetch(`http://localhost:3000/api/educs/get-all-educs`);
                 const educsData = await educsResponse.json();
                 if (educsData.error) {
                     setError(educsData.error);
@@ -105,14 +106,30 @@ function ServicesEducGuest() {
                 setLoading(false);
             }
     };
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
     fetchData();
 }, []);
+
 
   return (
     <div
       className="d-flex flex-column min-vh-100"
       style={{
-        backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: `url(${content?.educBackgroundImage || ''})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -193,7 +210,7 @@ function ServicesEducGuest() {
                       style={{ cursor: 'pointer', position: 'relative' }}
                     >
                       <MDBCardImage
-                        src={getImageForPack(educ.pics)}
+                        src={getImageForEduc(educ.pics)}
                         alt={educ.name}
                         style={{ height: '350px', width: '100%', objectFit: 'cover', objectPosition: 'center', marginBottom: '-20px' }}
                       />

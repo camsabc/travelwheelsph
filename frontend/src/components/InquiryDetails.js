@@ -12,7 +12,7 @@ function InquiryDetails({ inquiry, onBack }) {
 
   const changeInquiryStatus = async (inquiryId, status) => {
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/inquiries/change-status', {
+      const response = await fetch('http://localhost:3000/api/inquiries/change-status', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ function InquiryDetails({ inquiry, onBack }) {
     changeInquiryStatus(inquiryId, 'Replied')
 
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/inquiries/update-note', {
+      const response = await fetch('http://localhost:3000/api/inquiries/update-note', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

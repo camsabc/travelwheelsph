@@ -18,6 +18,7 @@ import Toast from './Toast';
 function TransferDetails() {
   const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState(flightsbg);
+  const [content, setContent] = useState(null);
   const [user, setUser] = useState(null);
   const location = useLocation();
   const { email } = location.state || {};
@@ -329,7 +330,7 @@ const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => 
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
+        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -356,7 +357,7 @@ const handleQuotationSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create-quotation', {
+        const response = await fetch('http://localhost:3000/api/quotations/create-quotation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -383,7 +384,7 @@ const handleQuotationSubmit = async (e) => {
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -401,6 +402,21 @@ const handleQuotationSubmit = async (e) => {
         setLoading(false);
       }
     };
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
     fetchData();
   }, [email]);
 
@@ -425,7 +441,7 @@ const handleQuotationSubmit = async (e) => {
     <>
     {/* Header Section */}
     <div className="d-flex flex-column min-vh-100" style={{
-        backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: `url(${content?.transferImage || ''})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

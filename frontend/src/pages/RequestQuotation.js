@@ -43,7 +43,7 @@ function RequestQuotation() {
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -109,10 +109,9 @@ if (error) {
               <MDBNavbarItem style={{ margin: '0 25px' }}>
                 <MDBNavbarLink onClick={() => navigate('/promos', { state: { email: user.email }})}>Promos</MDBNavbarLink>
               </MDBNavbarItem>
-              <MDBNavbarItem style={{ margin: '0 25px', fontWeight: 'bold' }}>
+              <MDBNavbarItem style={{ margin: '0 25px' }}>
                 <MDBNavbarLink 
                     onClick={() => navigate('/inquiry')}
-                    style={{ color: 'rgb(255, 165, 0)' }} 
                 >
                     Inquiry
                 </MDBNavbarLink>

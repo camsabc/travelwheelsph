@@ -19,6 +19,7 @@ import ChatbotGuest from './ChatbotGuest';
 
 function DetailsPassportGuest() {
   const navigate = useNavigate();
+  const [content, setContent] = useState(null);
 
   const [backgroundImage, setBackgroundImage] = useState(passportbg);
   const [user, setUser] = useState(null);
@@ -144,7 +145,7 @@ function DetailsPassportGuest() {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
+        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -171,7 +172,7 @@ const handleQuotationSubmit = async (e) => {
   e.preventDefault();
 
   try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create-quotation', {
+      const response = await fetch('http://localhost:3000/api/quotations/create-quotation', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
@@ -193,6 +194,24 @@ const handleQuotationSubmit = async (e) => {
       setError('Failed to submit quotation request.');
   }
 };
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
+  }, []);
 
   return (
     <>
@@ -249,7 +268,7 @@ const handleQuotationSubmit = async (e) => {
 
   
     <div className="d-flex flex-column min-vh-100"  style={{
-        backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: `url(${content?.passportImage || ''})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -276,15 +295,15 @@ const handleQuotationSubmit = async (e) => {
           <MDBCardBody>
 
           <MDBTypography tag="h5" className="text-start mb-1 mt-3" style={{paddingLeft: "20px"}}>
-            PHP 1,800 ( incl. of passport fee, admin fee & service change, courier Air21 delivery)
+            {content?.passportSubtitle || 'PHP 1,800 ( incl. of passport fee, admin fee & service change, courier Air21 delivery)'}
           </MDBTypography>
           <MDBTypography tag="h5" className="text-start mb-1 mt-3" style={{paddingLeft: "20px"}}>
             STEPS
           </MDBTypography>
                     <ol style={{paddingLeft: "50px", fontWeight: "bold", paddingBottom: "10px"}}>
-                        <li> Provide the Personal details, (New passport: PSA copy / Renewal: Old Passport copy) </li>
-                        <li> Choose a DFA Branch </li>
-                        <li> Pay 1800 via Bank Deposit or G-Cash/Maya </li>
+                        <li> {content?.stepOneText || 'Provide the Personal details, (New passport: PSA copy / Renewal: Old Passport copy)'} </li>
+                        <li> {content?.stepTwoText || 'Choose a DFA Branch'} </li> 
+                        <li> {content?.stepThreeText || 'Pay 1800 via Bank Deposit or G-Cash/Maya'} </li>
                     </ol>
 
 

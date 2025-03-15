@@ -24,6 +24,8 @@ import ChatbotGuest from './ChatbotGuest';
 
 function DetailsInsuranceGuest() {
   const navigate = useNavigate();
+  
+  const [content, setContent] = useState(null);
   const [backgroundImage, setBackgroundImage] = useState(flightsbg);
   const [user, setUser] = useState(null);
   const location = useLocation();
@@ -158,7 +160,7 @@ function DetailsInsuranceGuest() {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
+        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -185,7 +187,7 @@ const handleQuotationSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create-quotation', {
+        const response = await fetch('http://localhost:3000/api/quotations/create-quotation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -208,12 +210,30 @@ const handleQuotationSubmit = async (e) => {
     }
 };
 
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
+  }, []);
+
 
   return (
     <>
 
     <div className="d-flex flex-column min-vh-100" style={{
-        backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: `url(${content?.insuranceImage || ''})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -770,7 +790,7 @@ const handleQuotationSubmit = async (e) => {
                 </MDBRow>
 
                 <MDBRow className='mt-4' style={{paddingLeft: '50px'}}>
-                    Note: When requesting quotation, no need to input details of companion. It’s only needed when booking. 
+                  {content?.insuranceNoteText || 'Note: When requesting quotation, no need to input details of companion. It’s only needed when booking.'}
                 </MDBRow>
 
             </form>

@@ -114,11 +114,11 @@ function Services() {
   const getImageForEduc = (picsValue) => {
     switch (picsValue) {
       case 1:
-        return educ1;
+        return content?.educImage1 ||  educ1;
       case 2:
-        return educ2;
+        return content?.educImage2 ||  educ2;
       case 3:
-        return educ3;
+        return content?.educImage3 ||  educ3;
       default:
         return null; 
     }
@@ -165,7 +165,7 @@ function Services() {
     const fetchData = async () => {
         if (email) {
             try {
-                const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+                const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
                 const userData = await userResponse.json();
 
                 if (userData.error) {
@@ -174,7 +174,7 @@ function Services() {
                     setUser(userData);
                 }
 
-                const ridesResponse = await fetch(`https://travelwheelsph.onrender.com/api/rides/get-all-rides`);
+                const ridesResponse = await fetch(`http://localhost:3000/api/rides/get-all-rides`);
                 const ridesData = await ridesResponse.json();
                 if (ridesData.error) {
                     setError(ridesData.error);
@@ -182,7 +182,7 @@ function Services() {
                     setRides(ridesData);
                 }
 
-                const educsResponse = await fetch(`https://travelwheelsph.onrender.com/api/educs/get-all-educs`);
+                const educsResponse = await fetch(`http://localhost:3000/api/educs/get-all-educs`);
                 const educsData = await educsResponse.json();
                 if (educsData.error) {
                     setError(educsData.error);
@@ -190,7 +190,7 @@ function Services() {
                     setEducs(educsData);
                 }
 
-                const packsResponse = await fetch(`https://travelwheelsph.onrender.com/api/packs/get-all-packs`);
+                const packsResponse = await fetch(`http://localhost:3000/api/packs/get-all-packs`);
                 const packsData = await packsResponse.json();
                 if (packsData.error) {
                     setError(packsData.error);
@@ -212,7 +212,7 @@ function Services() {
 
     const fetchContent = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
         const result = await response.json();
         if (response.ok) {
           setContent(result);

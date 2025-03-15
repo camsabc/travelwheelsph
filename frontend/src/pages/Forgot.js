@@ -34,7 +34,7 @@ const Forgot = () => {
     }
 
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com/request-otp', { email });
+      const response = await fetch('http://localhost:3000/request-otp', { email });
 
       if (response.status === 201) {
         showToast('OTP sent to email!', 'success');

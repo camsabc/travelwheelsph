@@ -35,6 +35,7 @@ function AboutUsGuest() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+      const [content, setContent] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [inquiryData, setInquiryData] = useState({
     email: '',
@@ -48,6 +49,24 @@ function AboutUsGuest() {
       [name]: value,
     });
   };
+
+      useEffect(() => {
+        const fetchContent = async () => {
+          try {
+            const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+            const result = await response.json();
+            if (response.ok) {
+              setContent(result);
+            } 
+          } catch (error) {
+            console.error('Error fetching content:', error);
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        fetchContent();
+      }, []);
 
 
   return (
@@ -153,7 +172,8 @@ function AboutUsGuest() {
                     </MDBTypography>
 
                     <MDBTypography>
-                        Travel Tayo Car Rental and Tours is a private owned business, located at Unit 2, 2nd Flr, Hersyl Building, Blk 5 Lot 25 Ph4 Golden City Subdivision, Brgy. Dita, Sta Rosa, Laguna. Founded on October 2015, the company has projected revenues and started to establish its name and connections in the local market. It foresees potentials and has expanded the range of services vigorously.
+                    {content?.aboutText1}
+                        
                     </MDBTypography>
 
                     <MDBTypography className='mt-3' style={{ fontSize: '25px', color: 'rgb(255, 165, 0)', fontWeight: 'bolder' }}>
@@ -161,7 +181,8 @@ function AboutUsGuest() {
                     </MDBTypography>
 
                     <MDBTypography>
-                        We offer unmatched value, safety, and convenience. We prioritize top-notch customer service, cultural experiences, and safe mobility for all clients. The company is operated and managed based on the international standard environment gained from the previous companies attended by the founders, applying the quality standard of leadership, processes, strategy, resources, and people. With continuous innovation and nationwide accessibility, we guarantee every journey leaves a lasting impact, making us your ideal travel partner.
+                    {content?.aboutText2}
+                      
                     </MDBTypography>
 
                     <MDBTypography className='mt-3' style={{ fontSize: '25px', color: 'rgb(255, 165, 0)', fontWeight: 'bolder' }}>
@@ -169,7 +190,8 @@ function AboutUsGuest() {
                     </MDBTypography>
 
                     <MDBTypography>
-                    As part of continuous improvement and raising the quality standard, the company has started attaining the accreditation and affiliations:
+                    {content?.aboutText3}
+                    
                     </MDBTypography>
 
                     <MDBTypography>

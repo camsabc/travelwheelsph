@@ -44,6 +44,8 @@ function Inquiry() {
     message: '',
   });
 
+  const [content, setContent] = useState(null);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInquiryData({
@@ -57,7 +59,7 @@ function Inquiry() {
 
     // Send the inquiry to the backend
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/inquiries/create-inquiry', {
+      const response = await fetch('http://localhost:3000/api/inquiries/create-inquiry', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -80,7 +82,7 @@ function Inquiry() {
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -98,6 +100,22 @@ function Inquiry() {
         setLoading(false);
       }
     };
+
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
     fetchData();
   }, [email]);
 
@@ -121,7 +139,7 @@ function Inquiry() {
     <div
       className="d-flex flex-column min-vh-100"
       style={{
-        backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: `url(${content?.aboutImage}})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -165,7 +183,7 @@ function Inquiry() {
                   cursor: 'pointer',
                 }}
               >
-                Hi, {user.firstname}
+                Hi, {user?.firstname || "Loading"}
               </span>
             </MDBNavbarNav>
           </MDBNavbar>
@@ -205,7 +223,7 @@ function Inquiry() {
                     </MDBTypography>
 
                     <MDBTypography>
-                        Travel Tayo Car Rental and Tours is a private owned business, located at Unit 2, 2nd Flr, Hersyl Building, Blk 5 Lot 25 Ph4 Golden City Subdivision, Brgy. Dita, Sta Rosa, Laguna. Founded on October 2015, the company has projected revenues and started to establish its name and connections in the local market. It foresees potentials and has expanded the range of services vigorously.
+                        {content?.aboutText1}
                     </MDBTypography>
 
                     <MDBTypography className='mt-3' style={{ fontSize: '25px', color: 'rgb(255, 165, 0)', fontWeight: 'bolder' }}>
@@ -213,7 +231,7 @@ function Inquiry() {
                     </MDBTypography>
 
                     <MDBTypography>
-                        We offer unmatched value, safety, and convenience. We prioritize top-notch customer service, cultural experiences, and safe mobility for all clients. The company is operated and managed based on the international standard environment gained from the previous companies attended by the founders, applying the quality standard of leadership, processes, strategy, resources, and people. With continuous innovation and nationwide accessibility, we guarantee every journey leaves a lasting impact, making us your ideal travel partner.
+                      {content?.aboutText2}
                     </MDBTypography>
 
                     
@@ -222,7 +240,8 @@ function Inquiry() {
                     </MDBTypography>
 
                     <MDBTypography>
-                    As part of continuous improvement and raising the quality standard, the company has started attaining the accreditation and affiliations:
+                      {content?.aboutText3}
+                     
                     </MDBTypography>
 
                     <MDBTypography>

@@ -217,11 +217,11 @@ const createStaffAccount = async (req, res) => {
 
 /* Changes the service handle of a particular user using email as unique identifier */
 const changeServiceHandle = (req, res) => {
-    const { email, serviceHandle } = req.body;
+    const { email, type } = req.body;
 
     console.log(email);
 
-    UserModel.findOneAndUpdate({ email }, { serviceHandle }, { new: true })
+    UserModel.findOneAndUpdate({ email }, { type }, { new: true })
         .then(updatedUser => {
             if (!updatedUser) {
                 return res.status(404).json({ error: 'User not found' });
@@ -230,7 +230,7 @@ const changeServiceHandle = (req, res) => {
         })
         .catch(err => {
             console.log(err);
-            res.status(500).json({ error: 'Failed to change status' });
+            res.status(500).json({ error: 'Failed to change role' });
         });
 };
 

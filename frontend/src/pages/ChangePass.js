@@ -24,7 +24,7 @@ const ChangePass = () => {
 
     try {
       // Call backend API to change the user's password
-      const response = await axios.post('https://travelwheelsph.onrender.com/change-password', {
+      const response = await axios.post('http://localhost:3000/change-password', {
         email,           // User email passed from the previous page
         newPassword      // New password to be set
       });

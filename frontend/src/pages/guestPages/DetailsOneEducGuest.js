@@ -33,7 +33,7 @@ function DetailsOneEducGuest() {
     const fetchData = async () => {
       try {
         if (email) {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
           if (userData.error) {
             setError(userData.error);
@@ -42,7 +42,7 @@ function DetailsOneEducGuest() {
           setUser(userData);
         }
 
-        const educResponse = await fetch(`https://travelwheelsph.onrender.com/api/educs/get-educ-by-id/${id}`);
+        const educResponse = await fetch(`http://localhost:3000/api/educs/get-educ-by-id/${id}`);
         const educData = await educResponse.json();
         if (educData.error) {
           setError(educData.error);

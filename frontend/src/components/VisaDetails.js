@@ -24,6 +24,7 @@ import logo from '../images/header.jpg';
 function VisaDetails() {
   const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState(visabg);
+  const [content, setContent] = useState(null);
 
   const [visibleButtons, setVisibleButtons] = useState('');
 
@@ -41,7 +42,7 @@ function VisaDetails() {
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -59,6 +60,21 @@ function VisaDetails() {
         setLoading(false);
       }
     };
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
     fetchData();
   }, [email]);
 
@@ -127,7 +143,7 @@ function VisaDetails() {
   </MDBContainer>
 </div>
     <div className="d-flex flex-column min-vh-100" style={{
-        backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: `url(${content?.visaImage || ''})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -154,8 +170,8 @@ function VisaDetails() {
           <MDBCardBody>
             <MDBTypography tag="h5" className="text-center mb-2">Upload the following requirements below:</MDBTypography>
             <ul style={{ paddingLeft: "0", paddingBottom: "20px", listStylePosition: 'inside', textAlign: 'center', fontSize: '20px' }}> {/* Center the list */}
-              <li> All documents must be original unless stated otherwise. </li>
-              <li> Size of document for application should be A4 size only. </li>
+              <li> ${content?.visaNote1 || 'All documents must be original unless stated otherwise.'} </li>
+              <li> ${content?.visaNote2 || 'Size of document for application should be A4 size only.'} </li>
             </ul>
 
             {/* Button Set 1 */}

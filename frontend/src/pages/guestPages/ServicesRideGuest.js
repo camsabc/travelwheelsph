@@ -71,7 +71,7 @@ function ServicesRideGuest() {
   useEffect(() => {
     const fetchData = async () => {
             try {
-                const ridesResponse = await fetch(`https://travelwheelsph.onrender.com/api/rides/get-all-rides`);
+                const ridesResponse = await fetch(`http://localhost:3000/api/rides/get-all-rides`);
                 const ridesData = await ridesResponse.json();
                 if (ridesData.error) {
                     setError(ridesData.error);
@@ -87,7 +87,7 @@ function ServicesRideGuest() {
     };
     const fetchContent = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
         const result = await response.json();
         if (response.ok) {
           setContent(result);

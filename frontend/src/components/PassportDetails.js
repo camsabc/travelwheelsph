@@ -20,6 +20,7 @@ function PassportDetails() {
   const navigate = useNavigate();
 
   const [backgroundImage, setBackgroundImage] = useState(passportbg);
+  const [content, setContent] = useState(null);
   const [user, setUser] = useState(null);
   const location = useLocation();
   const { email } = location.state || {};
@@ -98,13 +99,44 @@ function PassportDetails() {
     payment: ''
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setBookingDetails(prevDetails => ({
-      ...prevDetails,
-      [name]: value,
-    }));
-  };
+
+
+
+    const [validationState, setValidationState] = useState({
+      contactNumber: true,
+      officeNumber: true,
+      oldPassportNumber: true,
+      contactNumberForeign: true,
+    });
+
+  
+    const validators = {
+      oldPassportNumber: (value) => /^[a-zA-Z0-9]*$/.test(value), 
+      officeNumber: (value) => /^[0-9]*$/.test(value), 
+      contactNumber: (value) => /^[0-9]*$/.test(value), 
+      contactNumberForeign: (value) => /^[0-9]*$/.test(value), 
+    };
+    
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+
+      setBookingDetails((prevDetails) => ({
+        ...prevDetails,
+        [name]: value,
+      }));
+
+      if (validators[name]) {
+        setValidationState((prevState) => ({
+          ...prevState,
+          [name]: validators[name](value),
+        }));
+      }
+    };
+
+
+
+
 
   const populateUserData = () => {
     if (user) {
@@ -283,7 +315,7 @@ const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => 
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -301,6 +333,21 @@ const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => 
         setLoading(false);
       }
     };
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
     fetchData();
   }, [email]);
 
@@ -325,7 +372,7 @@ const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => 
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
+        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -352,7 +399,7 @@ const handleQuotationSubmit = async (e) => {
   e.preventDefault();
 
   try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create-quotation', {
+      const response = await fetch('http://localhost:3000/api/quotations/create-quotation', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
@@ -370,8 +417,7 @@ const handleQuotationSubmit = async (e) => {
       showToast('Quotation created successfully!', 'success');
       navigate('/request-quotation', { state: { email: user.email }})
   } catch (err) {
-      console.error('Error creating quotation:', err);
-      setError('Failed to submit quotation request.');
+      showToast('Invalid Input!', 'error');
   }
 };
 
@@ -416,7 +462,7 @@ const handleQuotationSubmit = async (e) => {
               cursor: 'pointer',
             }}
           >
-            Hi, {user.firstname}
+            Hi, {user?.firstname || 'Loading...'}
           </span>
         </MDBNavbarNav>
       </MDBNavbar>
@@ -424,7 +470,7 @@ const handleQuotationSubmit = async (e) => {
   </div>
   
     <div className="d-flex flex-column min-vh-100"  style={{
-        backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: `url(${content?.passportImage || ''})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -451,15 +497,15 @@ const handleQuotationSubmit = async (e) => {
           <MDBCardBody>
 
           <MDBTypography tag="h5" className="text-start mb-1 mt-3" style={{paddingLeft: "20px"}}>
-            PHP 1,800 ( incl. of passport fee, admin fee & service change, courier Air21 delivery)
+            ${content?.passportSubtitle || 'PHP 1,800 ( incl. of passport fee, admin fee & service change, courier Air21 delivery)'}
           </MDBTypography>
           <MDBTypography tag="h5" className="text-start mb-1 mt-3" style={{paddingLeft: "20px"}}>
             STEPS
           </MDBTypography>
                     <ol style={{paddingLeft: "50px", fontWeight: "bold", paddingBottom: "10px"}}>
-                        <li> Provide the Personal details, (New passport: PSA copy / Renewal: Old Passport copy) </li>
-                        <li> Choose a DFA Branch </li>
-                        <li> Pay 1800 via Bank Deposit or G-Cash/Maya </li>
+                        <li> ${content?.stepOneText || 'Provide the Personal details, (New passport: PSA copy / Renewal: Old Passport copy)'} </li>
+                        <li> ${content?.stepTwoText || 'Choose a DFA Branch'} </li>
+                        <li> ${content?.stepThreeText || 'Pay 1800 via Bank Deposit or G-Cash/Maya'} </li>
                     </ol>
 
 
@@ -587,6 +633,11 @@ const handleQuotationSubmit = async (e) => {
 
               <MDBRow>
               <MDBCol md="6">
+              {!validationState.contactNumber && (
+                  <small style={{ color: 'red', paddingLeft: '12px' }}>
+                    Please enter a valid contact number
+                  </small>
+                )}
               <label htmlFor="contactNumber" style={{ color: 'black', paddingLeft: '12px' }}>
                     Contact Number <span style={{ color: 'red' }}>*</span>
                   </label>
@@ -1099,6 +1150,11 @@ const handleQuotationSubmit = async (e) => {
 
             <MDBRow>
             <MDBCol md="6">
+            {!validationState.oldPassportNumber && (
+                  <small style={{ color: 'red', paddingLeft: '12px' }}>
+                    Please enter a valid passport number
+                  </small>
+                )}
             <label htmlFor="oldPassportNumber" style={{ color: 'black', paddingLeft: '12px' }}>
                     Old Passport Number <span style={{ color: 'red' }}>*</span>
                   </label>
@@ -1121,6 +1177,7 @@ const handleQuotationSubmit = async (e) => {
                     }}
                   />
             </MDBCol>
+
             <MDBCol md="6">
             <label htmlFor="dateIssued" style={{ color: 'black', paddingLeft: '12px' }}>
                     Date Issued <span style={{ color: 'red' }}>*</span>
@@ -1226,6 +1283,11 @@ const handleQuotationSubmit = async (e) => {
 
             <MDBRow>
             <MDBCol md="6">
+            {!validationState.contactNumberForeign && (
+                  <small style={{ color: 'red', paddingLeft: '12px' }}>
+                    Please enter a valid contact foreign number
+                  </small>
+                )}
             <label htmlFor="contactNumberForeign" style={{ color: 'black', paddingLeft: '12px' }}>
               Contact Number Foreign <span style={{ color: 'red' }}>*</span>
                   </label>
@@ -1328,6 +1390,11 @@ const handleQuotationSubmit = async (e) => {
                   />
             </MDBCol>
             <MDBCol md="6">
+            {!validationState.officeNumber && (
+                  <small style={{ color: 'red', paddingLeft: '12px' }}>
+                    Please enter a valid office number
+                  </small>
+                )}
             <label htmlFor="officeNumber" style={{ color: 'black', paddingLeft: '12px' }}>
               Office Number<span style={{ color: 'red' }}>*</span>
                   </label>
@@ -1619,8 +1686,8 @@ const handleQuotationSubmit = async (e) => {
                         !bookingDetails.city ||
                         !bookingDetails.occuputation ||
                         !bookingDetails.officeNumber ||
-                        !bookingDetails.officeDetails
-
+                        !bookingDetails.officeDetails ||
+                        Object.values(validationState).includes(false)
                       } 
                     >
                       REQUEST QUOTATION

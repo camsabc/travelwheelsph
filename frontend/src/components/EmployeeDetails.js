@@ -16,18 +16,18 @@ function EmployeeDetails({ user, onBack }) {
 
   const updateServiceRole = async (email, newRole) => {
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/users/update-service-role', {
+      const response = await fetch('http://localhost:3000/api/users/update-service-role', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, serviceHandle: newRole }),
+        body: JSON.stringify({ email, type: newRole }),
       });
       if (!response.ok) {
         throw new Error('Failed to update service role');
       }
-      showToast(`Service handle will be updated to ${newRole}`, 'success');
-      navigate('/admin', { state: { name: "Admin" } });
+      showToast(`Service role will be updated to ${newRole}`, 'success');
+      navigate('/admin', { state: { name: "Admin", role: 'admin' } });
     } catch (error) {
       showToast('An error occurred', 'error');
     }
@@ -36,7 +36,7 @@ function EmployeeDetails({ user, onBack }) {
   
   const deleteStaffAccount = async (email) => {
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/users/delete-user', {
+      const response = await fetch('http://localhost:3000/api/users/delete-user', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ function EmployeeDetails({ user, onBack }) {
               paddingTop: '30px',
             }}
           >
-            Service Handle: {user.serviceHandle}
+            Service Role: {user.type}
           </p>
 
           {/* Dropdown to update service role */}
@@ -97,35 +97,14 @@ function EmployeeDetails({ user, onBack }) {
               Change Service Role
             </MDBDropdownToggle>
             <MDBDropdownMenu style={{paddingLeft: '7px', paddingRight: '7px'}}>
-              <MDBDropdownItem onClick={() => updateServiceRole(user.email, 'Car Rental')}>
-                Car Rental
+              <MDBDropdownItem onClick={() => updateServiceRole(user.email, 'client services coordinator')}>
+                Client Services Coordinator
               </MDBDropdownItem>
-              <MDBDropdownItem onClick={() => updateServiceRole(user.email, 'Transfer')}>
-                Transfer
+              <MDBDropdownItem onClick={() => updateServiceRole(user.email, 'sales executive')}>
+                Sales Executive
               </MDBDropdownItem>
-              <MDBDropdownItem onClick={() => updateServiceRole(user.email, 'Passport Appointment')}>
-                Passport Appointment
-              </MDBDropdownItem>
-              <MDBDropdownItem onClick={() => updateServiceRole(user.email, 'Flights')}>
-                 Flights
-              </MDBDropdownItem>
-              <MDBDropdownItem onClick={() => updateServiceRole(user.email, 'Hotel Reservation')}>
-                Hotel Reservation
-              </MDBDropdownItem>
-              <MDBDropdownItem onClick={() => updateServiceRole(user.email, 'MICE')}>
-                MICE
-              </MDBDropdownItem>
-              <MDBDropdownItem onClick={() => updateServiceRole(user.email, 'Travel Insurance')}>
-                Travel Insurance
-              </MDBDropdownItem>
-              <MDBDropdownItem onClick={() => updateServiceRole(user.email, 'Tour Packages - Domestic')}>
-                Tour Packages - Domestic
-              </MDBDropdownItem>
-              <MDBDropdownItem onClick={() => updateServiceRole(user.email, 'Tour Packages - International')}>
-                Tour Packages - International
-              </MDBDropdownItem>
-              <MDBDropdownItem onClick={() => updateServiceRole(user.email, 'Educational Tour')}>
-                Educational Tour
+              <MDBDropdownItem onClick={() => updateServiceRole(user.email, 'admin')}>
+                Admin
               </MDBDropdownItem>
             </MDBDropdownMenu>
           </MDBDropdown>

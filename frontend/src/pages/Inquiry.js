@@ -34,6 +34,9 @@ function Inquiry() {
     message: '',
   });
 
+  
+    const [content, setContent] = useState(null);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInquiryData({
@@ -47,7 +50,7 @@ function Inquiry() {
 
     // Send the inquiry to the backend
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/inquiries/create-inquiry', {
+      const response = await fetch('http://localhost:3000/api/inquiries/create-inquiry', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +73,7 @@ function Inquiry() {
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -89,6 +92,22 @@ function Inquiry() {
         setLoading(false);
       }
     };
+
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
     fetchData();
   }, [email]);
 
@@ -156,7 +175,7 @@ function Inquiry() {
                   cursor: 'pointer',
                 }}
               >
-                Hi, {user.firstname}
+                Hi, {user?.firstname || "Loading..."}
               </span>
             </MDBNavbarNav>
           </MDBNavbar>
@@ -194,35 +213,35 @@ function Inquiry() {
                 <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
                   <FaPhone style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
                   <div style={{ fontSize: '15px', color: 'black' }}>
-                    GLOBE  0915-262-3898 <br />
-                    GLOBE  0927-893-0271 <br />
-                    GLOBE  0994-639-6953
+                    {content?.contactNumber1} <br />
+                    {content?.contactNumber2}  <br />
+                    {content?.contactNumber3} 
                   </div>
                 </div>
                 <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
                   <FaEnvelope style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
-                  <div style={{ fontSize: '15px', color: 'black' }}>info@traveltayoph.com</div>
+                  <div style={{ fontSize: '15px', color: 'black' }}>{content?.contactEmail} </div>
                 </div>
                 <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
                   <FaFacebook style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
-                  <div style={{ fontSize: '15px', color: 'black' }}>TravelTayo Car Rental and Tours</div>
+                  <div style={{ fontSize: '15px', color: 'black' }}>{content?.contactFB} </div>
                 </div>
                 <div className="col-12 col-lg-auto d-flex align-items-center mb-3">
                   <FaInstagram style={{ fontSize: '3rem', marginRight: '15px', color: 'rgb(255, 165, 0)' }} />
-                  <div style={{ fontSize: '15px', color: 'black' }}>Travel Tayo PH</div>
+                  <div style={{ fontSize: '15px', color: 'black' }}>{content?.contactIG} </div>
                 </div>
               </div>
 
               <MDBCardText className="text-center mb-4 mt-5">
                 <span style={{ color: 'black', fontWeight: 'bold', marginRight: '5px' }}>ADDRESS</span>
                 <span style={{ color: 'rgb(255, 165, 0)' }}>
-                  Office Unit 2, Hersyl Building, Blk 5 Lot 25 Phase4, Golden City Subdivision, Brgy. Dila, Santa Rosa, Philippines
+                  {content?.contactAddress} 
                 </span>
               </MDBCardText>
 
               <div className="d-flex justify-content-center mb-4">
-                <iframe src="https://www.google.com/maps/embed?pb=!4v1740334015873!6m8!1m7!1ssMlAtNm_5dRpja_xjpcRHQ!2m2!1d14.3132602404735!2d121.0992767952367!3f243.60938!4f0!5f0.7820865974627469" width="700" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-              </div>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1933.1963936003895!2d121.11127923822303!3d14.288596095777885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397d8453b6836cf%3A0x3b8c0b6d16163c23!2sEntrance%20to%20Golden%20City%20Subdivision%2C%20Santa%20Rosa%2C%20Laguna!5e0!3m2!1sen!2sph!4v1741455638246!5m2!1sen!2sph" width="700" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              </div>               
 
               <div className="text-center mt-5">
                 <MDBTypography tag="h3" style={{ color: 'rgb(250, 165, 0)', fontWeight: 'bolder' }}>

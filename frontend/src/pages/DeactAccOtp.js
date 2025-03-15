@@ -54,7 +54,7 @@ const DeactAccOtp = () => {
     }
   
     try {
-      const response = await axios.post('https://travelwheelsph.onrender.com/verify-otp', { email, otp });
+      const response = await axios.post('http://localhost:3000/verify-otp', { email, otp });
   
       if (response.status === 200) {
         const currentDate = new Date().toISOString(); 
@@ -67,7 +67,7 @@ const DeactAccOtp = () => {
 
   const addDeact = async (email, date) => {
     try {
-      const response = await axios.post('https://travelwheelsph.onrender.com/api/deacts/add-deact', { email, date });
+      const response = await axios.post('http://localhost:3000/api/deacts/add-deact', { email, date });
       if (response.status === 201) {
         showToast('Your account has now been deactivated', 'success');
   
@@ -85,7 +85,7 @@ const DeactAccOtp = () => {
     try {
       setResendDisabled(true);
       setTimer(30); // Reset the timer to 30 seconds
-      const response = await axios.post('https://travelwheelsph.onrender.com/request-otp', { email });
+      const response = await axios.post('http://localhost:3000/request-otp', { email });
       
       if (response.status === 200) {
         showToast('OTP sent to email!', 'success');

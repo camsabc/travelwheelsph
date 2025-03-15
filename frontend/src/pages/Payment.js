@@ -34,6 +34,8 @@ function Payment() {
   const [error, setError] = useState('');
   const [toast, setToast] = useState(null);
 
+  const [content, setContent] = useState(null);
+
   const showToast = (message, type) => {
     setToast({ message, type });
   };
@@ -53,7 +55,7 @@ function Payment() {
       const uploadedFile = await res.json();
       if (!uploadedFile.secure_url) throw new Error('Upload failed');
 
-      const response = await fetch(`https://travelwheelsph.onrender.com/api/quotations/${quotationDetails._id}/payment`, {
+      const response = await fetch(`http://localhost:3000/api/quotations/${quotationDetails._id}/payment`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ payment: uploadedFile.secure_url }),
@@ -73,7 +75,7 @@ function Payment() {
   
   const changeQuotationStatus = async (quotationId, status) => {
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/change-status', {
+      const response = await fetch('http://localhost:3000/api/quotations/change-status', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,7 +99,7 @@ function Payment() {
 
   useEffect(() => {
     if (email) {
-      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
+      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
@@ -106,7 +108,7 @@ function Payment() {
           } else {
             setUser(data);
 
-            return fetch(`https://travelwheelsph.onrender.com/api/quotations/get-all-quotations-by-email/${email}`);
+            return fetch(`http://localhost:3000/api/quotations/get-all-quotations-by-email/${email}`);
           }
         })
         .then(response => response.json())
@@ -116,7 +118,7 @@ function Payment() {
           } else {
             setQuotations(data);
             if (id) {
-              return fetch(`https://travelwheelsph.onrender.com/api/quotations/get-quotation-by-id/${id}`);
+              return fetch(`http://localhost:3000/api/quotations/get-quotation-by-id/${id}`);
             }
           }
           setLoading(false);
@@ -139,6 +141,22 @@ function Payment() {
     } else {
       setLoading(false);
     }
+
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
   }, [id, email]);
 
   if (loading) {
@@ -221,12 +239,12 @@ function Payment() {
 
                     {/* Center Text */}
                     <h3 style={{ textAlign: 'center', fontSize: '20px', color: 'black', flex: 1 }}>
-                        PayPal Account Number: 09123456789 <strong style={{ paddingLeft: '70px', color: 'rgb(255, 165, 0)' }}> or </strong>
+                        PayPal Account Number: {content?.paymentPaypalNumber}  <strong style={{ paddingLeft: '70px', color: 'rgb(255, 165, 0)' }}> or </strong>
                     </h3>
 
                     {/* Right Image */}
                     <img 
-                        src={qr}
+                        src={content?.paymentPaypalQrImage}
                         alt="Right Image" 
                         style={{ width: '120px', height: '120px', borderRadius: '10px' }}
                     />
@@ -243,12 +261,12 @@ function Payment() {
 
                     {/* Center Text */}
                     <h3 style={{ textAlign: 'center', fontSize: '20px', color: 'black', flex: 1 }}>
-                        Gcash Account Number: 09123456789 <strong style={{ paddingLeft: '70px', color: 'rgb(255, 165, 0)' }}> or </strong>
+                        Gcash Account Number: {content?.paymentGcashNumber}  <strong style={{ paddingLeft: '70px', color: 'rgb(255, 165, 0)' }}> or </strong>
                     </h3>
 
                     {/* Right Image */}
                     <img 
-                        src={qr}
+                        src={content?.paymentGcashQrImage}
                         alt="Right Image" 
                         style={{ width: '120px', height: '120px', borderRadius: '10px' }}
                     />
@@ -265,12 +283,12 @@ function Payment() {
 
                     {/* Center Text */}
                     <h3 style={{ textAlign: 'center', fontSize: '20px', color: 'black', flex: 1 }}>
-                        Maya Account Number: 09123456789 <strong style={{ paddingLeft: '70px', color: 'rgb(255, 165, 0)' }}> or </strong>
+                        Maya Account Number: {content?.paymentMayaNumber} <strong style={{ paddingLeft: '70px', color: 'rgb(255, 165, 0)' }}> or </strong>
                     </h3>
 
                     {/* Right Image */}
                     <img 
-                        src={qr}
+                        src={content?.paymentMayaQrImage}
                         alt="Right Image" 
                         style={{ width: '120px', height: '120px', borderRadius: '10px' }}
                     />

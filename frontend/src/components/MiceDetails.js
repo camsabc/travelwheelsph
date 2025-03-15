@@ -27,6 +27,7 @@ import Toast from './Toast';
 function MiceDetails() {
   const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState(hotelbg);
+  const [content, setContent] = useState(null);
 
   const [user, setUser] = useState(null);
   const location = useLocation();
@@ -143,7 +144,7 @@ function MiceDetails() {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
+        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -170,7 +171,7 @@ const handleQuotationSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create-quotation', {
+        const response = await fetch('http://localhost:3000/api/quotations/create-quotation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -367,7 +368,7 @@ const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => 
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -385,6 +386,21 @@ const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => 
         setLoading(false);
       }
     };
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
     fetchData();
   }, [email]);
 
@@ -453,7 +469,7 @@ const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => 
   </MDBContainer>
 </div>
     <div className="d-flex flex-column min-vh-100" style={{
-      backgroundImage: `url(${backgroundImage})`,
+      backgroundImage: `url(${content?.miceImage || ''})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
@@ -481,7 +497,7 @@ const QuotationPreviewModal = ({ show, onClose, onConfirm, bookingDetails }) => 
           fontSize: '16px',
         }}
       >
-        We provide access to a wide range of hotels, from luxurious resorts to budget-friendly options, ensuring you find the perfect stay
+        ${content?.miceSubtitle || 'We provide access to a wide range of hotels, from luxurious resorts to budget-friendly options, ensuring you find the perfect stay'}
       </MDBTypography>
 
       <MDBContainer className="flex-grow-1 d-flex align-items-center justify-content-center">

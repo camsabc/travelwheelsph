@@ -23,6 +23,7 @@ import ChatbotGuest from './ChatbotGuest';
 
 function DetailsMiceGuest() {
   const navigate = useNavigate();
+  const [content, setContent] = useState(null);
   const [backgroundImage, setBackgroundImage] = useState(hotelbg);
 
   const [user, setUser] = useState(null);
@@ -144,7 +145,7 @@ function DetailsMiceGuest() {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/create-booking', {
+        const response = await fetch('http://localhost:3000/api/bookings/create-booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -171,7 +172,7 @@ const handleQuotationSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create-quotation', {
+        const response = await fetch('http://localhost:3000/api/quotations/create-quotation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -193,6 +194,24 @@ const handleQuotationSubmit = async (e) => {
         setError('Failed to submit quotation request.');
     }
 };
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
+  }, []);
 
 
   return (
@@ -251,7 +270,7 @@ const handleQuotationSubmit = async (e) => {
 
 
     <div className="d-flex flex-column min-vh-100" style={{
-      backgroundImage: `url(${backgroundImage})`,
+      backgroundImage: `url(${content?.miceImage || ''})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
@@ -279,7 +298,7 @@ const handleQuotationSubmit = async (e) => {
           fontSize: '16px',
         }}
       >
-        We provide access to a wide range of hotels, from luxurious resorts to budget-friendly options, ensuring you find the perfect stay
+        {content?.miceSubtitle || 'We provide access to a wide range of hotels, from luxurious resorts to budget-friendly options, ensuring you find the perfect stay'}
       </MDBTypography>
 
       <MDBContainer className="flex-grow-1 d-flex align-items-center justify-content-center">

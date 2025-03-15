@@ -11,7 +11,7 @@ function CreateStaffAccount({ key, onBack }) {
     password: '',
     confirmPassword: '',
     contactNumber: '',
-    serviceHandle: 'Car Rental' 
+    type: 'admin' 
   });
   const [toast, setToast] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -39,7 +39,7 @@ function CreateStaffAccount({ key, onBack }) {
 
     setLoading(true);
     try {
-      const response = await axios.post('https://travelwheelsph.onrender.com/api/users/create-staff-account', submitData);
+      const response = await axios.post('http://localhost:3000/api/users/create-staff-account', submitData);
       if (response.status === 201) {
         showToast('Staff account created successfully', 'success');
         onBack();
@@ -162,13 +162,13 @@ function CreateStaffAccount({ key, onBack }) {
         {/* Service Role Dropdown */}
         <MDBRow className="mb-2">
           <MDBCol md="6">
-            <label htmlFor="serviceHandle" style={{ color: 'black', paddingLeft: '12px' }}>
+            <label htmlFor="type" style={{ color: 'black', paddingLeft: '12px' }}>
               Service Role <span style={{ color: 'red' }}>*</span>
             </label>
             <select
-              id="serviceHandle"
-              name="serviceHandle"
-              value={formData.serviceHandle}
+              id="type"
+              name="type"
+              value={formData.type}
               onChange={handleChange}
               required
               className="form-control"
@@ -182,17 +182,9 @@ function CreateStaffAccount({ key, onBack }) {
                 marginBottom: '10px'
               }}
             >
-              <option value="Car Rental">Car Rental</option>
-              <option value="Transfer">Transfer</option>
-              <option value="Hotel Booking">Hotel Booking</option>
-              <option value="Passport Appointment">Passport Appointment</option>
-              <option value="Hotel Reservation">Hotel Reservation</option>
-              <option value="MICE">MICE</option>
-              <option value="Coordinator">Coordinator</option>
-              <option value="Travel Insurance">Travel Insurance</option>
-              <option value="Tour Packages - Domestic">Tour Packages - Domestic</option>
-              <option value="Tour Packages - International">Tour Packages - International</option>
-              <option value="Educational Tour">Educational Tour</option>
+              <option value="client services coordinator">Client Services Coordinator</option>
+              <option value="sales executive">Sales Executive</option>
+              <option value="admin">Admin</option>
             </select>
           </MDBCol>
         </MDBRow>

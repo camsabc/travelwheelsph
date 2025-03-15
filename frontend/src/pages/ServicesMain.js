@@ -58,7 +58,7 @@ function ServicesMain() {
     const fetchData = async () => {
         if (email) {
             try {
-                const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+                const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
                 const userData = await userResponse.json();
                 if (userData.error) {
                     setError(userData.error);
@@ -66,7 +66,7 @@ function ServicesMain() {
                     setUser(userData);
                 }
 
-                const ridesResponse = await fetch(`https://travelwheelsph.onrender.com/api/rides/get-all-rides`);
+                const ridesResponse = await fetch(`http://localhost:3000/api/rides/get-all-rides`);
                 const ridesData = await ridesResponse.json();
                 if (ridesData.error) {
                     setError(ridesData.error);

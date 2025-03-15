@@ -31,11 +31,16 @@ const PaymentSubmit = () => {
     const { id, email } = location.state || {}; 
     const [quotationDetails, setQuotationDetails] = useState(null);
     const [quotations, setQuotations] = useState([]); 
+
+    
+      const [content, setContent] = useState(null);
+
+      
   
 
   useEffect(() => {
     if (email) {
-      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
+      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
@@ -44,7 +49,7 @@ const PaymentSubmit = () => {
           } else {
             setUser(data);
 
-            return fetch(`https://travelwheelsph.onrender.com/api/quotations/get-all-quotations-by-email/${email}`);
+            return fetch(`http://localhost:3000/api/quotations/get-all-quotations-by-email/${email}`);
           }
         })
         .then(response => response.json())
@@ -54,7 +59,7 @@ const PaymentSubmit = () => {
           } else {
             setQuotations(data);
             if (id) {
-              return fetch(`https://travelwheelsph.onrender.com/api/quotations/get-quotation-by-id/${id}`);
+              return fetch(`http://localhost:3000/api/quotations/get-quotation-by-id/${id}`);
             }
           }
           setLoading(false);
@@ -77,6 +82,22 @@ const PaymentSubmit = () => {
     } else {
       setLoading(false);
     }
+
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const result = await response.json();
+        if (response.ok) {
+          setContent(result);
+        } 
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
   }, [id, email]);
 
   if (loading) {
@@ -129,8 +150,8 @@ const PaymentSubmit = () => {
         <div className="confirmation-container">
             <div className="confirmation-content">
                 <div className="confirmation-message">
-                <h1 style={{fontWeight: 'bolder'}}> <i className="fas fa-circle-check" style={{fontSize: '50px', paddingRight: '15px'}}></i>  We’ve received your payment!</h1>
-                <p>You will receive an email confirmation about your acknowledged receipt soon! Thank you!</p>
+                <h1 style={{fontWeight: 'bolder'}}> <i className="fas fa-circle-check" style={{fontSize: '50px', paddingRight: '15px'}}></i>  {content?.paymentMainText} </h1>
+                <p>{content?.paymentSubText}You will receive an email confirmation about your acknowledged receipt soon! Thank you!</p>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '20px', paddingTop: '20px' }}>
                   <button
