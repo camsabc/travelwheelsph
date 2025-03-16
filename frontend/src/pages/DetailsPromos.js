@@ -300,7 +300,7 @@ const handleQuotationSubmit = async (e) => {
             textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)',
           }}
         >
-            {promo.name} {promo.duration}
+            {promo.duration} {promo.name}
         </MDBTypography>
 
         <MDBContainer className="flex-grow-1 d-flex align-items-center justify-content-center">

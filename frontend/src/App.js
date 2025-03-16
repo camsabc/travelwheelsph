@@ -97,6 +97,7 @@ import Payment from './pages/Payment';
 import PaymentSubmit from './pages/PaymentSubmit';
 
 import DeactAccOtp from './pages/DeactAccOtp';
+import DetailsPromosGuest from './pages/guestPages/DetailsPromosGuest';
 
 
 function App() {
@@ -185,6 +186,7 @@ function App() {
 
               <Route path="/inquiry-list" element={<InquiryList/>}/>
               <Route path="/promo/:id" element={<DetailsPromos/>}/>
+              <Route path="/promo-guest/:id" element={<DetailsPromosGuest/>}/>
 
               <Route path="/hotel-guest" element={<DetailsHotelGuest/>}/>
               <Route path="/passport-guest" element={<DetailsPassportGuest/>}/>

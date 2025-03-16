@@ -240,7 +240,7 @@ function Inquiry() {
               </MDBCardText>
 
               <div className="d-flex justify-content-center mb-4">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1933.1963936003895!2d121.11127923822303!3d14.288596095777885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397d8453b6836cf%3A0x3b8c0b6d16163c23!2sEntrance%20to%20Golden%20City%20Subdivision%2C%20Santa%20Rosa%2C%20Laguna!5e0!3m2!1sen!2sph!4v1741455638246!5m2!1sen!2sph" width="700" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3866.3935931719216!2d121.11277819999998!3d14.288549199999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397d844c4c0d011%3A0x43756e1aa42914ed!2sTravel%20Tayo%20Car%20Rental%20and%20Tours!5e0!3m2!1sen!2sph!4v1742100160652!5m2!1sen!2sph" width="700" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
               </div>               
 
               <div className="text-center mt-5">

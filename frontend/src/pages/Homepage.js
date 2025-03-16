@@ -61,26 +61,51 @@ const Homepage = () => {
     { src: content.adventureImage3, label: 'TAIWAN' },
   ] : [];
 
-  const feedbacks = content ? [
-    { img: content.feedbackImage1, label: 'Feedback 1' },
-    { img: content.feedbackImage2, label: 'Feedback 2' },
-    { img: content.feedbackImage3, label: 'Feedback 3' },
+  const promos = content ? [
+    { img: content.feedbackImage1, label: 'Feedback 1', nav: '67341ea80daf57addaf69ba6', price: '3,999' },
+    { img: content.feedbackImage2, label: 'Feedback 2', nav: '67341f2d0daf57addaf69ba7', price: '4,999' },
+    { img: content.feedbackImage3, label: 'Feedback 3', nav: '67341f4f0daf57addaf69ba8', price: '3,999' },
+                                                              
   ] : [];
 
   const logos = content
   ? [
 
       `<iframe src="https://www.google.com/maps/embed?pb=!4v1740938048542!6m8!1m7!1skDh_bxXlGpgVlNgdscqU_A!2m2!1d11.94987721533076!2d121.9469231882238!3f114.26280566728494!4f-0.04381137292116932!5f0.7820865974627469" 
-      width="1350" height="380" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" scrolling="no" frameborder="0" 
-      style="border-radius: 12px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); overflow: hidden;"></iframe>`,
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" scrolling="no" frameborder="0" 
+      style="
+        position: relative; 
+        width: 33%; 
+        height: 380px; 
+        border-radius: 12px; 
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        left: 10px;
+        z-index: -1;
+      ""></iframe>`,
 
       `<iframe src="https://www.google.com/maps/embed?pb=!4v1740938115799!6m8!1m7!1spIEcK5UrfGg1jkiaeNkGfw!2m2!1d7.073649258285839!2d125.6111223506343!3f211.95818!4f0!5f0.7820865974627469"
-      width="1350" height="380" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" scrolling="no" frameborder="0" 
-      style="border-radius: 12px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); overflow: hidden;"></iframe>`,
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" scrolling="no" frameborder="0" 
+      style="
+        position: relative; 
+        width: 33%; 
+        height: 380px; 
+        border-radius: 12px; 
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        left: 10px;
+        z-index: -1;
+      "></iframe>`,
 
       `<iframe src="https://www.google.com/maps/embed?pb=!4v1740937849107!6m8!1m7!1sqCuHEF_Pa6mBh2lO8TnAhQ!2m2!1d35.35966629101768!2d138.7311853983154!3f359.88742!4f30!5f0.7820865974627469"
-      width="1350" height="380" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" scrolling="no" frameborder="0" 
-     style="border-radius: 12px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); overflow: hidden;"></iframe>`,
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" scrolling="no" frameborder="0" 
+      style="
+        position: relative; 
+        width: 33%; 
+        height: 380px; 
+        border-radius: 12px; 
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        left: 10px;
+        z-index: -1;
+      "></iframe>`,
      
     ]
   : [];
@@ -369,7 +394,7 @@ if (error) {
           alt={`Promo ${index + 1}`}
           className="img-fluid"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          onClick={() => {navigate('/destination-form-guest')}}
+          onClick={() => navigate('/destination-form-guest', { state: { name: slide.label } })}
         />
       </div>
       <h3
@@ -429,9 +454,9 @@ if (error) {
     </MDBCol>
   </MDBRow>
 
-  {/* Feedback Carousel */}
+  {/* Promo Carousel */}
   <div className="my-2" style={{ width: '100%', display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-  {feedbacks.map((feedback, index) => (
+  {promos.map((promo, index) => (
     <div
       key={index}
       style={{
@@ -446,23 +471,43 @@ if (error) {
       <div
         style={{
           width: '390px',
-          height: '390px',       
+          height: '390px',        
           borderRadius: '20px',
           overflow: 'hidden',
           marginBottom: '10px',
         }}
       >
         <MDBCardImage
-          src={feedback.img}
+          src={promo.img}
           alt={`Feedback ${index + 1}`}
           className="img-fluid"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </div>
       
+      
       <div className="d-flex justify-content-center" style={{ marginTop: '10px', fontWeight: 'bold', fontSize: '20px' }}>
-        FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)', marginLeft: '7px' }}>{content?.promoText3 || "PHP 3999"}</span>
+        FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)', marginLeft: '7px' }}>{content?.promoText3 || promo.price}</span>
       </div>
+
+      <button 
+          type="button" 
+          className="btn btn-primary"
+          onClick={() => navigate(`/promo-guest/${promo.nav}`)}
+          style={{ 
+              fontWeight: 'bold',
+              fontSize: '14px', 
+              width: '80%', 
+              borderRadius: '30px', 
+              backgroundColor: 'rgb(255, 165, 0)', 
+              border: 'none', 
+              padding: '10px 20px', 
+              marginTop: '15px',
+              marginBottom: '20px',
+          }}
+      >
+          BOOK NOW
+      </button>
 
 
     </div>

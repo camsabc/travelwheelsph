@@ -28,6 +28,7 @@ function Payment() {
   const navigate = useNavigate();
   const { id, email, index } = location.state || {}; 
   const [quotationDetails, setQuotationDetails] = useState(null);
+  const [uploadedFileUrl, setUploadedFileUrl] = useState(null);
   const [user, setUser] = useState(null);
   const [quotations, setQuotations] = useState([]); 
   const [loading, setLoading] = useState(true);
@@ -44,57 +45,64 @@ function Payment() {
     const file = event.target.files[0];
     if (!file) return;
 
-    setLoading(true);
     const data = new FormData();
     data.append('file', file);
     data.append('upload_preset', 'travelwheels_upload');
     data.append('cloud_name', 'dnazfwgby');
 
     try {
-      const res = await fetch('https://api.cloudinary.com/v1_1/dnazfwgby/upload', { method: 'POST', body: data });
+      const res = await fetch('https://api.cloudinary.com/v1_1/dnazfwgby/upload', {
+        method: 'POST',
+        body: data,
+      });
       const uploadedFile = await res.json();
       if (!uploadedFile.secure_url) throw new Error('Upload failed');
 
-      const response = await fetch(`https://travelwheelsph.onrender.com/api/quotations/${quotationDetails._id}/payment`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ payment: uploadedFile.secure_url }),
-      });
 
-      if (!response.ok) throw new Error('File update failed');
+      setUploadedFileUrl(uploadedFile.secure_url);
       showToast('Proof of Payment Uploaded!', 'success');
     } catch (error) {
       console.error(error);
       showToast('Error uploading file. Please try again.', 'error');
-    } finally {
-      setLoading(false);
     }
   };
 
+  const handleSubmit = async (newStatus) => {
+    if (!uploadedFileUrl) {
+      showToast('Please upload a proof of payment first.', 'warning');
+      return;
+    }
+
+    try {
+
+      const response = await fetch(`https://travelwheelsph.onrender.com/api/quotations/${quotationDetails._id}/payment`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ payment: uploadedFileUrl }),
+      });
+
+      if (!response.ok) throw new Error('File update failed');
 
   
-  const changeQuotationStatus = async (quotationId, status) => {
-    try {
-      const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/change-status', {
+      const statusResponse = await fetch('https://travelwheelsph.onrender.com/api/quotations/change-status', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ quotationId, status }),
+        body: JSON.stringify({ quotationId: quotationDetails._id, status: newStatus }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to change status');
-      }
+      if (!statusResponse.ok) throw new Error('Failed to change status');
 
       showToast('Status changed successfully', 'success');
-      navigate('/payment-submit', { state: { id: quotationId, email: user.email } })
-
+      navigate('/payment-submit', { state: { id: quotationDetails._id, email: user.email } });
     } catch (error) {
+      console.error(error);
       showToast('An error occurred', 'error');
     }
   };
-
   
 
   useEffect(() => {
@@ -362,7 +370,7 @@ function Payment() {
                     border: 'none',
                     padding: '10px 20px',
                 }}
-                onClick={() => {changeQuotationStatus(quotationDetails._id, "PAYMENT SENT")}}
+                onClick={() => {handleSubmit("PAYMENT SENT")}}
             >
                 Submit
             </button>

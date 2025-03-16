@@ -70,7 +70,7 @@ function InquiryList() {
   }
 
   return (
-    <div className="d-flex flex-column vh-100" style={{ backgroundColor: '#eee' }}>
+    <div className="d-flex flex-column vh-100" style={{ backgroundColor: '#fff' }}>
       {/* Header Section */}
       <div className="bg-white py-2 mb-1" style={{ flexShrink: 0 }}>
             <MDBContainer fluid className="d-flex align-items-center justify-content-between">
@@ -109,6 +109,18 @@ function InquiryList() {
         </MDBContainer>
       </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
       {/* Main Content Section */}
       <MDBContainer className="flex-grow-1 py-5">
         {/* Title and Line */}
@@ -121,28 +133,22 @@ function InquiryList() {
           <MDBRow>
             {inquiries.map((inquiry, index) => (
               <MDBCol md="6" lg="4" className="mb-4" key={inquiry.id || `fallback-${Math.random()}`}>
-                <MDBCard style={{ minHeight: '175px', position: 'relative', backgroundColor: 'rgb(255, 222, 89)' }}>
-                  <MDBCardBody>
-                    <MDBTypography tag="h3" style={{ fontWeight: 'bolder', textAlign: 'center', marginBottom: '1rem', color: 'white' }}>
+                <MDBCard style={{ border: 'none', boxShadow: 'none', minHeight: '175px', position: 'relative', backgroundColor: 'rgb(241, 241, 240)', borderRadius: '25px' }}>
+                <MDBCardBody style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', padding: '1rem' }}>
+
+                    <MDBTypography tag="h4" style={{ fontWeight: 'bolder', textAlign: 'center',  alignSelf: 'center', marginBottom: '1rem', color: 'black' }}>
                       INQUIRY #{index + 1}
                     </MDBTypography>
 
-                    <MDBTypography tag="h6" style={{ fontWeight: 'bold', textAlign: 'start' }}>
-                        Inquiry Details
+                    <MDBTypography tag="p" style={{ textAlign: 'start', fontSize: '16px'}}>
+                      <p style={{fontWeight: 'bold', marginBottom: '-3px', color: 'rgb(255, 165, 0)'}}> Inquiry Mesage <br /> </p>
+                      {inquiry.message}
                     </MDBTypography>
 
-                    <MDBTypography tag="p" style={{ textAlign: 'start', fontSize: '16px' }}>
-                      Inquiry Message: {inquiry.message} 
+                    <MDBTypography tag="p" style={{ textAlign: 'start', fontSize: '16px'}}>
+                      <p style={{fontWeight: 'bold', marginBottom: '-3px', color: 'rgb(255, 165, 0)'}}> Admin Note <br /> </p>
+                      {inquiry?.note || "N/A"} <br />
                     </MDBTypography>
-
-                    <MDBTypography tag="h6" style={{ fontWeight: 'bold', textAlign: 'start', paddingTop: '5px' }}>
-                      Admin Note
-                    </MDBTypography>
-
-                    <MDBTypography tag="p" style={{ textAlign: 'start', fontSize: '16px' }}>
-                      {inquiry.note} 
-                    </MDBTypography>
-
 
                   </MDBCardBody>
                 </MDBCard>
@@ -153,6 +159,11 @@ function InquiryList() {
           <div className="text-center" style={{ padding: '20px', fontSize: '1.25rem', fontWeight: 'bold' }}>No inquiries found.</div>
         )}
       </MDBContainer>
+
+
+
+
+
 
 
 

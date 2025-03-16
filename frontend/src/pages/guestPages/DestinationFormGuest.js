@@ -23,7 +23,7 @@ function DestinationFormGuest() {
   const [backgroundImage] = useState(flightsbg);
   const { id } = useParams(); 
   const location = useLocation();
-  const email = location.state?.email;
+  const {email, name} = location.state || {};
   const [user, setUser] = useState(null);
   const [pack, setPack] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -300,7 +300,7 @@ const handleQuotationSubmit = async (e) => {
             textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)',
           }}
         >
-            Destination Form
+            {name} TOUR
         </MDBTypography>
 
         <MDBContainer className="flex-grow-1 d-flex align-items-center justify-content-center">
@@ -319,6 +319,19 @@ const handleQuotationSubmit = async (e) => {
 
 
             <MDBCardBody>
+
+              <MDBTypography className="text-center mb-4" style={{ color: 'rgb(255, 165, 0)', fontSize: '18px' }}>
+                <span
+                  style={{ fontWeight: 'bold', cursor: 'pointer', textDecoration: 'underline' }}
+                  onClick={() => navigate('/login')}
+                > Sign in </span>{' '}or{' '}
+                <span
+                  style={{ fontWeight: 'bold', cursor: 'pointer', textDecoration: 'underline'}}
+                  onClick={() => navigate('/signup')}
+                > Sign up </span>{' '}here to request a quotation!
+              </MDBTypography>
+
+
               <MDBTypography tag="h5" className="text-center mb-4">
                 Kindly complete the details below:
               </MDBTypography>
@@ -601,9 +614,9 @@ const handleQuotationSubmit = async (e) => {
                     id="destination"
                     name="destination"
                     type="text"
-                    value={bookingDetails.destination}
+                    value={name}
                     onChange={handleChange}
-                    required
+                    disabled
                     className="form-control"
                     style={{
                       border: '2px solid rgb(250, 207, 32)', 

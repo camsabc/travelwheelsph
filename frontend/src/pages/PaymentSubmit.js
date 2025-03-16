@@ -151,9 +151,11 @@ const PaymentSubmit = () => {
             <div className="confirmation-content">
                 <div className="confirmation-message">
                 <h1 style={{fontWeight: 'bolder'}}> <i className="fas fa-circle-check" style={{fontSize: '50px', paddingRight: '15px'}}></i>  {content?.paymentMainText} </h1>
-                <p>{content?.paymentSubText}You will receive an email confirmation about your acknowledged receipt soon! Thank you!</p>
+                <p style={{fontWeight: 'bold'}}>{content?.paymentSubText || 'THANK YOU FOR YOUR PAYMENT! ACKNOWLEDGEMENT RECEIPT WILL BE SENT WITHIN 3 TO 7 WORKING DAYS.'}</p>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '20px', paddingTop: '20px' }}>
+
+                  {/*
                   <button
                       type="button"
                       className="btn btn-primary"
@@ -170,6 +172,8 @@ const PaymentSubmit = () => {
                   >
                       Give us a feedback
                   </button>
+                  */}
+                  
 
                   <button
                       type="button"

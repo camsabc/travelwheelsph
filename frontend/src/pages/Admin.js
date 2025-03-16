@@ -42,7 +42,7 @@ function Admin() {
   const { name, role } = location.state || {};
   const navigate = useNavigate(); 
 
-  const [currentContent, setCurrentContent] = useState('Quotation Management');
+  const [currentContent, setCurrentContent] = useState('Dashboard');
   const [bookingFilter, setBookingFilter] = useState('All Bookings');
   const [bookings, setBookings] = useState([]);
   const [users, setUsers] = useState([]);

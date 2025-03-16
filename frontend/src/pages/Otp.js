@@ -58,11 +58,14 @@ const Otp = () => {
 
       if (response.status === 200) {
         showToast('Account Successfully Created!', 'success');
-        if (type === 'user') {
-          navigate(`/login`);
-        } else {
-          navigate(`/admin`, { state: { name: firstname } });
-        }
+        
+        setTimeout(() => {
+          if (type === 'user') {
+            navigate(`/login`);
+          } else {
+            navigate(`/admin`, { state: { name: firstname } });
+          }
+        }, 2000); // 2000 ms = 2-second delay
       }
     } catch (error) {
       setErrors({ otp: 'Invalid or expired OTP' });

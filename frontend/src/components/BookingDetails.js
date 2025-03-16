@@ -20,6 +20,7 @@ function BookingDetails({ booking, onBack }) {
   const [adminNote, setAdminNote] = useState(booking.note || ''); 
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedAr, setSelectedAr] = useState(null);
 
   const navigate = useNavigate();
 
@@ -41,7 +42,7 @@ function BookingDetails({ booking, onBack }) {
         throw new Error('Failed to change status');
       }
       showToast('Status changed successfully!', 'success');
-      navigate(`/admin`, { state: { name: "Admin" } });
+      navigate(`/admin`, { state: { name: "Admin", role: 'admin' } });
     } catch (error) {
       showToast('An error occurred', 'error');
     }
@@ -80,7 +81,7 @@ function BookingDetails({ booking, onBack }) {
         throw new Error('Failed to change status');
       }
       showToast('Status changed successfully', 'success');
-      navigate(`/admin`, { state: { name: "Admin" } });
+      navigate(`/admin`, { state: { name: "Admin", role: 'admin' } });
     } catch (error) {
       showToast('An error occurred', 'error');
     }
@@ -99,7 +100,7 @@ function BookingDetails({ booking, onBack }) {
         throw new Error('Failed to change status');
       }
       showToast('Status changed successfully!', 'success');
-      navigate(`/admin`, { state: { name: "Admin" } });
+      navigate(`/admin`, { state: { name: "Admin", role: 'admin' } });
     } catch (error) {
       showToast('An error occurred', 'error');
     }
@@ -139,6 +140,7 @@ const handleFileUpload = async () => {
 
 
     showToast('File uploaded successfully!', 'success');
+    changeQuotationStatus(booking._id, "QUOTATION SENT")
 
     // You can store the uploaded file URL somewhere or enable further actions
     console.log('Uploaded File URL:', uploadedFile.secure_url);
@@ -153,6 +155,66 @@ const handleFileUpload = async () => {
   }
 };
   
+
+
+
+
+
+const handleArChange = (event) => {
+  const file = event.target.files[0];
+  setSelectedAr(file);
+};
+
+
+const handleArUpload = async () => {
+  if (!selectedAr) {
+    showToast('Please select a AR first.', 'error');
+    return;
+  }
+
+  setLoading(true);
+  const data = new FormData();
+  data.append('file', selectedAr);
+  data.append('upload_preset', 'travelwheels_upload');
+  data.append('cloud_name', 'dnazfwgby');
+
+  try {
+    const res = await fetch('https://api.cloudinary.com/v1_1/dnazfwgby/upload', { method: 'POST', body: data });
+    const uploadedAr = await res.json();
+    if (!uploadedAr.secure_url) throw new Error('Upload failed');
+
+    const response = await fetch(`https://travelwheelsph.onrender.com/api/quotations/${booking._id}/ar`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ar: uploadedAr.secure_url }),
+    });
+
+    if (!response.ok) throw new Error('AR update failed');
+
+
+    showToast('AR uploaded successfully!', 'success');
+    changeQuotationStatus(booking._id, "BOOKING CONFIRMED")
+
+    console.log('Uploaded AR URL:', uploadedAr.secure_url);
+    
+    setSelectedAr(null); 
+
+  } catch (error) {
+    console.error(error);
+    showToast('Error uploading AR. Please try again.', 'error');
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
+
+
+
+
+
+
 
   return (
     <div className="booking-details" style={{ padding: '20px', backgroundColor: '#fff', borderRadius: '8px' }}>
@@ -232,37 +294,7 @@ const handleFileUpload = async () => {
         <div style={{ display: 'flex', gap: '10px' }}>
           {isBooking && (
             <>
-              {/* Existing buttons for booking status changes */}
-              <MDBBtn
-                style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
-                onClick={() => changeBookingStatus(booking._id, 'Payment Sent')}
-              >
-                Confirm Payment
-              </MDBBtn>
-              <MDBBtn
-                style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
-                onClick={() => changeBookingStatus(booking._id, 'Awaiting Payment')}
-              >
-                Confirm Booking
-              </MDBBtn>
-              <MDBBtn
-                style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
-                onClick={() => changeBookingStatus(booking._id, 'Payment Confirmed')}
-              >
-                AR Sent
-              </MDBBtn>
-              <MDBBtn
-                style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
-                onClick={() => changeBookingStatus(booking._id, 'Service Accomplished')}
-              >
-                Service Accomplished
-              </MDBBtn>
-              <MDBBtn
-                style={{ backgroundColor: buttonColor, borderColor: buttonColor, color: '#fff' }}
-                onClick={() => changeBookingStatus(booking._id, 'Rejected')}
-              >
-                Reject
-              </MDBBtn>
+
             </>
           )}
 
@@ -335,13 +367,13 @@ const handleFileUpload = async () => {
         type="file"
         className="form-control"
         accept="image/*, .pdf"
-        onChange={handleFileChange}
+        onChange={handleArChange}
         style={{ maxWidth: '300px' }}
       />
     </div>
 
           {/* Upload Button */}
-          {!isBooking && selectedFile && (
+          {!isBooking && selectedAr && (
           <MDBBtn
             style={{
               backgroundColor: buttonColor,
@@ -351,10 +383,10 @@ const handleFileUpload = async () => {
               marginLeft: '20px',
               borderRadius: '12px'
             }}
-            onClick={handleFileUpload}
+            onClick={handleArUpload}
             disabled={loading}
           >
-            {loading ? 'Uploading...' : 'Upload File'}
+            {loading ? 'Uploading...' : 'Upload AR'}
           </MDBBtn>
       )}
   </div>

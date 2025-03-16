@@ -132,7 +132,7 @@ function Quotation() {
                     <MDBTypography tag="p" style={{ textAlign: 'start', fontSize: '16px', paddingLeft: '10px' }}>
                       {quotation.type} <br />
                       Date: {new Date(quotation.startDate).toLocaleDateString()} <br />
-                      Status: {quotation.status} <br />
+                      Status: {quotation.status.toUpperCase()}<br />
                     </MDBTypography>
 
                     <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

@@ -23,7 +23,7 @@ function InquiryDetails({ inquiry, onBack }) {
         throw new Error('Failed to change status');
       }
       showToast('Status changed successfully!', 'success');
-      navigate(`/admin`, { state: { name: "Admin" } });
+      navigate(`/admin`, { state: { name: "Admin", role: "admin"  } });
     } catch (error) {
       showToast('An error occurred', 'error');
     }
@@ -45,7 +45,7 @@ function InquiryDetails({ inquiry, onBack }) {
         throw new Error('Failed to change status');
       }
       showToast('Status changed successfully!', 'success');
-      navigate(`/admin`, { state: { name: "Admin" } });
+      navigate(`/admin`, { state: { name: "Admin", role: "admin" } });
     } catch (error) {
       showToast('An error occurred', 'error');
     }
