@@ -82,6 +82,33 @@ const attachPayment = async (req, res) => {
     }
 };
 
+const attachVisa = async (req, res) => {
+    const quotationId = req.params.id; 
+    const files = req.body; // Expecting an object with multiple file fields
+
+    try {
+        if (!files || Object.keys(files).length === 0) {
+            return res.status(400).json({ error: 'At least one file is required' });
+        }
+
+        const updatedQuotation = await QuotationModel.findByIdAndUpdate(
+            quotationId,
+            { $set: files }, // Dynamically update only the fields provided
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedQuotation) {
+            return res.status(404).json({ error: 'Quotation not found' });
+        }
+
+        res.json({ message: 'Files attached successfully', quotation: updatedQuotation });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to attach files' });
+    }
+};
+
+
 const attachAr = async (req, res) => {
     const quotationId = req.params.id; 
     const { ar } = req.body; 
@@ -112,7 +139,6 @@ const attachAr = async (req, res) => {
 
 
 
-/* This function creates a quotation to be stored in the database */
 const createQuotation = (req, res) => {
     const {
         firstname,
@@ -177,8 +203,23 @@ const createQuotation = (req, res) => {
         num,
         type,
         db,
-        file,
-        payment
+        completeVisaForm,
+        origPass,
+        proofFunds,
+        idPic,
+        psaBirthCert,
+        latestItr,
+        businessReg,
+        bankStatement,
+        businessPermit,
+        recentItr,
+        employCert,
+        companyId,
+        itr,
+        schoolCert,
+        schoolId,
+        birthCert,
+        bankCert
     } = req.body;
 
     /* Generates a random nine-digit number */
@@ -247,17 +288,34 @@ const createQuotation = (req, res) => {
         type,
         disabled: 'false',
         db: 'quotation',
-        file,
-        payment
+
+        completeVisaForm,
+        origPass,
+        proofFunds,
+        idPic,
+        psaBirthCert,
+        latestItr,
+        businessReg,
+        bankStatement,
+        businessPermit,
+        recentItr,
+        employCert,
+        companyId,
+        itr,
+        schoolCert,
+        schoolId,
+        birthCert,
+        bankCert
     });
 
     newQuotation.save()
         .then(savedQuotation => res.status(201).json(savedQuotation))
         .catch(err => {
-            console.log(err);
+            console.error('Error creating quotation:', err);
             res.status(500).json({ error: 'Failed to create quotation' });
         });
 };
+
 
 /* This function retrieves one quotation using a unique id */
 const getQuotationById = (req, res) => {
@@ -322,5 +380,6 @@ module.exports = {
     attachFile,
     attachPayment,
     toggleQuotation,
-    attachAr
+    attachAr,
+    attachVisa
 };

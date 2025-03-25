@@ -120,13 +120,18 @@ function Admin() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/bookings/get-all-bookings');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/get-all-quotations');
         const data = await response.json();
-        setBookings(data);
+    
+        // Filter only bookings with status "Booking Confirmed"
+        const confirmedBookings = data.filter(booking => booking.status === "BOOKING CONFIRMED");
+    
+        setBookings(confirmedBookings);
       } catch (error) {
         console.error('Error fetching bookings:', error);
       }
     };
+    
 
     const fetchQuotations = async () => {
       try {
@@ -198,8 +203,8 @@ function Admin() {
     switch (filter) {
       case 'Pending':
         return quotations.filter(quotation => quotation.status === 'Pending');
-      case 'Email Sent':
-        return quotations.filter(quotation => quotation.status === 'Email Sent');
+      case 'Quotation Sent':
+        return quotations.filter(quotation => quotation.status === 'Quotation Sent');
       default:
         return quotations;
     }
@@ -231,7 +236,7 @@ function Admin() {
 
       <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none', width: '100%', padding: '0' }}>
         <MDBNavbarNav className="d-flex w-100" style={{ width: '100%', padding: '0' }}>
-          {['All Bookings', 'Pending', 'Awaiting Payment', 'Payment Sent', 'Payment Confirmed', 'Rejected'].map(filter => (
+          {['All Bookings'].map(filter => (
             <MDBNavbarItem key={filter} className="flex-fill">
               <MDBNavbarLink
                 active={bookingFilter === filter}
@@ -271,8 +276,8 @@ function Admin() {
               </tr>
             </thead>
             <tbody>
-              {filterBookings(bookingFilter).length > 0 ? (
-                filterBookings(bookingFilter).map((booking, index) => (
+              {filterBookings(bookingFilter).slice().reverse().length > 0 ? (
+                filterBookings(bookingFilter).slice().reverse().map((booking, index) => (
                   <tr key={index}>
                     <td style={{ fontWeight: 'bold' }}>{booking.type}</td>
                     <td style={{ fontWeight: 'bold' }}>{booking.num}</td>
@@ -303,7 +308,7 @@ function Admin() {
 
       <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none', width: '100%', padding: '0' }}>
         <MDBNavbarNav className="d-flex w-100" style={{ width: '100%', padding: '0' }}>
-          {['All Quotations', 'Pending', 'Email Sent'].map(filter => (
+          {['All Quotations', 'Pending', 'Quotation Sent'].map(filter => (
             <MDBNavbarItem key={filter} className="flex-fill">
               <MDBNavbarLink
                 active={bookingFilter === filter}
@@ -343,8 +348,8 @@ function Admin() {
               </tr>
             </thead>
             <tbody>
-              {filterQuotations(bookingFilter).length > 0 ? (
-                filterQuotations(bookingFilter).map((quotation, index) => (
+              {filterQuotations(bookingFilter).slice().reverse().length > 0 ? (
+                filterQuotations(bookingFilter).slice().reverse().map((quotation, index) => (
                   <tr key={index}>
                     <td style={{ fontWeight: 'bold' }}>{quotation.type}</td>
                     <td style={{ fontWeight: 'bold' }}>{quotation.num}</td>
@@ -415,8 +420,8 @@ function Admin() {
               </tr>
             </thead>
             <tbody>
-              {filterInquiries(bookingFilter).length > 0 ? (
-                filterInquiries(bookingFilter).map((inquiry, index) => (
+              {filterInquiries(bookingFilter).slice().reverse().length > 0 ? (
+                filterInquiries(bookingFilter).slice().reverse().map((inquiry, index) => (
                   <tr key={index}>
                     <td style={{ fontWeight: 'bold' }}>{inquiry.email}</td>
                     <td style={{ fontWeight: 'bold' }}>{inquiry.date}</td>
@@ -487,8 +492,8 @@ function Admin() {
               </tr>
             </thead>
             <tbody>
-              {filterUsers(bookingFilter).length > 0 ? (
-                filterUsers(bookingFilter).map((user, index) => (
+              {filterUsers(bookingFilter).slice().reverse().length > 0 ? (
+                filterUsers(bookingFilter).slice().reverse().map((user, index) => (
                   <tr key={index}>
                     <td style={{ fontWeight: 'bold' }}>{user.email}</td>
                     <td style={{ fontWeight: 'bold' }}>{`${user.firstname} ${user.lastname}`}</td>
@@ -557,8 +562,8 @@ function Admin() {
               </tr>
             </thead>
             <tbody>
-              {filterEmployees(bookingFilter).length > 0 ? (
-                filterEmployees(bookingFilter).map((user, index) => (
+              {filterEmployees(bookingFilter).slice().reverse().length > 0 ? (
+                filterEmployees(bookingFilter).slice().reverse().map((user, index) => (
                   <tr key={index}>
                     <td style={{ fontWeight: 'bold' }}>{user.email}</td>
                     <td style={{ fontWeight: 'bold' }}>{`${user.firstname} ${user.lastname}`}</td>

@@ -121,15 +121,15 @@ function UpcomingBooking() {
           <hr style={{ width: '100%', margin: '0 auto', borderTop: '5px solid rgb(255, 165, 0)', paddingBottom: '10px', opacity: 1 }} />
         </div>
 
-        {quotations.length > 0 ? (
+        {quotations.slice().reverse().length > 0 ? (
           <MDBRow>
-            {quotations.map((quotation, index) => (
+            {quotations.slice().reverse().map((quotation, index) => (
               <MDBCol md="6" lg="4" className="mb-4" key={quotation.id || `fallback-${Math.random()}`}>
                 <MDBCard style={{ border: 'none', boxShadow: 'none', minHeight: '175px', position: 'relative', backgroundColor: 'rgb(241, 241, 240)', borderRadius: '25px' }}>
                 <MDBCardBody style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1rem' }}>
 
                     <MDBTypography tag="h4" style={{ fontWeight: 'bolder', textAlign: 'center', marginBottom: '1rem', color: 'black' }}>
-                      UPCOMING BOOKING #{index + 1}
+                      UPCOMING BOOKING #{quotation.num}
                     </MDBTypography>
 
                     <MDBTypography tag="p" style={{ textAlign: 'start', fontSize: '16px', paddingLeft: '10px' }}>

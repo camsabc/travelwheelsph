@@ -199,8 +199,8 @@ const createStaffAccount = async (req, res) => {
             serviceHandle,
             password: hashedPassword,
             contactNumber,
-            type: "staff", 
-            isVerified: false,
+            type, 
+            isVerified: true,
             accountStatus: "active",
         });
 

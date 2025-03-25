@@ -174,7 +174,7 @@ if (error) {
                 fontSize: '35px', 
             }}
             >
-            {content?.promoTitle || 'Promo'}
+            BOOK YOUR NEXT VACATION WITH OUR SALE!!!
         </MDBTypography>
 
       <MDBContainer className="my-4">
@@ -182,14 +182,14 @@ if (error) {
           {/* Column 1 */}
           <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center">
             <MDBCardImage
-              src={content.promoImage1}
+              src={content?.promoImage1 || promoImage1}
               alt="Promo 1"
               className="img-fluid"
               style={{ width: '300px', height: '300px', objectFit: 'cover' }}
               
             />
             <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
-                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{content.promoText1}</span>
+                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{content?.promoText1 || "PHP 3,999"}</span>
             </h5>
 
             <button 
@@ -214,13 +214,13 @@ if (error) {
           {/* Column 2 */}
           <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center">
             <MDBCardImage
-              src={content.promoImage2}
+              src={content?.promoImage2 || promoImage2}
               alt="Promo 2"
               className="img-fluid"
               style={{ width: '300px', height: '300px', objectFit: 'cover' }} 
             />
             <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
-                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{content.promoText2}</span>
+                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{content?.promoText2 || "PHP 3,999"}</span>
             </h5>
 
             <button 
@@ -244,14 +244,14 @@ if (error) {
           {/* Column 3 */}
           <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center">
             <MDBCardImage
-              src={content.promoImage3}
+              src={content?.promoImage3 || promoImage3}
               alt="Promo 3"
               className="img-fluid"
               style={{ width: '300px', height: '300px', objectFit: 'cover' }} 
               
             />
             <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
-                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{content.promoText3}</span>
+                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{content?.promoText3 || "PHP 3,999"}</span>
             </h5> 
 
             <button 

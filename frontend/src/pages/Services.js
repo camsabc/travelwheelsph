@@ -17,6 +17,7 @@ import {
 
 import logo from '../images/header.jpg';
 import flightsbg from '../images/flightsbg.jpg';
+import visabg from '../images/visa-bg.jpg';
 import Chatbot from "../components/Chatbot";
 
 import FlightsDetails from '../components/FlightsDetails';
@@ -63,6 +64,7 @@ function Services() {
 
   const navigate = useNavigate();  
   const [backgroundImage, setBackgroundImage] = useState(flightsbg);
+  const [visabackgroundImage, setVisaBackgroundImage] = useState(visabg);
   const [currentTabGroupIndex, setCurrentTabGroupIndex] = useState(0);
 
 
@@ -231,14 +233,22 @@ function Services() {
   return (
     <div
       className="d-flex flex-column min-vh-100"
-      style={{
+      style={ selectedTab === 'Visa' ? {
+        backgroundImage: `url(${visabackgroundImage})`,  
+        backgroundSize: "cover", 
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        minHeight: "100vh", 
+        paddingBottom: "50px"
+      } : {
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'fixed',
         backgroundColor: '#eee',
-      }}
+      }} 
+
     >
       {/* Header Section */}
       <div className="bg-white py-2" style={{ flexShrink: 0 }}>
@@ -486,59 +496,69 @@ function Services() {
                 textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)' 
               }}
             >
-              VISA
+              VISA ASSISTANCE
             </MDBTypography>
           
             <MDBCard 
               style={{ 
                 borderRadius: '15px', 
-                padding: '20px', 
+                padding: '30px', 
                 backgroundColor: '#fff', 
                 marginTop: '10px', 
-                marginBottom: '10px' 
+                marginBottom: '5px',
+        
               }}
             >
-<MDBRow>
-  {countries.map((country, index) => (
-    <MDBCol md="3" className="mb-4" key={index}>
-      <MDBCard 
-        style={{ 
-          borderRadius: '10px', 
-          textAlign: 'center', 
-          padding: '10px', 
-          backgroundColor: 'rgb(255, 165, 0)' 
-        }}
-        onClick={() => navigate(`/visa`, { state: { email: user?.email, country: country.name } })}
-      >
-        <div 
-          style={{ 
-            width: '100%', 
-            height: '100px',  // Fixed container height
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            overflow: 'hidden',
-            borderRadius: '10px 10px 0 0'
-          }}
-        >
-          <img 
-            src={country.flag} 
-            alt={`${country.name} flag`} 
-            style={{ 
-              width: '180px', 
-              height: '100px',  
-              objectFit: 'cover', 
-              borderRadius: '5px'
-            }}
-          />
-        </div>
-        <MDBTypography tag="h6" className="mt-2" style={{ color: 'white', fontSize: '20px' }}>
-          {country.name}
-        </MDBTypography>
-      </MDBCard>
-    </MDBCol>
-  ))}
-</MDBRow>
+          <MDBRow>
+            {countries.map((country, index) => (
+              <MDBCol md="3" className="mb-4" key={index}>
+                <MDBCard 
+                  style={{ 
+                    borderRadius: '10px', 
+                    textAlign: 'center', 
+                    padding: '10px', 
+                    backgroundColor: '#fff4be' 
+                  }}
+                  onClick={() => navigate(`/visa`, { state: { email: user?.email, country: country.name } })}
+                >
+                  <div 
+                    style={{ 
+                      width: '100%', 
+                      height: '100px',  // Fixed container height
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      overflow: 'hidden',
+                      borderRadius: '10px 10px 0 0'
+                    }}
+                  >
+                    <img 
+                      src={country.flag} 
+                      alt={`${country.name} flag`} 
+                      style={{ 
+                        width: '180px', 
+                        height: '100px',  
+                        objectFit: 'cover', 
+                        borderRadius: '5px'
+                      }}
+                    />
+                  </div>
+                  <MDBTypography tag="h6" className="mt-2" style={{ color: 'black', fontSize: '20px' }}>
+                    {country.name}
+                  </MDBTypography>
+                </MDBCard>
+              </MDBCol>
+            ))}
+          </MDBRow>
+
+          <MDBTypography 
+            tag="h6" 
+            className="mt-2 text-center"  
+            style={{ color: 'black', fontSize: '16px', textAlign: 'center' }} 
+          >
+            If your desired country is not listed above, click here to inquire
+          </MDBTypography>
+
 
 
             </MDBCard>

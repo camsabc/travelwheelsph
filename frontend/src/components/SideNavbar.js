@@ -117,7 +117,7 @@ function SideNavbar({ setCurrentContent, currentContent, sections = [] }) {
                       size="lg"
                       style={{ color: currentContent === 'User Account' ? '#fff' : '#ffa500' }}
                     />
-                    <span>User Account</span>
+                    <span>Customer Account</span>
                   </MDBListGroupItem>
                 )}
                 {sections.includes('Employee Account') && (

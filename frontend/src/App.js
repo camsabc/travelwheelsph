@@ -98,6 +98,7 @@ import PaymentSubmit from './pages/PaymentSubmit';
 
 import DeactAccOtp from './pages/DeactAccOtp';
 import DetailsPromosGuest from './pages/guestPages/DetailsPromosGuest';
+import ServicesVisaGuest from './pages/guestPages/ServicesVisaGuest';
 
 
 function App() {
@@ -193,7 +194,8 @@ function App() {
               <Route path="/flight-guest" element={<DetailsFlightGuest/>}/>
               <Route path="/ride-guest/:id" element={<DetailsRideGuest />} />
               <Route path="/transfer-guest" element={<DetailsTransferGuest />} />
-              <Route path="/visa-guest" element={<DetailsVisaGuest />} />
+              <Route path="/visa-guest-2" element={<DetailsVisaGuest />} />
+              <Route path="/visa-guest" element={<ServicesVisaGuest />} />
               <Route path="/insurance-guest" element={<DetailsInsuranceGuest />} />
               <Route path="/mice-guest" element={<DetailsMiceGuest />} />
               <Route path="/educ-guest/:id" element={<DetailsOneEducGuest />} />

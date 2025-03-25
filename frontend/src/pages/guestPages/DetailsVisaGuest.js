@@ -29,9 +29,15 @@ function DetailsVisaGuest() {
 
   const [user, setUser] = useState(null);
   const location = useLocation();
-  const { email, country } = location.state || {};
+  const { country } = location.state || {};
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
 
   const toggleButtons = (type) => {
     setVisibleButtons((prevType) => (prevType === type ? '' : type));
@@ -111,7 +117,7 @@ function DetailsVisaGuest() {
 
 
     <div className="d-flex flex-column min-vh-100" style={{
-        backgroundImage: `url(${content?.visaImage || ''})`,
+        backgroundImage: `url(${content?.visaImage || visabg})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -130,7 +136,7 @@ function DetailsVisaGuest() {
           textTransform: 'uppercase'
         }}
       >
-        {country} VISA
+        VISA FOR {country} 
       </MDBTypography>
 
       <MDBContainer className="flex-grow-1 d-flex align-items-center justify-content-center">
@@ -140,6 +146,7 @@ function DetailsVisaGuest() {
             <ul style={{ paddingLeft: "0", paddingBottom: "20px", listStylePosition: 'inside', textAlign: 'center', fontSize: '20px' }}> {/* Center the list */}
               <li> {content?.visaNote1 || 'All documents must be original unless stated otherwise.'} </li>
               <li> {content?.visaNote2 || 'Size of document for application should be A4 size only.'} </li>
+              <li> General requirements are required for quotation. </li>
             </ul>
 
             {/* Button Set 1 */}
@@ -579,6 +586,73 @@ function DetailsVisaGuest() {
             </div>
             )}
           </MDBCardBody>
+
+
+          <MDBRow className="mt-4">
+                            <MDBCol md="6" className="d-flex align-items-center">
+                              <input 
+                                type="checkbox" 
+                                id="termsCheckbox" 
+                                checked={isChecked} 
+                                onChange={handleCheckboxChange} 
+                                style={{ marginRight: '10px' }} 
+                              />
+                              <label htmlFor="termsCheckbox" style={{ fontSize: '15px'}}>
+                                By clicking this, you agree to {' '}
+                                <span 
+                                  onClick={() => navigate('/terms-and-conditions-guest')}
+                                  style={{ 
+                                    color: '#68BBE3', 
+                                    cursor: 'pointer' ,
+                                    fontSize: '15px'
+                                  }}
+                                >
+                                  Terms & Conditions
+                                </span>.
+                              </label>
+                            </MDBCol>
+          
+                            
+                            <MDBCol md="2" className="d-flex align-items-center">
+                              <button
+                                type="button"
+                                className="btn btn-primary"
+                                style={{
+                                  fontWeight: 'bold',
+                                  width: '100%',
+                                  borderRadius: '30px',
+                                  backgroundColor: 'white',
+                                  border: 'solid',
+                                  borderColor: 'rgb(255, 165, 0)',
+                                  borderWidth: '3px',
+                                  padding: '10px 5px',
+                                  color: 'rgb(255, 165, 0)',
+                                }}
+                                onClick={() => navigate('/services-guest')}
+                              >
+                                BACK
+                              </button>
+                            </MDBCol>
+          
+                            <MDBCol md="4" className="d-flex align-items-center">
+                              <button
+                                type="button"
+                                className="btn btn-primary"
+                                style={{
+                                  fontWeight: 'bold',
+                                  width: '100%',
+                                  borderRadius: '30px',
+                                  backgroundColor: 'rgb(255, 165, 0)',
+                                  border: 'none',
+                                  padding: '10px 20px',
+                                }}
+                               
+                                disabled
+                              >
+                                REQUEST QUOTATION
+                              </button>
+                            </MDBCol>
+                          </MDBRow>
         </MDBCard>
       </MDBContainer>
     </div>

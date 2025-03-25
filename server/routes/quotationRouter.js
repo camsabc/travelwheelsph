@@ -10,6 +10,7 @@ router.get('/get-quotation-by-id/:id', quotationController.getQuotationById);
 router.post('/create-quotation', quotationController.createQuotation);
 router.patch('/:id/file', quotationController.attachFile);
 router.patch('/:id/payment', quotationController.attachPayment);
+router.patch('/:id/visa', quotationController.attachVisa);
 router.patch('/:id/ar', quotationController.attachAr);
 
 router.post('/change-status', quotationController.changeStatus);

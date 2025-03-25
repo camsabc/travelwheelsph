@@ -13,7 +13,7 @@ function formatDate(dateString) {
 
 function BookingDetails({ booking, onBack }) {
   const buttonColor = 'rgb(255, 165, 0)'; 
-  const isBooking = booking.db === 'booking';
+  const isBooking = booking.status === 'BOOKING CONFIRMED';
   const detailsTitle = isBooking ? 'BOOKING DETAILS' : 'QUOTATION DETAILS';
 
   const [toast, setToast] = useState(null);
@@ -58,6 +58,42 @@ function BookingDetails({ booking, onBack }) {
       const a = document.createElement('a');
       a.href = url;
       a.download = booking.payment.split('/').pop(); // Extracts filename from URL
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading file:', error);
+    }
+  };
+
+  const handleArDownload = async () => {
+    try {
+      const response = await fetch(booking.ar);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = booking.ar.split('/').pop(); // Extracts filename from URL
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading file:', error);
+    }
+  };
+
+  const handleQuoteDownload = async () => {
+    try {
+      const response = await fetch(booking.file);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = booking.file.split('/').pop(); // Extracts filename from URL
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -264,6 +300,42 @@ const handleArUpload = async () => {
           )}
         </div>
       </div>
+
+      {isBooking && (
+                <>
+                  <MDBTypography tag="h5" style={{ paddingTop: '30px', color: buttonColor, fontWeight: 'bold', textAlign: 'start', paddingBottom: '10px' }}>
+                    AR
+                  </MDBTypography>
+                  
+                  <div style={{ textAlign: 'start' }}>
+                    <embed
+                      src={booking.ar}
+                      type="application/pdf"
+                      width="100%"
+                      height="500px"
+                      style={{ border: '1px solid #ddd', borderRadius: '5px' }}
+                    />
+                  </div>
+
+                  <div className="text-center mt-2" style={{ display: 'flex', justifyContent: 'flex-start' }} >
+                  <MDBBtn color="success" onClick={handleArDownload}>
+                    <i className="fas fa-download"></i> Download File
+                  </MDBBtn>
+                  </div>
+
+
+                  <div style={{ display: 'flex', alignItems: 'center',  paddingTop: '50px', paddingBottom: '10px' }}>
+                    <MDBTypography tag="h5" style={{ color: 'black', fontWeight: 'bold', textAlign: 'start', paddingTop: '7px', marginRight: '20px' }}>
+                      QUOTATION:
+                    </MDBTypography>
+
+                    <MDBBtn color="success" onClick={handleQuoteDownload} style={{ display: 'flex', alignItems: 'center' }}>
+                      <i className="fas fa-download" style={{ marginRight: '5px' }}></i> Download File
+                    </MDBBtn>
+                  </div>
+
+                </>
+              )}
 
       {!isBooking && (
                 <>

@@ -242,6 +242,82 @@ const QuotationSchema = mongoose.Schema({
         type: String,
         required: false
     },
+
+
+    completeVisaForm: {
+        type: String,
+        required: false
+    },
+    origPass: {
+        type: String,
+        required: false
+    },
+    proofFunds: {
+        type: String,
+        required: false
+    },
+    idPic: {
+        type: String,
+        required: false
+    },
+    psaBirthCert: {
+        type: String,
+        required: false
+    },
+    latestItr: {
+        type: String,
+        required: false
+    },
+
+
+    businessReg: {
+        type: String,
+        required: false
+    },
+    bankStatement: {
+        type: String,
+        required: false
+    },
+    businessPermit: {
+        type: String,
+        required: false
+    },
+    recentItr: {
+        type: String,
+        required: false
+    },
+
+
+    employCert: {
+        type: String,
+        required: false
+    },
+    companyId: {
+        type: String,
+        required: false
+    },
+    itr: {
+        type: String,
+        required: false
+    },
+
+    
+    schoolCert: {
+        type: String,
+        required: false
+    },
+    schoolId: {
+        type: String,
+        required: false
+    },
+    birthCert: {
+        type: String,
+        required: false
+    },
+    bankCert: {
+        type: String,
+        required: false
+    },
 });
 
 const QuotationModel = mongoose.model('Quotation', QuotationSchema);
