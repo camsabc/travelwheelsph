@@ -80,7 +80,7 @@ const Homepage = () => {
         border-radius: 12px; 
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         left: 10px;
-        z-index: -1;
+
       ""></iframe>`,
 
       `<iframe src="https://www.google.com/maps/embed?pb=!4v1740938115799!6m8!1m7!1spIEcK5UrfGg1jkiaeNkGfw!2m2!1d7.073649258285839!2d125.6111223506343!3f211.95818!4f0!5f0.7820865974627469"
@@ -92,7 +92,7 @@ const Homepage = () => {
         border-radius: 12px; 
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         left: 10px;
-        z-index: -1;
+
       "></iframe>`,
 
       `<iframe src="https://www.google.com/maps/embed?pb=!4v1740937849107!6m8!1m7!1sqCuHEF_Pa6mBh2lO8TnAhQ!2m2!1d35.35966629101768!2d138.7311853983154!3f359.88742!4f30!5f0.7820865974627469"
@@ -104,7 +104,7 @@ const Homepage = () => {
         border-radius: 12px; 
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         left: 10px;
-        z-index: -1;
+       
       "></iframe>`,
      
     ]

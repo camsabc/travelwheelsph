@@ -18,7 +18,7 @@ import VisaDetails from './components/VisaDetails';
 import MiceDetails from './components/MiceDetails';
 import CarDetails from './components/CarDetails';
 import Educ1 from './components/Educ1';
-/* Import statement for pages */
+
 import Home from './pages/Home'
 import UpcomingBooking from './pages/UpcomingBooking';
 import DetailsBooking from './pages/DetailsBooking';
@@ -100,6 +100,7 @@ import DeactAccOtp from './pages/DeactAccOtp';
 import DetailsPromosGuest from './pages/guestPages/DetailsPromosGuest';
 import ServicesVisaGuest from './pages/guestPages/ServicesVisaGuest';
 
+import PastBooking from './pages/PastBooking';
 
 function App() {
   return (
@@ -206,6 +207,8 @@ function App() {
 
               <Route path="/payment" element={<Payment />} />
               <Route path="/payment-submit" element={<PaymentSubmit />} />
+
+              <Route path="/past-booking" element={<PastBooking />} />
 
             </Routes>
           </div>

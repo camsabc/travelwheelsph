@@ -103,11 +103,11 @@ function Services() {
   const getImageForRide = (picsValue) => {
     switch (picsValue) {
       case 1:
-        return content?.rideImage1 || 'Loading Image...';
+        return content?.rideImage1 || ride1;
       case 2:
-        return content?.rideImage2|| 'Loading Image...';
+        return content?.rideImage2 || ride2;
       case 3:
-        return content?.rideImage3|| 'Loading Image...';
+        return content?.rideImage3 || ride3;
       default:
         return null; 
     }
@@ -129,17 +129,17 @@ function Services() {
   const getImageForPack = (picsValue) => {
     switch (picsValue) {
       case 1:
-        return content.domesticImage1;
+        return content?.domesticImage1 || pack1;
       case 2:
-        return content.domesticImage2;
+        return content?.domesticImage2 || pack2;
       case 3:
-        return content.domesticImage3;
+        return content?.domesticImage3 || pack3;
       case 4:
-        return content.internationalImage1;
+        return content?.internationalImage1 || pack4;
       case 5:
-        return content.internationalImage2;
+        return content?.internationalImage2 || pack5;
       case 6:
-        return content.internationalImage3;
+        return content?.internationalImage3 || pack6;
       case 7:
         return pack7;
     default:

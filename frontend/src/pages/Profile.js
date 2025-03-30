@@ -72,6 +72,12 @@ function Profile() {
     }
   };
 
+  const handlePastBookingClick = () => {
+    if (user) {
+      navigate('/past-booking', { state: { email: user.email } });
+    }
+  };
+
   if (loading) {
     return <div className="text-center">Loading...</div>;
   }
@@ -217,7 +223,7 @@ function Profile() {
               </MDBCol>
 
               <MDBCol md="6" lg="6" className="mb-4">
-                <MDBCard style={{ minHeight: '175px', position: 'relative' }}>
+              <MDBCard style={{ minHeight: '175px', position: 'relative' }} onClick={handlePastBookingClick}>
                   <MDBCardBody className="d-flex flex-column align-items-center justify-content-center">
                     <MDBIcon icon="calendar-days" size="4x" style={{ color: 'rgb(148, 0, 211)' }} className="mb-3" />
                     <MDBTypography tag="h6" style={{ fontWeight: 'bold' }}>Past Bookings</MDBTypography>

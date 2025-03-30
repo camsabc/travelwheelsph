@@ -44,8 +44,11 @@ function UpcomingBooking() {
           if (data.error) {
             setError(data.error);
           } else {
-            
-            const confirmedBookings = data.filter(q => q.status.toUpperCase() === 'BOOKING CONFIRMED');
+            const today = new Date();
+            const confirmedBookings = data.filter(q => {
+              const bookingDate = new Date(q.startDate);
+              return q.status.toUpperCase() === 'BOOKING CONFIRMED' && bookingDate >= today;
+            });
             setQuotations(confirmedBookings);
           }
           setLoading(false);
@@ -166,7 +169,7 @@ function UpcomingBooking() {
             ))}
           </MDBRow>
         ) : (
-          <div className="text-center" style={{ padding: '20px', fontSize: '1.25rem', fontWeight: 'bold' }}>No quotations found.</div>
+          <div className="text-center" style={{ padding: '20px', fontSize: '1.25rem', fontWeight: 'bold' }}>No upcoming booking found.</div>
         )}
       </MDBContainer>
 

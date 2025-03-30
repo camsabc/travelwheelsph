@@ -63,6 +63,7 @@ function ContentManagementHotel() {
 
     try {
       // Upload to Cloudinary
+      console.log('uploading');
       const cloudRes = await fetch('https://api.cloudinary.com/v1_1/dnazfwgby/image/upload', {
         method: 'POST',
         body: data,

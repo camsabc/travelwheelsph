@@ -2,97 +2,202 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MDBBtn, MDBCard, MDBCardBody } from "mdb-react-ui-kit";
 
-export default function Chatbot({user}) {
+export default function Chatbot({ user }) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
     { text: "Hello! How can I assist you today?", sender: "bot" }
   ]);
   const [step, setStep] = useState(1);
-  const [quotationStep, setQuotationStep] = useState(0);
+  const [processStep, setProcessStep] = useState(0);
+  const [currentProcess, setCurrentProcess] = useState("");
 
-  const navigate = useNavigate(); // React Router navigation
+  const navigate = useNavigate();
+
+  const processes = {
+    "Can I change my email?": [
+      "No, the email address you signed up with is permanent and can't be changed"
+    ],
+    "Can I change my number?": [
+      "Yes, the number can be changed follow these intructions to change you phone number",
+      "Step 1: Go to your profile",
+      "Step 2: Click Edit Profile",
+      "Step 3: Input your new phone number",
+      "Step 4: Click Save",
+      "Your new number should now be updated in your profile",
+    ],
+    "Can I change my name?": [
+      "Yes, the name can be changed follow these intructions to change you phone number",
+      "Step 1: Go to your profile",
+      "Step 2: Click Edit Profile",
+      "Step 3: Input your new name",
+      "Step 4: Click Save",
+      "Your new name should now be updated in your profile",
+    ],
+    "I want to change my password": [
+      "Here's how you can change your password",
+      "Step 1: Go to your profile",
+      "Step 2: Click Edit Profile",
+      "Step 3: Go to password section",
+      "Step 4: Input your new password",
+      "Step 5: Re-type your new password",
+      "Step 6: Click Save",
+      "Your new password should now be updated",
+    ],
+    "I forgot my password": [
+      "To change your number if you are NOT logged in, please follow these steps:",
+      "Step 1: Go to Sign in Page",
+      "Step 2: Click the 'Forgot Password'",
+      "Step 3: Input your email and wait for verifications code",
+      "Step 4: Input the code sent via email",
+      "Step 5: Click Submit button",
+      "Step 6: Input your new password",
+      "Step 7: Re-type your new password",
+      "Step 8: Click the Reset button",
+      "Your new password should now be updated",
+    ]
+  };
 
   const handleUserResponse = (text) => {
-    let botResponse = "";
-    let nextStep = step;
-
-    if (quotationStep > 0) {
-      handleQuotationProcess();
+    if (processes[text]) {
+      setCurrentProcess(text);
+      setProcessStep(0);
+      setStep(6);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text, sender: "user" },
+        { text: processes[text][0], sender: "bot" }
+      ]);
       return;
     }
+
+    let botResponse = "";
 
     if (step === 1) {
       switch (text) {
         case "Get a Quotation":
-          botResponse = "Let's get your quotation! Step 1: Choose a product/service.";
-          setQuotationStep(1);
+          botResponse = "Go to service offered page and select a service to get quotation";
           break;
 
         case "Inquire":
-          navigate('/inquiry', { state: { email: user.email }})
+          navigate('/inquiry', { state: { email: user.email } });
           setOpen(false);
           return;
 
         case "Promos/Discounts":
-          navigate('/promos', { state: { email: user.email }})
+          navigate('/promos', { state: { email: user.email } });
           setOpen(false);
           return;
 
         case "Services Offered":
-          navigate('/services', { state: { email: user.email }})
+          navigate('/services', { state: { email: user.email } });
           setOpen(false);
           return;
+
+        case "Others":
+          botResponse = "Choose an option:";
+          setStep(2);
+          break;
+
+        default:
+          botResponse = "I didn't understand that.";
+      }
+    } else if (step === 2) {
+      switch (text) {
+        case "User Details":
+          botResponse = "Select an option:";
+          setStep(3);
+          break;
+
+        case "About Us":
+          navigate('/about-us', { state: { email: user.email } });
+          setOpen(false);
+          return;
+
+        case "Back":
+          setStep(1);
+          botResponse = "Returning to the main menu.";
+          break;
+
+        default:
+          botResponse = "I didn't understand that.";
+      }
+    } else if (step === 3) {
+      switch (text) {
+        case "Accounts":
+          botResponse = "Select an option:";
+          setStep(4);
+          break;
+
+        case "Password":
+          botResponse = "Select an option:";
+          setStep(5);
+          break;
+
+        case "Back":
+          setStep(2);
+          botResponse = "Returning to 'Others' menu.";
+          break;
+
+        default:
+          botResponse = "I didn't understand that.";
+      }
+    } else if (step === 4) {
+      switch (text) {
+        case "Back":
+          setStep(3);
+          botResponse = "Returning to 'User Details' menu.";
+          break;
+
+        default:
+          botResponse = "I didn't understand that.";
+      }
+    } else if (step === 5) {
+      switch (text) {
+        case "Back":
+          setStep(3);
+          botResponse = "Returning to 'User Details' menu.";
+          break;
 
         default:
           botResponse = "I didn't understand that.";
       }
     }
 
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { text, sender: "user" },
-      { text: botResponse, sender: "bot" }
-    ]);
-    setStep(nextStep);
+    if (botResponse) {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text, sender: "user" },
+        { text: botResponse, sender: "bot" }
+      ]);
+    }
   };
 
-  const handleQuotationProcess = () => {
-    let botResponse = "";
-    let nextStep = quotationStep;
+  const handleProcessSteps = (direction) => {
+    let newStep = direction === "next" ? processStep + 1 : processStep - 1;
 
-    switch (quotationStep) {
-      case 1:
-        botResponse = "Step 2: Provide quantity needed.";
-        nextStep = 2;
-        break;
-
-      case 2:
-        botResponse = "Step 3: Enter delivery location.";
-        nextStep = 3;
-        break;
-
-      case 3:
-        botResponse = "Step 4: Submit your contact details.";
-        nextStep = 4;
-        break;
-
-      case 4:
-        botResponse = "Thank you! We will send you a quotation soon.";
-        nextStep = 0;
-        setStep(1); 
-        break;
-
-      default:
-        botResponse = "Invalid step.";
+    if (newStep < 0) {
+      setStep(3);
+      return;
     }
 
+    if (newStep >= processes[currentProcess].length) {
+      setStep(3);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text: "Next", sender: "user" },
+        { text: "Process complete!", sender: "bot" }
+      ]);
+      return;
+    }
+
+    setProcessStep(newStep);
     setMessages((prevMessages) => [
       ...prevMessages,
-      { text: "Next", sender: "user" },
-      { text: botResponse, sender: "bot" }
+      { text: direction === "next" ? "Next" : "Back", sender: "user" },
+      { text: processes[currentProcess][newStep], sender: "bot" }
     ]);
-    setQuotationStep(nextStep);
   };
+
 
   return (
     <div>
@@ -117,7 +222,7 @@ export default function Chatbot({user}) {
           boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)"
         }}
       >
-        <i class="fa-solid fa-headphones-simple"></i>
+        <i className="fa-solid fa-headphones-simple"></i>
       </MDBBtn>
       
       {/* Chatbot Card */}
@@ -159,25 +264,48 @@ export default function Chatbot({user}) {
                 </div>
               ))}
             </div>
+
+            {/* Chatbot Buttons */}
             <div className="d-flex gap-2 flex-wrap mt-2">
-              {quotationStep === 0 && step === 1 ? (
+              {step === 1 ? (
                 <>
                   <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("Get a Quotation")}>Get a Quotation</MDBBtn>
                   <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("Inquire")}>Inquire</MDBBtn>
                   <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("Promos/Discounts")}>Promos/Discounts</MDBBtn>
                   <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("Services Offered")}>Services Offered</MDBBtn>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("Others")}>Others</MDBBtn>
                 </>
-              ) : quotationStep > 0 ? (
+              ) : step === 2 ? (
                 <>
-                  <MDBBtn size="sm" color="secondary" style={{ fontSize: "12px" }} onClick={handleQuotationProcess}>Next</MDBBtn>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("User Details")}>Accounts</MDBBtn>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("About Us")}>About Us</MDBBtn>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("Back")}>Back</MDBBtn>
                 </>
-              ) : (
+              )  : step === 3 ? (
                 <>
-                  <MDBBtn size="sm" color="secondary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("1")}>1</MDBBtn>
-                  <MDBBtn size="sm" color="secondary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("2")}>2</MDBBtn>
-                  <MDBBtn size="sm" color="secondary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("3")}>3</MDBBtn>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("Accounts")}>User Details</MDBBtn>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("Password")}>Password</MDBBtn>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("Back")}>Back</MDBBtn>
                 </>
-              )}
+              ) : step === 4 ? (
+                <>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("Can I change my email?")}>Can I change my email?</MDBBtn>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("Can I change my number?")}>Can I change my number?</MDBBtn>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("Can I change my name?")}>Can I change my name?</MDBBtn>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("Back")}>Back</MDBBtn>
+                </>
+              ) : step === 5 ? (
+                <>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("I want to change my password")}>Change Password</MDBBtn>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("I forgot my password")}>Forgot Password</MDBBtn>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleUserResponse("Back")}>Back</MDBBtn>
+                </>
+              ) : step === 6 ? (
+                <>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleProcessSteps("back")}>Back</MDBBtn>
+                  <MDBBtn size="sm" color="primary" style={{ fontSize: "12px" }} onClick={() => handleProcessSteps("next")}>Next</MDBBtn>
+                </>
+              ) : null}
             </div>
           </MDBCardBody>
         </MDBCard>

@@ -279,8 +279,6 @@ function Inquiry() {
           </MDBCard>
         </div>
       </MDBContainer>
-
-      <Chatbot user={user}/>
     </div>
   );
 }

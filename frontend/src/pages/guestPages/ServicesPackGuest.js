@@ -59,17 +59,17 @@ function ServicesPackGuest() {
   const getImageForPack = (picsValue) => {
     switch (picsValue) {
       case 1:
-        return content?.domesticImage1 || "Loading Image...";
+        return content?.domesticImage1 || pack1;
       case 2:
-        return content?.domesticImage2 || "Loading Image...";
+        return content?.domesticImage2 || pack2;
       case 3:
-        return content?.domesticImage3 || "Loading Image...";
+        return content?.domesticImage3 || pack3;
       case 4:
-        return content?.internationalImage1 || "Loading Image...";
+        return content?.internationalImage1 || pack4;
       case 5:
-        return content?.internationalImage2 || "Loading Image...";
+        return content?.internationalImage2 || pack5;
       case 6:
-        return content?.internationalImage3 || "Loading Image...";
+        return content?.internationalImage3 || pack6;
     default:
         return null; 
     }

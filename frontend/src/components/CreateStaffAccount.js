@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MDBTypography, MDBRow, MDBCol, MDBBtn } from 'mdb-react-ui-kit';
 import axios from 'axios';
 import Toast from './Toast';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 function CreateStaffAccount({ key, onBack }) {
   const [formData, setFormData] = useState({
@@ -15,6 +16,8 @@ function CreateStaffAccount({ key, onBack }) {
   });
   const [toast, setToast] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const showToast = (message, type) => {
     setToast({ message, type });
@@ -23,6 +26,14 @@ function CreateStaffAccount({ key, onBack }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const togglePasswordVisibility = (field) => {
+    if (field === 'password') {
+      setShowPassword(!showPassword);
+    } else {
+      setShowConfirmPassword(!showConfirmPassword);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -190,53 +201,103 @@ function CreateStaffAccount({ key, onBack }) {
         </MDBRow>
 
         {/* Password and Confirm Password */}
-        <MDBRow className="mb-3">
+        <MDBRow className="mb-2">
           <MDBCol md="6">
             <label htmlFor="password" style={{ color: 'black', paddingLeft: '12px' }}>
               Password <span style={{ color: 'red' }}>*</span>
             </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="form-control"
-              style={{
-                border: '2px solid rgb(250, 207, 32)',
-                borderRadius: '15px',
-                boxShadow: 'none',
-                padding: '10px',
-                backgroundColor: 'transparent',
-                width: '100%',
-                marginBottom: '10px'
-              }}
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="form-control"
+                style={{
+                  border: '2px solid rgb(250, 207, 32)',
+                  borderRadius: '15px',
+                  boxShadow: 'none',
+                  padding: '10px',
+                  backgroundColor: 'transparent',
+                  width: '100%',
+                  marginBottom: '10px'
+                }}
+              />
+              {showPassword ? (
+                <FaEyeSlash
+                  onClick={() => togglePasswordVisibility('password')}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    cursor: 'pointer'
+                  }}
+                />
+              ) : (
+                <FaEye
+                  onClick={() => togglePasswordVisibility('password')}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    cursor: 'pointer'
+                  }}
+                />
+              )}
+            </div>
           </MDBCol>
 
           <MDBCol md="6">
             <label htmlFor="confirmPassword" style={{ color: 'black', paddingLeft: '12px' }}>
               Confirm Password <span style={{ color: 'red' }}>*</span>
             </label>
-            <input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-              className="form-control"
-              style={{
-                border: '2px solid rgb(250, 207, 32)',
-                borderRadius: '15px',
-                boxShadow: 'none',
-                padding: '10px',
-                backgroundColor: 'transparent',
-                width: '100%',
-                marginBottom: '10px'
-              }}
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showConfirmPassword ? 'text' : 'password'}
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+                className="form-control"
+                style={{
+                  border: '2px solid rgb(250, 207, 32)',
+                  borderRadius: '15px',
+                  boxShadow: 'none',
+                  padding: '10px',
+                  backgroundColor: 'transparent',
+                  width: '100%',
+                  marginBottom: '10px'
+                }}
+              />
+              {showPassword ? (
+                <FaEyeSlash
+                  onClick={() => togglePasswordVisibility('password')}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    cursor: 'pointer'
+                  }}
+                />
+              ) : (
+                <FaEye
+                  onClick={() => togglePasswordVisibility('password')}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    cursor: 'pointer'
+                  }}
+                />
+              )}
+            </div>
           </MDBCol>
         </MDBRow>
 

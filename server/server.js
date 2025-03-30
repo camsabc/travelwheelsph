@@ -37,7 +37,7 @@ const transporter = nodemailer.createTransport({
     pass: 'fobe homp ilhh uxvj' // Replace with your app-specific password
   }
 });
-//
+
 /* Helper function to generate OTP */
 const generateOTP = () => {
   return crypto.randomInt(100000, 999999).toString(); // Generates a 6-digit OTP

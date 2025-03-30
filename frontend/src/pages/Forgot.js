@@ -34,8 +34,15 @@ const Forgot = () => {
     }
 
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com/request-otp', { email });
-
+      console.log(email);
+      const response = await fetch('https://travelwheelsph.onrender.com/request-otp', {
+        method: 'POST', // Specify the HTTP method
+        headers: {
+          'Content-Type': 'application/json' // Specify JSON content type
+        },
+        body: JSON.stringify({ email }) // Convert email into JSON format
+      });
+    
       if (response.status === 201) {
         showToast('OTP sent to email!', 'success');
         navigate('/otp-request', { state: { email } });
@@ -46,6 +53,7 @@ const Forgot = () => {
       console.error(error);  // Log the error to understand what went wrong
       setError('An error occurred while sending the OTP.');
     }
+    
   };
 
   return (

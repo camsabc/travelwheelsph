@@ -497,7 +497,7 @@ const handleQuotationSubmit = async (e) => {
           <MDBCardBody>
 
           <MDBTypography tag="h5" className="text-start mb-1 mt-3" style={{paddingLeft: "20px"}}>
-            ${content?.passportSubtitle || 'PHP 1,800 ( incl. of passport fee, admin fee & service change, courier Air21 delivery)'}
+            {content?.passportSubtitle || 'PHP 1,800 ( incl. of passport fee, admin fee & service change, courier Air21 delivery)'}
           </MDBTypography>
           <MDBTypography tag="h5" className="text-start mb-1 mt-3" style={{paddingLeft: "20px"}}>
             STEPS

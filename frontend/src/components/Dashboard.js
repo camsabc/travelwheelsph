@@ -266,7 +266,7 @@ function Dashboard() {
                   {error}
                 </MDBTypography>
               ) : feedbackCountDetail && pieChartData ? (
-                <div style={{ height: '100%', marginTop: '20px' }}>
+                <div style={{ height: '90%', marginTop: '20px' }}>
                   <Pie data={pieChartData} />
                 </div>
               ) : (

@@ -230,7 +230,6 @@ function AboutUsGuest() {
         </div>
       </MDBContainer>
 
-      <ChatbotGuest />
     </div>
   );
 }

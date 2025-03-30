@@ -204,7 +204,7 @@ function Admin() {
       case 'Pending':
         return quotations.filter(quotation => quotation.status === 'Pending');
       case 'Quotation Sent':
-        return quotations.filter(quotation => quotation.status === 'Quotation Sent');
+        return quotations.filter(quotation => quotation.status === 'QUOTATION SENT');
       default:
         return quotations;
     }

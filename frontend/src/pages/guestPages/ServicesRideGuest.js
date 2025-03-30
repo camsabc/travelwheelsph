@@ -58,11 +58,11 @@ function ServicesRideGuest() {
   const getImageForRide = (picsValue) => {
     switch (picsValue) {
       case 1:
-        return content?.rideImage1 || 'Loading Image...';;
+        return content?.rideImage1 || ride1;
       case 2:
-        return content?.rideImage2 || 'Loading Image...';;
+        return content?.rideImage2 || ride2;
       case 3:
-        return content?.rideImage3 || 'Loading Image...';;
+        return content?.rideImage3 || ride3;
       default:
         return null; 
     }
