@@ -180,7 +180,7 @@ const deleteUser = async (req, res) => {
 
 const createStaffAccount = async (req, res) => {
     try {
-        const { firstname, lastname, email, password, contactNumber, serviceHandle } = req.body;
+        const { firstname, lastname, email, password, contactNumber, type } = req.body;
 
         // Check if the email already exists
         const existingUser = await UserModel.findOne({ email });
@@ -196,7 +196,6 @@ const createStaffAccount = async (req, res) => {
             firstname,
             lastname,
             email,
-            serviceHandle,
             password: hashedPassword,
             contactNumber,
             type, 

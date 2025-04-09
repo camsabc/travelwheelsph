@@ -78,6 +78,14 @@ const QuotationSchema = mongoose.Schema({
         type: String,
         required: false
     },
+    duration: {
+        type: String,
+        required: false
+    },
+    roomType: {
+        type: String,
+        required: false
+    },
     budgetRange: {
         type: String,
         required: false
