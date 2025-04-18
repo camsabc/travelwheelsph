@@ -15,5 +15,6 @@ router.patch('/:id/ar', quotationController.attachAr);
 
 router.post('/change-status', quotationController.changeStatus);
 router.post('/toggle', quotationController.toggleQuotation);
+router.post('/reject', quotationController.rejectQuotation);
 
 module.exports = router;

@@ -195,6 +195,7 @@ const createQuotation = (req, res) => {
         contactNumberForeign,
         province,
         city,
+        preferredAirline,
         occupation,
         officeNumber,
         officeDetails,
@@ -242,6 +243,7 @@ const createQuotation = (req, res) => {
         pickupLocation,
         dropOffLocation,
         airportDeparture,
+        preferredAirline,
         airportArrival,
         preferredHotel,
         roomType,
@@ -375,6 +377,32 @@ const toggleQuotation = (req, res) => {
         });
 };
 
+
+const rejectQuotation = async (req, res) => {
+    const { quotationId, reason } = req.body;
+
+    try {
+        const updatedQuotation = await QuotationModel.findByIdAndUpdate(
+            quotationId,
+            {
+                status: 'REJECTED',
+                rejectionReason: reason
+            },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedQuotation) {
+            return res.status(404).json({ error: 'Quotation not found' });
+        }
+
+        res.json({ message: 'Quotation rejected successfully', quotation: updatedQuotation });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to reject quotation' });
+    }
+};
+
+
 module.exports = {
     getAllQuotations,
     getQuotationByEmail,
@@ -385,5 +413,6 @@ module.exports = {
     attachPayment,
     toggleQuotation,
     attachAr,
-    attachVisa
+    attachVisa,
+    rejectQuotation
 };
