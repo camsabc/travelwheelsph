@@ -51,7 +51,11 @@ const FeedbackSchema = mongoose.Schema({
         min: 1,
         max: 5,
         required: false
-    }
+    },
+    feedbackImage: {
+        type: String,
+        required: false
+    },
 });
 
 const FeedbackModel = mongoose.model('Feedback', FeedbackSchema);

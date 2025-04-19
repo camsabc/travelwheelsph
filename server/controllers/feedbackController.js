@@ -40,7 +40,8 @@ const createFeedback = async (req, res) => {
             rateBookingExperience,
             rateCustomerService,
             ratePricing,
-            rateOverallExperience
+            rateOverallExperience,
+            feedbackImage
         } = req.body;
 
         const newFeedback = new FeedbackModel({
@@ -54,7 +55,8 @@ const createFeedback = async (req, res) => {
             rateBookingExperience,
             rateCustomerService,
             ratePricing,
-            rateOverallExperience
+            rateOverallExperience,
+            feedbackImage
         });
 
         const feedback = await newFeedback.save();

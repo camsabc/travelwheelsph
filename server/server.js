@@ -56,6 +56,7 @@ const promoRoutes = require('./routes/promoRouter');
 const deactRoutes = require('./routes/deactRouter');
 const feedbackRoutes = require('./routes/feedbackRouter');
 const contentRoutes = require('./routes/contentRouter');
+const auditRoutes = require('./routes/auditRouter');
 
 app.get('/', (req, res) => {
   res.send('Hello, World!');
@@ -81,7 +82,7 @@ app.post('/deact-acc-otp', async (req, res) => {
       from: 'cams.castro03@gmail.com',  // Replace with your email
       to: email,
       subject: 'Verify your account - OTP',
-      text: `Hi ${firstname},\n\nYour OTP code is ${otp}. \n\nBest regards,\nYour Travel Tayo Team`
+      text: `Hi ${firstname},\n\nYour One-Time Password (OTP) is ${otp}. This code is valid for 5 minutes. For your security, please dp not share this code with anyoe. Happy Travels! \n\nBest regards,\nYour Travel Tayo Team`
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -389,6 +390,7 @@ app.use('/api/promos', promoRoutes);
 app.use('/api/deacts', deactRoutes); 
 app.use('/api/feedbacks', feedbackRoutes); 
 app.use('/api/contents', contentRoutes);
+app.use('/api/audits', auditRoutes);
 
 /* Start the server */
 const PORT = process.env.PORT || 3000;
