@@ -26,7 +26,7 @@ app.use(cors({
 
 /* Connect to MongoDB */
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('Connected to MongoDB Atlas'))
+  .then(() => console.log('Connected successfully to MongoDB Atlas'))
   .catch(err => console.log(err));
 
 /* Nodemailer transporter setup */
