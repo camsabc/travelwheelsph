@@ -20,7 +20,7 @@ const app = express();
 // http://localhost:3001
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'https://travelwheelsph.com',
+  origin: 'http://localhost:3001',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }));
 
@@ -56,6 +56,7 @@ const promoRoutes = require('./routes/promoRouter');
 const deactRoutes = require('./routes/deactRouter');
 const feedbackRoutes = require('./routes/feedbackRouter');
 const contentRoutes = require('./routes/contentRouter');
+const auditRoutes = require('./routes/auditRouter');
 
 app.get('/', (req, res) => {
   res.send('Hello, World!');
@@ -389,6 +390,7 @@ app.use('/api/promos', promoRoutes);
 app.use('/api/deacts', deactRoutes); 
 app.use('/api/feedbacks', feedbackRoutes); 
 app.use('/api/contents', contentRoutes);
+app.use('/api/audits', auditRoutes);
 
 /* Start the server */
 const PORT = process.env.PORT || 3000;
