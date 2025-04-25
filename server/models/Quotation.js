@@ -325,7 +325,9 @@ const QuotationSchema = mongoose.Schema({
     bankCert: {
         type: String,
         required: false
-    },
+    }}, {
+
+    timestamps: true // ✅ This is correctly placed outside the fields object
 });
 
 const QuotationModel = mongoose.model('Quotation', QuotationSchema);

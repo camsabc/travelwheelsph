@@ -381,6 +381,11 @@ const ContentSchema = mongoose.Schema({
         type: String,
         required: false
     },
+
+    logoImage: {
+        type: String,
+        required: false
+    },
 });
 
 const ContentModel = mongoose.model('Content', ContentSchema);
