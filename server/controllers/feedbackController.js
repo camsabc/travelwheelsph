@@ -26,8 +26,6 @@ const getFeedbackByEmail = (req, res) => {
             res.status(500).json({ error: 'Failed to fetch feedbacks by email' });
         });
 };
-
-/* This function creates new feedback */
 const createFeedback = async (req, res) => {
     try {
         const {
@@ -40,30 +38,42 @@ const createFeedback = async (req, res) => {
             rateBookingExperience,
             rateCustomerService,
             ratePricing,
-            rateOverallExperience
+            rateOverallExperience,
+            feedbackImage // new field for feedback image
         } = req.body;
+
+        // Basic validation
+        if (
+            !name || !service || !duration || typeof rateBookingExperience !== 'number' ||
+            typeof rateCustomerService !== 'number' || typeof ratePricing !== 'number' ||
+            typeof rateOverallExperience !== 'number'
+        ) {
+            return res.status(400).json({ error: 'Missing or invalid required fields' });
+        }
 
         const newFeedback = new FeedbackModel({
             name,
             service,
             duration,
-            remarkLike,
-            remarkImprove,
-            reco,
+            remarkLike: remarkLike || '',
+            remarkImprove: remarkImprove || '',
+            reco: reco || '',
             rateDate: new Date(),
             rateBookingExperience,
             rateCustomerService,
             ratePricing,
-            rateOverallExperience
+            rateOverallExperience,
+            feedbackImage: feedbackImage || '' // safely set default if not provided
         });
 
         const feedback = await newFeedback.save();
-        res.status(201).json(feedback);
+        res.status(201).json({ message: 'Feedback created successfully', feedback });
     } catch (err) {
         console.error('Error creating feedback:', err);
-        res.status(500).json({ error: 'Failed to create feedback' });
+        res.status(500).json({ error: 'An error occurred while creating feedback' });
     }
 };
+
 
 /* This function retrieves feedback counts grouped by service type */
 const getFeedbackCountsByService = async (req, res) => {

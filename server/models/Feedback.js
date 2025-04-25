@@ -5,6 +5,10 @@ const FeedbackSchema = mongoose.Schema({
         type: String,
         required: false
     },
+    feedbackImage: {
+        type: String,
+        required: false
+    },
     service: {
         type: String,
         required: false

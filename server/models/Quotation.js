@@ -25,7 +25,7 @@ const QuotationSchema = mongoose.Schema({
         firstname: { type: String, required: false },
         lastname: { type: String, required: false },
         age: { type: Number, required: false },
-        birthday: { type: Date, required: false },
+        birthdate: { type: Date, required: false },
     }],
     startDate: {
         type: Date,

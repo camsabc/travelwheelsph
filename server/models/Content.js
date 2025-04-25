@@ -60,15 +60,39 @@ const ContentSchema = mongoose.Schema({
         type: String,
         required: false
     },
-    promotText1: {
+    promoImage4: {
         type: String,
         required: false
     },
-    promotText2: {
+    promoLocationText1: {
         type: String,
         required: false
     },
-    promotText3: {
+    promoLocationText2: {
+        type: String,
+        required: false
+    },
+    promoLocationText3: {
+        type: String,
+        required: false
+    },
+    promoLocationText4: {
+        type: String,
+        required: false
+    },
+    promoText1: {
+        type: String,
+        required: false
+    },
+    promoText2: {
+        type: String,
+        required: false
+    },
+    promoText3: {
+        type: String,
+        required: false
+    },
+    promoText4: {
         type: String,
         required: false
     },

@@ -20,7 +20,7 @@ const app = express();
 // http://localhost:3001
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: 'https://travelwheelsph.com',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }));
 
@@ -29,7 +29,7 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Connected successfully to MongoDB Atlas'))
   .catch(err => console.log(err));
 
-  
+
 /* Nodemailer transporter setup */
 const transporter = nodemailer.createTransport({
   service: 'gmail', 
