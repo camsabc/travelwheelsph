@@ -20,7 +20,7 @@ const app = express();
 // http://localhost:3001
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'https://travelwheelsph.com',
+  origin: 'http://localhost:3001',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }));
 
@@ -29,6 +29,7 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Connected successfully to MongoDB Atlas'))
   .catch(err => console.log(err));
 
+  
 /* Nodemailer transporter setup */
 const transporter = nodemailer.createTransport({
   service: 'gmail', 
@@ -37,7 +38,7 @@ const transporter = nodemailer.createTransport({
     pass: 'fobe homp ilhh uxvj' // Replace with your app-specific password
   }
 });
-//
+
 /* Helper function to generate OTP */
 const generateOTP = () => {
   return crypto.randomInt(100000, 999999).toString(); // Generates a 6-digit OTP
