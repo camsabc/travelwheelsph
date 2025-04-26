@@ -16,4 +16,7 @@ router.patch('/:id/ar', quotationController.attachAr);
 router.post('/change-status', quotationController.changeStatus);
 router.post('/toggle', quotationController.toggleQuotation);
 
+router.post('/create', quotationController.createQuotation);
+router.get('/promo/:id', quotationController.getQuotationByPromoId);
+
 module.exports = router;

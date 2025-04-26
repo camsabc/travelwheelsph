@@ -8,6 +8,7 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer'); // Import Nodemailer
 const crypto = require('crypto'); // For OTP generation
+const Promo = require('./models/Promo');
 
 const UserModel = require('./models/User');
 
@@ -20,17 +21,36 @@ const app = express();
 // http://localhost:3001
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'https://travelwheelsph.com',
+  origin: 'http://localhost:3001',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }));
 
-/* Connect to MongoDB */
+// Add temporary admin creation after MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('Connected successfully to MongoDB Atlas'))
+  .then(async () => {
+    console.log('Connected successfully to MongoDB Atlas');
+    try {
+      const existingAdmin = await UserModel.findOne({ email: 'traveltayo2024@gmail.com' });
+      
+      if (!existingAdmin) {
+        const adminUser = new UserModel({
+          firstname: 'Admin',
+          lastname: 'User',
+          email: 'traveltayo2024@gmail.com',
+          password: '$2a$10$wfVrMDY0GEW.b/KyaVcOuO728.1mdLbzdLiRiBMmOCrDlHhzp1Q.2',
+          type: 'admin',
+          isVerified: true
+        });
+
+        await adminUser.save();
+        console.log('Admin user created');
+      }
+    } catch (err) {
+      console.error('Error creating admin:', err);
+    }
+  })
   .catch(err => console.log(err));
-
-
-/* Nodemailer transporter setup */
+  
 const transporter = nodemailer.createTransport({
   service: 'gmail', 
   auth: {
@@ -62,8 +82,6 @@ const auditRoutes = require('./routes/auditRouter');
 app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
-
-
 
 app.post('/deact-acc-otp', async (req, res) => {
   const { email, userId, firstname } = req.body;
@@ -102,8 +120,6 @@ app.post('/deact-acc-otp', async (req, res) => {
   }
 });
 
-
-
 app.post('/new-email-otp', async (req, res) => {
   const { newEmail, userId, firstname } = req.body;
 
@@ -135,9 +151,6 @@ app.post('/new-email-otp', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
-
-
-
 
 // Sign-up route with OTP
 app.post('/signup', async (req, res) => {
@@ -189,11 +202,9 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-
 // OTP verification route
 app.post('/verify-otp', async (req, res) => {
   const { email, otp } = req.body;
-
 
   try {
     const user = await UserModel.findOne({ email });
@@ -219,7 +230,6 @@ app.post('/verify-otp', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
-
 
 // OTP verification route
 app.post('/verify-request-otp', async (req, res) => {
@@ -247,7 +257,6 @@ app.post('/verify-request-otp', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
-
 
 // OTP verification route
 app.post('/request-otp', async (req, res) => {
@@ -289,38 +298,38 @@ app.post('/request-otp', async (req, res) => {
   }
 });
 
-
 // Login route
 app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-
   try {
+    const { email, password } = req.body;
+    
     const user = await UserModel.findOne({ email });
     if (!user) {
-      return res.status(400).send('User not found');
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    if (user.isVerified == false) {
-      user.otp = undefined;
-      return res.status(400).send('User not found');
+    if (!user.isVerified) {
+      return res.status(401).json({ message: 'Account not verified' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).send('Invalid credentials');
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    res.status(200).send('Login successful');
+    res.status(200).json({
+      message: 'Login successful',
+      user: {
+        firstname: user.firstname,
+        type: user.type,
+        email: user.email
+      }
+    });
+    
   } catch (error) {
-    res.status(500).send('Server error');
+    res.status(500).json({ message: 'Server error' });
   }
 });
-
-
-
-
-
-
 
 app.post('/change-password', async (req, res) => {
   const { email, newPassword } = req.body;
@@ -350,7 +359,6 @@ app.post('/change-password', async (req, res) => {
   }
 });
 
-
 app.put('/update-email', async (req, res) => {
   const { oldEmail, newEmail } = req.body;
 
@@ -377,6 +385,59 @@ app.put('/update-email', async (req, res) => {
   }
 });
 
+app.delete('/api/promos/:id', async (req, res) => {
+  try {
+    const promo = await Promo.findByIdAndDelete(req.params.id);
+    if (!promo) {
+      return res.status(404).json({ error: 'Promo not found' });
+    }
+    res.status(200).json({ message: 'Promo deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error deleting promo' });
+  }
+});
+
+app.post('/api/promos/add', async (req, res) => {
+  try {
+    const { name, description, price, duration, inclusions, image, startDate, endDate } = req.body;
+    
+    const newPromo = new Promo({
+      name,
+      description,
+      price,
+      duration,
+      inclusions: inclusions.split(',').map(item => item.trim()),
+      image,
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
+      status: 'active'
+    });
+
+    await newPromo.save();
+    res.status(201).json(newPromo);
+  } catch (error) {
+    res.status(500).json({ error: 'Error creating promo' });
+  }
+});
+
+app.put('/api/promos/update-image/:id', async (req, res) => {
+  try {
+    const { image } = req.body;
+    const updatedPromo = await Promo.findByIdAndUpdate(
+      req.params.id,
+      { image },
+      { new: true }
+    );
+
+    if (!updatedPromo) {
+      return res.status(404).json({ error: 'Promo not found' });
+    }
+
+    res.status(200).json(updatedPromo);
+  } catch (error) {
+    res.status(500).json({ error: 'Error updating promo image' });
+  }
+});
 
 /* API Routes */
 app.use('/api/users', userRoutes);
@@ -392,7 +453,5 @@ app.use('/api/deacts', deactRoutes);
 app.use('/api/feedbacks', feedbackRoutes); 
 app.use('/api/contents', contentRoutes);
 app.use('/api/audits', auditRoutes);
-
-/* Start the server */
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
