@@ -41,6 +41,13 @@ function Admin() {
   const location = useLocation();
   const { name, role } = location.state || {};
   const navigate = useNavigate(); 
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loginForm, setLoginForm] = useState({
+    email: '',
+    password: ''
+  });
+  const [loginError, setLoginError] = useState('');
 
   const [currentContent, setCurrentContent] = useState('Dashboard');
   const [bookingFilter, setBookingFilter] = useState('All Bookings');
@@ -117,10 +124,53 @@ function Admin() {
     return access[role] && access[role].includes(section);
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginForm)
+      });
+
+      if (response.ok) {
+        const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${loginForm.email}`);
+        const userData = await userResponse.json();
+        
+        if (userData.type === 'admin' || userData.type === 'client services coordinator' || userData.type === 'sales executive') {
+          setIsAuthenticated(true);
+          setUser(userData);
+          navigate('/admin', { state: { name: userData.firstname, role: userData.type } });
+        } else {
+          setLoginError('Unauthorized access');
+        }
+      } else {
+        setLoginError('Invalid credentials');
+      }
+    } catch (error) {
+      setLoginError('Login failed');
+    }
+  };
+
+  useEffect(() => {
+    const checkAuth = () => {
+      if (!location.state?.name || !location.state?.role) {
+        setIsAuthenticated(false);
+        navigate('/login');
+      } else {
+        setIsAuthenticated(true);
+      }
+    };
+    
+    checkAuth();
+  }, [location, navigate]);
+
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/get-all-quotations');
+        const response = await fetch('http://localhost:3000/api/quotations/get-all-quotations');
         const data = await response.json();
     
         // Filter only bookings with status "Booking Confirmed"
@@ -135,7 +185,7 @@ function Admin() {
 
     const fetchQuotations = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/get-all-quotations');
+        const response = await fetch('http://localhost:3000/api/quotations/get-all-quotations');
         const data = await response.json();
         setQuotations(data);
       } catch (error) {
@@ -145,7 +195,7 @@ function Admin() {
 
     const fetchInquiries = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/inquiries/get-all-inquiries');
+        const response = await fetch('http://localhost:3000/api/inquiries/get-all-inquiries');
         const data = await response.json();
         setInquiries(data);
       } catch (error) {
@@ -155,7 +205,7 @@ function Admin() {
 
     const fetchUsers = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/users/get-all-users');
+        const response = await fetch('http://localhost:3000/api/users/get-all-users');
         const data = await response.json();
         setUsers(data);
       } catch (error) {
@@ -724,6 +774,48 @@ function Admin() {
 
   const sectionsToShow = availableSections[role] || [];
 
+  if (!isAuthenticated) {
+    return (
+      <div className="min-vh-100 d-flex justify-content-center align-items-center bg-light">
+        <div className="p-4 shadow rounded bg-white" style={{ width: '400px' }}>
+          <h2 className="text-center mb-4" style={{ color: 'rgb(255, 165, 0)' }}>Admin Login</h2>
+          <form onSubmit={handleLogin}>
+            <div className="mb-3">
+              <input
+                type="email"
+                className="form-control"
+                placeholder="Email"
+                value={loginForm.email}
+                onChange={(e) => setLoginForm({...loginForm, email: e.target.value})}
+                required
+                style={{ borderColor: 'rgb(255, 165, 0)' }}
+              />
+            </div>
+            <div className="mb-3">
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Password"
+                value={loginForm.password}
+                onChange={(e) => setLoginForm({...loginForm, password: e.target.value})}
+                required
+                style={{ borderColor: 'rgb(255, 165, 0)' }}
+              />
+            </div>
+            {loginError && <div className="alert alert-danger">{loginError}</div>}
+            <button 
+              type="submit" 
+              className="btn w-100"
+              style={{ backgroundColor: 'rgb(255, 165, 0)', color: 'white' }}
+            >
+              Login
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="d-flex flex-column vh-100" style={{ backgroundColor: '#fff' }}>
       {/* Header Section */}
@@ -749,6 +841,15 @@ function Admin() {
               >
                 Hi, {name}
               </span>
+              <button 
+                className="btn btn-link"
+                onClick={() => {
+                  setIsAuthenticated(false);
+                  navigate('/login');
+                }}
+              >
+                Logout
+              </button>
             </MDBNavbarNav>
           </MDBNavbar>
         </MDBContainer>

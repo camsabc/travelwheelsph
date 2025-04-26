@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   MDBContainer,
   MDBNavbar,
@@ -10,134 +10,181 @@ import {
   MDBRow,
   MDBCol,
   MDBTypography,
-  MDBFooter, 
+  MDBFooter,
+  MDBBtn
 } from 'mdb-react-ui-kit';
 
 import logo from '../../images/header.jpg';
 import subheaderImage from '../../images/promobg.jpg';
-import promoImage1 from '../../images/promo1.jpg';
-import promoImage2 from '../../images/promo2.jpg';
-import promoImage3 from '../../images/promo3.jpg';
-import Toast from '../../components/Toast';
-import Modal from '../../components/Modal'; 
 import ChatbotGuest from './ChatbotGuest';
 
 function PromosGuest() {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const [isModalOpen, setModalOpen] = useState(false);
-
-  const handleLoginClick = () => {
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
-
-  const handleConfirmLogin = () => {
-    navigate('/login')
-  };
-
+  const [promos, setPromos] = useState([]);
   const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
-    const [content, setContent] = useState(null);
-  
-    useEffect(() => {
-      const fetchContent = async () => {
-        try {
-          const response = await fetch('https://travelwheelsph.onrender.com/api/contents/get-content/67b8bf22dcf4d107a677a21f');
-          const result = await response.json();
-          if (response.ok) {
-            setContent(result);
-          } 
-        } catch (error) {
-          console.error('Error fetching content:', error);
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      fetchContent();
-    }, []);
-  
+  const [error, setError] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [promosPerPage] = useState(6);
+
+  useEffect(() => {
+    fetchPromos();
+  }, []);
+
+  const fetchPromos = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/promos/all');
+      const data = await response.json();
+      if (response.ok) {
+        const activePromos = data.filter(promo => promo.status === 'active');
+        setPromos(activePromos);
+      }
+    } catch (err) {
+      setError('Failed to fetch promos');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const indexOfLastPromo = currentPage * promosPerPage;
+  const indexOfFirstPromo = indexOfLastPromo - promosPerPage;
+  const currentPromos = promos.slice(indexOfFirstPromo, indexOfLastPromo);
+  const totalPages = Math.ceil(promos.length / promosPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const Pagination = () => {
+    if (totalPages <= 1) return null;
+
+    let pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(
+        <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+          <button
+            className="page-link"
+            onClick={() => paginate(i)}
+            style={{
+              backgroundColor: currentPage === i ? 'rgb(255, 165, 0)' : '#fff',
+              color: currentPage === i ? '#fff' : '#000',
+              borderColor: 'rgb(255, 165, 0)',
+              margin: '0 2px'
+            }}
+          >
+            {i}
+          </button>
+        </li>
+      );
+    }
+
+    return (
+      <nav aria-label="Promo pagination" className="mt-4">
+        <ul className="pagination justify-content-center">
+          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+            <button
+              className="page-link"
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+              style={{
+                backgroundColor: currentPage === 1 ? '#ccc' : 'rgb(255, 165, 0)',
+                color: '#fff',
+                margin: '0 5px'
+              }}
+            >
+              &laquo;
+            </button>
+          </li>
+          {pages}
+          <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+            <button
+              className="page-link"
+              onClick={() => paginate(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              style={{
+                backgroundColor: currentPage === totalPages ? '#ccc' : 'rgb(255, 165, 0)',
+                color: '#fff',
+                margin: '0 5px'
+              }}
+            >
+              &raquo;
+            </button>
+          </li>
+        </ul>
+      </nav>
+    );
+  };
+
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <h3>Loading...</h3>
+      <div className="d-flex justify-content-center align-items-center min-vh-100">
+        <MDBTypography tag="h2" style={{ fontWeight: 'bold', color: 'rgb(255, 165, 0)' }}>
+          Loading...
+        </MDBTypography>
       </div>
     );
   }
-  
+
   if (error) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <h3>{error}</h3>
+      <div className="d-flex justify-content-center align-items-center min-vh-100">
+        <MDBTypography tag="h4" style={{ fontWeight: 'bold', color: 'red' }}>
+          {error}
+        </MDBTypography>
       </div>
     );
   }
 
   return (
     <div className="d-flex flex-column min-vh-100">
-
-{/* Header Section */}
-<div className="bg-white py-2" style={{ flexShrink: 0 }}>
+      <div className="bg-white py-2">
         <MDBContainer fluid className="d-flex align-items-center justify-content-between">
-        <MDBCardImage
-  src={logo}
-  style={{ width: '200px', cursor: 'pointer' }}  // Added cursor style to indicate it's clickable
-  alt="Header Logo"
-  onClick={() => navigate('/login')} // Added onClick handler
-/>
-          <MDBNavbar expand="lg" light bgColor="white" style={{ boxShadow: 'none' }}>
+          <MDBCardImage
+            src={logo}
+            style={{ width: '200px', cursor: 'pointer' }}
+            alt="Header Logo"
+            onClick={() => navigate('/')}
+          />
+          <MDBNavbar expand="lg" light bgColor="white">
             <MDBNavbarNav className="align-items-center">
-
               <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink 
-                    onClick={() => navigate('/services-guest')}
-                >
-                    Services
+                <MDBNavbarLink onClick={() => navigate('/services-guest')}>
+                  Services
                 </MDBNavbarLink>
               </MDBNavbarItem>
-
               <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={() => navigate('/promos-guest')} style={{ color: 'rgb(255, 165, 0)', fontWeight: 'bold' }}  >Promos</MDBNavbarLink>
+                <MDBNavbarLink 
+                  onClick={() => navigate('/promos-guest')}
+                  style={{ color: 'rgb(255, 165, 0)', fontWeight: 'bold' }}
+                >
+                  Promos
+                </MDBNavbarLink>
               </MDBNavbarItem>
-
               <MDBNavbarItem style={{ margin: '0 25px' }}>
-                <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>Inquiry</MDBNavbarLink>
+                <MDBNavbarLink onClick={() => navigate('/inquiry-guest')}>
+                  Inquiry
+                </MDBNavbarLink>
               </MDBNavbarItem>
-              <button
-                type="button"
-                className="btn btn-primary"
-                style={{
-                  fontWeight: 'bold',
-                  width: '100%',
-                  borderRadius: '30px',
-                  border: 'none',
-                  backgroundColor: 'rgb(255, 165, 0)',
-                  padding: '5x 20px',
-                  fontSize: '14px'
-                }}
+              <MDBBtn
                 onClick={() => navigate('/login')}
+                style={{
+                  backgroundColor: 'rgb(255, 165, 0)',
+                  border: 'none',
+                  borderRadius: '30px',
+                  padding: '8px 20px'
+                }}
               >
                 Log In / Sign up
-              </button>
+              </MDBBtn>
             </MDBNavbarNav>
           </MDBNavbar>
         </MDBContainer>
       </div>
 
-
-      {/* Subheader Section */}
       <div
         style={{
           position: 'relative',
           height: '200px',
           backgroundImage: `url(${subheaderImage})`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: 'center'
         }}
       >
         <div
@@ -151,125 +198,57 @@ function PromosGuest() {
             fontWeight: 'bold',
             textShadow: '2px 2px 4px rgba(0, 0, 0, 0.6)',
             textAlign: 'center',
-            width: '100%',
+            width: '100%'
           }}
         >
           I TRAVELLED WITH TRAVELTAYO
         </div>
       </div>
 
-      {/* Main Content Section: Row of Images with 3 Columns */}
-
-      <MDBTypography 
-            tag="h1" 
-            className="text-center mt-5" 
-            style={{
-                fontWeight: 'bolder', 
-                color: 'rgb(255, 165, 0)', 
-                fontSize: '35px', 
-            }}
-            >
-            BOOK YOUR NEXT VACATION WITH OUR SALE!!!
-        </MDBTypography>
-
-      <MDBContainer className="my-4">
+      <MDBContainer className="my-5">
         <MDBRow>
-          {/* Column 1 */}
-          <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center">
-            <MDBCardImage
-              src={content?.promoImage1 || promoImage1}
-              alt="Promo 1"
-              className="img-fluid"
-              style={{ width: '300px', height: '300px', objectFit: 'cover' }}
-            />
-            <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
-                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{content?.promoText1 || "PHP 3,999"}</span>
-            </h5>
-
-            <button 
-                type="button" 
-                className="btn btn-primary"
-                onClick={() => navigate('/services-guest')}
-                style={{ 
-                    fontWeight: 'bold',
-                    fontSize: '14px', 
-                    width: '80%', 
-                    borderRadius: '30px', 
-                    backgroundColor: 'rgb(255, 165, 0)', 
-                    border: 'none', 
-                    padding: '10px 20px' 
-                }}
-            >
-                BOOK NOW
-            </button>
-
-          </MDBCol>
-
-          {/* Column 2 */}
-          <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center">
-            <MDBCardImage
-              src={content?.promoImage2 || promoImage2}
-              alt="Promo 2"
-              className="img-fluid"
-              style={{ width: '300px', height: '300px', objectFit: 'cover' }} 
-            />
-
-            <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
-                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{content?.promoText2 || "PHP 3,999"}</span>
-            </h5>
-
-            <button 
-                type="button" 
-                className="btn btn-primary"
-                onClick={() => navigate('/services-guest')}
-                style={{ 
-                    fontWeight: 'bold',
-                    fontSize: '14px', 
-                    width: '80%', 
-                    borderRadius: '30px', 
-                    backgroundColor: 'rgb(255, 165, 0)', 
-                    border: 'none', 
-                    padding: '10px 20px' 
-                }}
-            >
-                BOOK NOW
-            </button>
-          </MDBCol>
-
-          {/* Column 3 */}
-          <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center">
-            <MDBCardImage
-              src={content?.promoImage3 || promoImage3}
-              alt="Promo 3"
-              className="img-fluid"
-              style={{ width: '300px', height: '300px', objectFit: 'cover' }} 
-            />
-            <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
-                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{content?.promoText3 || "PHP 3,999"}</span>
-            </h5> 
-
-            <button 
-                type="button" 
-                className="btn btn-primary"
-                onClick={() => navigate('/services-guest')}
-                style={{ 
-                    fontWeight: 'bold',
-                    fontSize: '14px', 
-                    width: '80%', 
-                    borderRadius: '30px', 
-                    backgroundColor: 'rgb(255, 165, 0)', 
-                    border: 'none', 
-                    padding: '10px 20px' 
-                }}
-            >
-                BOOK NOW
-            </button>
-          </MDBCol>
+          {currentPromos.map((promo) => (
+            <MDBCol md="4" key={promo._id} className="mb-4">
+              <div className="h-100 d-flex flex-column shadow-sm rounded">
+                <div style={{ height: '300px', overflow: 'hidden' }}>
+                  <img
+                    src={promo.image}
+                    alt={promo.name}
+                    className="w-100 h-100"
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <div className="p-4 text-center">
+                  <h5 className="mb-3 fw-bold">
+                    {promo.duration} {promo.name}
+                  </h5>
+                  {promo.price && (
+                    <p className="mb-4">
+                      Price: <span style={{ color: 'rgb(255, 165, 0)', fontWeight: 'bold' }}>
+                        {promo.price}
+                      </span>
+                    </p>
+                  )}
+                  <MDBBtn
+                    onClick={() => navigate('/more-details', { state: { promo } })}
+                    style={{
+                      backgroundColor: 'rgb(255, 165, 0)',
+                      border: 'none',
+                      borderRadius: '30px',
+                      width: '80%'
+                    }}
+                  >
+                    MORE DETAILS
+                  </MDBBtn>
+                </div>
+              </div>
+            </MDBCol>
+          ))}
         </MDBRow>
+        <Pagination />
       </MDBContainer>
 
-      {/* Footer Section */}
-      <MDBFooter bgColor="light" className="text-start text-lg-left mt-auto">
+      <MDBFooter bgColor="light" className="mt-auto">
         <div className="container text-left text-md-left">
             <div className="row mt-2 mb-2">
 {/* Column 1 */}
@@ -351,8 +330,7 @@ function PromosGuest() {
 
 </MDBFooter>
 
-<ChatbotGuest/>
-
+      <ChatbotGuest />
     </div>
   );
 }

@@ -28,12 +28,36 @@ function Promos() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [content, setContent] = useState(null);
+  const [promos, setPromos] = useState([]);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newPromo, setNewPromo] = useState({
+    name: '',
+    description: '',
+    price: '',
+    duration: '',
+    inclusions: '',
+    image: '',
+    startDate: '',
+    endDate: ''
+  });
+
+  const fetchPromos = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/promos/all');
+      const data = await response.json();
+      if (response.ok) {
+        setPromos(data);
+      }
+    } catch (error) {
+      console.error('Error fetching promos:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -54,21 +78,115 @@ function Promos() {
 
     const fetchContent = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com/api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const response = await fetch('http://localhost:3000/api/contents/get-content/67b8bf22dcf4d107a677a21f');
         const result = await response.json();
         if (response.ok) {
           setContent(result);
         } 
       } catch (error) {
         console.error('Error fetching content:', error);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchContent();
     fetchData();
+    fetchPromos();
   }, [email]);
+
+  const handleAddPromo = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:3000/api/promos/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newPromo)
+      });
+
+      if (response.ok) {
+        setShowAddModal(false);
+        // Refresh promos list
+        fetchPromos();
+      }
+    } catch (error) {
+      console.error('Error adding promo:', error);
+    }
+  };
+
+  const AddPromoModal = () => (
+    <div className="modal" style={{ display: showAddModal ? 'block' : 'none' }}>
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">Add New Promo</h5>
+            <button type="button" className="close" onClick={() => setShowAddModal(false)}>×</button>
+          </div>
+          <div className="modal-body">
+            <form onSubmit={handleAddPromo}>
+              <div className="form-group">
+                <input
+                  type="text"
+                  className="form-control mb-2"
+                  placeholder="Name"
+                  value={newPromo.name}
+                  onChange={(e) => setNewPromo({...newPromo, name: e.target.value})}
+                />
+                <input
+                  type="text"
+                  className="form-control mb-2"
+                  placeholder="Description"
+                  value={newPromo.description}
+                  onChange={(e) => setNewPromo({...newPromo, description: e.target.value})}
+                />
+                <input
+                  type="text"
+                  className="form-control mb-2"
+                  placeholder="Price"
+                  value={newPromo.price}
+                  onChange={(e) => setNewPromo({...newPromo, price: e.target.value})}
+                />
+                <input
+                  type="text"
+                  className="form-control mb-2"
+                  placeholder="Duration"
+                  value={newPromo.duration}
+                  onChange={(e) => setNewPromo({...newPromo, duration: e.target.value})}
+                />
+                <input
+                  type="text"
+                  className="form-control mb-2"
+                  placeholder="Inclusions (comma-separated)"
+                  value={newPromo.inclusions}
+                  onChange={(e) => setNewPromo({...newPromo, inclusions: e.target.value})}
+                />
+                <input
+                  type="text"
+                  className="form-control mb-2"
+                  placeholder="Image URL"
+                  value={newPromo.image}
+                  onChange={(e) => setNewPromo({...newPromo, image: e.target.value})}
+                />
+                <input
+                  type="date"
+                  className="form-control mb-2"
+                  value={newPromo.startDate}
+                  onChange={(e) => setNewPromo({...newPromo, startDate: e.target.value})}
+                />
+                <input
+                  type="date"
+                  className="form-control mb-2"
+                  value={newPromo.endDate}
+                  onChange={(e) => setNewPromo({...newPromo, endDate: e.target.value})}
+                />
+              </div>
+              <button type="submit" className="btn btn-primary">Add Promo</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
 if (loading) {
   return (
@@ -177,100 +295,54 @@ if (error) {
             BOOK YOUR NEXT VACATION WITH OUR SALE!!!
         </MDBTypography>
 
+      {user?.type === 'admin' && (
+        <button 
+          onClick={() => setShowAddModal(true)}
+          className="btn"
+          style={{
+            backgroundColor: 'rgb(255, 165, 0)',
+            color: 'white',
+            marginBottom: '20px'
+          }}
+        >
+          Add New Promo
+        </button>
+      )}
+
+      {showAddModal && <AddPromoModal />}
+
       <MDBContainer className="my-4">
         <MDBRow>
-          {/* Column 1 */}
-          <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center">
-            <MDBCardImage
-              src={content?.promoImage1 || promoImage1}
-              alt="Promo 1"
-              className="img-fluid"
-              style={{ width: '300px', height: '300px', objectFit: 'cover' }}
-              
-            />
-            <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
-                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{content?.promoText1 || "PHP 3,999"}</span>
-            </h5>
+          {promos.map((promo, index) => (
+            <MDBCol md="4" key={promo._id} className="mb-4 d-flex flex-column align-items-center">
+              <MDBCardImage
+                src={promo.image || `promoImage${index + 1}`}
+                alt={`Promo ${index + 1}`}
+                className="img-fluid"
+                style={{ width: '300px', height: '300px', objectFit: 'cover' }}
+              />
+              <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
+                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{promo.price || "PHP 3,999"}</span>
+              </h5>
 
-            <button 
+              <button 
                 type="button" 
                 className="btn btn-primary"
-                onClick={() => navigate(`/promo/67341ea80daf57addaf69ba6`, { state: { email: user?.email } })}
+                onClick={() => navigate(`/promo/${promo._id}`, { state: { email: user?.email } })}
                 style={{ 
-                    fontWeight: 'bold',
-                    fontSize: '14px', 
-                    width: '80%', 
-                    borderRadius: '30px', 
-                    backgroundColor: 'rgb(255, 165, 0)', 
-                    border: 'none', 
-                    padding: '10px 20px' 
+                  fontWeight: 'bold',
+                  fontSize: '14px', 
+                  width: '80%', 
+                  borderRadius: '30px', 
+                  backgroundColor: 'rgb(255, 165, 0)', 
+                  border: 'none', 
+                  padding: '10px 20px' 
                 }}
-            >
+              >
                 BOOK NOW
-            </button>
-
-          </MDBCol>
-
-          {/* Column 2 */}
-          <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center">
-            <MDBCardImage
-              src={content?.promoImage2 || promoImage2}
-              alt="Promo 2"
-              className="img-fluid"
-              style={{ width: '300px', height: '300px', objectFit: 'cover' }} 
-            />
-            <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
-                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{content?.promoText2 || "PHP 3,999"}</span>
-            </h5>
-
-            <button 
-                type="button" 
-                className="btn btn-primary"
-                onClick={() => navigate(`/promo/67341f2d0daf57addaf69ba7`, { state: { email: user?.email } })}
-                style={{ 
-                    fontWeight: 'bold',
-                    fontSize: '14px', 
-                    width: '80%', 
-                    borderRadius: '30px', 
-                    backgroundColor: 'rgb(255, 165, 0)', 
-                    border: 'none', 
-                    padding: '10px 20px' 
-                }}
-            >
-                BOOK NOW
-            </button>
-          </MDBCol>
-
-          {/* Column 3 */}
-          <MDBCol md="4" className="mb-4 d-flex flex-column align-items-center">
-            <MDBCardImage
-              src={content?.promoImage3 || promoImage3}
-              alt="Promo 3"
-              className="img-fluid"
-              style={{ width: '300px', height: '300px', objectFit: 'cover' }} 
-              
-            />
-            <h5 className="mt-2" style={{ fontWeight: 'bold', padding: '25px' }}>
-                FOR AS LOW AS <span style={{ color: 'rgb(255, 165, 0)' }}>{content?.promoText3 || "PHP 3,999"}</span>
-            </h5> 
-
-            <button 
-                type="button" 
-                className="btn btn-primary"
-                onClick={() => navigate(`/promo/67341f4f0daf57addaf69ba8`, { state: { email: user?.email } })}
-                style={{ 
-                    fontWeight: 'bold',
-                    fontSize: '14px', 
-                    width: '80%', 
-                    borderRadius: '30px', 
-                    backgroundColor: 'rgb(255, 165, 0)', 
-                    border: 'none', 
-                    padding: '10px 20px' 
-                }}
-            >
-                BOOK NOW
-            </button>
-          </MDBCol>
+              </button>
+            </MDBCol>
+          ))}
         </MDBRow>
       </MDBContainer>
 

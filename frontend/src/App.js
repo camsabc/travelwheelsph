@@ -99,7 +99,11 @@ import PaymentSubmit from './pages/PaymentSubmit';
 import DeactAccOtp from './pages/DeactAccOtp';
 import DetailsPromosGuest from './pages/guestPages/DetailsPromosGuest';
 import ServicesVisaGuest from './pages/guestPages/ServicesVisaGuest';
-
+import PromoDetails from './components/PromoDetails';
+import PromoQuote from './pages/PromoQuote';
+import PromoQuoteGuest from './pages/guestPages/PromoQuoteGuest';
+import PromoQuoteForm from './pages/guestPages/PromoQuoteForm';
+import ThankYou from './pages/ThankYou';
 
 function App() {
   return (
@@ -188,6 +192,9 @@ function App() {
               <Route path="/inquiry-list" element={<InquiryList/>}/>
               <Route path="/promo/:id" element={<DetailsPromos/>}/>
               <Route path="/promo-guest/:id" element={<DetailsPromosGuest/>}/>
+              <Route path="/promo-guest/:id" element={<PromoQuote />} />
+              <Route path="/promo-guest/:id" element={<PromoQuoteGuest />} />
+              <Route path="/get-quote/:id" element={<PromoQuoteForm />} />
 
               <Route path="/hotel-guest" element={<DetailsHotelGuest/>}/>
               <Route path="/passport-guest" element={<DetailsPassportGuest/>}/>
@@ -206,6 +213,8 @@ function App() {
 
               <Route path="/payment" element={<Payment />} />
               <Route path="/payment-submit" element={<PaymentSubmit />} />
+              <Route path="/more-details" element={<PromoDetails />} />
+              <Route path="/thank-you" element={<ThankYou />} />
 
             </Routes>
           </div>

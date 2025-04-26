@@ -28,88 +28,54 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // Clear any previous errors
-    setError('');
-  
-    // Check for empty inputs
-    if (!email && !password) {
-      setError('All inputs are required');
-      return;
-    }
-  
-    if (!email) {
-      setError('Email is required');
-      return;
-    }
-  
-    if (!password) {
-      setError('Password is required');
-      return;
-    }
-  
-    // Validate email format
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError('Email is invalid');
-      return;
-    }
-  
-    // Validate password complexity
-    const passwordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-    if (!passwordValidationRegex.test(password)) {
-      setError('Invalid Password');
-      return;
-    }
-  
-    try {
-      const response = await axios.post('https://travelwheelsph.onrender.com/login', { email, password });
-  
-      if (response.status === 200) {
-        // After login, check the Deact database for any dates exceeding 30 days
-        const deactResponse = await axios.get('https://travelwheelsph.onrender.com/api/deacts/get-all-deacts');
-  
-        const currentDate = new Date();
-  
-        // Check if any Deact date exceeds 30 days
-        const exceededDeacts = deactResponse.data.filter(deact => {
-          const deactDate = new Date(deact.date);
-          const timeDifference = currentDate - deactDate;
-          const daysDifference = timeDifference / (1000 * 3600 * 24); // Convert ms to days
-          return daysDifference > 30;
-        });
-  
-        if (exceededDeacts.length > 0) {
-          const emailToDelete = exceededDeacts[0].email;
-  
-          await axios.delete('https://travelwheelsph.onrender.com/api/users/delete-account', {
-            data: { email: emailToDelete }  
-          });
-          
-  
-          showToast('Account deleted due to Deact entries exceeding 30 days.', 'error');
-          return; // Stop further processing
-        }
-  
-        // Navigate based on the user type
-        if (user.type != 'user') {
-          showToast('Login successful!', 'success');
-          navigate(`/admin`, { state: { name: user.firstname, role: user.type } });
-        } else {
-          showToast('Login successful!', 'success');
 
-          navigate(`/home-user`, { state: { email: email } });
+    if (!email || !password) {
+      setError('All fields are required');
+      return;
+    }
+
+    try {
+      const loginResponse = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
+      });
+
+      const data = await loginResponse.json();
+      
+      if (loginResponse.ok) {
+        if (data.user.type !== 'user') {
+          navigate('/admin', { 
+            state: { 
+              name: data.user.firstname, 
+              role: data.user.type,
+              isAuthenticated: true
+            } 
+          });
+        } else {
+          navigate('/home-user', { 
+            state: { 
+              email: data.user.email 
+            } 
+          });
         }
+        showToast('Login successful!', 'success');
+      } else {
+        setError(data.message);
       }
     } catch (error) {
-      setError('Invalid email or password');
+      setError('Server error, please try again');
     }
   };
-  
-  
 
   useEffect(() => {
     if (email) {
-      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
+      fetch(`http://localhost:3000/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {
