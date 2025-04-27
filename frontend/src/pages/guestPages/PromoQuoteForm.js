@@ -45,7 +45,7 @@ function PromoQuoteForm() {
   useEffect(() => {
     const fetchPromo = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/promos/get-promo-by-id/${id}`);
+        const response = await fetch(`https://travelwheelsph.onrender.com//api/promos/get-promo-by-id/${id}`);
         const data = await response.json();
         setPromo(data);
       } catch (error) {
@@ -66,7 +66,7 @@ function PromoQuoteForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/api/quotations/create-quotation', {
+      const response = await fetch('https://travelwheelsph.onrender.com//api/quotations/create-quotation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

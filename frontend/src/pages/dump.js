@@ -180,8 +180,6 @@ const handleQuotationSubmit = async (e) => {
         setError('Failed to submit quotation request.');
     }
 };
-
-  // Handlers for buttons to change div
   const handleButtonClick = (divNumber) => setDisplayDiv(divNumber);
   const handleButtonClickSub = (divNumberSub) => setDisplayDivSub(divNumberSub);
 
@@ -189,7 +187,7 @@ const handleQuotationSubmit = async (e) => {
     const fetchData = async () => {
       try {
         if (email) {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`  /api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
           if (userData.error) {
             setError(userData.error);

@@ -21,7 +21,7 @@ const app = express();
 // http://localhost:3001
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: 'https://travelwheelsph.com',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }));
 
@@ -59,7 +59,6 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-/* Helper function to generate OTP */
 const generateOTP = () => {
   return crypto.randomInt(100000, 999999).toString(); // Generates a 6-digit OTP
 };

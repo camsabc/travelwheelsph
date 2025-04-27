@@ -160,7 +160,7 @@ const handleQuotationSubmit = async (e) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const promoResponse = await fetch(`http://localhost:3000/api/promos/get-promo-by-id/${id}`);
+        const promoResponse = await fetch(`https://travelwheelsph.onrender.com//api/promos/get-promo-by-id/${id}`);
         const promoData = await promoResponse.json();
         if (promoData.error) {
           setError(promoData.error);
