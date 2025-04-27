@@ -33,7 +33,7 @@ function PromoQuote() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com//api/quotations/create', {
+      const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

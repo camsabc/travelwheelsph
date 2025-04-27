@@ -127,7 +127,7 @@ function Admin() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com//login', {
+      const response = await fetch('https://travelwheelsph.onrender.com/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -136,7 +136,7 @@ function Admin() {
       });
 
       if (response.ok) {
-        const userResponse = await fetch(`https://travelwheelsph.onrender.com//api/users/get-user-by-email/${loginForm.email}`);
+        const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${loginForm.email}`);
         const userData = await userResponse.json();
         
         if (userData.type === 'admin' || userData.type === 'client services coordinator' || userData.type === 'sales executive') {
@@ -170,7 +170,7 @@ function Admin() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com//api/quotations/get-all-quotations');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/get-all-quotations');
         const data = await response.json();
     
         // Filter only bookings with status "Booking Confirmed"
@@ -185,7 +185,7 @@ function Admin() {
 
     const fetchQuotations = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com//api/quotations/get-all-quotations');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/get-all-quotations');
         const data = await response.json();
         setQuotations(data);
       } catch (error) {
@@ -195,7 +195,7 @@ function Admin() {
 
     const fetchInquiries = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com//api/inquiries/get-all-inquiries');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/inquiries/get-all-inquiries');
         const data = await response.json();
         setInquiries(data);
       } catch (error) {
@@ -205,7 +205,7 @@ function Admin() {
 
     const fetchUsers = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com//api/users/get-all-users');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/users/get-all-users');
         const data = await response.json();
         setUsers(data);
       } catch (error) {

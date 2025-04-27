@@ -40,7 +40,7 @@ function PromoQuoteGuest() {
     }
 
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com//api/quotations/create', {
+      const response = await fetch('https://travelwheelsph.onrender.com/api/quotations/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

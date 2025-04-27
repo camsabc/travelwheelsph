@@ -43,7 +43,7 @@ function Promos() {
 
   const fetchPromos = async () => {
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com//api/promos/all');
+      const response = await fetch('https://travelwheelsph.onrender.com/api/promos/all');
       const data = await response.json();
       if (response.ok) {
         setPromos(data);
@@ -57,7 +57,7 @@ function Promos() {
     const fetchData = async () => {
       if (email) {
         try {
-          const userResponse = await fetch(`https://travelwheelsph.onrender.com//api/users/get-user-by-email/${email}`);
+          const userResponse = await fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`);
           const userData = await userResponse.json();
 
           if (userData.error) {
@@ -78,7 +78,7 @@ function Promos() {
 
     const fetchContent = async () => {
       try {
-        const response = await fetch('https://travelwheelsph.onrender.com//api/contents/get-content/67b8bf22dcf4d107a677a21f');
+        const response = await fetch('https://travelwheelsph.onrender.com/api/contents/get-content/67b8bf22dcf4d107a677a21f');
         const result = await response.json();
         if (response.ok) {
           setContent(result);
@@ -96,7 +96,7 @@ function Promos() {
   const handleAddPromo = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://travelwheelsph.onrender.com//api/promos/add', {
+      const response = await fetch('https://travelwheelsph.onrender.com/api/promos/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

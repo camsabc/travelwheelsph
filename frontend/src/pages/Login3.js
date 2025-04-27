@@ -35,7 +35,7 @@ const Login = () => {
     }
 
     try {
-      const loginResponse = await fetch('https://travelwheelsph.onrender.com//login', {
+      const loginResponse = await fetch('https://travelwheelsph.onrender.com/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ const Login = () => {
 
   useEffect(() => {
     if (email) {
-      fetch(`https://travelwheelsph.onrender.com//api/users/get-user-by-email/${email}`)
+      fetch(`https://travelwheelsph.onrender.com/api/users/get-user-by-email/${email}`)
         .then(response => response.json())
         .then(data => {
           if (data.error) {

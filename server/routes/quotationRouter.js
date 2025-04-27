@@ -1,22 +1,66 @@
 /* Import statement for modules */
 const express = require('express');
 const router = express.Router();
-const quotationController = require('../controllers/quotationController');
+const Quotation = require('../models/Quotation');
 
 /* Provides routing for the quotation functions */
-router.get('/get-all-quotations', quotationController.getAllQuotations);
-router.get('/get-all-quotations-by-email/:email', quotationController.getQuotationByEmail);
-router.get('/get-quotation-by-id/:id', quotationController.getQuotationById);
-router.post('/create-quotation', quotationController.createQuotation);
-router.patch('/:id/file', quotationController.attachFile);
-router.patch('/:id/payment', quotationController.attachPayment);
-router.patch('/:id/visa', quotationController.attachVisa);
-router.patch('/:id/ar', quotationController.attachAr);
+router.get('/get-all-quotations', async (req, res) => {
+  try {
+    const quotations = await Quotation.find();
+    res.status(200).json(quotations);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching quotations' });
+  }
+});
 
-router.post('/change-status', quotationController.changeStatus);
-router.post('/toggle', quotationController.toggleQuotation);
+router.get('/get-quotation-by-id/:id', async (req, res) => {
+  try {
+    const quotation = await Quotation.findById(req.params.id);
+    if (!quotation) {
+      return res.status(404).json({ error: 'Quotation not found' });
+    }
+    res.status(200).json(quotation);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching quotation' });
+  }
+});
 
-router.post('/create', quotationController.createQuotation);
-router.get('/promo/:id', quotationController.getQuotationByPromoId);
+router.post('/create-quotation', async (req, res) => {
+  try {
+    const quotation = new Quotation(req.body);
+    await quotation.save();
+    res.status(201).json(quotation);
+  } catch (error) {
+    res.status(500).json({ error: 'Error creating quotation' });
+  }
+});
+
+router.put('/update-quotation/:id', async (req, res) => {
+  try {
+    const quotation = await Quotation.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!quotation) {
+      return res.status(404).json({ error: 'Quotation not found' });
+    }
+    res.status(200).json(quotation);
+  } catch (error) {
+    res.status(500).json({ error: 'Error updating quotation' });
+  }
+});
+
+router.delete('/delete-quotation/:id', async (req, res) => {
+  try {
+    const quotation = await Quotation.findByIdAndDelete(req.params.id);
+    if (!quotation) {
+      return res.status(404).json({ error: 'Quotation not found' });
+    }
+    res.status(200).json({ message: 'Quotation deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error deleting quotation' });
+  }
+});
 
 module.exports = router;
