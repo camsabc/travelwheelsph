@@ -32,7 +32,7 @@ function PromosGuest() {
 
   const fetchPromos = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/promos/all');
+      const response = await fetch('https://travelwheelsph.onrender.com/api/promos/all');
       const data = await response.json();
       if (response.ok) {
         const activePromos = data.filter(promo => promo.status === 'active');
