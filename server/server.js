@@ -21,7 +21,7 @@ const app = express();
 // http://localhost:3001
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'https://travelwheelsph.com',
+  origin: 'http://localhost:3001',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }));
 
@@ -58,12 +58,9 @@ const transporter = nodemailer.createTransport({
     pass: 'fobe homp ilhh uxvj' // Replace with your app-specific password
   }
 });
-
 const generateOTP = () => {
-  return crypto.randomInt(100000, 999999).toString(); // Generates a 6-digit OTP
+  return crypto.randomInt(100000, 999999).toString(); 
 };
-
-/* Routes */
 const userRoutes = require('./routes/userRouter');
 const bookingRoutes = require('./routes/bookingRouter');
 const rideRoutes = require('./routes/rideRouter');

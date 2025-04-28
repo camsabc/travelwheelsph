@@ -1,34 +1,64 @@
-const PackageModel = require('../models/Package');
+const Package = require('../models/Package');
 
-/* This function retrieves all packs in the database */
-const getAllPackages = (req, res) => {
-    PackageModel.find({})
-        .then(packs => res.json(packs))
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ error: 'Failed to fetch packs' });
-        });
+const getAllPackages = async (req, res) => {
+  try {
+    const packages = await Package.find();
+    res.json(packages);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch packages' });
+  }
 };
 
+const getPackageById = async (req, res) => {
+  try {
+    const pack = await Package.findById(req.params.id);
+    if (!pack) {
+      return res.status(404).json({ error: 'Package not found' });
+    }
+    res.json(pack);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch package' });
+  }
+};
 
-/* This function retrieves one pack using a unique id */
-const getPackById = (req, res) => {
-    const { id } = req.params;
+const createPackage = async (req, res) => {
+  try {
+    const pack = new Package(req.body);
+    await pack.save();
+    res.status(201).json(pack);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to create package' });
+  }
+};
 
-    PackageModel.findById(id)
-        .then(pack => {
-            if (!pack) {
-                return res.status(404).json({ error: 'Pack not found' });
-            }
-            res.json(pack);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ error: 'Failed to fetch pack' });
-        });
+const updatePackage = async (req, res) => {
+  try {
+    const pack = await Package.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!pack) {
+      return res.status(404).json({ error: 'Package not found' });
+    }
+    res.json(pack);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update package' });
+  }
+};
+
+const deletePackage = async (req, res) => {
+  try {
+    const pack = await Package.findByIdAndDelete(req.params.id);
+    if (!pack) {
+      return res.status(404).json({ error: 'Package not found' });
+    }
+    res.json({ message: 'Package deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete package' });
+  }
 };
 
 module.exports = {
-    getAllPackages,
-    getPackById 
+  getAllPackages,
+  getPackageById,
+  createPackage,
+  updatePackage,
+  deletePackage
 };

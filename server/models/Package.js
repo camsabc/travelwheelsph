@@ -1,24 +1,18 @@
 const mongoose = require('mongoose');
 
-const PackageSchema = mongoose.Schema({
-    num: {
-        type: String,
-        required: true
-    },
-    type: {
-        type: String,
-        required: true
-    },
-    duration: {
-        type: String,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
-});
+const packageSchema = new mongoose.Schema({
+  name: String,
+  desc: String,
+  duration: String,
+  num: String,
+  pics: Number,
+  type: {
+    type: String,
+    enum: ['domestic', 'international']
+  },
+  inclusions: [String],
+  exclusions: [String],
+  specialNotes: [String]
+}, { timestamps: true });
 
-const PackageModel = mongoose.model('Package', PackageSchema);
-
-module.exports = PackageModel;
+module.exports = mongoose.model('Package', packageSchema);

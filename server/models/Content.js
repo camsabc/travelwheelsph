@@ -158,6 +158,78 @@ const ContentSchema = mongoose.Schema({
         type: String,
         required: false
     },
+    domesticDesc1: {
+        type: String,
+        required: false
+    },
+    domesticDesc2: {
+        type: String,
+        required: false
+    },
+    domesticDesc3: {
+        type: String,
+        required: false
+    },
+    internationalDesc1: {
+        type: String,
+        required: false
+    },
+    internationalDesc2: {
+        type: String,
+        required: false
+    },
+    internationalDesc3: {
+        type: String,
+        required: false
+    },
+    domesticTitle1: {
+        type: String,
+        required: false
+    },
+    domesticTitle2: {
+        type: String,
+        required: false
+    },
+    domesticTitle3: {
+        type: String,
+        required: false
+    },
+    internationalTitle1: {
+        type: String,
+        required: false
+    },
+    internationalTitle2: {
+        type: String,
+        required: false
+    },
+    internationalTitle3: {
+        type: String,
+        required: false
+    },
+    domesticDuration1: {
+        type: String,
+        required: false
+    },
+    domesticDuration2: {
+        type: String,
+        required: false
+    },
+    domesticDuration3: {
+        type: String,
+        required: false
+    },
+    internationalDuration1: {
+        type: String,
+        required: false
+    },
+    internationalDuration2: {
+        type: String,
+        required: false
+    },
+    internationalDuration3: {
+        type: String,
+        required: false
+    },
 
 
 
@@ -386,7 +458,7 @@ const ContentSchema = mongoose.Schema({
         type: String,
         required: false
     },
-});
+}, { timestamps: true });
 
 const ContentModel = mongoose.model('Content', ContentSchema);
 
